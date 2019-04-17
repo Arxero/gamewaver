@@ -1,0 +1,30 @@
+@import 'https://fonts.googleapis.com/css?family=Roboto';
+@import './assets/styles/typography.css';
+
+
+body {
+    background: #111111;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+main .logo {
+    flex: 0 1 30rem;
+}
+
+main .logo img {
+    width: 100%;
+}
+
+main .coming-soon {
+    text-transform: uppercase;
+    font-size: 3rem;
+    text-align: center;
+}
