@@ -1,0 +1,40 @@
+form {
+    background: #264764;
+    margin: 0 auto;
+    max-width: 30rem;
+    padding: 1rem;
+    box-shadow: 3px 3px 5px -3px #000;
+}
+
+form div {
+    padding: .7rem 0;
+}
+
+form h1 {
+    padding-bottom: .5rem;
+}
+
+input[type=text], input[type=email], input[type=password], input[type=submit] {
+    width: 100%;
+    padding: .8rem;
+    outline: none;
+    border: none;
+    border-radius: 2px;
+    background: rgb(224, 224, 224);
+    font-size: 1.1rem;
+    box-shadow: 3px 3px 5px -3px #000;
+}
+
+input[type=submit] {
+    text-transform: uppercase;
+    cursor: pointer;
+    color: white;
+    background: #2693E6;
+    transition: background-color .2s ease-in;
+    transition: color .2s ease-in;
+}
+
+input[type=submit]:hover {
+    background: rgb(224, 224, 224);
+    color: #2693E6;
+}

@@ -26,7 +26,6 @@ header {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    max-height: 4rem;
     transition: max-height 0.5s ease-in;
 }
 
@@ -47,6 +46,10 @@ header nav {
 nav ul {
     padding: 0;
     display: block;
+}
+
+nav i {
+    margin-right: .2rem;
 }
 
 #nav-toggle:checked+header nav {
@@ -70,6 +73,10 @@ nav ul {
     cursor: pointer;
     color: rgb(212, 0, 0);
     transition: color 0.3s ease-in;
+}
+
+.first-level {
+    margin: 1rem 0;
 }
 
 .first-level li {
@@ -100,6 +107,9 @@ nav ul {
 }
 
 @media screen and (max-width: 699px) {
+    header {
+        max-height: 5.706875rem;
+    }
     header nav {
         flex: 1 0 100%;
     }
@@ -164,7 +174,7 @@ nav ul {
         width: 7rem;
     }
     .first-level>li:last-child .second-level {
-        width: 6rem;
+        width: 7rem;
         left: -3rem;
     }
 }
