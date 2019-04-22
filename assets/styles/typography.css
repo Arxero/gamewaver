@@ -3,6 +3,7 @@ html {
     line-height: 1.5;
     font-size: 16px;
     color: #dadada;
+    color: #b8b6b4;
 }
 
 a {
@@ -22,3 +23,11 @@ a:hover {
 body, table, th, td, form, input, textarea, option, select {
 	font-family: inherit;
 }
+
+ul, ol {
+	padding-left: 2rem;
+}
+
+/* li {
+	list-style-position: inside;
+} */

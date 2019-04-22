@@ -1,9 +1,16 @@
+.form-wrapper {
+    /* margin-right: 1rem; */
+    margin-bottom: 1rem;
+    flex: 1 1 25rem;
+}
+
 form {
     background: #264764;
     margin: 0 auto;
-    max-width: 30rem;
+    /* max-width: 30rem; */
     padding: 1rem;
     box-shadow: 3px 3px 5px -3px #000;
+    border-radius: 3px;
 }
 
 form div {
@@ -12,6 +19,7 @@ form div {
 
 form h1 {
     padding-bottom: .5rem;
+    color: #dadada;
 }
 
 input[type=text], input[type=email], input[type=password], input[type=submit] {
@@ -30,6 +38,8 @@ input[type=submit] {
     cursor: pointer;
     color: white;
     background: #2693E6;
+    /* background: linear-gradient( -60deg, #E61100 5%,#DD15E1 95%); */
+    /* background: linear-gradient( -60deg, #417a9b 5%,#67c1f5 95%); */
     transition: background-color .2s ease-in;
     transition: color .2s ease-in;
 }
