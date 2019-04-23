@@ -2,6 +2,7 @@
 @import 'https://fonts.googleapis.com/css?family=Roboto';
 @import './assets/styles/reset.css';
 @import './assets/styles/typography.css';
+@import './assets/styles/buttons.css';
 @import './assets/styles/navigation.css';
 @import './assets/styles/forms.css';
 
@@ -34,6 +35,7 @@ main {
     padding: 1rem;
     flex: 1 1 40%;
     margin-left: 1rem;
+    margin-bottom: 1rem;
     padding-left: 1rem;
     box-shadow: 3px 3px 5px -3px #000;
     border-radius: 3px;
@@ -48,7 +50,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
+    padding: 1rem 1rem 0 1rem;
 }
 
 .img-wrapper img {
@@ -57,9 +59,45 @@ main {
     border-radius: 3px;
 }
 
+.img-wrapper-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem 1rem 0 1rem;
+}
+
+.img-wrapper-login img{
+    width: 30%;
+}
+
+.login-here {
+    flex: 1 1 100%;
+    padding: 2rem;
+    border-radius: 3px;
+    background: #264764;
+    text-align: center;
+    color: #dadada;
+}
+
+.login-here a {
+    text-decoration: none;
+}
+
+.login-here-text {
+    transition: all .2s ease-in-out;
+}
+
+.login-here:hover .login-here-text {
+    transform: scale(1.1);
+}
+
+
 @media screen and (max-width: 710px) {
     .why-join {
         margin: 0;
+    }
+    .login-here {
+        margin-top: 1rem;
     }
 }
 

@@ -1,0 +1,17 @@
+.sign-in {
+    display: block;
+    background: linear-gradient( -60deg, #66bd20 5%,#0eaf08 95%);
+    width: 5rem;
+    margin: .3rem auto;
+    color: #dadada;
+    border-radius: 3px;
+    padding: .3rem;
+    box-shadow: 3px 3px 5px -3px #000;
+    
+}
+
+.sign-in:hover {
+    background: linear-gradient( -60deg, #E61100 5%,#DD15E1 95%);
+    color: rgb(233, 233, 233);
+    transition: color .2s ease-in;
+}
