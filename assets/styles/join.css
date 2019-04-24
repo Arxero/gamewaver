@@ -1,0 +1,77 @@
+.register-container {
+    /* background: green; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between
+}
+
+.why-join {
+    background: var(--primary-background-color);
+    padding: 1rem;
+    flex: 1 1 40%;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    box-shadow: 3px 3px 5px -3px #000;
+    border-radius: 3px;
+}
+
+.why-join h3 {
+    text-transform: capitalize;
+    color: var(--primary-color);
+}
+
+.img-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 1rem 0 1rem;
+}
+
+.img-wrapper img {
+    width: 100%;
+    box-shadow: 3px 3px 5px -3px #000;
+    border-radius: 3px;
+}
+
+.img-wrapper-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem 1rem 0 1rem;
+}
+
+.img-wrapper-login img{
+    width: 30%;
+}
+
+.login-here {
+    flex: 1 1 100%;
+    padding: 2rem;
+    border-radius: 3px;
+    background: var(--primary-background-color);
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.login-here a {
+    text-decoration: none;
+}
+
+.login-here-text {
+    transition: all .2s ease-in-out;
+}
+
+.login-here:hover .login-here-text {
+    transform: scale(1.1);
+}
+
+
+@media screen and (max-width: 710px) {
+    .why-join {
+        margin: 0;
+    }
+    .login-here {
+        margin-top: 1rem;
+    }
+}

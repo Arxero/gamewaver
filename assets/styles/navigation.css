@@ -3,7 +3,7 @@
 }
 
 .header-container a {
-    color: #b8b6b4;
+    color: var(--secondary-color);
     text-decoration: none;
     text-transform: uppercase;
 }
@@ -99,7 +99,7 @@ nav i {
 }
 
 .second-level a {
-    color: #dadada;
+    color: var(--primary-color);
 }
 
 #nav-toggle {
@@ -168,7 +168,7 @@ nav i {
         width: 9rem;
     }
     .second-level a {
-        color: #b8b6b4;
+        color: var(--secondary-color);
     }
     .first-level>li:nth-child(4) .second-level {
         width: 7rem;

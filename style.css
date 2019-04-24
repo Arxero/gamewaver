@@ -1,10 +1,12 @@
 @import 'https://use.fontawesome.com/releases/v5.8.1/css/all.css';
 @import 'https://fonts.googleapis.com/css?family=Roboto';
 @import './assets/styles/reset.css';
+@import './assets/styles/variables.css';
 @import './assets/styles/typography.css';
 @import './assets/styles/buttons.css';
 @import './assets/styles/navigation.css';
 @import './assets/styles/forms.css';
+@import './assets/styles/join.css';
 
 body {
     background-color: #111111;
@@ -22,84 +24,27 @@ main {
     /* height: 90.49vh; */
 }
 
-
-.register-container {
-    /* background: green; */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between
-}
-
-.why-join {
-    background: #264764;
+.tos {
+    color: var(--primary-color);
+    background: var(--primary-background-color);
     padding: 1rem;
-    flex: 1 1 40%;
-    margin-left: 1rem;
-    margin-bottom: 1rem;
-    padding-left: 1rem;
-    box-shadow: 3px 3px 5px -3px #000;
-    border-radius: 3px;
+    border-radius: 2px;
 }
 
-.why-join h3 {
-    text-transform: capitalize;
-    color: #dadada;
+.tos h1 {
+    font-weight: 400;
 }
 
-.img-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem 1rem 0 1rem;
+.tos p {
+    padding: .7rem 0;
+    /* color: var(--secondary-color); */
 }
 
-.img-wrapper img {
-    width: 100%;
-    box-shadow: 3px 3px 5px -3px #000;
-    border-radius: 3px;
-}
-
-.img-wrapper-login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: .5rem 1rem 0 1rem;
-}
-
-.img-wrapper-login img{
-    width: 30%;
-}
-
-.login-here {
-    flex: 1 1 100%;
-    padding: 2rem;
-    border-radius: 3px;
-    background: #264764;
-    text-align: center;
-    color: #dadada;
-}
-
-.login-here a {
-    text-decoration: none;
-}
-
-.login-here-text {
-    transition: all .2s ease-in-out;
-}
-
-.login-here:hover .login-here-text {
-    transform: scale(1.1);
+.tos p:first-of-type {
+    padding-top: 1.5rem;
 }
 
 
-@media screen and (max-width: 710px) {
-    .why-join {
-        margin: 0;
-    }
-    .login-here {
-        margin-top: 1rem;
-    }
-}
 
 /* main {
     display: flex;
