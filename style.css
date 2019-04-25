@@ -27,7 +27,7 @@ main {
 .tos {
     color: var(--primary-color);
     background: var(--primary-background-color);
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: 2px;
 }
 
@@ -36,12 +36,26 @@ main {
 }
 
 .tos p {
-    padding: .7rem 0;
+    padding-bottom: 1.4rem;
     /* color: var(--secondary-color); */
 }
 
-.tos p:first-of-type {
-    padding-top: 1.5rem;
+.tos ul {
+    padding: 1rem 0 1rem 2rem;
+}
+
+.tos small {
+    padding-bottom: 1.5rem;
+    display: block;
+}
+
+@media screen and (max-width: 700px) {
+    .tos {
+        padding: 1rem;
+    }
+    main {
+        padding: 2rem .5rem;
+    }
 }
 
 
