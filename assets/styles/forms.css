@@ -21,13 +21,20 @@ form h1 {
     color: #dadada;
 }
 
-input[type=text], input[type=email], input[type=password], input[type=submit] {
+form textarea {
+    height: 12rem;
+    resize: vertical;
+}
+
+input[type=text], input[type=email], input[type=password], input[type=submit], textarea {
     width: 100%;
     padding: .8rem;
     outline: none;
     border: none;
     border-radius: 2px;
-    background: rgb(224, 224, 224);
+    background: var(--primary-color);
+    /* background: #333333; */
+    /* color: var(--primary-color); */
     font-size: 1.1rem;
     box-shadow: 3px 3px 5px -3px #000;
 }
