@@ -171,7 +171,7 @@ nav i {
         color: var(--secondary-color);
     }
     .first-level>li:nth-child(4) .second-level {
-        width: 7rem;
+        width: 8rem;
     }
     .first-level>li:last-child .second-level {
         width: 7rem;

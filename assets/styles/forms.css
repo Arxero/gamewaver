@@ -5,7 +5,7 @@
 }
 
 form {
-    background: #264764;
+    background: var(--primary-background-color);
     margin: 0 auto;
     padding: 1rem;
     box-shadow: 3px 3px 5px -3px #000;
@@ -32,25 +32,34 @@ input[type=text], input[type=email], input[type=password], input[type=submit], t
     outline: none;
     border: none;
     border-radius: 2px;
-    background: var(--primary-color);
-    /* background: #333333; */
-    /* color: var(--primary-color); */
+    color: var(--primary-color);
+    border: 1px solid black;
+    background: #222222;
     font-size: 1.1rem;
+    transition: 200ms cubic-bezier(.08,.52,.52,1) box-shadow;
+}
+
+input[type=text]:hover,  input[type=email]:hover, input[type=password]:hover, textarea:hover {
     box-shadow: 3px 3px 5px -3px #000;
 }
 
 input[type=submit] {
     text-transform: uppercase;
     cursor: pointer;
-    color: white;
-    background: #2693E6;
-    /* background: linear-gradient( -60deg, #E61100 5%,#DD15E1 95%); */
-    /* background: linear-gradient( -60deg, #417a9b 5%,#67c1f5 95%); */
-    transition: background-color .2s ease-in;
-    transition: color .2s ease-in;
+    border: none;
+    color: rgba(255, 255, 255, 0.705);
+    background: linear-gradient( -60deg, #66bd20 5%, #0eaf08 95%);
+    width: 10rem;
+    transition: 200ms cubic-bezier(.08,.52,.52,1) filter, 200ms cubic-bezier(.08,.52,.52,1) box-shadow;
 }
 
 input[type=submit]:hover {
-    background: rgb(224, 224, 224);
-    color: #2693E6;
+    filter: brightness(110%);
+    box-shadow: 3px 3px 5px -3px #000;
+}
+
+@media screen and (max-width: 700px) {
+   input[type=submit] {
+       width: 100%;
+   }
 }

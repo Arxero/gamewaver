@@ -1,0 +1,114 @@
+.tos, .faq {
+    color: var(--primary-color);
+    background: var(--primary-background-color);
+    padding: 1.5rem;
+    border-radius: 2px;
+}
+
+.tos h1, .faq h1 {
+    font-weight: 400;
+}
+
+.tos p {
+    padding-bottom: 1.4rem;
+}
+
+.tos ul {
+    padding: 1rem 0 1rem 2rem;
+}
+
+.tos small {
+    padding-bottom: 1.5rem;
+    display: block;
+}
+
+.tos .fa-link {
+    margin-left: .5rem;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.tos .fa-link:hover {
+    color: inherit;
+}
+
+/* FAQ */
+
+.faq h1 {
+    padding-bottom: 1.5rem;
+}
+
+.faq p {
+    padding: 1rem;
+}
+
+.faq-question {
+    box-shadow: 3px 3px 5px -3px #000;
+}
+
+.faq-content {
+    padding: 0 1rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #2E5578;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+/* TEAM */
+
+.team {
+    color: var(--primary-color);
+    background: var(--primary-background-color);
+    padding: 1.5rem;
+    border-radius: 2px;
+}
+
+.team h1 {
+    text-align: center;
+    padding-bottom: 1.5rem;
+}
+
+.team ul {
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 1rem;
+    justify-items: center;
+}
+
+.team li {
+    text-align: center;
+    list-style: none;
+}
+
+.team img {
+    width: 100%;
+    border-radius: 50%;
+    transition: 200ms cubic-bezier(.08, .52, .52, 1) filter, 200ms cubic-bezier(.08, .52, .52, 1) box-shadow, 200ms cubic-bezier(.08, .52, .52, 1) transform;
+}
+
+.team img:hover {
+    filter: brightness(120%);
+    filter: contrast(120%);
+    box-shadow: 3px 3px 5px -3px #000;
+    transform: scale(1.1);
+}
+
+.team .person-name {
+    padding-top: .5rem;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.team .person-role {
+    font-size: 1.3rem;
+}
+
+@media screen and (max-width: 700px) {
+    .tos, .faq, .team {
+        padding: 1rem;
+    }
+}
