@@ -37,6 +37,7 @@ input[type=text], input[type=email], input[type=password], input[type=submit], t
     background: #222222;
     font-size: 1.1rem;
     transition: 200ms cubic-bezier(.08,.52,.52,1) box-shadow;
+    box-shadow: 1px 1px 0 0 rgba( 0, 0, 0, 0.3 );
 }
 
 input[type=text]:hover,  input[type=email]:hover, input[type=password]:hover, textarea:hover {
