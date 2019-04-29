@@ -59,6 +59,26 @@ input[type=submit]:hover {
     box-shadow: 3px 3px 5px -3px #000;
 }
 
+button[type=submit] {
+    background: linear-gradient( -60deg, #66bd20 5%, #0eaf08 95%);
+    padding: .9rem;
+    outline: none;
+    color: #222222;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: 1px solid black;
+    border-left: none;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    transition: 200ms cubic-bezier(.08,.52,.52,1) filter, 200ms cubic-bezier(.08,.52,.52,1) box-shadow;
+    box-shadow: 1px 1px 0 0 rgba( 0, 0, 0, 0.3 );
+}
+
+button[type=submit]:hover {
+    filter: brightness(110%);
+    box-shadow: 3px 3px 5px -3px #000;
+}
+
 @media screen and (max-width: 700px) {
    input[type=submit] {
        width: 100%;
