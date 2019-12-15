@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using GW.Application.Users.Models;
 using GW.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace GW.Extensions
+namespace GW.Application
 {
     public class AutoMapperProfile : Profile
     {

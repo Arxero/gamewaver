@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using GW.Application.Interfaces;
 using GW.Application.Users.Models;
-using GW.Persistence;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -12,10 +12,10 @@ namespace GW.Application.Users.Commands.UpdateUser
 {
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UserDto>
     {
-        private readonly IGamewaverContext Context;
+        private readonly IGWContext Context;
         private readonly IMapper Mapper;
 
-        public UpdateUserCommandHandler(IGamewaverContext context, IMapper mapper)
+        public UpdateUserCommandHandler(IGWContext context, IMapper mapper)
         {
             Context = context;
             Mapper = mapper;
@@ -31,10 +31,7 @@ namespace GW.Application.Users.Commands.UpdateUser
             var entity = await Context.Users.FindAsync(request.Id);
 
             entity.Username = request.Model.Username;
-            entity.FirstName = request.Model.FirstName;
-            entity.LastName = request.Model.LastName;
             entity.Email = request.Model.Email;
-            entity.Gender = request.Model.Gender;
             entity.UpdatedAt = DateTime.Now;
 
             Context.Users.Update(entity);

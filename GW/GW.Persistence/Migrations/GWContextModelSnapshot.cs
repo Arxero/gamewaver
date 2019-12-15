@@ -3,40 +3,40 @@ using System;
 using GW.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GW.Persistence.Migrations
 {
-    [DbContext(typeof(GamewaverContext))]
-    [Migration("20190829181509_usersSeeding")]
-    partial class usersSeeding
+    [DbContext(typeof(GWContext))]
+    partial class GWContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("GW.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("Password")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Gender");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("LastName");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.Property<string>("Username");
+                    b.Property<string>("Username")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -48,9 +48,6 @@ namespace GW.Persistence.Migrations
                             Id = 1,
                             CreatedAt = new DateTime(2019, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "feruchio599@gmail.com",
-                            FirstName = "Maverick",
-                            Gender = "Male",
-                            LastName = "Cloud",
                             UpdatedAt = new DateTime(2019, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Username = "Maverick"
                         },
@@ -59,9 +56,6 @@ namespace GW.Persistence.Migrations
                             Id = 2,
                             CreatedAt = new DateTime(2019, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "saad@gmail.com",
-                            FirstName = "Saad",
-                            Gender = "Male",
-                            LastName = "Salim",
                             UpdatedAt = new DateTime(2019, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Username = "Saad"
                         },
@@ -70,9 +64,6 @@ namespace GW.Persistence.Migrations
                             Id = 3,
                             CreatedAt = new DateTime(2019, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "xinoredm@gmail.com",
-                            FirstName = "Xinored",
-                            Gender = "Male",
-                            LastName = "Deronix",
                             UpdatedAt = new DateTime(2019, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Username = "Xinored"
                         },
@@ -81,9 +72,6 @@ namespace GW.Persistence.Migrations
                             Id = 4,
                             CreatedAt = new DateTime(2019, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "badboy@gmail.com",
-                            FirstName = "Badboy",
-                            Gender = "Male",
-                            LastName = "Boy",
                             UpdatedAt = new DateTime(2019, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Username = "Badboy"
                         },
@@ -92,9 +80,6 @@ namespace GW.Persistence.Migrations
                             Id = 5,
                             CreatedAt = new DateTime(2019, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "roller@gmail.com",
-                            FirstName = "Roller",
-                            Gender = "Male",
-                            LastName = "Rolls",
                             UpdatedAt = new DateTime(2019, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Username = "Mr.Roller"
                         });

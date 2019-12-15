@@ -1,4 +1,8 @@
-﻿namespace GW.Domain.Entities
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace GW.Domain.Infrastructure
 {
     public static class Defaults
     {

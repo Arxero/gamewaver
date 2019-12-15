@@ -1,5 +1,6 @@
 ﻿using GW.Application.Users.Models;
 using GW.Domain.Entities;
+using GW.Domain.Infrastructure;
 using MediatR;
 using System;
 using System.Collections.Generic;

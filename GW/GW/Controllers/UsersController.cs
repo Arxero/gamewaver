@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GW.Application.Users.Commands.UpdateUser;
 using GW.Application.Users.Commands.DeleteUser;
+using GW.Domain.Infrastructure;
 
 namespace GW.Controllers
 {

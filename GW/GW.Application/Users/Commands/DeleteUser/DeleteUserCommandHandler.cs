@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GW.Persistence;
+using GW.Application.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -12,9 +12,9 @@ namespace GW.Application.Users.Commands.DeleteUser
     public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand>
     {
         private readonly IMapper Mapper;
-        private readonly IGamewaverContext Context;
+        private readonly IGWContext Context;
 
-        public DeleteUserCommandHandler(IGamewaverContext context, IMapper mapper)
+        public DeleteUserCommandHandler(IGWContext context, IMapper mapper)
         {
             Context = context;
             Mapper = mapper;

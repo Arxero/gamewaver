@@ -2,21 +2,21 @@
 using GW.Application.Users.Commands.CreateUser;
 using GW.Application.Users.Models;
 using GW.Domain.Entities;
-using GW.Persistence;
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using GW.Application.Interfaces;
 
 namespace GW.Application.Users.Commands
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserDto>
     {
         private readonly IMapper Mapper;
-        private readonly IGamewaverContext Context;
+        private readonly IGWContext Context;
 
-        public CreateUserCommandHandler(IGamewaverContext context, IMapper mapper)
+        public CreateUserCommandHandler(IGWContext context, IMapper mapper)
         {
             Context = context;
             Mapper = mapper;

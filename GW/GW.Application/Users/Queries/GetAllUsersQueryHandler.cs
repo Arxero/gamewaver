@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using GW.Application.Interfaces;
 using GW.Application.Users.Models;
 using GW.Domain.Entities;
-using GW.Persistence;
+using GW.Domain.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -13,9 +14,9 @@ namespace GW.Application.Users.Queries
     public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, PagedResult<UserDto>>
     {
         private readonly IMapper Mapper;
-        private readonly IGamewaverContext Context;
+        private readonly IGWContext Context;
 
-        public GetAllUsersQueryHandler(IGamewaverContext context, IMapper mapper)
+        public GetAllUsersQueryHandler(IGWContext context, IMapper mapper)
         {
             Context = context;
             Mapper = mapper;

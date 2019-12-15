@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using GW.Application.Interfaces;
 using GW.Application.Users.Models;
-using GW.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -12,9 +12,9 @@ namespace GW.Application.Users.Queries
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDto>
     {
         private readonly IMapper Mapper;
-        private readonly IGamewaverContext Context;
+        private readonly IGWContext Context;
 
-        public GetUserByIdQueryHandler(IGamewaverContext context, IMapper mapper)
+        public GetUserByIdQueryHandler(IGWContext context, IMapper mapper)
         {
             Context = context;
             Mapper = mapper;

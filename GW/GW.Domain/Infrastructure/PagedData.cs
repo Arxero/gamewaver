@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
-namespace GW.Domain.Entities
+namespace GW.Domain.Infrastructure
 {
     public class PagedData<T> : IEnumerable<T>
     {

@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
-namespace GW.Domain.Entities
+namespace GW.Domain.Infrastructure
 {
     public abstract class Entity<T> where T : IEquatable<T>
     {

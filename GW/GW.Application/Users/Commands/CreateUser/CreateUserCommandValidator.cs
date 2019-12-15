@@ -16,17 +16,6 @@ namespace GW.Application.Users.Commands.CreateUser
                .NotEmpty().WithMessage("{PropertyName} is Empty")
                .Length(3, 30).WithMessage("Length of {PropertyName} is Invalid");
 
-            RuleFor(x => x.FirstName)
-                .Cascade(CascadeMode.StopOnFirstFailure)
-                .NotEmpty().WithMessage("{PropertyName} is Empty")
-                .Length(3, 30).WithMessage("Length of {PropertyName} is Invalid")
-                .Must(BeAValidName).WithMessage("{PropertyName} contains Invalid Characters");
-
-            RuleFor(x => x.LastName)
-               .Cascade(CascadeMode.StopOnFirstFailure)
-               .NotEmpty().WithMessage("{PropertyName} is Empty")
-               .Length(3, 30).WithMessage("Length of {PropertyName} is Invalid")
-               .Must(BeAValidName).WithMessage("{PropertyName} contains Invalid Characters");
            
             RuleFor(x => x.Email)
                .Cascade(CascadeMode.StopOnFirstFailure)
@@ -34,10 +23,6 @@ namespace GW.Application.Users.Commands.CreateUser
                .Length(6, 30).WithMessage("Length of {PropertyName} is Invalid")
                .EmailAddress().WithMessage("{PropertyName} is Invalid");
 
-            RuleFor(x => x.Gender)
-               .Cascade(CascadeMode.StopOnFirstFailure)
-               .NotEmpty().WithMessage("{PropertyName} is Empty")
-               .Must(BeAValidGender).WithMessage("{PropertyName} is Invalid");
         }
 
         protected bool BeAValidName(string name)
