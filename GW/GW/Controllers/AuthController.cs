@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using GW.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -17,12 +18,14 @@ namespace GW.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public AuthController(IOptions<SecurityConfig> config)
+        public AuthController(IOptions<SecurityConfig> config, ILogger<AuthController> logger)
         {
             this.config = config;
+            this.logger = logger;
         }
 
         private readonly IOptions<SecurityConfig> config;
+        private readonly ILogger<AuthController> logger;
 
         [HttpPost, Route("login")]
         public IActionResult Login([FromBody]LoginModel user)
@@ -46,6 +49,7 @@ namespace GW.Controllers
                 );
 
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+                logger.LogInformation($"Loging user {user.Username}");
                 return Ok(new { Token = tokenString });
             }
             else
