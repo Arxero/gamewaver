@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -14,10 +15,11 @@ namespace GW
     {
         public static void Main(string[] args)
         {
+            var logpath = Path.Combine(Directory.GetCurrentDirectory(), "logs", "log.txt");
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.File("bin/logs/gw.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.File(logpath, rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             try
@@ -38,10 +40,10 @@ namespace GW
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                // .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .UseConsoleLifetime();
     }
 }

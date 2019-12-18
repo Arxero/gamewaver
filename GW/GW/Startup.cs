@@ -19,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace GW
 {
@@ -48,6 +49,7 @@ namespace GW
             services.AddControllers();
             services.AddScoped<IGWContext, GWContext>();
             services.AddMediatR(typeof(GetAllUsersQuery).GetTypeInfo().Assembly);
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
             services.AddMvc(options => options.EnableEndpointRouting = false)
                  .AddFluentValidation(fv =>
@@ -66,6 +68,7 @@ namespace GW
             }
 
             app.UseHttpsRedirection();
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
