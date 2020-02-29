@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using GW.Application.Users.Commands.UpdateUser;
 using GW.Application.Users.Commands.DeleteUser;
 using GW.Domain.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GW.Controllers
 {
@@ -18,7 +19,8 @@ namespace GW.Controllers
     [ApiController]
     public class UsersController : BaseController
     {
-        [HttpGet]
+      
+        [HttpGet, Authorize]
         public async Task<IActionResult> GetAllUsers([FromQuery] Paging paging = null)
         {
             var query = new GetAllUsersQuery
@@ -40,16 +42,16 @@ namespace GW.Controllers
             return Ok(await Mediator.Send(query));
         }
 
-        [HttpPost]
-        public async Task<ActionResult<UserDto>> Post([FromBody] UserDto model)
-        {
-            var command = new CreateUserCommand
-            {
-                Model = model
-            };
-            var theUser = await Mediator.Send(command);
-            return theUser;
-        }
+        //[HttpPost]
+        //public async Task<ActionResult<UserDto>> Post([FromBody] UserDto model)
+        //{
+        //    var command = new CreateUserCommand
+        //    {
+        //        Model = model
+        //    };
+        //    var theUser = await Mediator.Send(command);
+        //    return theUser;
+        //}
 
         [HttpPut("{id}")]
         public async Task<ActionResult<UserDto>> Put(int id, [FromBody] UserDto model)

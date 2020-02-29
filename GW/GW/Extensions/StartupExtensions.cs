@@ -3,6 +3,7 @@ using GW.Application;
 using GW.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,28 +21,25 @@ namespace GW.Extensions
     {
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration Configuration)
         {
-            var securityKey = Configuration.GetSection("SecurityConfig").GetSection("SecretKey").Value;
-            services.AddAuthentication(opt => {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
+            var securityKey = Configuration.GetSection("AppSettings").GetSection("SecretKey").Value;
+            services.AddAuthentication(x =>
             {
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = false;
+                x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-
-                    ValidIssuer = "http://localhost:5000",
-                    ValidAudience = "http://localhost:5000",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
                 };
             });
-
-            services.Configure<SecurityConfig>(Configuration.GetSection("SecurityConfig"));
         }
 
         public static void ConfigureCors(this IServiceCollection services)
@@ -52,7 +50,7 @@ namespace GW.Extensions
                     builder => builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader());
-                    //.AllowCredentials()) ;
+                //.AllowCredentials()) ;
             });
         }
 
@@ -110,11 +108,23 @@ namespace GW.Extensions
                     }
                 };
                 OpenApiSecurityRequirement securityRequirements = new OpenApiSecurityRequirement()
-{
-    {securityScheme, new string[] { }},
-};
+                {
+                    {securityScheme, new string[] { }},
+                };
                 c.AddSecurityRequirement(securityRequirements);
 
+            });
+        }
+
+        public static void ConfigureIdentityOptions(this IServiceCollection services)
+        {
+            services.Configure<IdentityOptions>(o =>
+            {
+                o.Password.RequireDigit = false;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequireLowercase = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequiredLength = 4;
             });
         }
     }

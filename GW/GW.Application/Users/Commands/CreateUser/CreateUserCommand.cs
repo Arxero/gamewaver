@@ -1,15 +1,16 @@
 ﻿using GW.Application.Users.Models;
 using GW.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GW.Application.Users.Commands
 {
-    public class CreateUserCommand : IRequest<UserDto>
+    public class CreateUserCommand : IRequest<IdentityResult>
     {
-        public UserDto Model { get; set; }
+        public RegisterUserDto UserModel { get; set; }
 
     }
 }

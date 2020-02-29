@@ -5,7 +5,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using GW.Application.Users.Commands;
+using GW.Application.Users.Commands.LoginUser;
+using GW.Application.Users.Models;
 using GW.Models;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,46 +20,44 @@ namespace GW.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseController
     {
-        public AuthController(IOptions<SecurityConfig> config, ILogger<AuthController> logger)
+        public AuthController(IOptions<AppSettings> config, ILogger<AuthController> logger)
         {
             this.config = config;
             this.logger = logger;
         }
 
-        private readonly IOptions<SecurityConfig> config;
+        private readonly IOptions<AppSettings> config;
         private readonly ILogger<AuthController> logger;
 
-        [HttpPost, Route("login")]
-        public IActionResult Login([FromBody]LoginModel user)
+
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDto model)
         {
-            if (user == null)
+            var command = new CreateUserCommand
             {
-                return BadRequest("Invalid client request");
-            }
+                UserModel = model
+            };
 
-            if (user.Username == "johndoe" && user.Password == "def@123")
+            var result = await Mediator.Send(command);
+            return Ok(result);           
+        }
+
+
+        [HttpPost, Route("login")]
+        public async Task<IActionResult> LoginAsync([FromBody] LoginUserDto model)
+        {
+
+            var command = new LoginUserCommand
             {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Value.SecretKey));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                Username = model.Username,
+                Password = model.Password
+            };
 
-                var tokeOptions = new JwtSecurityToken(
-                    issuer: "http://localhost:5000",
-                    audience: "http://localhost:5000",
-                    claims: new List<Claim>(),
-                    expires: DateTime.Now.AddMinutes(5),
-                    signingCredentials: signinCredentials
-                );
-
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-                logger.LogInformation($"Loging user {user.Username}");
-                return Ok(new { Token = tokenString });
-            }
-            else
-            {
-                return Unauthorized();
-            }
+            var result = await Mediator.Send(command);
+            return Ok(result);           
         }
     }
 }

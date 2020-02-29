@@ -22,14 +22,14 @@ namespace GW.Application.Users.Commands.DeleteUser
 
         public async Task<Unit> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            var entity = await Context.Users.FindAsync(request.Id);
+            var entity = await Context.ApplicationUsers.FindAsync(request.Id);
 
             if (entity == null)
             {
                 throw new ArgumentNullException(nameof(entity));
             }
 
-            Context.Users.Remove(entity);
+            Context.ApplicationUsers.Remove(entity);
             await Context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;

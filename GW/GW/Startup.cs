@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
 using GW.Application.Interfaces;
 using GW.Application.Users.Queries;
+using GW.Domain.Entities;
 using GW.Extensions;
+using GW.Models;
 using GW.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -40,7 +42,6 @@ namespace GW
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureJWT(Configuration);
             services.ConfigureCors();
             services.ConfigureIISIntegration();
             services.ConfigureMySqlContext(Configuration);
@@ -50,6 +51,12 @@ namespace GW
             services.AddScoped<IGWContext, GWContext>();
             services.AddMediatR(typeof(GetAllUsersQuery).GetTypeInfo().Assembly);
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+
+            services.AddDefaultIdentity<User>().AddEntityFrameworkStores<GWContext>();
+            services.ConfigureIdentityOptions();
+            services.ConfigureJWT(Configuration);
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
 
             services.AddMvc(options => options.EnableEndpointRouting = false)
                  .AddFluentValidation(fv =>
@@ -77,7 +84,12 @@ namespace GW
                 endpoints.MapControllers();
             });
 
-            app.UseCors("CorsPolicy");
+            // app.UseCors("CorsPolicy");
+
+            app.UseCors(x => x
+            .WithOrigins(Configuration["AppSettings:ClientUrl"].ToString())
+                .AllowAnyHeader()
+                .AllowAnyMethod());
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.All
@@ -89,6 +101,11 @@ namespace GW
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gamewaver");
             });
             app.UseMvc();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

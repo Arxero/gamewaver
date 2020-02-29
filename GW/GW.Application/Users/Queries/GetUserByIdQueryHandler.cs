@@ -22,7 +22,7 @@ namespace GW.Application.Users.Queries
 
         public async Task<UserDto> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            var user = await Context.Users.Where(x => x.Id.Equals(request.Id)).FirstOrDefaultAsync();
+            var user = await Context.ApplicationUsers.Where(x => x.Id.Equals(request.Id)).FirstOrDefaultAsync();
             return Mapper.Map<UserDto>(user);
         }
     }

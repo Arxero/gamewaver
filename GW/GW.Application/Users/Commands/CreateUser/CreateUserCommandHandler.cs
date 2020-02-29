@@ -8,37 +8,34 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using GW.Application.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace GW.Application.Users.Commands
 {
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserDto>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, IdentityResult>
     {
         private readonly IMapper Mapper;
         private readonly IGWContext Context;
+        private UserManager<User> UserManager;
 
-        public CreateUserCommandHandler(IGWContext context, IMapper mapper)
+        public CreateUserCommandHandler(IGWContext context, IMapper mapper, UserManager<User> userManager)
         {
             Context = context;
             Mapper = mapper;
+            UserManager = userManager;
         }
 
-        public async Task<UserDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<IdentityResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-  
-            if (request.Model == null)
+            var user = new User
             {
-                throw new ArgumentNullException(nameof(request.Model));
-            }
+                UserName = request.UserModel.Username,
+                Email = request.UserModel.Email,
+            };
 
-            var incomingUser = Mapper.Map<User>(request.Model);
-            incomingUser.CreatedAt = DateTime.Now;
-            incomingUser.UpdatedAt = DateTime.Now;
-
-            var theUser = await Context.Users.AddAsync(incomingUser);
-            await Context.SaveChangesAsync(cancellationToken);
-
-            var userToReturn = Mapper.Map<UserDto>(theUser.Entity);
-            return userToReturn;
+            var result = await UserManager.CreateAsync(user, request.UserModel.Password);
+            return result;
         }
+
     }
 }

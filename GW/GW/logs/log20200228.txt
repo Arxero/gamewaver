@@ -1,0 +1,75 @@
+2020-02-28 22:36:14.425 +02:00 [INF] Starting up...
+2020-02-28 22:36:16.329 +02:00 [INF] User profile is available. Using 'C:\Users\Maverick\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-02-28 22:36:16.757 +02:00 [INF] Now listening on: http://localhost:5000
+2020-02-28 22:36:16.760 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-02-28 22:36:16.763 +02:00 [INF] Hosting environment: Development
+2020-02-28 22:36:16.765 +02:00 [INF] Content root path: C:\Users\Maverick\Documents\C# Tutorials\gamewaver\GW\GW
+2020-02-28 22:59:40.395 +02:00 [INF] Starting up...
+2020-02-28 22:59:41.811 +02:00 [INF] User profile is available. Using 'C:\Users\Maverick\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-02-28 22:59:42.157 +02:00 [INF] Now listening on: http://localhost:5000
+2020-02-28 22:59:42.159 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-02-28 22:59:42.161 +02:00 [INF] Hosting environment: Development
+2020-02-28 22:59:42.163 +02:00 [INF] Content root path: C:\Users\Maverick\Documents\C# Tutorials\gamewaver\GW\GW
+2020-02-28 23:00:01.662 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html  
+2020-02-28 23:00:01.681 +02:00 [WRN] Failed to determine the https port for redirect.
+2020-02-28 23:00:01.861 +02:00 [INF] Request finished in 203.1478ms 200 text/html;charset=utf-8
+2020-02-28 23:00:02.527 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json  
+2020-02-28 23:00:02.662 +02:00 [INF] Request finished in 135.2911ms 200 application/json;charset=utf-8
+2020-02-28 23:00:13.457 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/Auth/login application/json 38
+2020-02-28 23:00:13.464 +02:00 [INF] Executing endpoint 'GW.Controllers.AuthController.LoginAsync (GW)'
+2020-02-28 23:00:13.508 +02:00 [INF] Route matched with {action = "Login", controller = "Auth", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoginAsync(GW.Application.Users.Models.LoginUserDto) on controller GW.Controllers.AuthController (GW).
+2020-02-28 23:01:53.956 +02:00 [INF] Starting up...
+2020-02-28 23:01:55.231 +02:00 [INF] User profile is available. Using 'C:\Users\Maverick\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-02-28 23:01:55.546 +02:00 [INF] Now listening on: http://localhost:5000
+2020-02-28 23:01:55.549 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-02-28 23:01:55.552 +02:00 [INF] Hosting environment: Development
+2020-02-28 23:01:55.554 +02:00 [INF] Content root path: C:\Users\Maverick\Documents\C# Tutorials\gamewaver\GW\GW
+2020-02-28 23:02:01.666 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/Auth/login application/json 38
+2020-02-28 23:02:01.684 +02:00 [WRN] Failed to determine the https port for redirect.
+2020-02-28 23:02:01.780 +02:00 [INF] Executing endpoint 'GW.Controllers.AuthController.LoginAsync (GW)'
+2020-02-28 23:02:01.815 +02:00 [INF] Route matched with {action = "Login", controller = "Auth", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoginAsync(GW.Application.Users.Models.LoginUserDto) on controller GW.Controllers.AuthController (GW).
+2020-02-28 23:02:02.543 +02:00 [INF] Entity Framework Core 3.1.2 initialized 'GWContext' using provider 'Pomelo.EntityFrameworkCore.MySql' with options: None
+2020-02-28 23:02:02.989 +02:00 [INF] Executed DbCommand (57ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT `a`.`Id`, `a`.`AccessFailedCount`, `a`.`ConcurrencyStamp`, `a`.`CreatedAt`, `a`.`Email`, `a`.`EmailConfirmed`, `a`.`FullName`, `a`.`LockoutEnabled`, `a`.`LockoutEnd`, `a`.`NormalizedEmail`, `a`.`NormalizedUserName`, `a`.`PasswordHash`, `a`.`PhoneNumber`, `a`.`PhoneNumberConfirmed`, `a`.`SecurityStamp`, `a`.`TwoFactorEnabled`, `a`.`UpdatedAt`, `a`.`UserName`
+FROM `AspNetUsers` AS `a`
+WHERE `a`.`NormalizedUserName` = @__normalizedUserName_0
+LIMIT 1
+2020-02-28 23:02:03.031 +02:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2020-02-28 23:02:03.048 +02:00 [INF] Executed action GW.Controllers.AuthController.LoginAsync (GW) in 1223.7218ms
+2020-02-28 23:02:03.051 +02:00 [INF] Executed endpoint 'GW.Controllers.AuthController.LoginAsync (GW)'
+2020-02-28 23:02:03.059 +02:00 [INF] Request finished in 1397.3953ms 200 application/json; charset=utf-8
+2020-02-28 23:02:20.043 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/Auth/login application/json 41
+2020-02-28 23:02:20.049 +02:00 [INF] Executing endpoint 'GW.Controllers.AuthController.LoginAsync (GW)'
+2020-02-28 23:02:20.050 +02:00 [INF] Route matched with {action = "Login", controller = "Auth", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoginAsync(GW.Application.Users.Models.LoginUserDto) on controller GW.Controllers.AuthController (GW).
+2020-02-28 23:02:20.084 +02:00 [INF] Entity Framework Core 3.1.2 initialized 'GWContext' using provider 'Pomelo.EntityFrameworkCore.MySql' with options: None
+2020-02-28 23:02:20.103 +02:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT `a`.`Id`, `a`.`AccessFailedCount`, `a`.`ConcurrencyStamp`, `a`.`CreatedAt`, `a`.`Email`, `a`.`EmailConfirmed`, `a`.`FullName`, `a`.`LockoutEnabled`, `a`.`LockoutEnd`, `a`.`NormalizedEmail`, `a`.`NormalizedUserName`, `a`.`PasswordHash`, `a`.`PhoneNumber`, `a`.`PhoneNumberConfirmed`, `a`.`SecurityStamp`, `a`.`TwoFactorEnabled`, `a`.`UpdatedAt`, `a`.`UserName`
+FROM `AspNetUsers` AS `a`
+WHERE `a`.`NormalizedUserName` = @__normalizedUserName_0
+LIMIT 1
+2020-02-28 23:02:20.355 +02:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2020-02-28 23:02:20.358 +02:00 [INF] Executed action GW.Controllers.AuthController.LoginAsync (GW) in 305.0574ms
+2020-02-28 23:02:20.360 +02:00 [INF] Executed endpoint 'GW.Controllers.AuthController.LoginAsync (GW)'
+2020-02-28 23:02:20.361 +02:00 [INF] Request finished in 318.2393ms 200 application/json; charset=utf-8
+2020-02-28 23:03:08.060 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/Customers  
+2020-02-28 23:03:08.134 +02:00 [INF] Successfully validated the token.
+2020-02-28 23:03:08.140 +02:00 [INF] Authorization was successful.
+2020-02-28 23:03:08.141 +02:00 [INF] Executing endpoint 'GW.Controllers.CustomersController.Get (GW)'
+2020-02-28 23:03:08.145 +02:00 [INF] Route matched with {action = "Get", controller = "Customers", page = "", area = ""}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[System.String] Get() on controller GW.Controllers.CustomersController (GW).
+2020-02-28 23:03:08.150 +02:00 [INF] Authorization was successful.
+2020-02-28 23:03:08.153 +02:00 [INF] Executing ObjectResult, writing value of type 'System.String[]'.
+2020-02-28 23:03:08.155 +02:00 [INF] Executed action GW.Controllers.CustomersController.Get (GW) in 7.1418ms
+2020-02-28 23:03:08.156 +02:00 [INF] Executed endpoint 'GW.Controllers.CustomersController.Get (GW)'
+2020-02-28 23:03:08.157 +02:00 [INF] Request finished in 101.4746ms 200 application/json; charset=utf-8
+2020-02-28 23:03:19.543 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/WeatherForecast  
+2020-02-28 23:03:19.548 +02:00 [INF] Successfully validated the token.
+2020-02-28 23:03:19.550 +02:00 [INF] Executing endpoint 'GW.Controllers.WeatherForecastController.Get (GW)'
+2020-02-28 23:03:19.555 +02:00 [INF] Route matched with {action = "Get", controller = "WeatherForecast", page = "", area = ""}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[GW.WeatherForecast] Get() on controller GW.Controllers.WeatherForecastController (GW).
+2020-02-28 23:03:19.560 +02:00 [INF] Executing ObjectResult, writing value of type 'GW.WeatherForecast[]'.
+2020-02-28 23:03:19.569 +02:00 [INF] Executed action GW.Controllers.WeatherForecastController.Get (GW) in 11.3258ms
+2020-02-28 23:03:19.571 +02:00 [INF] Executed endpoint 'GW.Controllers.WeatherForecastController.Get (GW)'
+2020-02-28 23:03:19.572 +02:00 [INF] Request finished in 29.9704ms 200 application/json; charset=utf-8
+2020-02-28 23:04:07.180 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/Customers  
+2020-02-28 23:04:07.182 +02:00 [INF] Authorization failed.
+2020-02-28 23:04:07.188 +02:00 [INF] AuthenticationScheme: Bearer was challenged.
+2020-02-28 23:04:07.189 +02:00 [INF] Request finished in 9.4803ms 401 

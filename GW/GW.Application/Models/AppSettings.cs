@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GW
+namespace GW.Models
 {
-    public class SecurityConfig
+    public class AppSettings
     {
         public string SecretKey { get; set; }
+        public string ClientUrl { get; set; }
     }
 }

@@ -28,13 +28,13 @@ namespace GW.Application.Users.Commands.UpdateUser
                 throw new ArgumentNullException(nameof(request.Model));
             }
 
-            var entity = await Context.Users.FindAsync(request.Id);
+            var entity = await Context.ApplicationUsers.FindAsync(request.Id);
 
-            entity.Username = request.Model.Username;
-            entity.Email = request.Model.Email;
-            entity.UpdatedAt = DateTime.Now;
+            //entity.Username = request.Model.Username;
+            //entity.Email = request.Model.Email;
+            //entity.UpdatedAt = DateTime.Now;
 
-            Context.Users.Update(entity);
+            Context.ApplicationUsers.Update(entity);
             await Context.SaveChangesAsync(cancellationToken);
             return Mapper.Map<UserDto>(entity);
         }

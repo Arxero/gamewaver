@@ -10,7 +10,7 @@ namespace GW.Application.Interfaces
 {
     public interface IGWContext
     {
-        DbSet<User> Users { get; set; }
+        DbSet<User> ApplicationUsers { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

@@ -30,8 +30,8 @@ namespace GW.Application.Users.Queries
                 request.Paging = Defaults.Paging;
             }
 
-            var totalCount = await Context.Users.CountAsync();
-            var users = await Context.Users.Skip(request.Paging.Skip).Take(request.Paging.Take).ToListAsync(cancellationToken);
+            var totalCount = await Context.ApplicationUsers.CountAsync();
+            var users = await Context.ApplicationUsers.Skip(request.Paging.Skip).Take(request.Paging.Take).ToListAsync(cancellationToken);
             var mappedUsers = users.Select(x => Mapper.Map<UserDto>(x)).ToList();
 
             return new PagedResult<UserDto>
