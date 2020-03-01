@@ -15,6 +15,7 @@ namespace GW.Persistence
         }
 
         public DbSet<User> ApplicationUsers { get; set; }
+        public DbSet<Role> ApplicationRoles { get; set; }
         public DbSet<Post> Posts { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)

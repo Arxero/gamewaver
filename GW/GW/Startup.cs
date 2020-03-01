@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
 using GW.Application.Interfaces;
+using GW.Application.Roles;
 using GW.Application.Users.Queries;
 using GW.Domain.Entities;
 using GW.Extensions;
@@ -52,7 +53,8 @@ namespace GW
             services.AddMediatR(typeof(GetAllUsersQuery).GetTypeInfo().Assembly);
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
-            services.AddDefaultIdentity<User>().AddEntityFrameworkStores<GWContext>();
+            services.AddDefaultIdentity<User>()
+                .AddRoles<Role>().AddEntityFrameworkStores<GWContext>();
             services.ConfigureIdentityOptions();
             services.ConfigureJWT(Configuration);
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
