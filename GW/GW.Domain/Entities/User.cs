@@ -16,6 +16,7 @@ namespace GW.Domain.Entities
         public string Gender { get; set; }
         public string Summary { get; set; }
         public string Website { get; set; }
+        public string Avatar { get; set; }
 
 
     }

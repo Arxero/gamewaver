@@ -43,25 +43,15 @@ namespace GW.Controllers
 
 
         [HttpPost, Route("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginUserDto model)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginUserCommand command)
         {
-            var command = new LoginUserCommand
-            {
-                Username = model.Username,
-                Password = model.Password
-            };
-
             var result = await Mediator.Send(command);
             return Ok(result);           
         }
 
         [HttpPost, Route("logout")]
-        public async Task<IActionResult> LogoutAsync([FromBody] LogoutUserDto model)
+        public async Task<IActionResult> LogoutAsync([FromBody] LogoutUserCommand command)
         {
-            var command = new LogoutUserCommand
-            {
-            };
-
             var result = await Mediator.Send(command);
             return Ok(result);
         }

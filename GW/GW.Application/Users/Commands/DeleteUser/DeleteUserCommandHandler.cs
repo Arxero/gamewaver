@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using GW.Application.Interfaces;
+using GW.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,24 +15,28 @@ namespace GW.Application.Users.Commands.DeleteUser
     {
         private readonly IMapper Mapper;
         private readonly IGWContext Context;
+        private UserManager<User> UserManager;
 
-        public DeleteUserCommandHandler(IGWContext context, IMapper mapper)
+        public DeleteUserCommandHandler(
+            IGWContext context,
+            IMapper mapper,
+            UserManager<User> userManager)
         {
             Context = context;
             Mapper = mapper;
+            UserManager = userManager;
         }
 
         public async Task<Unit> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            var entity = await Context.ApplicationUsers.FindAsync(request.Id);
+            var user = await UserManager.FindByIdAsync(request.Id);
 
-            if (entity == null)
+            if (user == null)
             {
-                throw new ArgumentNullException(nameof(entity));
+                throw new ArgumentNullException(nameof(user));
             }
 
-            Context.ApplicationUsers.Remove(entity);
-            await Context.SaveChangesAsync(cancellationToken);
+            await UserManager.DeleteAsync(user);
 
             return Unit.Value;
         }

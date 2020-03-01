@@ -34,7 +34,7 @@ namespace GW.Controllers
 
         [HttpGet("{id}", Name = "Get")]
         [Authorize]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(string id)
         {
             var query = new GetUserByIdQuery
             {
@@ -45,7 +45,7 @@ namespace GW.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<ActionResult<UserDto>> Put(int id, [FromBody] UserDto model)
+        public async Task<ActionResult<UserDto>> Put(string id, [FromBody] UserDto model)
         {
             var command = new UpdateUserCommand
             {
@@ -59,10 +59,10 @@ namespace GW.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
             await Mediator.Send(new DeleteUserCommand { Id = id });
-            return NoContent();
+            return Ok(new { success = true });
         }
     }
 

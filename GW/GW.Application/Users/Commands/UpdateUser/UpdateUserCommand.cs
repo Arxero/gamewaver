@@ -9,7 +9,7 @@ namespace GW.Application.Users.Commands.UpdateUser
     public class UpdateUserCommand : IRequest<UserDto>
     {
         public UserDto Model { get; set; }
-        public int Id { get; set; }
+        public string Id { get; set; }
 
     }
 }
