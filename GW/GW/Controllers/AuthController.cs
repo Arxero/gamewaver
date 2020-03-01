@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GW.Application.Users.Commands;
 using GW.Application.Users.Commands.LoginUser;
+using GW.Application.Users.Commands.LogoutUser;
 using GW.Application.Users.Models;
 using GW.Models;
 using MediatR;
@@ -34,13 +35,8 @@ namespace GW.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDto model)
+        public async Task<IActionResult> RegisterUser([FromBody] CreateUserCommand command)
         {
-            var command = new CreateUserCommand
-            {
-                UserModel = model
-            };
-
             var result = await Mediator.Send(command);
             return Ok(result);           
         }
@@ -49,7 +45,6 @@ namespace GW.Controllers
         [HttpPost, Route("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginUserDto model)
         {
-
             var command = new LoginUserCommand
             {
                 Username = model.Username,
@@ -58,6 +53,17 @@ namespace GW.Controllers
 
             var result = await Mediator.Send(command);
             return Ok(result);           
+        }
+
+        [HttpPost, Route("logout")]
+        public async Task<IActionResult> LogoutAsync([FromBody] LogoutUserDto model)
+        {
+            var command = new LogoutUserCommand
+            {
+            };
+
+            var result = await Mediator.Send(command);
+            return Ok(result);
         }
     }
 }

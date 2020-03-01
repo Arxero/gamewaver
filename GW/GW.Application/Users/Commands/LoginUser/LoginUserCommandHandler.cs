@@ -62,30 +62,6 @@ namespace GW.Application.Users.Commands.LoginUser
             {
                 return new { message = "Username or password is incorrect." };
             }
-            //var user = new User
-            //{
-            //    UserName = request.UserModel.Username,
-            //    Email = request.UserModel.Email,
-            //};
-
-            //var result = await UserManager.CreateAsync(user, request.UserModel.Password);
-            //return result;
-
-
-            //if (request.UserModel == null)
-            //{
-            //    throw new ArgumentNullException(nameof(request.UserModel));
-            //}
-
-            //var incomingUser = Mapper.Map<User>(request.UserModel);
-            //incomingUser.CreatedAt = DateTime.Now;
-            //incomingUser.UpdatedAt = DateTime.Now;
-
-            //var theUser = await Context.ApplicationUsers.AddAsync(incomingUser);
-            //await Context.SaveChangesAsync(cancellationToken);
-
-            //var userToReturn = Mapper.Map<UserDto>(theUser.Entity);
-            //return userToReturn;
         }
 
     }

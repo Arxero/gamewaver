@@ -29,11 +29,13 @@ namespace GW.Application.Users.Commands
         {
             var user = new User
             {
-                UserName = request.UserModel.Username,
-                Email = request.UserModel.Email,
+                UserName = request.Username,
+                Email = request.Email,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             };
 
-            var result = await UserManager.CreateAsync(user, request.UserModel.Password);
+            var result = await UserManager.CreateAsync(user, request.Password);
             return result;
         }
 

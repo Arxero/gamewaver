@@ -33,6 +33,7 @@ namespace GW.Controllers
 
 
         [HttpGet("{id}", Name = "Get")]
+        [Authorize]
         public async Task<IActionResult> Get(int id)
         {
             var query = new GetUserByIdQuery
@@ -42,18 +43,8 @@ namespace GW.Controllers
             return Ok(await Mediator.Send(query));
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult<UserDto>> Post([FromBody] UserDto model)
-        //{
-        //    var command = new CreateUserCommand
-        //    {
-        //        Model = model
-        //    };
-        //    var theUser = await Mediator.Send(command);
-        //    return theUser;
-        //}
-
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult<UserDto>> Put(int id, [FromBody] UserDto model)
         {
             var command = new UpdateUserCommand
@@ -67,6 +58,7 @@ namespace GW.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             await Mediator.Send(new DeleteUserCommand { Id = id });
