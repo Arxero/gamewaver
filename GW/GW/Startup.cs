@@ -54,7 +54,9 @@ namespace GW
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
             services.AddDefaultIdentity<User>()
-                .AddRoles<Role>().AddEntityFrameworkStores<GWContext>();
+                    .AddRoles<Role>()
+                    .AddEntityFrameworkStores<GWContext>();
+
             services.ConfigureIdentityOptions();
             services.ConfigureJWT(Configuration);
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));

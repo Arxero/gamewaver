@@ -12,8 +12,10 @@ namespace GW.Application
         public AutoMapperProfile()
         {
             CreateMap<User, UserDto>();
-
             CreateMap<UserDto, User>();
+
+            CreateMap<Role, RoleDto>();
+            CreateMap<RoleDto, Role>();
         }
     }
 }

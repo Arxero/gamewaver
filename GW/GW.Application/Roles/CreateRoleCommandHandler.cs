@@ -36,10 +36,13 @@ namespace GW.Application.Roles
         {
             var role = new Role
             {
-                Name = request.Name
+                Name = request.Name,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
             };
 
-            return null;
+            var result = await RoleManager.CreateAsync(role);
+            return Mapper.Map<RoleDto>(result);
         }
 
     }
