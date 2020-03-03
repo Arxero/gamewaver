@@ -11,6 +11,7 @@ using GW.Application.Users.Commands.LogoutUser;
 using GW.Application.Users.Models;
 using GW.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -34,7 +35,7 @@ namespace GW.Controllers
 
 
         [HttpPost]
-        [Route("register")]
+        [Route("register"), AllowAnonymous]
         public async Task<IActionResult> RegisterUser([FromBody] CreateUserCommand command)
         {
             var result = await Mediator.Send(command);
@@ -42,7 +43,7 @@ namespace GW.Controllers
         }
 
 
-        [HttpPost, Route("login")]
+        [HttpPost, Route("login"), AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromBody] LoginUserCommand command)
         {
             var result = await Mediator.Send(command);

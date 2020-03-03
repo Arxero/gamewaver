@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GW.Application.Roles;
+using GW.Application.Roles.Queries;
+using GW.Domain.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +15,18 @@ namespace GW.Controllers
     [ApiController]
     public class RolesController : BaseController
     {
+        [HttpGet, AllowAnonymous]
+        public async Task<IActionResult> GetAllRolesAsync([FromQuery] Paging paging = null)
+        {
+            var query = new GetAllRolesQuery
+            {
+                Paging = paging
+            };
+
+            return Ok(await Mediator.Send(query));
+        }
+
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CreateRoleAsync([FromBody] CreateRoleCommand command)
         {
             var result = await Mediator.Send(command);

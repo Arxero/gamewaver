@@ -13,11 +13,13 @@ using GW.Extensions;
 using GW.Models;
 using GW.Persistence;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -48,7 +50,13 @@ namespace GW
             services.ConfigureMySqlContext(Configuration);
             services.ConfigureAutoMapper();
             services.ConfigureSwagger();
-            services.AddControllers();
+            services.AddControllers(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                                 .RequireAuthenticatedUser()
+                                 .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
             services.AddScoped<IGWContext, GWContext>();
             services.AddMediatR(typeof(GetAllUsersQuery).GetTypeInfo().Assembly);
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
@@ -62,12 +70,12 @@ namespace GW
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
 
-            services.AddMvc(options => options.EnableEndpointRouting = false)
-                 .AddFluentValidation(fv =>
-                 {
-                     //fv.RegisterValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
-                     //fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
-                 });
+            //services.AddMvc(options => options.EnableEndpointRouting = false)
+            //     .AddFluentValidation(fv =>
+            //     {
+            //         fv.RegisterValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
+            //         fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+            //     });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,7 +112,7 @@ namespace GW
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gamewaver");
             });
-            app.UseMvc();
+            // app.UseMvc();
 
             app.UseEndpoints(endpoints =>
             {

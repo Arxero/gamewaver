@@ -20,7 +20,7 @@ namespace GW.Controllers
     public class UsersController : BaseController
     {
       
-        [HttpGet, Authorize]
+        [HttpGet]
         public async Task<IActionResult> GetAllUsers([FromQuery] Paging paging = null)
         {
             var query = new GetAllUsersQuery
@@ -33,7 +33,6 @@ namespace GW.Controllers
 
 
         [HttpGet("{id}", Name = "Get")]
-        [Authorize]
         public async Task<IActionResult> Get(string id)
         {
             var query = new GetUserByIdQuery
@@ -44,7 +43,6 @@ namespace GW.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
         public async Task<ActionResult<UserDto>> Put(string id, [FromBody] UserDto model)
         {
             var command = new UpdateUserCommand
@@ -58,7 +56,6 @@ namespace GW.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         public async Task<IActionResult> Delete(string id)
         {
             await Mediator.Send(new DeleteUserCommand { Id = id });

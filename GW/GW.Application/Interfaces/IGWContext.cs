@@ -11,6 +11,8 @@ namespace GW.Application.Interfaces
     public interface IGWContext
     {
         DbSet<User> ApplicationUsers { get; set; }
+        DbSet<Role> ApplicationRoles { get; set; }
+        DbSet<Post> Posts { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
