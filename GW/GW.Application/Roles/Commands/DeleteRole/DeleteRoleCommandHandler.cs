@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using GW.Application.Interfaces;
-using GW.Application.Users.Models;
 using GW.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -10,16 +9,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GW.Application.Roles
+namespace GW.Application.Roles.Commands.DeleteRole
 {
-    public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, RoleDto>
+    public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand>
     {
         private readonly IMapper Mapper;
         private readonly IGWContext Context;
-        private UserManager<User> UserManager;
-        private RoleManager<Role> RoleManager;
+        private readonly UserManager<User> UserManager;
+        private readonly RoleManager<Role> RoleManager;
 
-        public CreateRoleCommandHandler(
+        public DeleteRoleCommandHandler(
             IGWContext context,
             IMapper mapper,
             UserManager<User> userManager,
@@ -32,17 +31,11 @@ namespace GW.Application.Roles
             RoleManager = roleManager;
         }
 
-        public async Task<RoleDto> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
         {
-            var role = new Role
-            {
-                Name = request.Name,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-            };
-
-            var result = await RoleManager.CreateAsync(role);
-            return Mapper.Map<RoleDto>(role);
+            var role = await RoleManager.FindByIdAsync(request.Id);
+            await RoleManager.DeleteAsync(role);
+            return Unit.Value;
         }
 
     }

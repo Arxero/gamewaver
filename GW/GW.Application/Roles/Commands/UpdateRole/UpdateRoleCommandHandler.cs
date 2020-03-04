@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace GW.Application.Roles
 {
-    public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, RoleDto>
+    public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, RoleDto>
     {
         private readonly IMapper Mapper;
         private readonly IGWContext Context;
-        private UserManager<User> UserManager;
-        private RoleManager<Role> RoleManager;
+        private readonly UserManager<User> UserManager;
+        private readonly RoleManager<Role> RoleManager;
 
-        public CreateRoleCommandHandler(
+        public UpdateRoleCommandHandler(
             IGWContext context,
             IMapper mapper,
             UserManager<User> userManager,
@@ -32,16 +32,13 @@ namespace GW.Application.Roles
             RoleManager = roleManager;
         }
 
-        public async Task<RoleDto> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+        public async Task<RoleDto> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
         {
-            var role = new Role
-            {
-                Name = request.Name,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-            };
+            var role = await RoleManager.FindByIdAsync(request.Id);
+            role.UpdatedAt = DateTime.Now;
+            role.Name = request.Name;
 
-            var result = await RoleManager.CreateAsync(role);
+            var result = await RoleManager.UpdateAsync(role);
             return Mapper.Map<RoleDto>(role);
         }
 
