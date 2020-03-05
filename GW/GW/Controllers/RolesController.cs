@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GW.Application.Roles;
+using GW.Application.Roles.Commands.AddOrRemoveUsers;
 using GW.Application.Roles.Commands.DeleteRole;
 using GW.Application.Roles.Queries;
 using GW.Domain.Infrastructure;
@@ -27,6 +28,13 @@ namespace GW.Controllers
             return Ok(await Mediator.Send(query));
         }
 
+        [HttpGet("id"), AllowAnonymous]
+        public async Task<IActionResult> GetAllRolesByIdAsync(string id)
+        {
+            var query = new GetRoleByIdQuery { Id = id };
+            return Ok(await Mediator.Send(query));
+        }
+
         [HttpPost, AllowAnonymous]
         public async Task<IActionResult> CreateRoleAsync([FromBody] CreateRoleCommand command)
         {
@@ -46,7 +54,14 @@ namespace GW.Controllers
         public async Task<IActionResult> DeleteRoleAsync(string id)
         {
             var result = await Mediator.Send(new DeleteRoleCommand { Id = id });
-            return Ok(result);
+            return Ok(new { success = true });
+        }
+
+        [HttpPost("update-users"), AllowAnonymous]
+        public async Task<IActionResult> AddOrRemoveUsersAsync([FromBody] AddOrRemoveUsersCommand command)
+        {
+            var result = await Mediator.Send(command);
+            return Ok(new { success = true });
         }
     }
 }
