@@ -53,7 +53,7 @@ namespace GW.Controllers
         [HttpDelete("{id}"), AllowAnonymous]
         public async Task<IActionResult> DeleteRoleAsync(string id)
         {
-            var result = await Mediator.Send(new DeleteRoleCommand { Id = id });
+            await Mediator.Send(new DeleteRoleCommand { Id = id });
             return Ok(new { success = true });
         }
 

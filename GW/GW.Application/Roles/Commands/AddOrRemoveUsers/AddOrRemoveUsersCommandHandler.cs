@@ -4,8 +4,10 @@ using GW.Application.Users.Models;
 using GW.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -34,15 +36,25 @@ namespace GW.Application.Roles.Commands.AddOrRemoveUsers
 
         public async Task<Unit> Handle(AddOrRemoveUsersCommand request, CancellationToken cancellationToken)
         {
+            var role = await RoleManager.FindByIdAsync(request.RoleId);
+            //var users = await Context.ApplicationUsers
+            //    .AsNoTracking()
+            //    .Where(x => request.Users.Contains(x.Id))
+            //    .ToListAsync(cancellationToken);
 
-            //var role = new Role
-            //{
-            //    Name = request.Name,
-            //    CreatedAt = DateTime.UtcNow,
-            //    UpdatedAt = DateTime.UtcNow,
-            //};
 
-            // var result = await RoleManager.CreateAsync(role);
+            foreach (var userId in request.Users)
+            {
+                var user = await UserManager.FindByIdAsync(userId);
+                if (await UserManager.IsInRoleAsync(user, role.Name))
+                {
+                    await UserManager.RemoveFromRoleAsync(user, role.Name);
+                }
+                else
+                {
+                    await UserManager.AddToRoleAsync(user, role.Name);
+                }
+            }
             return Unit.Value;
         }
 
