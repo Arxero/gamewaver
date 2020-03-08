@@ -17,7 +17,7 @@ namespace GW.Controllers
     [ApiController]
     public class RolesController : BaseController
     {
-        [HttpGet, AllowAnonymous]
+        [HttpGet, Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllRolesAsync([FromQuery] Paging paging = null)
         {
             var query = new GetAllRolesQuery

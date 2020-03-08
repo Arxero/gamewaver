@@ -21,6 +21,9 @@ namespace GW.Extensions
     {
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration Configuration)
         {
+            // var roles = await _userManager.GetRolesAsync(user);
+            // AddRolesToClaims(claims, roles);
+
             var securityKey = Configuration.GetSection("AppSettings").GetSection("SecretKey").Value;
             services.AddAuthentication(x =>
             {

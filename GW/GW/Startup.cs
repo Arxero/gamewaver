@@ -61,9 +61,13 @@ namespace GW
             services.AddMediatR(typeof(GetAllUsersQuery).GetTypeInfo().Assembly);
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
-            services.AddDefaultIdentity<User>()
-                    .AddRoles<Role>()
-                    .AddEntityFrameworkStores<GWContext>();
+
+            services.AddIdentity<User, Role>()
+                .AddRoles<Role>()
+                .AddEntityFrameworkStores<GWContext>();
+            //services.AddDefaultIdentity<User>()
+            //        .AddRoles<Role>()
+            //        .AddEntityFrameworkStores<GWContext>();
 
             services.ConfigureIdentityOptions();
             services.ConfigureJWT(Configuration);

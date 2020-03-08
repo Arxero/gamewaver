@@ -17,13 +17,20 @@ namespace GW.Application.Users.Commands
         private readonly IMapper Mapper;
         private readonly IGWContext Context;
         private UserManager<User> UserManager;
+        private SignInManager<User> SignManager;
 
-        public CreateUserCommandHandler(IGWContext context, IMapper mapper, UserManager<User> userManager)
+        public CreateUserCommandHandler(
+            IGWContext context,
+            IMapper mapper,
+            UserManager<User> userManager,
+            SignInManager<User> signManager)
         {
             Context = context;
             Mapper = mapper;
             UserManager = userManager;
+            SignManager = signManager;
         }
+
 
         public async Task<IdentityResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
@@ -36,6 +43,12 @@ namespace GW.Application.Users.Commands
             };
 
             var result = await UserManager.CreateAsync(user, request.Password);
+
+            if (result.Succeeded)
+            {
+                await SignManager.SignInAsync(user, isPersistent: false);
+            }
+
             return result;
         }
 
