@@ -28,7 +28,7 @@ namespace GW.Controllers
             return Ok(await Mediator.Send(query));
         }
 
-        [HttpGet("id"), AllowAnonymous]
+        [HttpGet("{id}"), AllowAnonymous]
         public async Task<IActionResult> GetAllRolesByIdAsync(string id)
         {
             var query = new GetRoleByIdQuery { Id = id };
@@ -62,6 +62,17 @@ namespace GW.Controllers
         {
             var result = await Mediator.Send(command);
             return Ok(new { success = true });
+        }
+
+        [HttpGet("by/{userId}"), AllowAnonymous]
+        public async Task<IActionResult> GetAllRolesByUserIdAsync(string userId, [FromQuery] Paging paging = null)
+        {
+            var query = new GetRolesByUserIdQuery 
+            {
+                Paging = paging,
+                UserId = userId
+            };
+            return Ok(await Mediator.Send(query));
         }
     }
 }
