@@ -23,6 +23,6 @@ namespace GW.Domain.Entities
         public string Website { get; set; }
         public string Avatar { get; set; }
 
-        public virtual ICollection<Role> Roles { get; set; }
+       // public virtual ICollection<Role> Roles { get; set; }
     }
 }

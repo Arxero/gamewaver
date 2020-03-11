@@ -20,15 +20,18 @@ namespace GW.Application.Roles.Queries
         private readonly IMapper Mapper;
         private readonly IGWContext Context;
         public RoleManager<Role> RoleManager;
+        private UserManager<User> UserManager;
 
         public GetRolesByUserIdQueryHandler(
             IGWContext context,
             IMapper mapper,
-            RoleManager<Role> roleManager)
+            RoleManager<Role> roleManager,
+            UserManager<User> userManager)
         {
             Context = context;
             Mapper = mapper;
             RoleManager = roleManager;
+            UserManager = userManager;
         }
 
         public async Task<PagedResult<RoleDto>> Handle(GetRolesByUserIdQuery request, CancellationToken cancellationToken)
@@ -37,13 +40,21 @@ namespace GW.Application.Roles.Queries
             {
                 request.Paging = Defaults.Paging;
             }
-
-            var roles = await RoleManager.Roles
-                .Include(x => x.Users)
-                .Where(x => x.Users.Any(x => x.Id == request.UserId))
+            var user = await UserManager.FindByIdAsync(request.UserId);
+            var rolesNames = await UserManager.GetRolesAsync(user);
+            var roles = await Context.ApplicationRoles
+                .Where(x => rolesNames.Contains(x.Name))
                 .Skip(request.Paging.Skip)
                 .Take(request.Paging.Take)
                 .ToListAsync(cancellationToken);
+
+
+            //var roles = await RoleManager.Roles
+            //    .Where(x => x.Users.Any(x => x.Id == request.UserId))
+            //    .Include(x => x.Users)
+            //    .Skip(request.Paging.Skip)
+            //    .Take(request.Paging.Take)
+            //    .ToListAsync(cancellationToken);
             var total = await Context.ApplicationRoles.CountAsync();
 
             return new PagedResult<RoleDto>
