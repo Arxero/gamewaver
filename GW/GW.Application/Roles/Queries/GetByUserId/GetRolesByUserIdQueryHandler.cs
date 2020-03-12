@@ -48,14 +48,7 @@ namespace GW.Application.Roles.Queries
                 .Take(request.Paging.Take)
                 .ToListAsync(cancellationToken);
 
-
-            //var roles = await RoleManager.Roles
-            //    .Where(x => x.Users.Any(x => x.Id == request.UserId))
-            //    .Include(x => x.Users)
-            //    .Skip(request.Paging.Skip)
-            //    .Take(request.Paging.Take)
-            //    .ToListAsync(cancellationToken);
-            var total = await Context.ApplicationRoles.CountAsync();
+            var total = await Context.ApplicationRoles.Where(x => rolesNames.Contains(x.Name)).CountAsync();
 
             return new PagedResult<RoleDto>
             {

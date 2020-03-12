@@ -12,6 +12,7 @@ using GW.Application.Users.Commands.UpdateUser;
 using GW.Application.Users.Commands.DeleteUser;
 using GW.Domain.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
+using GW.Application.Roles.Queries;
 
 namespace GW.Controllers
 {
@@ -60,6 +61,17 @@ namespace GW.Controllers
         {
             await Mediator.Send(new DeleteUserCommand { Id = id });
             return Ok(new { success = true });
+        }
+
+        [HttpGet("by/{roleId}"), AllowAnonymous]
+        public async Task<IActionResult> GetAllRolesByUserIdAsync(string roleId, [FromQuery] Paging paging)
+        {
+            var query = new GetUsersByRoleQuery
+            {
+                Paging = paging,
+                RoleId = roleId
+            };
+            return Ok(await Mediator.Send(query));
         }
     }
 
