@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Post } from './posts/models';
 import { UsersModule } from './users/users.module';
 import { User } from './users/models';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mariadb',
       host: '127.0.0.1',
@@ -19,10 +20,9 @@ import { User } from './users/models';
       entities: [Post, User],
       synchronize: true,
     }),
-    // forwardRef(() => PostsModule),
-    // forwardRef(() => UsersModule)
     PostsModule,
     UsersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

@@ -1,4 +1,9 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  PrimaryGeneratedColumn,
+  BeforeInsert,
+  BeforeUpdate,
+} from 'typeorm';
 
 export class DataEntity {
   @PrimaryGeneratedColumn()
@@ -9,4 +14,14 @@ export class DataEntity {
 
   @Column()
   updatedAt: Date;
+
+  @BeforeInsert()
+  setCreatedAt() {
+    this.createdAt = new Date(Date.now());
+  }
+
+  @BeforeUpdate()
+  setUpdatedAt() {
+    this.updatedAt = new Date(Date.now());
+  }
 }

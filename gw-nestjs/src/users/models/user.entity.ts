@@ -4,7 +4,7 @@ import { Post } from 'src/posts/models/post.entity';
 
 @Entity({ name: 'users' })
 export class User extends DataEntity {
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 50, unique: true })
   username: string;
 
   @Column({ type: 'varchar', length: 50 })
