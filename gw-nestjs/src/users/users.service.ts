@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { User, UserCreateDto, UserUpdateDto } from './models';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DeepPartial } from 'typeorm';
+import { UserCreateDto, UserUpdateDto } from './models/user.dtos';
+import { User } from './models/user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -9,24 +11,21 @@ export class UsersService {
     @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
 
-  async create(model: UserCreateDto) {
-    const user = new User();
-    user.username = model.username;
-    user.password = model.password;
-    user.email = model.email;
-    return await this.usersRepository.save(user);
+  async create(model: User) {
+    model.password = await bcrypt.hash(model.password, 10);
+    try {
+      return await this.usersRepository.save(model);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   async findAll(): Promise<User[]> {
     return await this.usersRepository.find();
   }
 
-  async findOne(id: string): Promise<User> {
-    return await this.usersRepository.findOne(+id);
-  }
-
-  async findOneByUsername(username: string): Promise<User> {
-    return await this.usersRepository.findOne({ where: [{ username }] });
+  async findOne(params: DeepPartial<User>): Promise<User> {
+    return await this.usersRepository.findOne(params);
   }
 
   async update(id: string, model: UserUpdateDto) {
@@ -35,8 +34,12 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async delete(id: string): Promise<User> {
-    const user = await this.usersRepository.findOne(id);
-    return await this.usersRepository.remove(user);
+  async delete(params: DeepPartial<User>): Promise<User> {
+    const user = await this.usersRepository.findOne(params);
+    try {
+      return await this.usersRepository.remove(user);
+    } catch (error) {
+      throw new NotFoundException(`User with ${params.toString()} not found.`);
+    }
   }
 }

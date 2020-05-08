@@ -11,8 +11,10 @@ import {
 } from '@nestjs/common';
 
 import { PostsService } from './posts.service';
-import { PostCreateDto, PostQuery, Post as PostModel, PostUpdateDto } from './models';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { PostCreateDto, PostUpdateDto } from './models/post.dtos';
+import {Post as PostModel} from './models/post.entity';
+import { PostQuery } from './models/post.query';
 
 @Controller('posts')
 export class PostsController {

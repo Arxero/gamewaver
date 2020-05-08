@@ -14,7 +14,7 @@ export class PostsService {
 
   async create(id: string, model: PostCreateDto) {
     const post = new Post();
-    const user = await this.usersService.findOne(id);
+    const user = await this.usersService.findOne({ id });
     post.content = model.content;
     post.title = model.title;
     post.author = user;

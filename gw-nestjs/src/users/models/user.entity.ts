@@ -1,18 +1,58 @@
 import { Entity, Column, OneToMany } from 'typeorm';
-import { DataEntity } from 'src/models/DataEntity';
+import { DataEntity, IDataEntity } from 'src/models/DataEntity';
 import { Post } from 'src/posts/models/post.entity';
 
+export enum UserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+}
+
+export enum UserStatus {
+  PENDING = 'pending',
+  CONFIRM = 'confirm',
+}
+
+export interface IUser extends IDataEntity {
+  username?: string;
+  email?: string;
+  password?: string;
+  role?: UserRole;
+  status?: UserStatus;
+}
+
 @Entity({ name: 'users' })
-export class User extends DataEntity {
+export class User extends DataEntity implements IUser {
+  constructor(data: IUser) {
+    super();
+    if (!!data) {
+      this.username = data.username;
+      this.email = data.email;
+      this.password = data.password;
+      this.role = data.role;
+      this.status = data.status;
+    }
+  }
+
+
+
   @Column({ type: 'varchar', length: 50, unique: true })
   username: string;
 
   @Column({ type: 'varchar', length: 50 })
   email: string;
 
-  @Column({ type: 'text'})
+  @Column({ type: 'text' })
   password: string;
 
-  @OneToMany(() => Post, post => post.author)
+  @Column() 
+  role: UserRole;
+
+  @Column() 
+  status: UserStatus;
+
+  @OneToMany(
+    () => Post,
+    post => post.author,
+  )
   posts: Post[];
 }

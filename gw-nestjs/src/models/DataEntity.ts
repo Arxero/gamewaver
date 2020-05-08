@@ -5,9 +5,15 @@ import {
   BeforeUpdate,
 } from 'typeorm';
 
-export class DataEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+export interface IDataEntity {
+  id?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export class DataEntity implements IDataEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   createdAt: Date;
@@ -18,6 +24,7 @@ export class DataEntity {
   @BeforeInsert()
   setCreatedAt() {
     this.createdAt = new Date(Date.now());
+    this.updatedAt = new Date(Date.now());
   }
 
   @BeforeUpdate()

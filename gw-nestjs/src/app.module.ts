@@ -2,10 +2,10 @@ import { Module, forwardRef } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PostsModule } from './posts/posts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Post } from './posts/models';
 import { UsersModule } from './users/users.module';
-import { User } from './users/models';
 import { AuthModule } from './auth/auth.module';
+import { User } from './users/models/user.entity';
+import { Post } from './posts/models/post.entity';
 
 @Module({
   imports: [
@@ -21,8 +21,8 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true,
     }),
     PostsModule,
-    UsersModule,
     AuthModule,
+    UsersModule,
   ],
 })
 export class AppModule {}
