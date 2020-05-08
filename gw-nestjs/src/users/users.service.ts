@@ -12,7 +12,7 @@ export class UsersService {
   ) {}
 
   async create(model: User) {
-    model.password = await bcrypt.hash(model.password, 10);
+    model.password = await bcrypt.hash(model.password, 12);
     try {
       return await this.usersRepository.save(model);
     } catch (error) {

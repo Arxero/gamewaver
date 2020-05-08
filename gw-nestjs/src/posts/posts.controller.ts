@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 
 import { PostsService } from './posts.service';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { PostCreateDto, PostUpdateDto } from './models/post.dtos';
 import {Post as PostModel} from './models/post.entity';
 import { PostQuery } from './models/post.query';
@@ -25,7 +25,7 @@ export class PostsController {
     return this.postsService.create(id, createModel);
   }
 
-  @ UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(@Query() query: PostQuery): Promise<PostModel[]> {
     return this.postsService.findAll();
