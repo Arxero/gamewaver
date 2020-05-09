@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User, UserRole, UserStatus } from 'src/users/models/user.entity';
@@ -8,6 +8,7 @@ import { TokenUserPayloadDto } from './models/dto/token-user-payload.dto';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
+import { ChangePasswordCmd } from './models/cmd/change-password.cmd';
 
 @Injectable()
 export class AuthService {

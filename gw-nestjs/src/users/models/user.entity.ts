@@ -25,6 +25,7 @@ export class User extends DataEntity implements IUser {
   constructor(data: IUser) {
     super();
     if (!!data) {
+      this.id = data.id;
       this.username = data.username;
       this.email = data.email;
       this.password = data.password;
@@ -35,10 +36,10 @@ export class User extends DataEntity implements IUser {
 
 
 
-  @Column({ type: 'varchar', length: 50, unique: true })
+  @Column({ type: 'varchar', length: 30, unique: true })
   username: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 30, unique: true })
   email: string;
 
   @Column({ type: 'text' })
