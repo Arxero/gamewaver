@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User, UserRole, UserStatus } from 'src/users/models/user.entity';
@@ -42,7 +42,7 @@ export class AuthService {
     return this.createToken(user);
   }
 
-  createToken(signedUser: User) {
+  createToken(signedUser: User): TokenDto {
     console.log('generating token...');
     const expiresIn = +this.configService.get<number>('JWT_EXPIRATION');
     const user = new TokenUserPayloadDto(signedUser);
@@ -51,5 +51,19 @@ export class AuthService {
       expiresIn,
       accessToken: this.jwtService.sign(userPOJO, { expiresIn }),
     });
+  }
+
+   createPasswordResetToken(user: User): TokenDto {
+    const expiresIn = +this.configService.get<number>('JWT_EXPIRATION');
+    const tokenUser = new TokenUserPayloadDto(user);
+    const userPOJO = JSON.parse(JSON.stringify(tokenUser));
+    return new TokenDto({
+      expiresIn,
+      accessToken: this.jwtService.sign(userPOJO, { expiresIn }),
+    });
+  }
+
+  async verifyToken(token: string) {
+    return await this.jwtService.verifyAsync(token);
   }
 }
