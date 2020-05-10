@@ -23,6 +23,8 @@ import { GetProfileDto } from './models/dto/get-profile.dto';
 import { ChangePasswordDto } from './models/dto/change-password-dto';
 import { ChangePasswordCmd } from './models/cmd/change-password.cmd';
 import { ConfigService } from '@nestjs/config';
+import { ResetPasswordCmd } from './models/cmd/reset-password.cmd';
+import { ResetPasswordDto } from './models/dto/reset-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -60,13 +62,16 @@ export class AuthController {
     return new ChangePasswordDto(updatedPasswordResult);
   }
 
+  //this generate token and send the email with it, for user to click
   @Get('forgot-password/:email')
-  async resetPassword(@Param('email') email: string): Promise<TokenDto> {
-    //this generate token and send the email with it, for user to click
+  async forgotPassword(
+    @Param('email') email: string,
+  ): Promise<ResetPasswordDto> {
     const user = await this.usersService.findOne({ email });
-    return this.authService.createPasswordResetToken(user);
+    return this.authService.sendEmailPasswordReset(user);
   }
 
+  //this get activated after user click on the link from the email
   @Get('verify/:token')
   async verifyToken(
     @Param('token') token: string,
@@ -76,6 +81,24 @@ export class AuthController {
       await this.authService.verifyToken(token);
       const link = `${this.configService.get<string>('WEB')}/token/${token}`;
       return res.redirect(link + token);
+    } catch (error) {
+      throw new BadRequestException(`Invalid token.`);
+    }
+  }
+
+  //this will take the payload with the new password and token
+  @Post('reset-password')
+  @HttpCode(200)
+  async resetPassword(
+    @Body() model: ResetPasswordCmd,
+  ): Promise<ChangePasswordDto> {
+    try {
+      const decoded = await this.authService.verifyToken(model.token);
+      const resetPasswordResult = await this.usersService.resetPassword(
+        decoded.id,
+        model.password,
+      );
+      return new ChangePasswordDto(resetPasswordResult);
     } catch (error) {
       throw new BadRequestException(`Invalid token.`);
     }

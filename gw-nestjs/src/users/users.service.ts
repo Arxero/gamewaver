@@ -4,6 +4,7 @@ import { Repository, DeepPartial } from 'typeorm';
 import { UserCreateDto, UserUpdateDto } from './models/user.dtos';
 import { User } from './models/user.entity';
 import * as bcrypt from 'bcrypt';
+import * as nodemailer from 'nodemailer';
 import { ChangePasswordCmd } from 'src/auth/models/cmd/change-password.cmd';
 
 @Injectable()
@@ -62,6 +63,24 @@ export class UsersService {
 
     await this.usersRepository.save(user);
     return new Promise(res => res('Success'));
+  }
+
+  async resetPassword(id: string, password: string): Promise<string> {
+    let user: User;
+    try {
+      user = await this.usersRepository.findOne(id);
+    } catch (error) {
+      throw new NotFoundException(`No user was found.`);
+    }
+
+    try {
+      user.password = await bcrypt.hash(password, this.hashRounds);
+    } catch (error) {
+      throw new InternalServerErrorException(`An error occured during password hashing: ${error.toString()}`);
+    }   
+
+    await this.usersRepository.save(user);
+    return new Promise(res => res(`Password for user ${user.username} has been changed successfully.`));
   }
 
   async delete(params: DeepPartial<User>): Promise<User> {
