@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToOne } from 'typeorm';
-import { DataEntity } from 'src/models/DataEntity';
+import { DataEntity } from 'src/common/models/DataEntity';
 import { User } from 'src/users/models/user.entity';
 
 @Entity({ name: 'posts' })

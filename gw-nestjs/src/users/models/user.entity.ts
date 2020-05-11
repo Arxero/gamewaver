@@ -1,5 +1,5 @@
 import { Entity, Column, OneToMany } from 'typeorm';
-import { DataEntity, IDataEntity } from 'src/models/DataEntity';
+import { DataEntity, IDataEntity } from 'src/common/models/DataEntity';
 import { Post } from 'src/posts/models/post.entity';
 
 export enum UserRole {

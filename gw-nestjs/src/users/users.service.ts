@@ -1,11 +1,18 @@
-import { Injectable, BadRequestException, NotFoundException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
-import { UserCreateDto, UserUpdateDto } from './models/user.dtos';
 import { User } from './models/user.entity';
 import * as bcrypt from 'bcrypt';
 import * as nodemailer from 'nodemailer';
 import { ChangePasswordCmd } from 'src/auth/models/cmd/change-password.cmd';
+import { UpdateUserCmd } from './models/cmd/update-user.cmd';
+import { ResponseError } from 'src/common/models/dto/response.dto';
 
 @Injectable()
 export class UsersService {
@@ -15,12 +22,12 @@ export class UsersService {
     @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
 
-  async create(model: User) {
-    model.password = await bcrypt.hash(model.password, this.hashRounds);
+  async create(payload: User) {
+    payload.password = await bcrypt.hash(payload.password, this.hashRounds);
     try {
-      return await this.usersRepository.save(model);
+      return await this.usersRepository.save(payload);
     } catch (error) {
-      throw new BadRequestException(error);
+      throw new BadRequestException(error.toString());
     }
   }
 
@@ -29,13 +36,27 @@ export class UsersService {
   }
 
   async findOne(params: DeepPartial<User>): Promise<User> {
-    return await this.usersRepository.findOne(params);
+    let user: User;
+    try {
+      user = await this.usersRepository.findOne(params);
+    } catch (error) {
+      throw new InternalServerErrorException(error.toString());
+    }
+    if (!user)
+      throw new NotFoundException(new ResponseError(params, 'Not Found'));
+    return user;
   }
 
-  async update(id: string, model: UserUpdateDto) {
-    const user = await this.usersRepository.findOne(id);
-    user.email = model.email;
-    return await this.usersRepository.save(user);
+  async update(id: string, payload: User) {
+    const user = await this.findOne({ id });
+    user.email = payload.email;
+    user.role = payload.role;
+    user.status = payload.status;
+    try {
+      return await this.usersRepository.save(user);
+    } catch (error) {
+      throw new InternalServerErrorException(error.toString());
+    }
   }
 
   async updatePassword(cmd: ChangePasswordCmd): Promise<string> {
@@ -50,19 +71,27 @@ export class UsersService {
     try {
       isPasswordValid = await bcrypt.compare(cmd.oldPassword, user.password);
     } catch (error) {
-      throw new InternalServerErrorException(`An error occured during password comparison: ${error.toString()}`);
+      throw new InternalServerErrorException(
+        `An error occured during password comparison: ${error.toString()}`,
+      );
     }
-    if (!isPasswordValid) throw new UnauthorizedException(`Invalid password for user ${user.username} (${user.email}).`);
-    if (!cmd.newPassword) throw new BadRequestException(`Invalid value for new password.`);
+    if (!isPasswordValid)
+      throw new UnauthorizedException(
+        `Invalid password for user ${user.username} (${user.email}).`,
+      );
+    if (!cmd.newPassword)
+      throw new BadRequestException(`Invalid value for new password.`);
 
     try {
       user.password = await bcrypt.hash(cmd.newPassword, this.hashRounds);
     } catch (error) {
-      throw new InternalServerErrorException(`An error occured during password hashing: ${error.toString()}`);
-    }   
+      throw new InternalServerErrorException(
+        `An error occured during password hashing: ${error.toString()}`,
+      );
+    }
 
     await this.usersRepository.save(user);
-    return new Promise(res => res('Success'));
+    return Promise.resolve('Success');
   }
 
   async resetPassword(id: string, password: string): Promise<string> {
@@ -76,19 +105,23 @@ export class UsersService {
     try {
       user.password = await bcrypt.hash(password, this.hashRounds);
     } catch (error) {
-      throw new InternalServerErrorException(`An error occured during password hashing: ${error.toString()}`);
-    }   
+      throw new InternalServerErrorException(
+        `An error occured during password hashing: ${error.toString()}`,
+      );
+    }
 
     await this.usersRepository.save(user);
-    return new Promise(res => res(`Password for user ${user.username} has been changed successfully.`));
+    return Promise.resolve(
+      `Password for user ${user.username} has been changed successfully.`,
+    );
   }
 
   async delete(params: DeepPartial<User>): Promise<User> {
-    const user = await this.usersRepository.findOne(params);
+    const user = await this.findOne(params);
     try {
       return await this.usersRepository.remove(user);
     } catch (error) {
-      throw new NotFoundException(`User with ${params.toString()} not found.`);
+      throw new InternalServerErrorException(error.toString());
     }
   }
 }
