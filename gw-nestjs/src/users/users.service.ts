@@ -12,7 +12,11 @@ import * as bcrypt from 'bcrypt';
 import * as nodemailer from 'nodemailer';
 import { ChangePasswordCmd } from 'src/auth/models/cmd/change-password.cmd';
 import { UpdateUserCmd } from './models/cmd/update-user.cmd';
-import { ResponseError } from 'src/common/models/dto/response.dto';
+import { ResponseError } from 'src/common/models/response';
+import { UserQuery } from './models/user.query';
+import { PagedData } from 'src/common/models/paged-data';
+import { GetUserDto } from './models/user.dtos';
+import { QueryRequest } from 'src/common/models/query-request';
 
 @Injectable()
 export class UsersService {
@@ -31,8 +35,17 @@ export class UsersService {
     }
   }
 
-  async findAll(): Promise<User[]> {
-    return await this.usersRepository.find();
+  async findAll(query: QueryRequest): Promise<PagedData<GetUserDto>> {
+    const result = await this.usersRepository
+      .createQueryBuilder('users')
+      .orderBy('createdAt', 'ASC')
+      .skip(query.paging.skip)
+      .take(query.paging.take)
+      .getManyAndCount();
+    return new PagedData<GetUserDto>(
+      result[0].map(x => new GetUserDto(x)),
+      result[1],
+    );
   }
 
   async findOne(params: DeepPartial<User>): Promise<User> {
@@ -43,7 +56,7 @@ export class UsersService {
       throw new InternalServerErrorException(error.toString());
     }
     if (!user)
-      throw new NotFoundException(new ResponseError(params, 'Not Found'));
+      throw new NotFoundException(new ResponseError({ message: 'Not Found' }));
     return user;
   }
 

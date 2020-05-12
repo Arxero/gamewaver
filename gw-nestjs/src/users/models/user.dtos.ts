@@ -18,16 +18,19 @@ export class GetUserDto {
     this.status = data.status;
     this.createdAt = data.createdAt;
     this.updatedAt = data.updatedAt;
+    this.avatar = data.avatar;
+    this.username = data.username;
+
   }
   
   id: string;
   email: string;
-  firstname: string;
-  lastname: string;
+  username: string;
   role: UserRole;
   status: UserStatus;
   createdAt?: Date;
   updatedAt?: Date;
+  avatar: string;
 }
 
 

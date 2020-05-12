@@ -1,5 +1,5 @@
 import { Entity, Column, OneToMany } from 'typeorm';
-import { DataEntity, IDataEntity } from 'src/common/models/DataEntity';
+import { DataEntity, IDataEntity } from 'src/common/models/data-entity';
 import { Post } from 'src/posts/models/post.entity';
 
 export enum UserRole {
@@ -18,6 +18,7 @@ export interface IUser extends IDataEntity {
   password?: string;
   role?: UserRole;
   status?: UserStatus;
+  avatar?: string;
 }
 
 @Entity({ name: 'users' })
@@ -31,6 +32,7 @@ export class User extends DataEntity implements IUser {
       this.password = data.password;
       this.role = data.role;
       this.status = data.status;
+      this.avatar = data.avatar;
     }
   }
 
@@ -50,6 +52,9 @@ export class User extends DataEntity implements IUser {
 
   @Column() 
   status: UserStatus;
+
+  @Column() 
+  avatar: string;
 
   @OneToMany(
     () => Post,
