@@ -40,6 +40,9 @@ export class AuthController {
     private configService: ConfigService,
   ) {}
 
+  private webLink = `${this.configService.get<string>('web.url')}
+  :${this.configService.get<string>('web.port')}/`;
+
   @Post('signup')
   async signUp(@Body() user: SignUpCmd): Promise<SentEmailDto> {
     return await this.authService.signUp(new User(user));
@@ -61,9 +64,7 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Patch('change-password')
-  async changePassword(
-    @Body() cmd: ChangePasswordCmd,
-  ): Promise<IResponse> {
+  async changePassword(@Body() cmd: ChangePasswordCmd): Promise<IResponse> {
     const updatedPasswordResult = await this.usersService.updatePassword(cmd);
     return new ResponseSuccess(null, updatedPasswordResult);
   }
@@ -83,8 +84,7 @@ export class AuthController {
   ): Promise<IResponse> {
     try {
       await this.authService.verifyToken(token);
-      const link = `${this.configService.get<string>('WEB')}/token/${token}`;
-      return res.redirect(link);
+      return res.redirect(this.webLink + `token/${token}`);
     } catch (error) {
       throw new BadRequestException(new ResponseError(null, `Invalid token.`));
     }
@@ -117,8 +117,7 @@ export class AuthController {
         decoded.id,
         new User({ status: UserStatus.CONFIRM }),
       );
-      const link = `${this.configService.get<string>('WEB')}/login`;
-      return res.redirect(link);
+      return res.redirect(this.webLink + 'login');
     } catch (error) {
       throw new BadRequestException(`Invalid token.`);
     }

@@ -1,24 +1,29 @@
 import { Module, forwardRef } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PostsModule } from './posts/posts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/models/user.entity';
 import { Post } from './posts/models/post.entity';
+import configuration from './config/configuration';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRoot({
-      type: 'mariadb',
-      host: '127.0.0.1',
-      port: 3306,
-      username: 'root',
-      password: 'asdasd',
-      database: 'nestjs-typeorm',
-      entities: [Post, User],
-      synchronize: true,
+    ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mariadb',
+        host: configService.get<string>('db.host'),
+        port: configService.get<number>('db.port'),
+        username: configService.get<string>('db.username'),
+        password: configService.get<string>('db.password'),
+        database: configService.get<string>('db.database'),
+        entities: [Post, User],
+        synchronize: true,
+      }),
+      inject: [ConfigService],
     }),
     PostsModule,
     AuthModule,

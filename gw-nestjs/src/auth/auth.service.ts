@@ -52,7 +52,7 @@ export class AuthService {
 
   private createToken(signedUser: User): TokenDto {
     // console.log('generating token...');
-    const expiresIn = +this.configService.get<number>('JWT_EXPIRATION');
+    const expiresIn = this.configService.get<number>('jwt.expiration');
     const user = new TokenUserPayloadDto(signedUser);
     const userPOJO = JSON.parse(JSON.stringify(user));
     return new TokenDto({
@@ -88,12 +88,12 @@ export class AuthService {
 
   private createTransporter(): Mail {
     return nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true, // true for 465, false for other ports
+      host: this.configService.get<string>('mail.host'),
+      port: this.configService.get<number>('mail.port'),
+      secure: this.configService.get<boolean>('mail.secure'),
       auth: {
-        user: 'stanislav.ganev93@gmail.com', // generated ethereal user
-        pass: '', // generated ethereal password
+        user: this.configService.get<string>('mail.user'),
+        pass: this.configService.get<string>('mail.pass'),
       },
     });
   }

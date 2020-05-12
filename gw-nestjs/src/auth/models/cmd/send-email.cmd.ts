@@ -1,5 +1,7 @@
 import { Options } from 'nodemailer/lib/mailer';
 import { User } from 'src/users/models/user.entity';
+import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
 
 export enum TypeEmail {
   UNKNOWN = 'unknown',
