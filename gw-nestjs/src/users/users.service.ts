@@ -35,16 +35,24 @@ export class UsersService {
     }
   }
 
-  async findAll(query: QueryRequest): Promise<PagedData<GetUserDto>> {
-    const result = await this.usersRepository
-      .createQueryBuilder('users')
-      .orderBy('createdAt', 'ASC')
-      .skip(query.paging.skip)
-      .take(query.paging.take)
+  async findAll(queryRequest?: QueryRequest): Promise<PagedData<GetUserDto>> {
+    const query = this.usersRepository.createQueryBuilder('users');
+    queryRequest.sorting?.forEach(x =>
+      query.addOrderBy(x.propertyName, x.sortDirectionDb),
+    );
+
+    queryRequest.filters?.forEach(x => {
+      query.where(`${x.fieldName} ${x.searchOperator} :${x.fieldName}`, { [x.fieldName]: x.searchValue});
+    });
+
+    const [items, total] = await query
+      .skip(queryRequest.paging.skip)
+      .take(queryRequest.paging.take)
       .getManyAndCount();
+
     return new PagedData<GetUserDto>(
-      result[0].map(x => new GetUserDto(x)),
-      result[1],
+      items.map(x => new GetUserDto(x)),
+      total,
     );
   }
 

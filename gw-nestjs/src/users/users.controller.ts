@@ -22,7 +22,7 @@ import {
 } from 'src/common/models/response';
 import { GetUserDto } from './models/user.dtos';
 import { PagedData } from 'src/common/models/paged-data';
-import { QueryRequest } from 'src/common/models/query-request';
+import { QueryRequest, QueryParams } from 'src/common/models/query-request';
 
 @Controller('users')
 export class UsersController {
@@ -31,8 +31,11 @@ export class UsersController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   @SetMetadata('roles', ['admin'])
-  async findAll(@Query() query: QueryRequest): Promise<IResponseBase> {
-    const result = await this.usersService.findAll(query);
+  async findAll(@Query() queryParams: QueryParams): Promise<IResponseBase> {
+    // console.log(queryParams);
+    const queryRequest = new QueryRequest(queryParams);
+    // console.log(queryRequest);
+    const result = await this.usersService.findAll(queryRequest);
     return new ResponseSuccess<PagedData<GetUserDto>>({ result });
   }
 
