@@ -28,13 +28,11 @@ import { QueryRequest, QueryParams } from 'src/common/models/query-request';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   @SetMetadata('roles', ['admin'])
   async findAll(@Query() queryParams: QueryParams): Promise<IResponseBase> {
-    // console.log(queryParams);
     const queryRequest = new QueryRequest(queryParams);
-    // console.log(queryRequest);
     const result = await this.usersService.findAll(queryRequest);
     return new ResponseSuccess<PagedData<GetUserDto>>({ result });
   }

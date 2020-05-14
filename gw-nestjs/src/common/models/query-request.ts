@@ -14,7 +14,7 @@ export class QueryRequest {
   constructor(data: QueryParams) {
     const paging = new Paging(+data.skip, +data.take);
     this.paging = paging.isValid() ? paging : Defaults.Paging;
-    this.sorting = data.sort?.split(',').map(x => new Sorting(x));
+    this.sorting = new Sorting(data.sort);
 
     if (!data.filters) {
       return;
@@ -24,9 +24,15 @@ export class QueryRequest {
       const sv = Object.values(data.filters[x])[0];
       return new DataFiler(x, so, sv);
     });
+
+    this.filters.forEach(x => {
+      this.filter[x.fieldName] = x.filter;
+    });
+
   }
 
   paging: Paging;
-  sorting: Sorting[];
+  sorting: Sorting;
   filters: DataFiler[];
+  filter: { [key: string]: any } = {};
 }

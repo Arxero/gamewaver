@@ -9,11 +9,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { User } from './models/user.entity';
 import * as bcrypt from 'bcrypt';
-import * as nodemailer from 'nodemailer';
 import { ChangePasswordCmd } from 'src/auth/models/cmd/change-password.cmd';
-import { UpdateUserCmd } from './models/cmd/update-user.cmd';
 import { ResponseError } from 'src/common/models/response';
-import { UserQuery } from './models/user.query';
 import { PagedData } from 'src/common/models/paged-data';
 import { GetUserDto } from './models/user.dtos';
 import { QueryRequest } from 'src/common/models/query-request';
@@ -35,20 +32,13 @@ export class UsersService {
     }
   }
 
-  async findAll(queryRequest?: QueryRequest): Promise<PagedData<GetUserDto>> {
-    const query = this.usersRepository.createQueryBuilder('users');
-    queryRequest.sorting?.forEach(x =>
-      query.addOrderBy(x.propertyName, x.sortDirectionDb),
-    );
-
-    queryRequest.filters?.forEach(x => {
-      query.where(`${x.fieldName} ${x.searchOperator} :${x.fieldName}`, { [x.fieldName]: x.searchValue});
+  async findAll(queryRequest: QueryRequest): Promise<PagedData<GetUserDto>> {
+    const [items, total] = await this.usersRepository.findAndCount({
+      order: queryRequest.sorting.order,
+      where: queryRequest.filter,
+      skip: queryRequest.paging.skip,
+      take: queryRequest.paging.take
     });
-
-    const [items, total] = await query
-      .skip(queryRequest.paging.skip)
-      .take(queryRequest.paging.take)
-      .getManyAndCount();
 
     return new PagedData<GetUserDto>(
       items.map(x => new GetUserDto(x)),
