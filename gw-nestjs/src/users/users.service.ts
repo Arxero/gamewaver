@@ -12,7 +12,7 @@ import * as bcrypt from 'bcrypt';
 import { ChangePasswordCmd } from 'src/auth/models/cmd/change-password.cmd';
 import { ResponseError } from 'src/common/models/response';
 import { PagedData } from 'src/common/models/paged-data';
-import { GetUserDto } from './models/user.dtos';
+import { GetUserDto } from "./models/dto/get-user.dto";
 import { QueryRequest } from 'src/common/models/query-request';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class UsersService {
     @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
 
-  async create(payload: User) {
+  async create(payload: User): Promise<User> {
     payload.password = await bcrypt.hash(payload.password, this.hashRounds);
     try {
       return await this.usersRepository.save(payload);

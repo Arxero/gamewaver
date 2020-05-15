@@ -1,6 +1,7 @@
 import { Entity, Column, OneToMany } from 'typeorm';
 import { DataEntity, IDataEntity } from 'src/common/models/data-entity';
 import { Post } from 'src/posts/models/post.entity';
+import { Comment } from 'src/comments/models/comment.entity';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -36,8 +37,6 @@ export class User extends DataEntity implements IUser {
     }
   }
 
-
-
   @Column({ type: 'varchar', length: 30, unique: true })
   username: string;
 
@@ -47,13 +46,13 @@ export class User extends DataEntity implements IUser {
   @Column({ type: 'text' })
   password: string;
 
-  @Column() 
+  @Column()
   role: UserRole;
 
-  @Column() 
+  @Column()
   status: UserStatus;
 
-  @Column() 
+  @Column()
   avatar: string;
 
   @OneToMany(
@@ -61,4 +60,10 @@ export class User extends DataEntity implements IUser {
     post => post.author,
   )
   posts: Post[];
+
+  @OneToMany(
+    () => Comment,
+    comment => comment.author,
+  )
+  comments: Comment[];
 }

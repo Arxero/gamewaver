@@ -1,5 +1,7 @@
 import { IDataEntity, DataEntity } from 'src/common/models/data-entity';
-import { Entity, Column, OneToMany } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
+import { User } from 'src/users/models/user.entity';
+import { Post } from 'src/posts/models/post.entity';
 
 export interface IComment extends IDataEntity {
   content: string;
@@ -18,4 +20,10 @@ export class Comment extends DataEntity implements IComment {
 
   @Column({ type: 'varchar', length: 1000 })
   content: string;
+
+  @ManyToOne(() => User, author => author.posts)
+  author: User;
+
+  @ManyToOne(() => Post, post => post.comments)
+  post: Post;
 }
