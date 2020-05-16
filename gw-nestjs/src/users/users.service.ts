@@ -4,24 +4,31 @@ import {
   NotFoundException,
   InternalServerErrorException,
   UnauthorizedException,
+  Inject,
+  ForbiddenException,
+  Scope,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
-import { User } from './models/user.entity';
+import { User, UserRole } from './models/user.entity';
 import * as bcrypt from 'bcrypt';
 import { ChangePasswordCmd } from 'src/auth/models/cmd/change-password.cmd';
 import { ResponseError } from 'src/common/models/response';
 import { PagedData } from 'src/common/models/paged-data';
-import { GetUserDto } from "./models/dto/get-user.dto";
+import { GetUserDto } from './models/dto/get-user.dto';
 import { QueryRequest } from 'src/common/models/query-request';
+import { REQUEST } from '@nestjs/core';
+import { Request } from 'express';
+import { TokenUserPayloadDto } from 'src/auth/models/dto/token-user-payload.dto';
 
 @Injectable()
 export class UsersService {
-  hashRounds = 12;
-
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
-  ) {}
+  ) // @Inject(REQUEST) private request: Request,
+  {}
+
+  private hashRounds = 12;
 
   async create(payload: User): Promise<User> {
     payload.password = await bcrypt.hash(payload.password, this.hashRounds);
@@ -37,7 +44,7 @@ export class UsersService {
       order: queryRequest.sorting.order,
       where: queryRequest.filter,
       skip: queryRequest.paging.skip,
-      take: queryRequest.paging.take
+      take: queryRequest.paging.take,
     });
 
     return new PagedData<GetUserDto>(
@@ -58,8 +65,11 @@ export class UsersService {
     return user;
   }
 
-  async update(id: string, payload: User) {
+  async update(id: string, payload: User, request?) {
     const user = await this.findOne({ id });
+    if (request) {
+      this.authorize(user, request);
+    }
     user.email = payload.email;
     user.role = payload.role;
     user.status = payload.status;
@@ -127,12 +137,20 @@ export class UsersService {
     );
   }
 
-  async delete(params: DeepPartial<User>): Promise<User> {
+  async delete(params: DeepPartial<User>, request): Promise<User> {
     const user = await this.findOne(params);
+    this.authorize(user, request);
     try {
       return await this.usersRepository.remove(user);
     } catch (error) {
       throw new InternalServerErrorException(error.toString());
+    }
+  }
+
+  private authorize(entity: User, request) {
+    const tokenUser = new TokenUserPayloadDto(request.user);
+    if (tokenUser.id !== entity.id && tokenUser.role !== UserRole.ADMIN) {
+      throw new ForbiddenException();
     }
   }
 }

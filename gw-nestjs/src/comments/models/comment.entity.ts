@@ -11,8 +11,7 @@ export interface IComment extends IDataEntity {
 export class Comment extends DataEntity implements IComment {
   constructor(data: IComment) {
     super();
-
-    if (!!data) {
+    if (data) {
       this.id = data.id;
       this.content = data.content;
     }

@@ -11,6 +11,7 @@ import Mail = require('nodemailer/lib/mailer');
 import { SendEmailCmd, TypeEmail } from './models/cmd/send-email.cmd';
 import { AuthJwtService } from './auth-jwt.service';
 
+
 @Injectable()
 export class AuthService {
   constructor(

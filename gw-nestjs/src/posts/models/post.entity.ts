@@ -3,17 +3,19 @@ import { Comment } from 'src/comments/models/comment.entity';
 import { DataEntity, IDataEntity } from 'src/common/models/data-entity';
 import { User } from 'src/users/models/user.entity';
 
+
 export interface IPost extends IDataEntity {
   content: string;
   title: string;
   isPublished: boolean;
+  author?: User;
 }
 
 @Entity({ name: 'posts' })
 export class Post extends DataEntity implements IPost {
   constructor(data: IPost) {
     super();
-    if (!!data) {
+    if (data) {
       this.id = data.id;
       this.content = data.content;
       this.title = data.title;

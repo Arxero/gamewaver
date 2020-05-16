@@ -8,11 +8,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './passport/jwt.strategy';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import { AuthJwtService } from './auth-jwt.service';
+import { UsersService } from 'src/users/users.service';
 
 @Module({
   imports: [
-    forwardRef(() => UsersModule),
-    // UsersModule,
+    // forwardRef(() => UsersModule),
+    UsersModule,
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],

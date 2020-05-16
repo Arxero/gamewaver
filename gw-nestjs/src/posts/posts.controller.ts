@@ -22,6 +22,7 @@ import { QueryParams, QueryRequest } from 'src/common/models/query-request';
 import { PagedData } from 'src/common/models/paged-data';
 import { GetPostDto } from './models/dto/get-post.dto';
 import { UpdatePostCmd } from './models/cmd/update-post.cmd';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
 @Controller('posts')
 export class PostsController {
@@ -30,13 +31,10 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(
-    @Req() req,
     @Body() createModel: CreatePostCmd,
   ): Promise<IResponseBase> {
-    const post = new PostModel(createModel);
-    post.author = req.user.id;
-    const result = await this.postsService.create(post);
-    return new ResponseSuccess<PostModel>({ result });
+    const result = await this.postsService.create(new PostModel(createModel));
+    return new ResponseSuccess<GetPostDto>({ result: new GetPostDto(result) });
   }
 
   @Get()
@@ -52,22 +50,25 @@ export class PostsController {
     return new ResponseSuccess<GetPostDto>({ result });
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
-  @SetMetadata('roles', ['admin'])
+  @Roles('admin')
   async update(
     @Param('id') id: string,
     @Body() updateModel: UpdatePostCmd,
   ): Promise<IResponseBase> {
-    const user = await this.postsService.update(id, new PostModel(updateModel));
-    return new ResponseSuccess<GetPostDto>({ result: new GetPostDto(user) });
+    const result = await this.postsService.update(
+      id,
+      new PostModel(updateModel),
+    );
+    return new ResponseSuccess<GetPostDto>({ result: new GetPostDto(result) });
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  @SetMetadata('roles', ['admin'])
+  @Roles('admin')
   async delete(@Param('id') id: string): Promise<IResponseBase> {
-    const post = await this.postsService.delete({ id });
-    return new ResponseSuccess<GetPostDto>({ result: new GetPostDto(post) });
+    const result = await this.postsService.delete({ id });
+    return new ResponseSuccess<GetPostDto>({ result: new GetPostDto(result) });
   }
 }

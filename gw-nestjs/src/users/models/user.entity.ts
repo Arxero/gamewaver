@@ -26,7 +26,7 @@ export interface IUser extends IDataEntity {
 export class User extends DataEntity implements IUser {
   constructor(data: IUser) {
     super();
-    if (!!data) {
+    if (data) {
       this.id = data.id;
       this.username = data.username;
       this.email = data.email;
