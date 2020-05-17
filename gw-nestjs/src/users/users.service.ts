@@ -25,7 +25,8 @@ import { TokenUserPayloadDto } from 'src/auth/models/dto/token-user-payload.dto'
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
-  ) // @Inject(REQUEST) private request: Request,
+    //@Inject(REQUEST) private request: Request,
+    )
   {}
 
   private hashRounds = 12;

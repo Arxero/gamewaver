@@ -30,7 +30,11 @@ import {
 } from 'src/common/models/response';
 import { TypeEmail } from './models/cmd/send-email.cmd';
 import { AuthJwtService } from './auth-jwt.service';
+import { LoginCmd } from './models/cmd/login.cmd';
+import { ApiBody, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Auth')
+@ApiBearerAuth()
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -49,7 +53,9 @@ export class AuthController {
   }
 
   @UseGuards(LocalAuthGuard)
+  
   @Post('login')
+  @ApiBody({ type: LoginCmd })
   @HttpCode(200)
   async login(@Request() req) {
     return this.authService.login(new User(req.user));
@@ -58,7 +64,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   async getProfile(@Request() req): Promise<IResponseBase> {
-    const user = await this.usersService.findOne({ id: req.user.sub });
+    const user = await this.usersService.findOne({ id: req.user.id });
     return new ResponseSuccess<GetProfileDto>({
       result: new GetProfileDto(user),
     });

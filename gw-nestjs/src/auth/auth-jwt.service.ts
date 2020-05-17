@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { ConfigService } from '@nestjs/config';
@@ -6,7 +6,8 @@ import { User } from 'src/users/models/user.entity';
 import * as bcrypt from 'bcrypt';
 import { TokenDto } from './models/dto/token.dto';
 import { TokenUserPayloadDto } from './models/dto/token-user-payload.dto';
-
+import { REQUEST } from '@nestjs/core';
+import { Request } from 'express';
 
 @Injectable()
 export class AuthJwtService {
@@ -14,6 +15,7 @@ export class AuthJwtService {
     private usersService: UsersService,
     private configService: ConfigService,
     private jwtService: JwtService,
+    // @Inject(REQUEST) private request: Request
   ) {}
 
   async validateUser(username: string, pass: string): Promise<User> {

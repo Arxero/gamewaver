@@ -26,7 +26,7 @@ export class Post extends DataEntity implements IPost {
   @Column({ type: 'varchar', length: 5000 })
   content: string;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 100 })
   title: string;
 
   @Column({ default: false })

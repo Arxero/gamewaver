@@ -1,5 +1,6 @@
 import { IPost } from '../post.entity';
-import { IsNotEmpty, IsString, IsBoolean } from 'class-validator';
+import { IsString, IsBoolean, Length } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdatePostCmd implements IPost {
   constructor(data: IPost) {
@@ -10,14 +11,17 @@ export class UpdatePostCmd implements IPost {
     }
   }
 
-  @IsNotEmpty()
+  @ApiProperty({ minLength: 3, maxLength: 5000 })
   @IsString()
+  @Length(3, 5000)
   content: string;
-
-  @IsNotEmpty()
+  
+  @ApiProperty({ minLength: 3, maxLength: 100 })
   @IsString()
+  @Length(3, 100)
   title: string;
 
+  @ApiProperty()
   @IsBoolean()
   isPublished: boolean;
 }

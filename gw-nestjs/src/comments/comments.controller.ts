@@ -22,7 +22,10 @@ import { PagedData } from 'src/common/models/paged-data';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { CommentUpdateCmd } from './models/cmd/comment-update.cmd';
 import { Roles } from 'src/common/decorators/roles.decorator';
+import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 
+@ApiTags('Comments')
+@ApiBearerAuth()
 @Controller('comments')
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}
@@ -42,6 +45,9 @@ export class CommentsController {
     });
   }
 
+  @ApiQuery({ name: 'sort', description: 'createdAt:desc', required: false })
+  @ApiQuery({ name: 'take', required: false })
+  @ApiQuery({ name: 'skip', required: false })
   @Get()
   async findAll(@Query() queryParams: QueryParams): Promise<IResponseBase> {
     const queryRequest = new QueryRequest(queryParams);
@@ -57,7 +63,7 @@ export class CommentsController {
     return new ResponseSuccess<GetCommentDto>({ result });
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   @Roles('admin')
   async update(

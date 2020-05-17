@@ -23,20 +23,34 @@ import { PagedData } from 'src/common/models/paged-data';
 import { GetPostDto } from './models/dto/get-post.dto';
 import { UpdatePostCmd } from './models/cmd/update-post.cmd';
 import { Roles } from 'src/common/decorators/roles.decorator';
+import {
+  ApiTags,
+  ApiBasicAuth,
+  ApiBearerAuth,
+  ApiQuery,
+} from '@nestjs/swagger';
 
+@ApiTags('Posts')
+@ApiBearerAuth()
 @Controller('posts')
 export class PostsController {
   constructor(private postsService: PostsService) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async create(
-    @Body() createModel: CreatePostCmd,
-  ): Promise<IResponseBase> {
+  async create(@Body() createModel: CreatePostCmd): Promise<IResponseBase> {
     const result = await this.postsService.create(new PostModel(createModel));
     return new ResponseSuccess<GetPostDto>({ result: new GetPostDto(result) });
   }
 
+  @ApiQuery({ name: 'sort', description: 'createdAt:desc', required: false })
+  @ApiQuery({
+    name: 'filters[createdAt][between]',
+    description: 'filters[createdAt][between]=2020-05-09,2020-05-10,date',
+    required: false,
+  })
+  @ApiQuery({ name: 'take', required: false })
+  @ApiQuery({ name: 'skip', required: false })
   @Get()
   async findAll(@Query() queryParams: QueryParams): Promise<IResponseBase> {
     const queryRequest = new QueryRequest(queryParams);

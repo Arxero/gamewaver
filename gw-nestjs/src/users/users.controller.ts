@@ -21,11 +21,17 @@ import { GetUserDto } from './models/dto/get-user.dto';
 import { PagedData } from 'src/common/models/paged-data';
 import { QueryRequest, QueryParams } from 'src/common/models/query-request';
 import { Roles } from 'src/common/decorators/roles.decorator';
+import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 
+@ApiTags('Users')
+@ApiBearerAuth()
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  @ApiQuery({ name: 'sort', description: 'createdAt:desc', required: false })
+  @ApiQuery({ name: 'take', required: false })
+  @ApiQuery({ name: 'skip', required: false })
   @Get()
   async findAll(@Query() queryParams: QueryParams): Promise<IResponseBase> {
     const queryRequest = new QueryRequest(queryParams);

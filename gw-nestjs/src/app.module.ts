@@ -27,9 +27,9 @@ import configuration from './config/configuration';
       }),
       inject: [ConfigService],
     }),
-    PostsModule,
     AuthModule,
     UsersModule,
+    PostsModule,
     CommentsModule,
   ],
 })
