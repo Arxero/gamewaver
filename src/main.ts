@@ -10,6 +10,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get<number>('host.port');
   app.useGlobalPipes(new ValidationPipe());
+  app.enableCors();
 
   const options = new DocumentBuilder()
     .setTitle('Gamewaver API')
