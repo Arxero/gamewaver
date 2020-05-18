@@ -20,8 +20,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prestart:prod": "rimraf dist && npm run build",
-    "postinstall": "npm run prestart:prod",
-    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
+    "postinstall": "npm run prestart:prod"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
