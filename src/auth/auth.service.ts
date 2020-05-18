@@ -45,7 +45,7 @@ export class AuthService {
         token,
       });
     } catch (error) {
-      throw new BadRequestException(`Error sending the email.`);
+      throw new BadRequestException(error.toString(), `Error sending the email.`);
     }
   }
 
