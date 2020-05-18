@@ -1,7 +1,7 @@
 export default () => ({
   host: {
     url: process.env.HOST_URL,
-    port: parseInt(process.env.HOST_PORT, 10) || 8080,
+    port: parseInt(process.env.HOST_PORT, 10) || parseInt(process.env.PORT, 10),
   },
   jwt: {
     secret: process.env.JWT_SECRET,
