@@ -1,8 +1,7 @@
 version: '3.7'
 
 services:
-  gw_app:
-    container_name: gw_app
+  app:
     build:
       context: .
       target: development
@@ -28,10 +27,10 @@ services:
     volumes:
       - gw-db:/var/lib/mariadb
     environment: 
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: gw-local
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
     ports:
-      - 3306:3306
+      - ${DB_PORT}:${DB_PORT}
 volumes:
   gw-db:
     

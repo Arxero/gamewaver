@@ -52,7 +52,7 @@ export class User extends DataEntity implements IUser {
   @Column()
   status: UserStatus;
 
-  @Column()
+  @Column({nullable: true})
   avatar: string;
 
   @OneToMany(

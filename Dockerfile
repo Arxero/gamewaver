@@ -1,7 +1,7 @@
 # https://blog.logrocket.com/containerized-development-nestjs-docker
 
 # Stage 1
-FROM node:14.3 AS development
+FROM node:14.3-alpine AS development
 
 WORKDIR /src/app
 
@@ -14,10 +14,11 @@ COPY . .
 RUN npm run build
 
 # Stage 2
-FROM node:12.13-alpine AS production
+FROM node:14.3-alpine AS production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
+
 
 WORKDIR /src/app
 
