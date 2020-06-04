@@ -1,0 +1,48 @@
+.mat-toolbar-row {
+  margin: 0 auto;
+  max-width: 1012px;
+  padding: 16px 8px;
+  height: 100%;
+  color: #b8b6b4;
+  text-transform: uppercase;
+}
+
+.mat-toolbar {
+  background: #171a21;
+  height: 90px;
+
+  img {
+    width: 112px;
+    display: block;
+  }
+
+  .mat-button {
+    font-size: 16px;
+    padding: 0 8px;
+  }
+
+  .mat-toolbar-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .mat-icon {
+    margin-right: 1px;
+    margin-bottom: 1px;
+  }
+
+  .toggle-menu {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  span {
+    display: none;
+  }
+  .mat-toolbar {
+    .toggle-menu {
+      display: block;
+    }
+  }
+}

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
+import { MenuItems } from './shared/menu-items';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'gw-angular';
+  @ViewChild('sidenav') sidenav: MatSidenav;
+  get menuItems() { return MenuItems; }
+
+  close() {
+    this.sidenav.close();
+  }
+
+  onLogout() {
+
+  }
 }

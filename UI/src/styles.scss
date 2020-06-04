@@ -31,13 +31,34 @@ $gw-angular-theme: mat-dark-theme(
 
 /* You can add global styles to this file, and also import other style files */
 
-html,
-body {
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  box-sizing: border-box;
   height: 100%;
 }
+
+*,
+*::before,
+* ::after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   background: #111111;
-  color: #DADADA;
+  color: #dadada;
+  height: 100%;
+}
+
+main {
+  margin: 0 auto;
+  background: #232323;
+  max-width: 1012px;
+  padding: 16px 8px;
+  // height: calc(100% - 90px);
 }

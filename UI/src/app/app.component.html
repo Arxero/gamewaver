@@ -1,2 +1,27 @@
-<mat-toolbar color="primary">Gamewaver</mat-toolbar>
-<router-outlet></router-outlet>
+<mat-sidenav-container class="example-container" (backdropClick)="close()">
+  <mat-sidenav #sidenav (keydown.escape)="close()" disableClose class="sidenav">
+    <div>
+      <button mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <ng-container *ngFor="let item of menuItems">
+      <div class="sidenav-item">
+        <a mat-button [routerLink]="item.path">
+          <mat-icon>{{ item.icon }}</mat-icon> {{ item.name }}
+        </a>
+      </div>
+    </ng-container>
+    <!-- <button mat-button (click)="onLogout()">
+      <mat-icon>input</mat-icon> Logout
+    </button> -->
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-header [sidenav]="sidenav"></app-header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
