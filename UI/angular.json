@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "gw-angular"
+    }
+  },
+  "defaultProject": "gw-angular",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
