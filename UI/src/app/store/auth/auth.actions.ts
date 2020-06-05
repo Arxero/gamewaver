@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Profile } from 'src/app/services/models/Profile';
+import { Profile } from 'src/app/shared/models/Profile';
 
 export enum AuthActionTypes {
   LoginAction = '[Login] Action',

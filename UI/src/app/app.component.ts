@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { MenuItems } from './shared/menu-items';
+import { MenuItems } from './shared/menu/menu-items';
 
 @Component({
   selector: 'app-root',

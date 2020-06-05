@@ -6,13 +6,7 @@
       </button>
     </div>
 
-    <ng-container *ngFor="let item of menuItems">
-      <div class="sidenav-item">
-        <a mat-button [routerLink]="item.path">
-          <mat-icon>{{ item.icon }}</mat-icon> {{ item.name }}
-        </a>
-      </div>
-    </ng-container>
+    <app-menu></app-menu>
     <!-- <button mat-button (click)="onLogout()">
       <mat-icon>input</mat-icon> Logout
     </button> -->

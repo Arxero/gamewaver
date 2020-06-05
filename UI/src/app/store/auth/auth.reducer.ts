@@ -1,5 +1,5 @@
 import { AuthActions, AuthActionTypes } from './auth.actions';
-import { Profile } from 'src/app/services/models/Profile';
+import { Profile } from 'src/app/shared/models/Profile';
 
 export interface AuthState {
   profile: Profile;

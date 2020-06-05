@@ -4,11 +4,13 @@ import { MaterialModule } from './material-module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { MenuComponent } from './menu/menu.component';
 
 
 
 @NgModule({
-  declarations: [HeaderComponent],
+  declarations: [HeaderComponent, NotFoundComponent, MenuComponent],
   imports: [
     CommonModule,
     MaterialModule,
@@ -22,7 +24,8 @@ import { RouterModule } from '@angular/router';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    HeaderComponent
+    HeaderComponent,
+    MenuComponent
   ]
 })
 export class SharedModule { }

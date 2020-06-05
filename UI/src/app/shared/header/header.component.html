@@ -1,21 +1,13 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-
-    <a href="/">
+    <a [routerLink]="['/']">
       <img
         src="../../../assets/images/logos/gamewaver_logo_square_cutted_min.png"
         alt="gamewaver_logo"
-        draggable="false"
       />
     </a>
 
-    <div>
-      <span *ngFor="let item of menuItems">
-        <a mat-button [routerLink]="item.path">
-          <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>{{ item.name }}
-        </a>
-      </span>
-    </div>
+    <app-menu class="menu-header"></app-menu>
 
     <button mat-icon-button (click)="sidenav.toggle()" class="toggle-menu">
       <mat-icon>menu</mat-icon>

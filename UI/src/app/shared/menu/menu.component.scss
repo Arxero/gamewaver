@@ -1,0 +1,26 @@
+.menu {
+  .mat-button {
+    font-size: 16px;
+    padding: 0 8px;
+  }
+
+  .mat-icon {
+    margin-right: 1px;
+    margin-bottom: 1px;
+  }
+
+
+}
+
+.menu-item-name {
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 600px) {
+  a, button {
+    width: 100%;
+  }
+}
+
+

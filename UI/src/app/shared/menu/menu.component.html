@@ -1,0 +1,23 @@
+<div class="menu">
+  <ng-container *ngFor="let item of menuItems">
+    <a mat-button *ngIf="!item.children" [routerLink]="[item.path]">
+      <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+      <span class="menu-item-name">{{ item.name }}</span>
+    </a>
+
+    <!-- Children menu -->
+    <ng-container *ngIf="item.children">
+      <button mat-button [matMenuTriggerFor]="menu" class="menu-item-name">{{ item.name }}</button>
+      <mat-menu #menu="matMenu">
+        <ng-container *ngFor="let child of item.children">
+          <a mat-menu-item [routerLink]="[item.route, child.path]">
+            <mat-icon *ngIf="child.icon">{{ child.icon }}</mat-icon>
+            <span class="menu-item-name">{{ child.name }}</span>
+          </a>
+        </ng-container>
+      </mat-menu>
+    </ng-container>
+    <!-- Children menu -->
+  </ng-container>
+
+</div>
