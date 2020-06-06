@@ -3,13 +3,19 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-tos',
   templateUrl: './tos.component.html',
-  styleUrls: ['./tos.component.scss']
+  styleUrls: ['./tos.component.scss'],
 })
 export class TosComponent implements OnInit {
+  constructor() {}
+  markdownString = 'This is text with **markdown**';
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  onLoad() {
+
   }
 
+  onError(e) {
+    console.log(e);
+  }
 }

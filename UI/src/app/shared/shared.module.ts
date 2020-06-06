@@ -7,10 +7,12 @@ import { RouterModule } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { MenuComponent } from './menu/menu.component';
 
-
-
 @NgModule({
-  declarations: [HeaderComponent, NotFoundComponent, MenuComponent],
+  declarations: [
+    HeaderComponent,
+    NotFoundComponent,
+    MenuComponent,
+  ],
   imports: [
     CommonModule,
     MaterialModule,
@@ -25,7 +27,7 @@ import { MenuComponent } from './menu/menu.component';
     FormsModule,
     ReactiveFormsModule,
     HeaderComponent,
-    MenuComponent
-  ]
+    MenuComponent,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

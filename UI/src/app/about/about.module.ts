@@ -5,6 +5,7 @@ import { FaqComponent } from './faq/faq.component';
 import { TeamComponent } from './team/team.component';
 import { TosComponent } from './tos/tos.component';
 import { SharedModule } from '../shared/shared.module';
+import { MarkdownModule } from 'ngx-markdown';
 
 
 
@@ -13,7 +14,8 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     AboutRoutingModule,
-    SharedModule
+    SharedModule,
+    MarkdownModule.forChild(),
   ]
 })
 export class AboutModule { }

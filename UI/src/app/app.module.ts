@@ -13,6 +13,7 @@ import { AuthEffects } from './store/auth/auth.effects';
 import { reducers, metaReducers } from './store/app.state';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app.routing';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { AppRoutingModule } from './app.routing';
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
+    MarkdownModule.forRoot(),
 
     // NGRX
     StoreModule.forRoot(reducers, {
