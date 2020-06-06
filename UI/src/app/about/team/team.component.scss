@@ -1,0 +1,28 @@
+.team {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  // grid-template-rows: 1fr 1fr;
+  grid-gap: 32px;
+  justify-items: center;
+}
+
+.team-card {
+  max-width: 150px;
+
+  .card-header {
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-size: 20px;
+    font-weight: 500;
+    display: flex;
+
+    span {
+      margin-right: 5px;
+    }
+  }
+
+  .card-subtitle {
+  }
+}
