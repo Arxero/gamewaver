@@ -23,7 +23,7 @@
       <mat-error *ngIf="confirm.invalid && confirm.errors.required">Confirm password is required</mat-error>
     </mat-form-field>
 
-    <p>
+    <p class="terms">
       By creating an account you agree to our <a [routerLink]="'../../about/tos'">Terms & Privacy</a>.
     </p>
 
@@ -42,7 +42,9 @@
       * Express yourself without censorship
     </markdown>
 
-    <img src="https://i.imgur.com/fYqcwSa.jpg" alt="">
+    <div class="img-wrapper">
+      <img src="https://i.imgur.com/fYqcwSa.jpg" alt="">
+    </div>
   </div>
 </div>
 
