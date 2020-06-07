@@ -7,6 +7,8 @@
         {{ item.title }}
       </mat-panel-title>
     </mat-expansion-panel-header>
-    {{ item.text }}
+    <markdown ngPreserveWhitespaces>
+      {{ item.text }}
+    </markdown>
   </mat-expansion-panel>
 </mat-accordion>

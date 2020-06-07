@@ -9,11 +9,6 @@ export interface Menu {
 }
 
 export const MenuItems: Menu[] = [
-  // {
-  //   path: 'logout',
-  //   icon: 'power_settings_new',
-  //   name: 'Logout'
-  // } as Menu,
   {
     name: 'about',
     route: aboutRoute,
@@ -22,10 +17,5 @@ export const MenuItems: Menu[] = [
       { path: 'team', name: 'team' },
       { path: 'tos', name: 'tos' },
     ],
-  } as Menu,
-  {
-    path: 'login',
-    icon: 'power_settings_new',
-    name: 'Login',
   } as Menu,
 ];

@@ -1,0 +1,36 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  .register-form {
+    flex: 1 1 25rem;
+    margin: 20px;
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  .register-info {
+    flex: 1 1 25rem;
+    margin: 20px;
+
+    img {
+      width: 90%;
+    }
+  }
+
+  .form-field {
+    width: 100%;
+  }
+
+  .form-button {
+    width: 100%;
+    height: 45px;
+    margin-top: 5px;
+  }
+}
+
+
+

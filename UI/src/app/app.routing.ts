@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { aboutRoute } from './about/about.routing';
+import { authRoute } from './auth/auth.routing';
 
 const routes: Routes = [
   {
@@ -13,6 +14,11 @@ const routes: Routes = [
     path: aboutRoute,
     loadChildren: () =>
       import('./about/about.module').then(m => m.AboutModule),
+  },
+  {
+    path: authRoute,
+    loadChildren: () =>
+      import('./auth/auth.module').then(m => m.AuthModule),
   },
   { path: '**', component: NotFoundComponent },
 ];

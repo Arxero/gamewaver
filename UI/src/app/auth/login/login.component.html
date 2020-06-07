@@ -1,0 +1,23 @@
+<form [formGroup]="loginForm" class="login-form">
+  <mat-form-field class="form-field">
+    <input matInput placeholder="Username" formControlName="username"/>
+    <mat-error *ngIf="username.invalid && username.errors.required">Username is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="form-field">
+    <input matInput placeholder="Password" type="password" formControlName="password" />
+    <mat-error *ngIf="password.invalid && password.errors.required">Password is required</mat-error>
+  </mat-form-field>
+
+  <mat-checkbox class="remember-me" color="primary" formControlName="rememberMe">Remember me on this computer</mat-checkbox>
+  <button mat-raised-button color="primary" class="form-button" [disabled]="loginForm.invalid">LOGIN</button>
+</form>
+
+
+<div class="extra-actions">
+  <a mat-stroked-button [routerLink]="'auth/register'" color="primary" (click)="onAction()">
+    <mat-icon>assignment_ind</mat-icon>
+    Register</a>
+  <a mat-stroked-button [routerLink]="'auth/forgotten-password'" (click)="onAction()" color="accent">Forgot password</a>
+</div>
+

@@ -19,8 +19,8 @@ export class FaqComponent implements OnInit {
       text: `Gamewaver is a project started by two fellow gamers with the idea to bring the joy of playing together and sharing their gaming experience with their communities.`,
     },
     {
-      title: 'Does this website ban and censor people like other social media does?',
-      text: `No, we don't, we value our user's opinion whatever it is as long as its within limits of our terms.`,
+      title: 'Does this website censor people like other social media does?',
+      text: `No, we don't, we value our user's opinion whatever it is as long as its within limits of our [terms](./about/tos).`,
     },
     {
       title: 'Is my data protected?',
