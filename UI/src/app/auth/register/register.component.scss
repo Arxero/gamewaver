@@ -12,7 +12,12 @@
     }
 
     .terms {
-      padding: 5px 0;
+      padding: 5px 0px 15px 0px;
+      display: block;
+
+      a:hover {
+        text-decoration: underline;
+      }
     }
   }
 
@@ -32,6 +37,7 @@
 
   .form-field {
     width: 100%;
+    margin-bottom: 10px;
   }
 
   .form-button {

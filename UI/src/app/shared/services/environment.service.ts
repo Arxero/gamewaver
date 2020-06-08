@@ -1,0 +1,18 @@
+import { Injectable } from '@angular/core';
+import { IEnvironment } from '../models/ienvironment';
+import { environment } from 'src/environments/environment';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class EnvironmentService implements IEnvironment {
+  get production() {
+    return environment.production;
+  }
+
+  get apiUrl() {
+    return environment.apiUrl;
+  }
+
+  constructor() {}
+}

@@ -11,3 +11,28 @@ export interface Paging {
 export interface DataEntity {
   id: string;
 }
+
+export enum SortDirection {
+  invalid = 0,
+  asc,
+  desc,
+}
+
+export interface Sorting {
+  propertyName: string;
+  sort: SortDirection;
+}
+
+export interface DataFilter {
+  fieldName: string;
+  searchOperator: string;
+  searchValue: any;
+}
+
+export interface DataFilterDef {
+  filters: DataFilter[];
+}
+
+export interface SortingDef {
+  sorting: Sorting[];
+}

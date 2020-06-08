@@ -37,7 +37,7 @@ export class User extends DataEntity implements IUser {
     }
   }
 
-  @Column({ type: 'varchar', length: 30, unique: true })
+  @Column({ type: 'varchar', length: 20, unique: true })
   username: string;
 
   @Column({ type: 'varchar', length: 30, unique: true })

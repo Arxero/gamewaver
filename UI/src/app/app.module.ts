@@ -14,6 +14,7 @@ import { reducers, metaReducers } from './store/app.state';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app.routing';
 import { MarkdownModule } from 'ngx-markdown';
+import { HttpClientService } from './shared/services/http-client.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { MarkdownModule } from 'ngx-markdown';
       AuthEffects,
     ]),
   ],
-  providers: [],
+  providers: [{ provide: 'IHttpClientService', useClass: HttpClientService}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

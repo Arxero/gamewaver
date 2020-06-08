@@ -3,7 +3,7 @@ import { IsString, Length, IsEmail } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserCmd {
-  @ApiProperty({ minLength: 3, maxLength: 30 })
+  @ApiProperty({ minLength: 3, maxLength: 20 })
   @IsString()
   @Length(3, 30)
   username?: string;

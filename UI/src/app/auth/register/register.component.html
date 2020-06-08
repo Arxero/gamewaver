@@ -4,28 +4,34 @@
     <p>Please fill in this form to create an account.</p>
 
     <mat-form-field class="form-field">
-      <input matInput placeholder="Username" formControlName="username"/>
+      <input matInput placeholder="Username" formControlName="username" required/>
       <mat-error *ngIf="username.invalid && username.errors.required">Username is required</mat-error>
+      <mat-error *ngIf="username.errors?.minlength || username.errors?.maxlength">Username must be between 3 and 20 characters long</mat-error>
     </mat-form-field>
 
     <mat-form-field class="form-field">
-      <input matInput placeholder="Email" formControlName="email"/>
+      <input matInput placeholder="Email" formControlName="email" required/>
       <mat-error *ngIf="email.invalid && email.errors.required">Email is required</mat-error>
+      <mat-error *ngIf="email.errors?.email">Email must be valid one</mat-error>
+      <mat-error *ngIf="email.errors?.minlength || email.errors?.maxlength">Email must be between 6 and 30 characters long</mat-error>
     </mat-form-field>
 
     <mat-form-field class="form-field">
-      <input matInput placeholder="Password" type="password" formControlName="password" />
+      <input matInput placeholder="Password" type="password" formControlName="password" required/>
       <mat-error *ngIf="password.invalid && password.errors.required">Password is required</mat-error>
+      <mat-error *ngIf="password.errors?.minlength || password.errors?.maxlength">Password must be between 6 and 30 characters long</mat-error>
     </mat-form-field>
 
     <mat-form-field class="form-field">
-      <input matInput placeholder="Confirm" type="password" formControlName="confirm" />
+      <input matInput placeholder="Confirm" type="password" formControlName="confirm" required />
       <mat-error *ngIf="confirm.invalid && confirm.errors.required">Confirm password is required</mat-error>
+      <mat-error *ngIf="confirm.errors?.confirmPasswordValidator">Passwords does not match</mat-error>
     </mat-form-field>
 
-    <p class="terms">
-      By creating an account you agree to our <a [routerLink]="'../../about/tos'">Terms & Privacy</a>.
-    </p>
+    <mat-checkbox class="terms" color="primary" formControlName="termsAgree">
+      By creating an account you agree to our <a [routerLink]="'../../about/tos'" target="_blank">Terms & Privacy</a>.
+    </mat-checkbox>
+
 
     <button mat-raised-button color="primary" class="form-button" [disabled]="registerForm.invalid">REGISTER</button>
   </form>
