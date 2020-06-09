@@ -4,42 +4,77 @@ import { EnvironmentService } from './environment.service';
 import { SignUpCmd } from 'src/app/auth/models/cmd/sign-up.cmd';
 import { LoginCmd } from 'src/app/auth/models/cmd/login.cmd';
 import { TokenDto } from 'src/app/auth/models/dto/token.dto';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export interface IAuthService {
-  login(model: LoginCmd): Promise<TokenDto>;
-  register(model: SignUpCmd): Promise<TokenDto>;
+  login(cmd: LoginCmd): Promise<TokenDto>;
+  register(cmd: SignUpCmd): Promise<TokenDto>;
   getUser(): Promise<Profile>;
   isLoggedIn(): boolean;
   logout(): void;
+  getAuthorizationHeaderValue(): string;
+  getAccessToken(): string;
+  saveToken(token: string, isSession: boolean): void;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService implements IAuthService {
+  BASE_URL = 'auth';
+  accessToken = 'accessToken';
+
   constructor(
-    private environmentService: EnvironmentService
+    // @Inject('HttpClientService') private httpClient: HttpClientService,
+    private http: HttpClient,
+    private environmentService: EnvironmentService,
   ) {}
 
-
-  login(model: LoginCmd): Promise<TokenDto> {
-    throw new Error('Method not implemented.');
+  login(cmd: LoginCmd): Promise<TokenDto> {
+    return this.http.post<TokenDto>(`${this.BASE_URL}/login`, cmd).toPromise();
   }
 
-  register(model: SignUpCmd): Promise<TokenDto> {
-    throw new Error('Method not implemented.');
+  register(cmd: SignUpCmd): Promise<TokenDto> {
+    return this.http.post<TokenDto>(`${this.environmentService.apiUrl}${this.BASE_URL}/signup`, cmd).toPromise();
   }
 
   getUser(): Promise<Profile> {
-    throw new Error('Method not implemented.');
+    const token = this.getAuthorizationHeaderValue();
+    const headers = new HttpHeaders();
+    headers.append('Authorization', token);
+    return this.http
+      .get<Profile>(`${this.BASE_URL}/profile`, { headers })
+      .toPromise();
   }
 
   isLoggedIn(): boolean {
-    throw new Error('Method not implemented.');
+    return (
+      sessionStorage.getItem(this.accessToken) !== null ||
+      localStorage.getItem(this.accessToken) !== null
+    );
   }
 
   logout(): void {
-    throw new Error('Method not implemented.');
+    sessionStorage.clear();
+    localStorage.clear();
   }
 
+  getAuthorizationHeaderValue(): string {
+    return `Bearer ${this.getAccessToken()}`;
+  }
+
+  getAccessToken(): string {
+    return (
+      sessionStorage.getItem(this.accessToken) ||
+      localStorage.getItem(this.accessToken)
+    );
+  }
+
+  saveToken(token: string, isSession?: boolean): void {
+    if (isSession) {
+      sessionStorage.setItem(this.accessToken, token);
+      return;
+    }
+    localStorage.setItem(this.accessToken, token);
+  }
 }

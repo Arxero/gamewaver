@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
 import { Paging, Sorting } from '../models/common';
 import { EnvironmentService } from './environment.service';
+import { AuthService } from './auth.service';
 
 export interface IRequestOptions {
   headers?: HttpHeaders;
@@ -31,7 +32,8 @@ export class HttpClientService implements IHttpClientService {
 
   constructor(
     private http: HttpClient,
-    private environmentService: EnvironmentService
+    private environmentService: EnvironmentService,
+    private authService: AuthService
   ) {
     this.url = this.environmentService.apiUrl;
   }
@@ -69,7 +71,7 @@ export class HttpClientService implements IHttpClientService {
   }
 
   private SetHeaders(options?: IRequestOptions): IRequestOptions {
-    const token = 'testToken';
+    const token = this.authService.getAuthorizationHeaderValue();
     let headers = new HttpHeaders();
     if (token) {
       headers = headers.append('Authorization', token);

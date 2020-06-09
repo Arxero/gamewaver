@@ -6,6 +6,10 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { EnvironmentService } from 'src/app/shared/services/environment.service';
+import { Store } from '@ngrx/store';
+import { AuthState } from 'src/app/store/auth/auth.reducer';
+import { RegisterAction } from 'src/app/store/auth/auth.actions';
+import { SignUpCmd } from '../models/cmd/sign-up.cmd';
 
 @Component({
   selector: 'app-register',
@@ -15,9 +19,10 @@ import { EnvironmentService } from 'src/app/shared/services/environment.service'
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
 
-  constructor(private environmentService: EnvironmentService) {
-    console.log(this.environmentService.apiUrl);
-  }
+  constructor(
+    private environmentService: EnvironmentService,
+    private store: Store<AuthState>,
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -71,5 +76,14 @@ export class RegisterComponent implements OnInit {
   }
   get termsAgree() {
     return this.registerForm.get('termsAgree');
+  }
+
+  onRegister() {
+    const signUpCmd: SignUpCmd = {
+      username: this.username.value,
+      email: this.email.value,
+      password: this.password.value,
+    };
+    this.store.dispatch(new RegisterAction({ signUpCmd }));
   }
 }

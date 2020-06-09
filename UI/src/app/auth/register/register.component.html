@@ -33,7 +33,7 @@
     </mat-checkbox>
 
 
-    <button mat-raised-button color="primary" class="form-button" [disabled]="registerForm.invalid">REGISTER</button>
+    <button mat-raised-button color="primary" class="form-button" [disabled]="registerForm.invalid" (click)="onRegister()">REGISTER</button>
   </form>
 
   <div class="register-info">
