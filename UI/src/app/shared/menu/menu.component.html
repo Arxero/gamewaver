@@ -20,9 +20,23 @@
     <!-- Children menu -->
   </ng-container>
 
-  <button mat-button (click)="openLoginDialog()">
+  <button mat-button *ngIf="!isLoggedIn" (click)="openLoginDialog()">
     <mat-icon>power_settings_new</mat-icon>
     <span class="menu-item-name">Login</span>
   </button>
+
+ <ng-container>
+  <button mat-button [matMenuTriggerFor]="menuUser" *ngIf="isLoggedIn">
+    <span class="menu-item-name">{{ user?.username }}</span>
+  </button>
+
+  <mat-menu #menuUser="matMenu">
+    <button mat-button (click)="onLogout()">
+      <mat-icon>power_settings_new</mat-icon>
+      <span class="menu-item-name">Logout</span>
+    </button>
+  </mat-menu>
+ </ng-container>
+
 
 </div>

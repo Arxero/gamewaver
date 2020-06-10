@@ -10,7 +10,7 @@
   </mat-form-field>
 
   <mat-checkbox class="remember-me" color="primary" formControlName="rememberMe">Remember me on this computer</mat-checkbox>
-  <button mat-raised-button color="primary" class="form-button" [disabled]="loginForm.invalid">LOGIN</button>
+  <button mat-raised-button color="primary" class="form-button" (click)="onLogin()" [disabled]="loginForm.invalid">LOGIN</button>
 </form>
 
 

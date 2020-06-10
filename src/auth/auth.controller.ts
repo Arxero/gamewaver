@@ -48,7 +48,7 @@ export class AuthController {
   :${this.configService.get<string>('web.port')}/`;
 
   @Post('signup')
-  async signUp(@Body() user: SignUpCmd): Promise<SentEmailDto> {
+  async signUp(@Body() user: SignUpCmd): Promise<TokenDto> {
     return await this.authService.signUp(new User(user));
   }
 

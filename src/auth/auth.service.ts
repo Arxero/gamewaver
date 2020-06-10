@@ -25,15 +25,17 @@ export class AuthService {
 
   async signUp(user: User) {
     user.role = UserRole.USER;
-    user.status = UserStatus.PENDING;
+    user.status = UserStatus.CONFIRM;
     user = await this.usersService.create(user);
-    return await this.sendEmail(user, TypeEmail.CONRIM_EMAIL);
+    // return await this.sendEmail(user, TypeEmail.CONRIM_EMAIL);
+    return this.authJwtService.createToken(user);
   }
 
   async login(user: User) {
     return this.authJwtService.createToken(user);
   }
 
+  // paused until I got registration without email confrimation to work
   async sendEmail(user: User, typeEmail: TypeEmail): Promise<SentEmailDto> {
     const token = this.authJwtService.createEmailToken(user);
     const emailBody = new SendEmailCmd(typeEmail, user, token);

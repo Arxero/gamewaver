@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
-import { Profile } from 'src/app/shared/models/Profile';
-import { SignUpCmd } from 'src/app/auth/models/cmd/sign-up.cmd';
+import { Profile } from '../../shared/models/Profile';
+import { SignUpCmd } from '../../auth/models/cmd/sign-up.cmd';
+import { LoginCmd } from '../../auth/models/cmd/login.cmd';
 
 export enum AuthActionTypes {
   RegisterAction = '[Register] Action',
@@ -10,9 +11,7 @@ export enum AuthActionTypes {
   LoginAction = '[Login] Action',
   LoginActionSuccess = '[LoginSuccess] Action',
   LoginActionFailure = '[LoginFailure] Action',
-
   LogoutAction = '[Logout] Action',
-  SetLoggedInUser = '[SetLoggedInUser] Action',
 
   GetUserInfo = '[GetUserInfo] Action',
   GetUserInfoSuccess = '[GetUserInfoSuccess] Action',
@@ -26,7 +25,7 @@ export class RegisterAction implements Action {
 
 export class RegisterActionSuccess implements Action {
   readonly type = AuthActionTypes.RegisterActionSuccess;
-  constructor(public payload: { user: Profile; isAuthenticated: boolean }) {}
+  constructor(public payload: { accessToken: string }) {}
 }
 
 export class RegisterActionFailure implements Action {
@@ -36,11 +35,12 @@ export class RegisterActionFailure implements Action {
 
 export class LoginAction implements Action {
   readonly type = AuthActionTypes.LoginAction;
+  constructor(public payload: { loginCmd: LoginCmd }) {}
 }
 
 export class LoginActionSuccess implements Action {
   readonly type = AuthActionTypes.LoginActionSuccess;
-  constructor(public payload: { user: Profile; isAuthenticated: boolean }) {}
+  constructor(public payload: { accessToken: string }) {}
 }
 
 export class LoginActionFailure implements Action {
@@ -50,11 +50,6 @@ export class LoginActionFailure implements Action {
 
 export class LogoutAction implements Action {
   readonly type = AuthActionTypes.LogoutAction;
-}
-
-export class SetLoggedInUserAction implements Action {
-  readonly type = AuthActionTypes.SetLoggedInUser;
-  constructor(public payload: { user: Profile; isAuthenticated: boolean }) {}
 }
 
 export class GetUserInfoAction implements Action {
@@ -79,7 +74,6 @@ export type AuthActions =
   | LoginActionSuccess
   | LoginActionFailure
   | LogoutAction
-  | SetLoggedInUserAction
   | GetUserInfoAction
   | GetUserInfoSuccessAction
   | GetUserInfoErrorAction;

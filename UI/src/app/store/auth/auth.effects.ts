@@ -14,7 +14,7 @@ import {
   RegisterActionFailure,
 } from './auth.actions';
 import { tap, map, switchMap } from 'rxjs/operators';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
@@ -36,14 +36,8 @@ export class AuthEffects {
     tap(async a => {
       try {
         const response = await this.authservice.register(a.payload.signUpCmd);
-        this.authservice.saveToken(response.accessToken);
-        this.router.navigate(['/']);
-        this.snackBar.open('Registration successfull', 'CLOSE', {
-          duration: 2000,
-        });
-        const user = await this.authservice.getUser();
         this.store.dispatch(
-          new RegisterActionSuccess({ user, isAuthenticated: true }),
+          new RegisterActionSuccess({ accessToken: response.accessToken }),
         );
       } catch (error) {
         console.log(error.toString());
@@ -54,7 +48,14 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   registerSuccess$ = this.actions$.pipe(
     ofType<RegisterActionSuccess>(AuthActionTypes.RegisterActionSuccess),
-    map(() => {}),
+    tap(a => {
+      this.authservice.saveToken(a.payload.accessToken);
+      this.router.navigate(['/']);
+      this.snackBar.open('Registration successfull', 'CLOSE', {
+        duration: 2000,
+      });
+      this.store.dispatch(new GetUserInfoAction());
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -66,13 +67,25 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   login$ = this.actions$.pipe(
     ofType<LoginAction>(AuthActionTypes.LoginAction),
-    tap(async () => {}),
+    tap(async a => {
+      try {
+        const response = await this.authservice.login(a.payload.loginCmd);
+        this.store.dispatch(
+          new LoginActionSuccess({ accessToken: response.accessToken }),
+        );
+      } catch (error) {
+        console.log(error.toString());
+      }
+    }),
   );
 
   @Effect({ dispatch: false })
   loginSuccess$ = this.actions$.pipe(
     ofType<LoginActionSuccess>(AuthActionTypes.LoginActionSuccess),
-    map(() => {}),
+    tap(a => {
+      this.authservice.saveToken(a.payload.accessToken);
+      this.store.dispatch(new GetUserInfoAction());
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -84,14 +97,25 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   logout$ = this.actions$.pipe(
     ofType<LogoutAction>(AuthActionTypes.LogoutAction),
-    tap(() => {}),
+    tap(() => {
+      this.authservice.logout();
+    }),
   );
 
   // user info
   @Effect({ dispatch: false })
   getUserInfo$ = this.actions$.pipe(
     ofType<GetUserInfoAction>(AuthActionTypes.GetUserInfo),
-    switchMap(async () => {}),
+    switchMap(async () => {
+      try {
+        const response = await this.authservice.getUser();
+        this.store.dispatch(
+          new GetUserInfoSuccessAction({ userProfile: response.result }),
+        );
+      } catch (error) {
+        console.log(error.toString());
+      }
+    }),
   );
 
   @Effect({ dispatch: false })

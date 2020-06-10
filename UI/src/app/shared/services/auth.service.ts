@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Profile } from '../models/Profile';
 import { EnvironmentService } from './environment.service';
-import { SignUpCmd } from 'src/app/auth/models/cmd/sign-up.cmd';
-import { LoginCmd } from 'src/app/auth/models/cmd/login.cmd';
-import { TokenDto } from 'src/app/auth/models/dto/token.dto';
+import { SignUpCmd } from '../../auth/models/cmd/sign-up.cmd';
+import { LoginCmd } from '../../auth/models/cmd/login.cmd';
+import { TokenDto } from '../../auth/models/dto/token.dto';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IResponse } from '../models/response';
 
 export interface IAuthService {
   login(cmd: LoginCmd): Promise<TokenDto>;
   register(cmd: SignUpCmd): Promise<TokenDto>;
-  getUser(): Promise<Profile>;
+  getUser(): Promise<IResponse<Profile>>;
   isLoggedIn(): boolean;
   logout(): void;
   getAuthorizationHeaderValue(): string;
@@ -21,7 +22,7 @@ export interface IAuthService {
   providedIn: 'root',
 })
 export class AuthService implements IAuthService {
-  BASE_URL = 'auth';
+  BASE_URL = `${this.environmentService.apiUrl}auth`;
   accessToken = 'accessToken';
 
   constructor(
@@ -35,15 +36,15 @@ export class AuthService implements IAuthService {
   }
 
   register(cmd: SignUpCmd): Promise<TokenDto> {
-    return this.http.post<TokenDto>(`${this.environmentService.apiUrl}${this.BASE_URL}/signup`, cmd).toPromise();
+    return this.http.post<TokenDto>(`${this.BASE_URL}/signup`, cmd).toPromise();
   }
 
-  getUser(): Promise<Profile> {
+  getUser(): Promise<IResponse<Profile>> {
     const token = this.getAuthorizationHeaderValue();
-    const headers = new HttpHeaders();
-    headers.append('Authorization', token);
+    let headers = new HttpHeaders();
+    headers = headers.append('Authorization', token);
     return this.http
-      .get<Profile>(`${this.BASE_URL}/profile`, { headers })
+      .get<IResponse<Profile>>(`${this.BASE_URL}/profile`, { headers })
       .toPromise();
   }
 

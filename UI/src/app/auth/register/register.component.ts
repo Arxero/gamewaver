@@ -5,10 +5,10 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
-import { EnvironmentService } from 'src/app/shared/services/environment.service';
+import { EnvironmentService } from '../../shared/services/environment.service';
 import { Store } from '@ngrx/store';
-import { AuthState } from 'src/app/store/auth/auth.reducer';
-import { RegisterAction } from 'src/app/store/auth/auth.actions';
+import { AuthState } from '../../store/auth/auth.reducer';
+import { RegisterAction } from '../../store/auth/auth.actions';
 import { SignUpCmd } from '../models/cmd/sign-up.cmd';
 
 @Component({
@@ -19,10 +19,7 @@ import { SignUpCmd } from '../models/cmd/sign-up.cmd';
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
 
-  constructor(
-    private environmentService: EnvironmentService,
-    private store: Store<AuthState>,
-  ) {}
+  constructor(private store: Store<AuthState>) {}
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
