@@ -9,7 +9,7 @@ import { AuthState } from '../../store/auth/auth.reducer';
 import { takeUntil, filter } from 'rxjs/operators';
 import { authState } from '../../store/auth/auth.selectors';
 import { Profile } from '../models/Profile';
-import { LogoutAction } from 'src/app/store/auth/auth.actions';
+import { LogoutAction } from '../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-menu',

@@ -95,7 +95,8 @@ export class AuthController {
       return res.redirect(this.webLink + `token/${token}`);
     } catch (error) {
       throw new BadRequestException(
-        new ResponseError({ message: 'Invalid token.' }),
+        // new ResponseError({ message: 'Invalid token.' }),
+        new ResponseError({ message: error }),
       );
     }
   }

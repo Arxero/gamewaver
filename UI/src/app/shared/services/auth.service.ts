@@ -3,7 +3,7 @@ import { Profile } from '../models/Profile';
 import { EnvironmentService } from './environment.service';
 import { SignUpCmd } from '../../auth/models/cmd/sign-up.cmd';
 import { LoginCmd } from '../../auth/models/cmd/login.cmd';
-import { TokenDto } from '../../auth/models/dto/token.dto';
+import { TokenDto, TokenLocal } from '../../auth/models/dto/token.dto';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IResponse } from '../models/response';
 
@@ -14,8 +14,8 @@ export interface IAuthService {
   isLoggedIn(): boolean;
   logout(): void;
   getAuthorizationHeaderValue(): string;
-  getAccessToken(): string;
-  saveToken(token: string, isSession: boolean): void;
+  getAccessToken(): TokenLocal;
+  saveToken(token: TokenLocal, isSession: boolean): void;
 }
 
 @Injectable({
@@ -61,21 +61,21 @@ export class AuthService implements IAuthService {
   }
 
   getAuthorizationHeaderValue(): string {
-    return `Bearer ${this.getAccessToken()}`;
+    return `Bearer ${this.getAccessToken().accessToken}`;
   }
 
-  getAccessToken(): string {
-    return (
-      sessionStorage.getItem(this.accessToken) ||
-      localStorage.getItem(this.accessToken)
-    );
+  getAccessToken(): TokenLocal {
+    if (sessionStorage.getItem(this.accessToken)) {
+      return JSON.parse(sessionStorage.getItem(this.accessToken));
+    }
+    return JSON.parse(localStorage.getItem(this.accessToken));
   }
 
-  saveToken(token: string, isSession?: boolean): void {
+  saveToken(token: TokenLocal, isSession?: boolean): void {
     if (isSession) {
-      sessionStorage.setItem(this.accessToken, token);
+      sessionStorage.setItem(this.accessToken, JSON.stringify(token));
       return;
     }
-    localStorage.setItem(this.accessToken, token);
+    localStorage.setItem(this.accessToken, JSON.stringify(token));
   }
 }

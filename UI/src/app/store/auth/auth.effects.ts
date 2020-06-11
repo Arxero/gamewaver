@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { AuthState } from './auth.reducer';
+import { TokenLocal } from 'src/app/auth/models/dto/token.dto';
 
 @Injectable()
 export class AuthEffects {
@@ -36,9 +37,8 @@ export class AuthEffects {
     tap(async a => {
       try {
         const response = await this.authservice.register(a.payload.signUpCmd);
-        this.store.dispatch(
-          new RegisterActionSuccess({ accessToken: response.accessToken }),
-        );
+        const accessToken: TokenLocal = { ...response, savedAt: Date.now() };
+        this.store.dispatch(new RegisterActionSuccess({ accessToken }));
       } catch (error) {
         console.log(error.toString());
       }
@@ -70,9 +70,8 @@ export class AuthEffects {
     tap(async a => {
       try {
         const response = await this.authservice.login(a.payload.loginCmd);
-        this.store.dispatch(
-          new LoginActionSuccess({ accessToken: response.accessToken }),
-        );
+        const accessToken: TokenLocal = { ...response, savedAt: Date.now() };
+        this.store.dispatch(new LoginActionSuccess({ accessToken }));
       } catch (error) {
         console.log(error.toString());
       }

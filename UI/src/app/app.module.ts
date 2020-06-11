@@ -15,6 +15,8 @@ import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app.routing';
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClientService } from './shared/services/http-client.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,10 @@ import { HttpClientService } from './shared/services/http-client.service';
       AuthEffects,
     ]),
   ],
-  providers: [{ provide: 'IHttpClientService', useClass: HttpClientService}],
+  providers: [
+    { provide: 'IHttpClientService', useClass: HttpClientService},
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

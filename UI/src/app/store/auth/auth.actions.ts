@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { Profile } from '../../shared/models/Profile';
 import { SignUpCmd } from '../../auth/models/cmd/sign-up.cmd';
 import { LoginCmd } from '../../auth/models/cmd/login.cmd';
+import { TokenDto, TokenLocal } from 'src/app/auth/models/dto/token.dto';
 
 export enum AuthActionTypes {
   RegisterAction = '[Register] Action',
@@ -25,7 +26,7 @@ export class RegisterAction implements Action {
 
 export class RegisterActionSuccess implements Action {
   readonly type = AuthActionTypes.RegisterActionSuccess;
-  constructor(public payload: { accessToken: string }) {}
+  constructor(public payload: { accessToken: TokenLocal }) {}
 }
 
 export class RegisterActionFailure implements Action {
@@ -40,7 +41,7 @@ export class LoginAction implements Action {
 
 export class LoginActionSuccess implements Action {
   readonly type = AuthActionTypes.LoginActionSuccess;
-  constructor(public payload: { accessToken: string }) {}
+  constructor(public payload: { accessToken: TokenLocal }) {}
 }
 
 export class LoginActionFailure implements Action {
