@@ -14,8 +14,9 @@ export interface IAuthService {
   isLoggedIn(): boolean;
   logout(): void;
   getAuthorizationHeaderValue(): string;
-  getAccessToken(): TokenLocal;
-  saveToken(token: TokenLocal, isSession: boolean): void;
+  getToken(): TokenLocal;
+  saveToken(token: TokenDto, isSession: boolean): void;
+  renewToken(): Promise<TokenDto>;
 }
 
 @Injectable({
@@ -61,21 +62,27 @@ export class AuthService implements IAuthService {
   }
 
   getAuthorizationHeaderValue(): string {
-    return `Bearer ${this.getAccessToken().accessToken}`;
+    return `Bearer ${this.getToken().accessToken}`;
   }
 
-  getAccessToken(): TokenLocal {
+  getToken(): TokenLocal {
     if (sessionStorage.getItem(this.accessToken)) {
       return JSON.parse(sessionStorage.getItem(this.accessToken));
     }
     return JSON.parse(localStorage.getItem(this.accessToken));
   }
 
-  saveToken(token: TokenLocal, isSession?: boolean): void {
+  saveToken(token: TokenDto, isSession?: boolean): void {
+    const tempToken: TokenLocal = {...token, savedAt: Date.now()};
     if (isSession) {
-      sessionStorage.setItem(this.accessToken, JSON.stringify(token));
+      sessionStorage.setItem(this.accessToken, JSON.stringify(tempToken));
       return;
     }
-    localStorage.setItem(this.accessToken, JSON.stringify(token));
+    localStorage.setItem(this.accessToken, JSON.stringify(tempToken));
+  }
+
+  renewToken(): Promise<TokenDto> {
+    const token = this.getToken().accessToken;
+    return this.http.get<TokenDto>(`${this.BASE_URL}/renew/${token}`).toPromise();
   }
 }

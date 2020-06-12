@@ -13,6 +13,7 @@ import { SendEmailCmd, TypeEmail } from './models/cmd/send-email.cmd';
 import { AuthJwtService } from './auth-jwt.service';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
+import { TokenDto } from './models/dto/token.dto';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,7 @@ export class AuthService {
     // @Inject(REQUEST) private request: Request
   ) {}
 
-  async signUp(user: User) {
+  async signUp(user: User): Promise<TokenDto> {
     user.role = UserRole.USER;
     user.status = UserStatus.CONFIRM;
     user = await this.usersService.create(user);
@@ -31,7 +32,7 @@ export class AuthService {
     return this.authJwtService.createToken(user);
   }
 
-  async login(user: User) {
+  async login(user: User): Promise<TokenDto> {
     return this.authJwtService.createToken(user);
   }
 
@@ -48,6 +49,18 @@ export class AuthService {
       });
     } catch (error) {
       throw new BadRequestException(error.toString(), `Error sending the email.`);
+    }
+  }
+
+  async renewToken(token: string) {
+    try {
+      const result = await this.authJwtService.verifyToken(token);
+    } catch (error) {
+      if (error.name === 'TokenExpiredError') {
+        const decodedUser = await this.authJwtService.decodeToken(token);
+        return this.authJwtService.createToken(decodedUser as User);
+      }
+      
     }
   }
 

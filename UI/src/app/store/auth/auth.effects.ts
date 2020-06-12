@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { AuthState } from './auth.reducer';
-import { TokenLocal } from 'src/app/auth/models/dto/token.dto';
+import { TokenLocal } from '../../auth/models/dto/token.dto';
 
 @Injectable()
 export class AuthEffects {
@@ -36,11 +36,10 @@ export class AuthEffects {
     ofType<RegisterAction>(AuthActionTypes.RegisterAction),
     tap(async a => {
       try {
-        const response = await this.authservice.register(a.payload.signUpCmd);
-        const accessToken: TokenLocal = { ...response, savedAt: Date.now() };
+        const accessToken = await this.authservice.register(a.payload.signUpCmd);
         this.store.dispatch(new RegisterActionSuccess({ accessToken }));
       } catch (error) {
-        console.log(error.toString());
+        console.log(error);
       }
     }),
   );
@@ -69,11 +68,10 @@ export class AuthEffects {
     ofType<LoginAction>(AuthActionTypes.LoginAction),
     tap(async a => {
       try {
-        const response = await this.authservice.login(a.payload.loginCmd);
-        const accessToken: TokenLocal = { ...response, savedAt: Date.now() };
+        const accessToken = await this.authservice.login(a.payload.loginCmd);
         this.store.dispatch(new LoginActionSuccess({ accessToken }));
       } catch (error) {
-        console.log(error.toString());
+        console.log(error);
       }
     }),
   );
@@ -83,6 +81,9 @@ export class AuthEffects {
     ofType<LoginActionSuccess>(AuthActionTypes.LoginActionSuccess),
     tap(a => {
       this.authservice.saveToken(a.payload.accessToken);
+      this.snackBar.open('Registration successfull', 'CLOSE', {
+        duration: 200000,
+      });
       this.store.dispatch(new GetUserInfoAction());
     }),
   );

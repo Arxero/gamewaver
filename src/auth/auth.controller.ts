@@ -53,7 +53,6 @@ export class AuthController {
   }
 
   @UseGuards(LocalAuthGuard)
-  
   @Post('login')
   @ApiBody({ type: LoginCmd })
   @HttpCode(200)
@@ -134,5 +133,11 @@ export class AuthController {
     } catch (error) {
       throw new BadRequestException(`Invalid token.`);
     }
+  }
+
+  //this get activated after user click on the link from the email
+  @Get('renew/:token')
+  async renewToken(@Param('token') token: string): Promise<TokenDto> {
+    return await this.authService.renewToken(token);
   }
 }

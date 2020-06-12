@@ -50,4 +50,8 @@ export class AuthJwtService {
   async verifyToken(token: string) {
     return await this.jwtService.verifyAsync(token);
   }
+
+  async decodeToken(token: string) {
+    return await this.jwtService.decode(token);
+  }
 }

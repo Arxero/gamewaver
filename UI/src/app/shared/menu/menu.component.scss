@@ -4,17 +4,26 @@
     padding: 0 8px;
   }
 
+  .mat-menu-item {
+    margin: 0;
+  }
+
   .mat-icon {
-    margin-right: 1px;
+    margin-right: 2px;
     margin-bottom: 1px;
   }
 
+}
 
+.mat-menu-item .mat-icon {
+  margin-right: 2px;
+  margin-bottom: 2px;
 }
 
 .menu-item-name {
   font-size: 16px;
   text-transform: uppercase;
+  font-weight: 500;
 }
 
 @media screen and (max-width: 500px) {
