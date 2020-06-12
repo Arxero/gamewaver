@@ -81,9 +81,6 @@ export class AuthEffects {
     ofType<LoginActionSuccess>(AuthActionTypes.LoginActionSuccess),
     tap(a => {
       this.authservice.saveToken(a.payload.accessToken);
-      this.snackBar.open('Registration successfull', 'CLOSE', {
-        duration: 200000,
-      });
       this.store.dispatch(new GetUserInfoAction());
     }),
   );
