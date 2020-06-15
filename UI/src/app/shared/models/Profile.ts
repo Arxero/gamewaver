@@ -10,10 +10,20 @@ export enum UserStatus {
   CONFIRM = 'confirm',
 }
 
+export enum UserGender {
+  MALE = 'male',
+  FEMALE = 'female',
+  OTHER = 'other',
+}
+
 export interface Profile extends DataEntity {
   username: string;
   email: string;
   avatar: string;
   role: UserRole;
   status: UserStatus;
+
+  summary: string;
+  location: string;
+  gender: UserGender;
 }

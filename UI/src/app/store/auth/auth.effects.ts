@@ -19,7 +19,6 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { AuthState } from './auth.reducer';
-import { TokenLocal } from '../../auth/models/dto/token.dto';
 
 @Injectable()
 export class AuthEffects {

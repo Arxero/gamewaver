@@ -13,13 +13,23 @@ export enum UserStatus {
   CONFIRM = 'confirm',
 }
 
+export enum UserGender {
+  MALE = 'male',
+  FEMALE = 'female',
+  OTHER = 'other',
+}
+
 export interface IUser extends IDataEntity {
   username?: string;
   email?: string;
   password?: string;
   role?: UserRole;
   status?: UserStatus;
+
   avatar?: string;
+  summary?: string;
+  location?: string;
+  gender?: UserGender;
 }
 
 @Entity({ name: 'users' })
@@ -34,6 +44,9 @@ export class User extends DataEntity implements IUser {
       this.role = data.role;
       this.status = data.status;
       this.avatar = data.avatar;
+      this.summary = data.summary;
+      this.location = data.location;
+      this.gender = data.gender;
     }
   }
 
@@ -52,8 +65,17 @@ export class User extends DataEntity implements IUser {
   @Column()
   status: UserStatus;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   avatar: string;
+
+  @Column({ nullable: true })
+  summary: string;
+
+  @Column({ nullable: true })
+  location: string;
+
+  @Column({ nullable: true })
+  gender: UserGender;
 
   @OneToMany(
     () => Post,
