@@ -1,1 +1,19 @@
-<p>{{user | json}}</p>
+<mat-card class="profile">
+  <div class="image">
+    <img [src]="user.avatar || './assets/images/common/no_avatar.jpg'" alt="{{ user.username }}'s avatar" />
+  </div>
+  <div class="info">
+    <div class="name">{{ user.username }}</div>
+    <div class="location">{{ user.location }}</div>
+    <div class="gender">{{ user.gender | titlecase }}</div>
+    <!-- <div class="summary">Always choose love, kindness and forgiveness. Always choose to walk the high ground. Never mind what others say, never mind what rumors they choose to spread about you; never lose your cool and composure. Never tire of doing good. The Almighty loves back.</div> -->
+    <div class="summary">
+      <markdown ngPreserveWhitespaces>
+        {{ user.summary }}
+      </markdown>
+    </div>
+    <div class="actions">
+      <a mat-raised-button  [routerLink]="'../edit'" color="primary">Edit Profile</a>
+    </div>
+  </div>
+</mat-card>

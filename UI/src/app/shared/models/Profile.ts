@@ -19,10 +19,10 @@ export enum UserGender {
 export interface Profile extends DataEntity {
   username: string;
   email: string;
-  avatar: string;
   role: UserRole;
   status: UserStatus;
 
+  avatar: string;
   summary: string;
   location: string;
   gender: UserGender;

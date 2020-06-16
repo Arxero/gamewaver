@@ -1,0 +1,40 @@
+<mat-card class="edit-profile-container">
+  <form [formGroup]="editProfileForm" class="register-form">
+    <h2>Edit Profile</h2>
+
+    <div class="image-wrapper">
+      <div class="image">
+        <img [src]="user.avatar || './assets/images/common/no_avatar.jpg'" alt="{{ user.username }}'s avatar" />
+      </div>
+    </div>
+
+    <mat-form-field class="form-field">
+      <input matInput placeholder="Avatar" formControlName="avatar"/>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+      <textarea  matInput placeholder="Summary" formControlName="summary"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+      <input matInput placeholder="Location" formControlName="location"/>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+      <input matInput placeholder="Gender" formControlName="gender"/>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+      <input matInput placeholder="Email" formControlName="email" required/>
+      <mat-error *ngIf="email.invalid && email.errors.required">Email is required</mat-error>
+      <mat-error *ngIf="email.errors?.email">Email must be valid one</mat-error>
+      <mat-error *ngIf="email.errors?.minlength || email.errors?.maxlength">Email must be between 6 and 30 characters long</mat-error>
+    </mat-form-field>
+
+
+    <div class="actions">
+      <button mat-raised-button color="primary" class="form-button" [disabled]="editProfileForm.invalid" (click)="onSave()">Save</button>
+    </div>
+  </form>
+
+</mat-card>

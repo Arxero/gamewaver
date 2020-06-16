@@ -81,6 +81,7 @@ export class AuthEffects {
     tap(a => {
       this.authservice.saveToken(a.payload.accessToken);
       this.store.dispatch(new GetUserInfoAction());
+      this.router.navigate(['/']);
     }),
   );
 
@@ -95,6 +96,7 @@ export class AuthEffects {
     ofType<LogoutAction>(AuthActionTypes.LogoutAction),
     tap(() => {
       this.authservice.logout();
+      this.router.navigate(['/']);
     }),
   );
 

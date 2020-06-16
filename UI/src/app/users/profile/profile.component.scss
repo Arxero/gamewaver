@@ -1,0 +1,63 @@
+.profile {
+  display: flex;
+  flex-wrap: nowrap;
+
+  .image {
+    margin-right: 16px;
+    max-width: 184px;
+    max-height: 184px;
+    flex-shrink: 0;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
+      rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+
+    img {
+      border-radius: 2px;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .info {
+    // width: 100%;
+    flex-grow: 1;
+
+    .name {
+      font-size: 24px;
+    }
+
+    .location {
+      color: #898989;
+      font-size: 14px;
+    }
+
+    .gender {
+      font-size: 14px;
+      color: #898989;
+      line-height: 1;
+    }
+
+    .summary {
+      margin-top: 16px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      min-height: 72px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .profile {
+    flex-wrap: wrap;
+
+    .image {
+      margin-bottom: 8px;
+      flex-shrink: 1;
+    }
+  }
+}

@@ -4,11 +4,15 @@ import { UsersRoutingModule } from './users.routing';
 import { SharedModule } from '../shared/shared.module';
 import { MarkdownModule } from 'ngx-markdown';
 import { ProfileComponent } from './profile/profile.component';
+import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 
 
 
 @NgModule({
-  declarations: [ProfileComponent],
+  declarations: [
+    ProfileComponent,
+    ProfileEditComponent,
+  ],
   imports: [
     CommonModule,
     UsersRoutingModule,
