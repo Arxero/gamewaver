@@ -20,9 +20,12 @@
       <input matInput placeholder="Location" formControlName="location"/>
     </mat-form-field>
 
-    <mat-form-field class="form-field">
-      <input matInput placeholder="Gender" formControlName="gender"/>
-    </mat-form-field>
+    <mat-radio-group formControlName="gender">
+      <mat-radio-button [value]="userGender.MALE">Male</mat-radio-button>
+      <mat-radio-button [value]="userGender.FEMALE">Female</mat-radio-button>
+      <mat-radio-button [value]="userGender.OTHER">Other</mat-radio-button>
+    </mat-radio-group>
+
 
     <mat-form-field class="form-field">
       <input matInput placeholder="Email" formControlName="email" required/>

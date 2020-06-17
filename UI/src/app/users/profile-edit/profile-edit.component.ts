@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Profile } from '../../shared/models/Profile';
+import { User, UserGender } from '../models/dto/user';
 import { BaseComponent } from '../../shared/base.component';
 import { Store, select } from '@ngrx/store';
 import { AuthState } from '../../store/auth/auth.reducer';
@@ -7,7 +7,8 @@ import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../../store/auth/auth.selectors';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { cloneDeep } from 'lodash';
-
+import { UpdateUserCmd } from '../models/cmd/update-user.cmd';
+import { EditUserAction } from '../../store/users/users.actions';
 
 @Component({
   selector: 'app-edit',
@@ -15,7 +16,7 @@ import { cloneDeep } from 'lodash';
   styleUrls: ['./profile-edit.component.scss'],
 })
 export class ProfileEditComponent extends BaseComponent implements OnInit {
-  user: Profile;
+  user: User;
   editProfileForm: FormGroup;
 
   constructor(private store: Store<AuthState>) {
@@ -67,13 +68,18 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
   get gender() {
     return this.editProfileForm.get('gender');
   }
+  get userGender() {
+    return UserGender;
+  }
 
   onSave() {
-    // const signUpCmd: SignUpCmd = {
-    //   username: this.username.value,
-    //   email: this.email.value,
-    //   password: this.password.value,
-    // };
-    // this.store.dispatch(new RegisterAction({ signUpCmd }));
+    const updateUserCmd: UpdateUserCmd = {
+      email: this.email.value,
+      avatar: this.avatar.value,
+      gender: this.gender.value,
+      location: this.location.value,
+      summary: this.summary.value
+    };
+    this.store.dispatch(new EditUserAction({ updateUserCmd }));
   }
 }

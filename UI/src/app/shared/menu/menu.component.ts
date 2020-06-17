@@ -8,7 +8,7 @@ import { Store, select } from '@ngrx/store';
 import { AuthState } from '../../store/auth/auth.reducer';
 import { takeUntil, filter } from 'rxjs/operators';
 import { authState } from '../../store/auth/auth.selectors';
-import { Profile } from '../models/Profile';
+import { User } from '../../users/models/dto/user';
 import { LogoutAction } from '../../store/auth/auth.actions';
 
 @Component({
@@ -19,7 +19,7 @@ import { LogoutAction } from '../../store/auth/auth.actions';
 export class MenuComponent extends BaseComponent implements OnInit {
   get menuItems() { return MenuItems; }
   isLoggedIn: boolean;
-  user: Profile;
+  user: User;
 
   constructor(
     public dialog: MatDialog,

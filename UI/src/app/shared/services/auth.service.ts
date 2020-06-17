@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Profile } from '../models/Profile';
+import { User } from '../../users/models/dto/user';
 import { EnvironmentService } from './environment.service';
 import { SignUpCmd } from '../../auth/models/cmd/sign-up.cmd';
 import { LoginCmd } from '../../auth/models/cmd/login.cmd';
@@ -10,7 +10,7 @@ import { IResponse } from '../models/response';
 export interface IAuthService {
   login(cmd: LoginCmd): Promise<TokenDto>;
   register(cmd: SignUpCmd): Promise<TokenDto>;
-  getUser(): Promise<IResponse<Profile>>;
+  getUser(): Promise<IResponse<User>>;
   isLoggedIn(): boolean;
   logout(): void;
   getAuthorizationHeaderValue(): string;
@@ -40,12 +40,12 @@ export class AuthService implements IAuthService {
     return this.http.post<TokenDto>(`${this.BASE_URL}/signup`, cmd).toPromise();
   }
 
-  getUser(): Promise<IResponse<Profile>> {
+  getUser(): Promise<IResponse<User>> {
     const token = this.getAuthorizationHeaderValue();
     let headers = new HttpHeaders();
     headers = headers.append('Authorization', token);
     return this.http
-      .get<IResponse<Profile>>(`${this.BASE_URL}/profile`, { headers })
+      .get<IResponse<User>>(`${this.BASE_URL}/profile`, { headers })
       .toPromise();
   }
 

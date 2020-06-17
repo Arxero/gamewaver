@@ -1,4 +1,4 @@
-import { DataEntity } from './common';
+import { DataEntity } from '../../../shared/models/common';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -16,7 +16,7 @@ export enum UserGender {
   OTHER = 'other',
 }
 
-export interface Profile extends DataEntity {
+export interface User extends DataEntity {
   username: string;
   email: string;
   role: UserRole;

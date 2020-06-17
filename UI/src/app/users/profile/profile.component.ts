@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { AuthState } from '../../store/auth/auth.reducer';
 import { takeUntil, filter } from 'rxjs/operators';
 import { authState, userProfile } from '../../store/auth/auth.selectors';
-import { Profile } from '../../shared/models/Profile';
+import { User } from '../models/dto/user';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +12,7 @@ import { Profile } from '../../shared/models/Profile';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent extends BaseComponent implements OnInit {
-  user: Profile;
+  user: User;
 
   constructor(private store: Store<AuthState>) {
     super();

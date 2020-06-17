@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
-import { Profile } from '../../shared/models/Profile';
+import { User } from '../../users/models/dto/user';
 import { SignUpCmd } from '../../auth/models/cmd/sign-up.cmd';
 import { LoginCmd } from '../../auth/models/cmd/login.cmd';
-import { TokenDto, TokenLocal } from '../../auth/models/dto/token.dto';
+import { TokenDto } from '../../auth/models/dto/token.dto';
 
 export enum AuthActionTypes {
   RegisterAction = '[Register] Action',
@@ -59,7 +59,7 @@ export class GetUserInfoAction implements Action {
 
 export class GetUserInfoSuccessAction implements Action {
   readonly type = AuthActionTypes.GetUserInfoSuccess;
-  constructor(public payload: { userProfile: Profile }) {}
+  constructor(public payload: { userProfile: User }) {}
 }
 
 export class GetUserInfoErrorAction implements Action {

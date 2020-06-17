@@ -18,7 +18,6 @@ import { SignUpCmd } from './models/cmd/sign-up.cmd';
 import { User, UserStatus } from '../users/models/user.entity';
 import { TokenDto } from './models/dto/token.dto';
 import { UsersService } from 'src/users/users.service';
-import { GetProfileDto } from './models/dto/get-profile.dto';
 import { ChangePasswordCmd } from './models/cmd/change-password.cmd';
 import { ConfigService } from '@nestjs/config';
 import { ResetPasswordCmd } from './models/cmd/reset-password.cmd';
@@ -32,6 +31,7 @@ import { TypeEmail } from './models/cmd/send-email.cmd';
 import { AuthJwtService } from './auth-jwt.service';
 import { LoginCmd } from './models/cmd/login.cmd';
 import { ApiBody, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { GetUserDto } from 'src/users/models/dto/get-user.dto';
 
 @ApiTags('Auth')
 @ApiBearerAuth()
@@ -64,8 +64,8 @@ export class AuthController {
   @Get('profile')
   async getProfile(@Request() req): Promise<IResponseBase> {
     const user = await this.usersService.findOne({ id: req.user.id });
-    return new ResponseSuccess<GetProfileDto>({
-      result: new GetProfileDto(user),
+    return new ResponseSuccess<GetUserDto>({
+      result: new GetUserDto(user),
     });
   }
 

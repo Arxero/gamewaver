@@ -1,22 +1,33 @@
-import { IUser, UserRole, UserStatus } from '../user.entity';
+import { IUser, UserRole, UserStatus, UserGender } from '../user.entity';
 
 export class GetUserDto implements IUser {
   constructor(data: IUser) {
     this.id = data.id;
+    this.createdAt = data.createdAt;
+    this.updatedAt = data.updatedAt;
+
+    this.username = data.username;
     this.email = data.email;
     this.role = data.role;
     this.status = data.status;
-    this.createdAt = data.createdAt;
-    this.updatedAt = data.updatedAt;
+
     this.avatar = data.avatar;
-    this.username = data.username;
+    this.summary = data.summary;
+    this.location = data.location;
+    this.gender = data.gender;
   }
+
   id: string;
-  email: string;
+  createdAt: Date;
+  updatedAt: Date;
+
   username: string;
+  email: string;
   role: UserRole;
   status: UserStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+
   avatar: string;
+  summary: string;
+  location: string;
+  gender: UserGender;
 }

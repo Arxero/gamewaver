@@ -72,8 +72,10 @@ export class UsersService {
       this.authorize(user, request);
     }
     user.email = payload.email;
-    user.role = payload.role;
-    user.status = payload.status;
+    user.avatar = payload.avatar;
+    user.summary = payload.summary;
+    user.location = payload.location;
+    user.gender = payload.gender;
     try {
       return await this.usersRepository.save(user);
     } catch (error) {
