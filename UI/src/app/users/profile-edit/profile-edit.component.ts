@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { User, UserGender } from '../models/dto/user';
 import { BaseComponent } from '../../shared/base.component';
 import { Store, select } from '@ngrx/store';
-import { AuthState } from '../../store/auth/auth.reducer';
 import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../../store/auth/auth.selectors';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { cloneDeep } from 'lodash';
 import { UpdateUserCmd } from '../models/cmd/update-user.cmd';
 import { EditUserAction } from '../../store/users/users.actions';
+import { UsersState } from '../../store/users/users.reducer';
 
 @Component({
   selector: 'app-edit',
@@ -19,7 +19,7 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
   user: User;
   editProfileForm: FormGroup;
 
-  constructor(private store: Store<AuthState>) {
+  constructor(private store: Store<UsersState>) {
     super();
 
     store
@@ -78,8 +78,10 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
       avatar: this.avatar.value,
       gender: this.gender.value,
       location: this.location.value,
-      summary: this.summary.value
+      summary: this.summary.value,
     };
-    this.store.dispatch(new EditUserAction({ updateUserCmd }));
+    this.store.dispatch(
+      new EditUserAction({ id: this.user.id, updateUserCmd }),
+    );
   }
 }

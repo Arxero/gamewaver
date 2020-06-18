@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { User } from '../../users/models/dto/user';
-import { EnvironmentService } from './environment.service';
-import { SignUpCmd } from '../../auth/models/cmd/sign-up.cmd';
-import { LoginCmd } from '../../auth/models/cmd/login.cmd';
-import { TokenDto, TokenLocal } from '../../auth/models/dto/token.dto';
+import { LoginCmd } from '../auth/models/cmd/login.cmd';
+import { TokenDto, TokenLocal } from '../auth/models/dto/token.dto';
+import { SignUpCmd } from '../auth/models/cmd/sign-up.cmd';
+import { IResponse } from '../shared/models/response';
+import { User } from '../users/models/dto/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IResponse } from '../models/response';
+import { EnvironmentService } from './environment.service';
+
 
 export interface IAuthService {
   login(cmd: LoginCmd): Promise<TokenDto>;

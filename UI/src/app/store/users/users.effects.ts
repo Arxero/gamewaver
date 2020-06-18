@@ -11,12 +11,14 @@ import {
   EditUserActionFailure,
 } from './users.actions';
 import { UsersState } from './users.reducer';
+import { UsersService } from '../../services/users.service';
+import { GetUserInfoAction } from '../auth/auth.actions';
 
 @Injectable()
 export class UsersEffects {
   constructor(
     private actions$: Actions,
-    // private authservice: AuthService,
+    private usersService: UsersService,
     private router: Router,
     private snackBar: MatSnackBar,
     private store: Store<UsersState>,
@@ -27,8 +29,8 @@ export class UsersEffects {
     ofType<EditUserAction>(UsersActionTypes.EditUserAction),
     tap(async a => {
       try {
-        // const accessToken = await this.authservice.register(a.payload.signUpCmd);
-        // this.store.dispatch(new RegisterActionSuccess({ accessToken }));
+        const user = await this.usersService.update(a.payload.id, a.payload.updateUserCmd);
+        this.store.dispatch(new EditUserActionSuccess({ user }));
       } catch (error) {
         console.log(error);
       }
@@ -39,7 +41,8 @@ export class UsersEffects {
   registerSuccess$ = this.actions$.pipe(
     ofType<EditUserActionSuccess>(UsersActionTypes.EditUserActionSuccess),
     tap(a => {
-      this.router.navigate(['/user/profile']);
+      this.store.dispatch(new GetUserInfoAction());
+      this.router.navigate(['/users/profile']);
       this.snackBar.open('Edit profile successfull', 'CLOSE', {
         duration: 2000,
       });

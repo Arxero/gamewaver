@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
-import { Paging, Sorting } from '../models/common';
 import { EnvironmentService } from './environment.service';
 import { AuthService } from './auth.service';
+import { Paging, Sorting } from '../shared/models/common';
 
 export interface IRequestOptions {
   headers?: HttpHeaders;

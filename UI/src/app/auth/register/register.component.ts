@@ -5,7 +5,6 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
-import { EnvironmentService } from '../../shared/services/environment.service';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/auth/auth.reducer';
 import { RegisterAction } from '../../store/auth/auth.actions';

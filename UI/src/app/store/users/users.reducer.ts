@@ -1,4 +1,4 @@
-import { User } from 'src/app/users/models/dto/user';
+import { User } from '../../users/models/dto/user';
 import { UsersActionTypes, UsersActions } from './users.actions';
 
 export interface UsersState {

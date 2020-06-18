@@ -11,7 +11,7 @@ export enum UsersActionTypes {
 
 export class EditUserAction implements Action {
   readonly type = UsersActionTypes.EditUserAction;
-  constructor(public payload: { updateUserCmd: UpdateUserCmd }) {}
+  constructor(public payload: { id: string; updateUserCmd: UpdateUserCmd }) {}
 }
 
 export class EditUserActionSuccess implements Action {

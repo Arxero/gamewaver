@@ -14,9 +14,10 @@ import { reducers, metaReducers } from './store/app.state';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app.routing';
 import { MarkdownModule } from 'ngx-markdown';
-import { HttpClientService } from './shared/services/http-client.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientService } from './services/http-client.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { UsersEffects } from './store/users/users.effects';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     SharedModule,
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE
@@ -45,6 +47,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     EffectsModule.forFeature([
       AuthEffects,
+      UsersEffects
     ]),
   ],
   providers: [

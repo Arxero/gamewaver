@@ -14,7 +14,7 @@ import {
   RegisterActionFailure,
 } from './auth.actions';
 import { tap, map, switchMap } from 'rxjs/operators';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';

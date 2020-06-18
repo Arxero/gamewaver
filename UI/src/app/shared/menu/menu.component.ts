@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItems } from './menu-items';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../../auth/login/login.component';
-import { AuthService } from '../services/auth.service';
 import { BaseComponent } from '../base.component';
 import { Store, select } from '@ngrx/store';
 import { AuthState } from '../../store/auth/auth.reducer';
@@ -10,6 +9,7 @@ import { takeUntil, filter } from 'rxjs/operators';
 import { authState } from '../../store/auth/auth.selectors';
 import { User } from '../../users/models/dto/user';
 import { LogoutAction } from '../../store/auth/auth.actions';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-menu',

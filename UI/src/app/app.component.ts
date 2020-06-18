@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MenuItems } from './shared/menu/menu-items';
-import { AuthService } from './shared/services/auth.service';
+import { AuthService } from './services/auth.service';
 import { Store } from '@ngrx/store';
 import { AuthState } from './store/auth/auth.reducer';
 import { GetUserInfoAction } from './store/auth/auth.actions';
