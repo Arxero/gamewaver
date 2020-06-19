@@ -35,17 +35,17 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.editProfileForm = new FormGroup({
-      email: new FormControl(this.user.email, [
+      email: new FormControl(this.user?.email, [
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(30),
         Validators.email,
       ]),
 
-      avatar: new FormControl(this.user.avatar),
-      summary: new FormControl(this.user.summary),
-      location: new FormControl(this.user.location),
-      gender: new FormControl(this.user.gender),
+      avatar: new FormControl(this.user?.avatar),
+      summary: new FormControl(this.user?.summary),
+      location: new FormControl(this.user?.location),
+      gender: new FormControl(this.user?.gender),
     });
 
     this.avatar.valueChanges.subscribe(x => {

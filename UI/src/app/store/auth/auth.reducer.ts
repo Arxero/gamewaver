@@ -16,11 +16,10 @@ export function authReducer(
   action: AuthActions,
 ): AuthState {
   switch (action.type) {
-    case AuthActionTypes.RegisterActionSuccess:
-      return {
-        ...state,
-        isAuthenticated: true,
-      } as AuthState;
+    // case AuthActionTypes.RegisterActionSuccess:
+    //   return {
+    //     ...state,
+    //   } as AuthState;
 
     case AuthActionTypes.LoginActionSuccess:
       return {

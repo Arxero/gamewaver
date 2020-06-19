@@ -19,6 +19,8 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { AuthState } from './auth.reducer';
+import { MatDialog } from '@angular/material/dialog';
+import { RegisterConfirmDialogComponent } from '../../auth/register/register-confirm-dialog';
 
 @Injectable()
 export class AuthEffects {
@@ -28,6 +30,7 @@ export class AuthEffects {
     private router: Router,
     private snackBar: MatSnackBar,
     private store: Store<AuthState>,
+    private dialog: MatDialog,
   ) {}
 
   @Effect({ dispatch: false })
@@ -35,8 +38,10 @@ export class AuthEffects {
     ofType<RegisterAction>(AuthActionTypes.RegisterAction),
     tap(async a => {
       try {
-        const accessToken = await this.authservice.register(a.payload.signUpCmd);
-        this.store.dispatch(new RegisterActionSuccess({ accessToken }));
+        const sentEmailDto = await this.authservice.register(
+          a.payload.signUpCmd,
+        );
+        this.store.dispatch(new RegisterActionSuccess({ sentEmailDto }));
       } catch (error) {
         console.log(error);
       }
@@ -47,12 +52,11 @@ export class AuthEffects {
   registerSuccess$ = this.actions$.pipe(
     ofType<RegisterActionSuccess>(AuthActionTypes.RegisterActionSuccess),
     tap(a => {
-      this.authservice.saveToken(a.payload.accessToken);
       this.router.navigate(['/']);
+      this.dialog.open(RegisterConfirmDialogComponent, { data: a.payload.sentEmailDto });
       this.snackBar.open('Registration successfull', 'CLOSE', {
-        duration: 2000,
+        duration: 5000,
       });
-      this.store.dispatch(new GetUserInfoAction());
     }),
   );
 

@@ -6,11 +6,12 @@ import { IResponse } from '../shared/models/response';
 import { User } from '../users/models/dto/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentService } from './environment.service';
+import { SentEmailDto } from '../auth/models/dto/sent-email.dto';
 
 
 export interface IAuthService {
   login(cmd: LoginCmd): Promise<TokenDto>;
-  register(cmd: SignUpCmd): Promise<TokenDto>;
+  register(cmd: SignUpCmd): Promise<SentEmailDto>;
   getUser(): Promise<IResponse<User>>;
   isLoggedIn(): boolean;
   logout(): void;
@@ -37,8 +38,8 @@ export class AuthService implements IAuthService {
     return this.http.post<TokenDto>(`${this.BASE_URL}/login`, cmd).toPromise();
   }
 
-  register(cmd: SignUpCmd): Promise<TokenDto> {
-    return this.http.post<TokenDto>(`${this.BASE_URL}/signup`, cmd).toPromise();
+  register(cmd: SignUpCmd): Promise<SentEmailDto> {
+    return this.http.post<SentEmailDto>(`${this.BASE_URL}/signup`, cmd).toPromise();
   }
 
   getUser(): Promise<IResponse<User>> {

@@ -44,11 +44,10 @@ export class AuthController {
     private authJwtService: AuthJwtService,
   ) {}
 
-  private webLink = `${this.configService.get<string>('web.url')}
-  :${this.configService.get<string>('web.port')}/`;
+  private webLink = `${this.configService.get<string>('web.url')}:${this.configService.get<string>('web.port')}/`;
 
   @Post('signup')
-  async signUp(@Body() user: SignUpCmd): Promise<TokenDto> {
+  async signUp(@Body() user: SignUpCmd): Promise<SentEmailDto> {
     return await this.authService.signUp(new User(user));
   }
 
@@ -125,11 +124,12 @@ export class AuthController {
   ): Promise<TokenDto> {
     try {
       const decoded = await this.authJwtService.verifyToken(token);
+     
       await this.usersService.update(
         decoded.id,
         new User({ status: UserStatus.CONFIRM }),
       );
-      return res.redirect(this.webLink + 'login');
+      return res.redirect(this.webLink + 'auth/login?emailConfirmed=true');
     } catch (error) {
       throw new BadRequestException(`Invalid token.`);
     }

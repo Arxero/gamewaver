@@ -23,9 +23,9 @@ export class AuthInterceptor implements HttpInterceptor {
     const token = this.authService.getToken();
     const isRenew = request.url.includes('renew');
     const isTokenExpired = Date.now() > token?.savedAt + token?.expiresIn * 1000;
+
     // check if token is expired if yes we request a new one
     if (!isRenew && token && isTokenExpired) {
-      console.log('token expired');
       const newToken = await this.authService.renewToken();
       this.authService.saveToken(newToken);
 

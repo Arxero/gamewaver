@@ -44,11 +44,7 @@ export class MenuComponent extends BaseComponent implements OnInit {
   }
 
   openLoginDialog() {
-    const dialogRef = this.dialog.open(LoginComponent);
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log(`Dialog result: ${result}`);
-    // });
+   this.dialog.open(LoginComponent);
   }
 
   onLogout() {

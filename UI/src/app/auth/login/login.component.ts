@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/auth/auth.reducer';
 import { LoginAction } from '../../store/auth/auth.actions';
 import { LoginCmd } from '../models/cmd/login.cmd';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<LoginComponent>,
     private store: Store<AuthState>,
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: string
   ) {}
 
   ngOnInit(): void {
@@ -25,6 +28,12 @@ export class LoginComponent implements OnInit {
       password: new FormControl(null, [Validators.required]),
       rememberMe: new FormControl(true, [Validators.required]),
     });
+
+    if (this.data) {
+      this.snackBar.open(`${this.data}`, 'CLOSE', {
+        duration: 5000,
+      });
+    }
   }
 
   get username() {

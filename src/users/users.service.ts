@@ -76,6 +76,7 @@ export class UsersService {
     user.summary = payload.summary;
     user.location = payload.location;
     user.gender = payload.gender;
+    user.status = payload.status;
     try {
       return await this.usersRepository.save(user);
     } catch (error) {

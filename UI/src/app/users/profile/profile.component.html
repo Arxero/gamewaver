@@ -1,4 +1,4 @@
-<mat-card class="profile">
+<mat-card class="profile" *ngIf="user">
   <div class="image">
     <img [src]="user.avatar || './assets/images/common/no_avatar.jpg'" alt="{{ user.username }}'s avatar" />
   </div>

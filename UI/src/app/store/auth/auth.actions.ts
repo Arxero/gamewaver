@@ -3,6 +3,7 @@ import { User } from '../../users/models/dto/user';
 import { SignUpCmd } from '../../auth/models/cmd/sign-up.cmd';
 import { LoginCmd } from '../../auth/models/cmd/login.cmd';
 import { TokenDto } from '../../auth/models/dto/token.dto';
+import { SentEmailDto } from '../../auth/models/dto/sent-email.dto';
 
 export enum AuthActionTypes {
   RegisterAction = '[Register] Action',
@@ -26,12 +27,11 @@ export class RegisterAction implements Action {
 
 export class RegisterActionSuccess implements Action {
   readonly type = AuthActionTypes.RegisterActionSuccess;
-  constructor(public payload: { accessToken: TokenDto }) {}
+  constructor(public payload: { sentEmailDto: SentEmailDto }) {}
 }
 
 export class RegisterActionFailure implements Action {
-  readonly type = AuthActionTypes.LoginActionFailure;
-  constructor(public payload: { isAuthenticated: boolean }) {}
+  readonly type = AuthActionTypes.RegisterActionFailure;
 }
 
 export class LoginAction implements Action {

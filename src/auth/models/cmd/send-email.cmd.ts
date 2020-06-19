@@ -10,7 +10,7 @@ export enum TypeEmail {
 }
 
 export class SendEmailCmd implements Options {
-  constructor(typeEmail: TypeEmail, user: User, token: string) {
+  constructor(typeEmail: TypeEmail, user: User, token: string, hostUrl: string) {
     switch (typeEmail) {
       case TypeEmail.RESET_PASSWORD:
         this.subject = 'Frogotten Password';
@@ -22,15 +22,15 @@ export class SendEmailCmd implements Options {
         this.subject = 'Email confrimation';
         this.htmlContent = 'Confirm your email by clicking the link bellow';
         this.concreteLink = '/auth/verify-email/';
-        this.resultMessage = `Conrfimation link was sent to ${user.email}`;
+        this.resultMessage = `Email conrfimation link was sent to **${user.email}**`;
         break;
     }
 
-    this.from = '"Company" <' + 'Gamewaver' + '>';
+    this.from = '"Gamewaver" <' + 'Gamewaver' + '>';
     this.to = user.email;
     this.html =
       `Hi! <br><br>${this.htmlContent}<br><br>` +
-      `<a href=http://localhost:3000${this.concreteLink}${token}>Click here</a>`;
+      `<a href=${hostUrl}${this.concreteLink}${token}>Click here</a>`;
   }
 
   private htmlContent: string;
