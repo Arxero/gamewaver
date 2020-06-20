@@ -26,12 +26,14 @@ import {
   IResponseBase,
   ResponseSuccess,
   ResponseError,
+  IResponse,
 } from 'src/common/models/response';
 import { TypeEmail } from './models/cmd/send-email.cmd';
 import { AuthJwtService } from './auth-jwt.service';
 import { LoginCmd } from './models/cmd/login.cmd';
 import { ApiBody, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { GetUserDto } from 'src/users/models/dto/get-user.dto';
+import { ForgotPasswordCmd } from './models/cmd/forgot-password.cmd';
 
 @ApiTags('Auth')
 @ApiBearerAuth()
@@ -76,10 +78,12 @@ export class AuthController {
   }
 
   //this generate token and send the email with it, for user to click
-  @Get('forgot-password/:email')
-  async forgotPassword(@Param('email') email: string): Promise<SentEmailDto> {
-    const user = await this.usersService.findOne({ email });
-    return this.authService.sendEmail(user, TypeEmail.RESET_PASSWORD);
+  @Post('forgot-password')
+  @ApiBody({ type: ForgotPasswordCmd })
+  async forgotPassword(@Body() cmd: ForgotPasswordCmd): Promise<IResponse<SentEmailDto>> {
+    const user = await this.usersService.findOne({ email: cmd.email });
+    const result = await this.authService.sendEmail(user, TypeEmail.RESET_PASSWORD);
+    return new ResponseSuccess<SentEmailDto>({ result });
   }
 
   //this get activated after user click on the link from the email

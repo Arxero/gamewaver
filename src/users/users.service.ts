@@ -62,7 +62,7 @@ export class UsersService {
       throw new InternalServerErrorException(error.toString());
     }
     if (!user)
-      throw new NotFoundException(new ResponseError({ message: 'Not Found' }));
+      throw new NotFoundException(new ResponseError({ message: 'User Not Found' }));
     return user;
   }
 

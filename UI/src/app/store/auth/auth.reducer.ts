@@ -33,13 +33,13 @@ export function authReducer(
         isAuthenticated: action.payload.isAuthenticated,
       } as AuthState;
 
-      case AuthActionTypes.GetUserInfo:
+      case AuthActionTypes.GetUserInfoAction:
       return {
         ...state,
         isAuthenticated: true,
       } as AuthState;
 
-    case AuthActionTypes.GetUserInfoSuccess:
+    case AuthActionTypes.GetUserInfoActionSuccess:
       return {
         ...state,
         isAuthenticated: true,

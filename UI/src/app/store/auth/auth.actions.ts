@@ -4,6 +4,9 @@ import { SignUpCmd } from '../../auth/models/cmd/sign-up.cmd';
 import { LoginCmd } from '../../auth/models/cmd/login.cmd';
 import { TokenDto } from '../../auth/models/dto/token.dto';
 import { SentEmailDto } from '../../auth/models/dto/sent-email.dto';
+import { ForgotPasswordCmd } from '../../auth/models/cmd/forgot-password.cmd';
+import { ResponseError } from '../../shared/models/response';
+import { ResetPasswordCmd } from '../../auth/models/cmd/reset-password.cmd';
 
 export enum AuthActionTypes {
   RegisterAction = '[Register] Action',
@@ -15,9 +18,17 @@ export enum AuthActionTypes {
   LoginActionFailure = '[LoginFailure] Action',
   LogoutAction = '[Logout] Action',
 
-  GetUserInfo = '[GetUserInfo] Action',
-  GetUserInfoSuccess = '[GetUserInfoSuccess] Action',
-  GetUserInfoError = '[GetUserInfoError] Action',
+  GetUserInfoAction = '[GetUserInfo] Action',
+  GetUserInfoActionSuccess = '[GetUserInfoSuccess] Action',
+  GetUserInfoActionFailure = '[GetUserInfoError] Action',
+
+  ForgotPasswordAction = '[ForgotPassword] Action',
+  ForgotPasswordActionSuccess = '[ForgotPasswordSuccess] Action',
+  ForgotPasswordActionFailure = '[ForgotPasswordFailure] Action',
+
+  ResetPasswordAction = '[ResetPassword] Action',
+  ResetPasswordActionSuccess = '[ResetPasswordSuccess] Action',
+  ResetPasswordActionFailure = '[ResetPasswordFailure] Action',
 }
 
 export class RegisterAction implements Action {
@@ -54,16 +65,46 @@ export class LogoutAction implements Action {
 }
 
 export class GetUserInfoAction implements Action {
-  readonly type = AuthActionTypes.GetUserInfo;
+  readonly type = AuthActionTypes.GetUserInfoAction;
 }
 
 export class GetUserInfoSuccessAction implements Action {
-  readonly type = AuthActionTypes.GetUserInfoSuccess;
+  readonly type = AuthActionTypes.GetUserInfoActionSuccess;
   constructor(public payload: { userProfile: User }) {}
 }
 
 export class GetUserInfoErrorAction implements Action {
-  readonly type = AuthActionTypes.GetUserInfoError;
+  readonly type = AuthActionTypes.GetUserInfoActionFailure;
+}
+
+export class ForgotPasswordAction implements Action {
+  readonly type = AuthActionTypes.ForgotPasswordAction;
+  constructor(public payload: { forgotPasswordCmd: ForgotPasswordCmd }) {}
+}
+
+export class ForgotPasswordActionSuccess implements Action {
+  readonly type = AuthActionTypes.ForgotPasswordActionSuccess;
+  constructor(public payload: { result: SentEmailDto }) {}
+}
+
+export class ForgotPasswordActionFailure implements Action {
+  readonly type = AuthActionTypes.ForgotPasswordActionFailure;
+  constructor(public payload: { error: ResponseError }) {}
+}
+
+export class ResetPasswordAction implements Action {
+  readonly type = AuthActionTypes.ResetPasswordAction;
+  constructor(public payload: { resetPasswordCmd: ResetPasswordCmd }) {}
+}
+
+export class ResetPasswordActionSuccess implements Action {
+  readonly type = AuthActionTypes.ResetPasswordActionSuccess;
+  constructor(public payload: { result: string }) {}
+}
+
+export class ResetPasswordActionFailure implements Action {
+  readonly type = AuthActionTypes.ResetPasswordActionFailure;
+  constructor(public payload: { error: ResponseError }) {}
 }
 
 export type AuthActions =
@@ -77,4 +118,10 @@ export type AuthActions =
   | LogoutAction
   | GetUserInfoAction
   | GetUserInfoSuccessAction
-  | GetUserInfoErrorAction;
+  | GetUserInfoErrorAction
+  | ForgotPasswordAction
+  | ForgotPasswordActionSuccess
+  | ForgotPasswordActionFailure
+  | ResetPasswordAction
+  | ResetPasswordActionSuccess
+  | ResetPasswordActionFailure;

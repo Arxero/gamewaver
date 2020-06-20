@@ -31,7 +31,9 @@ export class AuthService {
   async sendEmail(user: User, typeEmail: TypeEmail): Promise<SentEmailDto> {
     const token = this.authJwtService.createEmailToken(user);
     const hostUrl = `${this.configService.get<string>('host.url')}:${this.configService.get<string>('host.port')}`;
-    const emailBody = new SendEmailCmd(typeEmail, user, token, hostUrl);
+    const webUrl = `${this.configService.get<string>('web.url')}:${this.configService.get<string>('web.port')}`;
+    const url  = typeEmail === TypeEmail.CONRIM_EMAIL ? hostUrl : webUrl;
+    const emailBody = new SendEmailCmd(typeEmail, user, token, url);
     try {
       await this.createTransporter().sendMail(emailBody);
       return new SentEmailDto({

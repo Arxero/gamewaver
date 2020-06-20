@@ -7,6 +7,8 @@ import { User } from '../users/models/dto/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentService } from './environment.service';
 import { SentEmailDto } from '../auth/models/dto/sent-email.dto';
+import { ForgotPasswordCmd } from '../auth/models/cmd/forgot-password.cmd';
+import { ResetPasswordCmd } from '../auth/models/cmd/reset-password.cmd';
 
 
 export interface IAuthService {
@@ -19,6 +21,8 @@ export interface IAuthService {
   getToken(): TokenLocal;
   saveToken(token: TokenDto, isSession: boolean): void;
   renewToken(): Promise<TokenDto>;
+  forgotPassword(cmd: ForgotPasswordCmd): Promise<IResponse<SentEmailDto>>;
+  resetPassword(cmd : ResetPasswordCmd): Promise<IResponse<string>>;
 }
 
 @Injectable({
@@ -29,7 +33,6 @@ export class AuthService implements IAuthService {
   accessToken = 'accessToken';
 
   constructor(
-    // @Inject('HttpClientService') private httpClient: HttpClientService,
     private http: HttpClient,
     private environmentService: EnvironmentService,
   ) {}
@@ -87,4 +90,13 @@ export class AuthService implements IAuthService {
     const token = this.getToken().accessToken;
     return this.http.get<TokenDto>(`${this.BASE_URL}/renew/${token}`).toPromise();
   }
+
+  forgotPassword(cmd: ForgotPasswordCmd): Promise<IResponse<SentEmailDto>> {
+    return this.http.post<IResponse<SentEmailDto>>(`${this.BASE_URL}/forgot-password`, cmd).toPromise();
+  }
+
+  resetPassword(cmd: ResetPasswordCmd): Promise<IResponse<string>> {
+    return this.http.post<IResponse<string>>(`${this.BASE_URL}/reset-password`, cmd).toPromise();
+  }
+
 }
