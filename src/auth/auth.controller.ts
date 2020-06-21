@@ -46,7 +46,9 @@ export class AuthController {
     private authJwtService: AuthJwtService,
   ) {}
 
-  private webLink = `${this.configService.get<string>('web.url')}:${this.configService.get<string>('web.port')}/`;
+  private webLink = `${this.configService.get<string>(
+    'web.url',
+  )}:${this.configService.get<string>('web.port')}/`;
 
   @Post('signup')
   async signUp(@Body() user: SignUpCmd): Promise<SentEmailDto> {
@@ -57,8 +59,8 @@ export class AuthController {
   @Post('login')
   @ApiBody({ type: LoginCmd })
   @HttpCode(200)
-  async login(@Request() req) {
-    return this.authService.login(new User(req.user));
+  async login(@Request() req): Promise<TokenDto> {
+    return await this.authService.login(new User(req.user));
   }
 
   @UseGuards(JwtAuthGuard)
@@ -80,9 +82,14 @@ export class AuthController {
   //this generate token and send the email with it, for user to click
   @Post('forgot-password')
   @ApiBody({ type: ForgotPasswordCmd })
-  async forgotPassword(@Body() cmd: ForgotPasswordCmd): Promise<IResponse<SentEmailDto>> {
+  async forgotPassword(
+    @Body() cmd: ForgotPasswordCmd,
+  ): Promise<IResponse<SentEmailDto>> {
     const user = await this.usersService.findOne({ email: cmd.email });
-    const result = await this.authService.sendEmail(user, TypeEmail.RESET_PASSWORD);
+    const result = await this.authService.sendEmail(
+      user,
+      TypeEmail.RESET_PASSWORD,
+    );
     return new ResponseSuccess<SentEmailDto>({ result });
   }
 
@@ -97,7 +104,6 @@ export class AuthController {
       return res.redirect(this.webLink + `token/${token}`);
     } catch (error) {
       throw new BadRequestException(
-        // new ResponseError({ message: 'Invalid token.' }),
         new ResponseError({ message: error }),
       );
     }
@@ -128,7 +134,7 @@ export class AuthController {
   ): Promise<TokenDto> {
     try {
       const decoded = await this.authJwtService.verifyToken(token);
-     
+
       await this.usersService.update(
         decoded.id,
         new User({ status: UserStatus.CONFIRM }),

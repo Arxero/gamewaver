@@ -57,7 +57,7 @@ export class LoginActionSuccess implements Action {
 
 export class LoginActionFailure implements Action {
   readonly type = AuthActionTypes.LoginActionFailure;
-  constructor(public payload: { isAuthenticated: boolean }) {}
+  constructor(public payload: { error: ResponseError }) {}
 }
 
 export class LogoutAction implements Action {

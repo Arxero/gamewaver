@@ -5,10 +5,8 @@
 
 $custom-typography: mat-typography-config(
   $headline: mat-typography-level(32px, 48px, 400),
-  $body-1: mat-typography-level(16px, 24px, 400)
+  $body-1: mat-typography-level(16px, 24px, 400),
 );
-
-
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -34,7 +32,6 @@ $gw-angular-accent: mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $gw-angular-warn: mat-palette($mat-red);
-
 
 $my-mat-grey: (
   50: #fafafa,
@@ -66,18 +63,17 @@ $my-mat-grey: (
     A200: $dark-primary-text,
     A400: $dark-primary-text,
     A700: $light-primary-text,
-  )
+  ),
 );
-
 
 // Background palette for dark themes.
 $my-mat-dark-theme-background: (
   status-bar: black,
-  app-bar:    map_get($mat-grey, 900),
+  app-bar: map_get($mat-grey, 900),
   background: #303030,
-  hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
-  card:       #2b2b2b,
-  dialog:     #2b2b2b,
+  hover: rgba(white, 0.04),
+  // TODO(kara): check style with Material Design UX card: #2b2b2b,
+  dialog: #2b2b2b,
   disabled-button: rgba(white, 0.12),
   raised-button: map-get($mat-grey, 800),
   focused-button: $light-focused,
@@ -89,35 +85,33 @@ $my-mat-dark-theme-background: (
   tooltip: map_get($mat-grey, 700),
 );
 
-
 // Foreground palette for dark themes.
 $my-mat-dark-theme-foreground: (
-  base:              #DADADA,
-  divider:           $light-dividers,
-  dividers:          $light-dividers,
-  disabled:          $light-disabled-text,
-  disabled-button:   rgba(white, 0.3),
-  disabled-text:     $light-disabled-text,
-  elevation:         black,
-  hint-text:         $light-disabled-text,
-  secondary-text:    $light-secondary-text,
-  icon:              #DADADA,
-  icons:             #DADADA,
-  text:              #DADADA,
-  slider-min:        #DADADA,
-  slider-off:        rgba(#DADADA, 0.3),
-  slider-off-active: rgba(#DADADA, 0.3),
+  base: #dadada,
+  divider: $light-dividers,
+  dividers: $light-dividers,
+  disabled: $light-disabled-text,
+  disabled-button: rgba(white, 0.3),
+  disabled-text: $light-disabled-text,
+  elevation: black,
+  hint-text: $light-disabled-text,
+  secondary-text: $light-secondary-text,
+  icon: #dadada,
+  icons: #dadada,
+  text: #dadada,
+  slider-min: #dadada,
+  slider-off: rgba(#dadada, 0.3),
+  slider-off-active: rgba(#dadada, 0.3),
 );
 
 $gw-angular-theme: (
   primary: $gw-angular-primary,
   accent: $gw-angular-accent,
-  warn:  $gw-angular-warn,
+  warn: $gw-angular-warn,
   is-dark: true,
   foreground: $my-mat-dark-theme-foreground,
   background: $my-mat-dark-theme-background,
 );
-
 
 // Create the theme object (a Sass map containing all of the palettes).
 // $gw-angular-theme: mat-dark-theme(
@@ -125,7 +119,6 @@ $gw-angular-theme: (
 //   $gw-angular-accent,
 //   $gw-angular-warn
 // );
-
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -153,22 +146,26 @@ html {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
-  color: #DADADA;
+  color: #dadada;
   height: 100%;
 }
 
-h1, h2, h3, h4 {
-  color: #DADADA;
+h1,
+h2,
+h3,
+h4 {
+  color: #dadada;
 }
 
 a {
-  color: #49A0CC;
+  color: #49a0cc;
   text-decoration: none;
 }
 
-ul, ol {
+ul,
+ol {
   padding-left: 32px;
-  padding-bottom: 16px;;
+  padding-bottom: 16px;
 }
 
 main {
@@ -182,4 +179,9 @@ main {
   p a:hover {
     text-decoration: underline;
   }
+
+}
+
+.warn-snackbar {
+  color: #f44336 !important;
 }

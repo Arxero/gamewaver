@@ -22,7 +22,7 @@ export interface IAuthService {
   saveToken(token: TokenDto, isSession: boolean): void;
   renewToken(): Promise<TokenDto>;
   forgotPassword(cmd: ForgotPasswordCmd): Promise<IResponse<SentEmailDto>>;
-  resetPassword(cmd : ResetPasswordCmd): Promise<IResponse<string>>;
+  resetPassword(cmd: ResetPasswordCmd): Promise<IResponse<string>>;
 }
 
 @Injectable({

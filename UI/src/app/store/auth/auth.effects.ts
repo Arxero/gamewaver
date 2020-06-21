@@ -28,6 +28,7 @@ import { AuthState } from './auth.reducer';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterConfirmDialogComponent } from '../../auth/register/register-confirm-dialog';
 import { loginFullRoute } from '../../auth/auth.routing';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Injectable()
 export class AuthEffects {
@@ -35,7 +36,7 @@ export class AuthEffects {
     private actions$: Actions,
     private authservice: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar,
+    private snackbarService: SnackbarService,
     private store: Store<AuthState>,
     private dialog: MatDialog,
   ) {}
@@ -63,9 +64,7 @@ export class AuthEffects {
       this.dialog.open(RegisterConfirmDialogComponent, {
         data: a.payload.sentEmailDto,
       });
-      this.snackBar.open('Registration successfull', 'CLOSE', {
-        duration: 5000,
-      });
+      this.snackbarService.showInfo('Registration Successfull');
     }),
   );
 
@@ -82,8 +81,8 @@ export class AuthEffects {
       try {
         const accessToken = await this.authservice.login(a.payload.loginCmd);
         this.store.dispatch(new LoginActionSuccess({ accessToken }));
-      } catch (error) {
-        console.log(error);
+      } catch ({ error }) {
+        this.store.dispatch(new LoginActionFailure({ error }));
       }
     }),
   );
@@ -101,7 +100,9 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   loginFailure$ = this.actions$.pipe(
     ofType<LoginActionFailure>(AuthActionTypes.LoginActionFailure),
-    map(() => {}),
+    map(a => {
+      this.snackbarService.showWarn(a.payload.error.message);
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -163,9 +164,7 @@ export class AuthEffects {
       AuthActionTypes.ForgotPasswordActionSuccess,
     ),
     tap(a => {
-      this.snackBar.open(`${a.payload.result.message}`, 'CLOSE', {
-        duration: 2000,
-      });
+      this.snackbarService.showInfo(a.payload.result.message);
     }),
   );
 
@@ -175,9 +174,7 @@ export class AuthEffects {
       AuthActionTypes.ForgotPasswordActionFailure,
     ),
     tap(a => {
-      this.snackBar.open(`${a.payload.error.message}`, 'CLOSE', {
-        duration: 2000,
-      });
+      this.snackbarService.showInfo(a.payload.error.message);
     }),
   );
 
@@ -203,9 +200,7 @@ export class AuthEffects {
       AuthActionTypes.ResetPasswordActionSuccess,
     ),
     tap(a => {
-      this.snackBar.open(`${a.payload.result}`, 'CLOSE', {
-        duration: 3000,
-      });
+      this.snackbarService.showInfo(a.payload.result);
       this.router.navigate([loginFullRoute()]);
     }),
   );
@@ -216,9 +211,7 @@ export class AuthEffects {
       AuthActionTypes.ResetPasswordActionFailure,
     ),
     tap(a => {
-      this.snackBar.open(`${a.payload.error.message}`, 'CLOSE', {
-        duration: 2000,
-      });
+      this.snackbarService.showInfo(a.payload.error.message);
     }),
   );
 }
