@@ -9,7 +9,6 @@ import { takeUntil, filter } from 'rxjs/operators';
 import { authState } from '../../store/auth/auth.selectors';
 import { User } from '../../users/models/dto/user';
 import { LogoutAction } from '../../store/auth/auth.actions';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -23,7 +22,6 @@ export class MenuComponent extends BaseComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private authService: AuthService,
     private store: Store<AuthState>) {
       super();
 

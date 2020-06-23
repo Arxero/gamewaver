@@ -1,0 +1,38 @@
+.home {
+  display: flex;
+  flex-wrap: nowrap;
+
+  section {
+    flex-basis: 700px;
+  }
+
+  aside {
+    flex-grow: 1;
+    padding-left: 16px;
+
+    mat-card {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+.mat-sidenav-container {
+  background-color: transparent;
+  min-height: 200px;
+}
+
+mat-sidenav-content {
+  width: 100%;
+}
+
+mat-sidenav {
+  background-color: transparent;
+  padding-left: 16px;
+  width: 200px;
+}
+
+mat-card {
+  margin-bottom: 16px;
+}
+
+

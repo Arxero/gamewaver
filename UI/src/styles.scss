@@ -72,7 +72,7 @@ $my-mat-dark-theme-background: (
   app-bar: map_get($mat-grey, 900),
   background: #303030,
   hover: rgba(white, 0.04),
-  // TODO(kara): check style with Material Design UX card: #2b2b2b,
+  card: #2b2b2b,
   dialog: #2b2b2b,
   disabled-button: rgba(white, 0.12),
   raised-button: map-get($mat-grey, 800),

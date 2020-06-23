@@ -22,7 +22,6 @@ import { UsersEffects } from './store/users/users.effects';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,1 +1,29 @@
-<p>home works!</p>
+<!-- <div class="home">
+  <section>
+    <app-create-post></app-create-post>
+  </section>
+  <aside>
+    <mat-card>Sidebar 1</mat-card>
+    <mat-card>Sidebar 2</mat-card>
+  </aside>
+</div> -->
+
+<button mat-button (click)="sidenav.toggle()">
+  <mat-icon>menu</mat-icon>
+</button>
+
+
+<div style="height: 100%;">
+  <mat-sidenav-container>
+    <mat-sidenav-content>
+      <!-- <p><mat-checkbox [(ngModel)]="opened">sidenav.opened</mat-checkbox></p> -->
+      <app-create-post></app-create-post>
+  
+    </mat-sidenav-content>
+    <mat-sidenav #sidenav mode="side" opened="true" position="end">
+      <mat-card>Sidebar 1</mat-card>
+      <mat-card>Sidebar 2</mat-card>
+    </mat-sidenav>
+  </mat-sidenav-container>
+</div>
+
