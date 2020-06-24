@@ -1,1 +1,21 @@
-<mat-card>Main</mat-card>
+<mat-card *ngIf="isLoggedIn && user">
+  <form [formGroup]="postForm" class="post-form">
+
+    <div class="content-container">
+      <div class="image">
+        <img [src]="user.avatar || './assets/images/common/no_avatar.jpg'" alt="{{ user.username }}'s avatar" />
+      </div>
+
+      <mat-form-field class="form-field">
+        <textarea  matInput placeholder="Add a post..." formControlName="content"></textarea>
+        <mat-error *ngIf="content.invalid && content.errors.required">Post is required</mat-error>
+      <mat-error *ngIf="content.errors?.minlength || content.errors?.maxlength">Post must be between 3 and 5000 characters long</mat-error>
+      </mat-form-field>
+    </div>
+
+
+    <div class="actions">
+      <button mat-raised-button color="primary" class="form-button" [disabled]="postForm.invalid" (click)="onPost()">POST</button>
+    </div>
+  </form>
+</mat-card>

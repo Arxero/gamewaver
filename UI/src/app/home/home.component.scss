@@ -1,19 +1,5 @@
-.home {
-  display: flex;
-  flex-wrap: nowrap;
-
-  section {
-    flex-basis: 700px;
-  }
-
-  aside {
-    flex-grow: 1;
-    padding-left: 16px;
-
-    mat-card {
-      margin-bottom: 16px;
-    }
-  }
+.toggle-btn-wrapper {
+  text-align: right;
 }
 
 .mat-sidenav-container {
@@ -22,17 +8,35 @@
 }
 
 mat-sidenav-content {
-  width: 100%;
+
 }
 
 mat-sidenav {
-  background-color: transparent;
+  background-color: transparent !important;
   padding-left: 16px;
-  width: 200px;
+  width: 264px;
+  border: 0;
+}
+
+.mat-drawer-side.mat-drawer-end {
+  border: none;
 }
 
 mat-card {
   margin-bottom: 16px;
 }
+
+
+.mat-drawer-backdrop.mat-drawer-shown {
+  background-color: transparent !important;
+}
+
+@media screen and (max-width: 768px) {
+  mat-sidenav {
+    background-color: #17191C !important;
+
+  }
+}
+
 
 
