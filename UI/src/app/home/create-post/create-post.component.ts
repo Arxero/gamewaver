@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '../../shared/base.component';
 import { Store, select } from '@ngrx/store';
 import { AuthState } from '../../store/auth/auth.reducer';
@@ -11,6 +11,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CreatePostComponent extends BaseComponent implements OnInit {
   isLoggedIn: boolean;
@@ -47,6 +48,5 @@ export class CreatePostComponent extends BaseComponent implements OnInit {
   }
 
   onPost() {
-
   }
 }

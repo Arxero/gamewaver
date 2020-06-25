@@ -1,21 +1,30 @@
-<mat-card *ngIf="isLoggedIn && user">
-  <form [formGroup]="postForm" class="post-form">
+<mat-tab-group *ngIf="isLoggedIn && user">
+  <mat-tab label="Write">
+    <mat-card>
+      <form [formGroup]="postForm" class="post-form">
 
-    <div class="content-container">
-      <div class="image">
-        <img [src]="user.avatar || './assets/images/common/no_avatar.jpg'" alt="{{ user.username }}'s avatar" />
-      </div>
+        <div class="content-container">
+          <div class="image">
+            <img [src]="user.avatar || './assets/images/common/no_avatar.jpg'" alt="{{ user.username }}'s avatar" />
+          </div>
 
-      <mat-form-field class="form-field">
-        <textarea  matInput placeholder="Add a post..." formControlName="content"></textarea>
-        <mat-error *ngIf="content.invalid && content.errors.required">Post is required</mat-error>
-      <mat-error *ngIf="content.errors?.minlength || content.errors?.maxlength">Post must be between 3 and 5000 characters long</mat-error>
-      </mat-form-field>
-    </div>
+          <mat-form-field class="form-field">
+            <textarea cdkTextareaAutosize [cdkAutosizeMinRows]='2' matInput placeholder="Add a post..." formControlName="content"></textarea>
+            <mat-error *ngIf="content.invalid && content.errors.required">Post is required</mat-error>
+            <mat-error *ngIf="content.errors?.minlength || content.errors?.maxlength">Post must be between 3 and 5000 characters long</mat-error>
+          </mat-form-field>
+        </div>
 
 
-    <div class="actions">
-      <button mat-raised-button color="primary" class="form-button" [disabled]="postForm.invalid" (click)="onPost()">POST</button>
-    </div>
-  </form>
-</mat-card>
+        <div class="actions">
+          <button mat-raised-button color="primary" class="form-button" [disabled]="postForm.invalid" (click)="onPost()">POST</button>
+        </div>
+      </form>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Preview">
+    <mat-card class="preview">
+      <markdown [data]="content.value" ngPreserveWhitespaces></markdown>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>
