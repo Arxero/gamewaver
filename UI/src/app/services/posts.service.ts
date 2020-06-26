@@ -13,7 +13,7 @@ export class PostsService {
     @Inject('IHttpClientService') private httpClient: HttpClientService,
   ) {}
 
-  create(cmd: CreatePostCmd): Promise<GetPostDto> {
+   create(cmd: CreatePostCmd): Promise<GetPostDto> {
     return this.httpClient.post<GetPostDto>(`${this.BASE_URL}`, cmd);
   }
 }

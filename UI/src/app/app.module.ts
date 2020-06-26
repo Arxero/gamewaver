@@ -18,6 +18,7 @@ import { HttpClientService } from './services/http-client.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { UsersEffects } from './store/users/users.effects';
+import { HomeEffects } from './store/home/home.effects';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { UsersEffects } from './store/users/users.effects';
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     EffectsModule.forFeature([
       AuthEffects,
-      UsersEffects
+      UsersEffects,
+      HomeEffects,
     ]),
   ],
   providers: [

@@ -13,6 +13,7 @@ import {
 import { UsersState } from './users.reducer';
 import { UsersService } from '../../services/users.service';
 import { GetUserInfoAction } from '../auth/auth.actions';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Injectable()
 export class UsersEffects {
@@ -20,7 +21,7 @@ export class UsersEffects {
     private actions$: Actions,
     private usersService: UsersService,
     private router: Router,
-    private snackBar: MatSnackBar,
+    private snackbarService: SnackbarService,
     private store: Store<UsersState>,
   ) {}
 
@@ -43,9 +44,7 @@ export class UsersEffects {
     tap(a => {
       this.store.dispatch(new GetUserInfoAction());
       this.router.navigate(['/users/profile']);
-      this.snackBar.open('Edit profile successfull', 'CLOSE', {
-        duration: 2000,
-      });
+      this.snackbarService.showInfo('Edit Profile Successfull');
     }),
   );
 

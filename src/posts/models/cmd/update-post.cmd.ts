@@ -1,13 +1,12 @@
-import { IPost } from '../post.entity';
-import { IsString, IsBoolean, Length } from 'class-validator';
+import { IPost, PostCategory } from '../post.entity';
+import { IsString, IsBoolean, Length, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdatePostCmd implements IPost {
   constructor(data: IPost) {
     if (data) {
       this.content = data.content;
-      this.title = data.title;
-      this.isPublished = data.isPublished;
+      this.category = data.category;
     }
   }
 
@@ -15,13 +14,8 @@ export class UpdatePostCmd implements IPost {
   @IsString()
   @Length(3, 5000)
   content: string;
-  
-  @ApiProperty({ minLength: 3, maxLength: 100 })
-  @IsString()
-  @Length(3, 100)
-  title: string;
 
   @ApiProperty()
-  @IsBoolean()
-  isPublished: boolean;
+  @IsEnum(PostCategory)
+  category: PostCategory;
 }

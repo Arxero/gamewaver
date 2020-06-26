@@ -23,6 +23,10 @@
   .actions {
     display: block;
     text-align: right;
+
+    .category {
+      margin-right: 16px;
+    }
   }
 }
 

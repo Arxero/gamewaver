@@ -6,19 +6,26 @@ import { User } from '../../users/models/dto/user';
 import { takeUntil, filter } from 'rxjs/operators';
 import { authState } from '../../store/auth/auth.selectors';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { postCategories } from '../models/post-category';
+import { CreatePostCmd } from '../models/cmd/create-post.cmd';
+import { HomeState } from '../../store/home/home.reducer';
+import { CreatePostAction } from '../../store/home/home.actions';
 
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class CreatePostComponent extends BaseComponent implements OnInit {
   isLoggedIn: boolean;
   user: User;
   postForm: FormGroup;
+  get categories() {
+    return postCategories;
+  }
 
-  constructor(private store: Store<AuthState>) {
+  constructor(private store: Store<HomeState>) {
     super();
 
     store
@@ -40,13 +47,22 @@ export class CreatePostComponent extends BaseComponent implements OnInit {
         Validators.minLength(3),
         Validators.maxLength(5000),
       ]),
+      category: new FormControl(null, [Validators.required]),
     });
   }
 
   get content() {
     return this.postForm.get('content');
   }
+  get category() {
+    return this.postForm.get('category');
+  }
 
   onPost() {
+    const cmd: CreatePostCmd = {
+      content: this.content.value,
+      category: this.category.value,
+    };
+    this.store.dispatch(new CreatePostAction({ cmd }));
   }
 }

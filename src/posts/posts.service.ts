@@ -73,8 +73,7 @@ export class PostsService {
     const post = await this.findOne({ id });
     this.authorize(post);
     post.content = model.content;
-    post.title = model.title;
-    post.isPublished = model.isPublished;
+    post.category = model.category;
     try {
       return await this.postsRepository.save(post);
     } catch (error) {

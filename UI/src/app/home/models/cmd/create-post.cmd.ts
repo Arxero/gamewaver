@@ -1,5 +1,8 @@
+import { PostCategory } from '../post-category';
+
 export interface CreatePostCmd {
   content: string;
-  title: string;
-  isPublished: boolean;
+  category: PostCategory;
+  title?: string;
+  isPublished?: boolean;
 }
