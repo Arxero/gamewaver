@@ -9,4 +9,9 @@ export const homeState = createSelector(
   homeState => homeState
 );
 
+export const homeStatePosts = createSelector(
+  selectHomeState,
+  homeState => homeState.posts
+);
+
 

@@ -17,7 +17,11 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Post as PostModel } from './models/post.entity';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { CreatePostCmd } from './models/cmd/create-post.cmd';
-import { IResponseBase, ResponseSuccess } from 'src/common/models/response';
+import {
+  IResponseBase,
+  ResponseSuccess,
+  IResponse,
+} from 'src/common/models/response';
 import { QueryParams, QueryRequest } from 'src/common/models/query-request';
 import { PagedData } from 'src/common/models/paged-data';
 import { GetPostDto } from './models/dto/get-post.dto';
@@ -38,7 +42,9 @@ export class PostsController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() createModel: CreatePostCmd): Promise<IResponseBase> {
+  async create(
+    @Body() createModel: CreatePostCmd,
+  ): Promise<IResponse<GetPostDto>> {
     const result = await this.postsService.create(new PostModel(createModel));
     return new ResponseSuccess<GetPostDto>({ result: new GetPostDto(result) });
   }
@@ -52,7 +58,9 @@ export class PostsController {
   @ApiQuery({ name: 'take', required: false })
   @ApiQuery({ name: 'skip', required: false })
   @Get()
-  async findAll(@Query() queryParams: QueryParams): Promise<IResponseBase> {
+  async findAll(
+    @Query() queryParams: QueryParams,
+  ): Promise<IResponse<PagedData<GetPostDto>>> {
     const queryRequest = new QueryRequest(queryParams);
     const result = await this.postsService.findAll(queryRequest);
     return new ResponseSuccess<PagedData<GetPostDto>>({ result });

@@ -67,6 +67,9 @@ export class AuthService implements IAuthService {
   }
 
   getAuthorizationHeaderValue(): string {
+    if (!this.getToken()) {
+      return null;
+    }
     return `Bearer ${this.getToken().accessToken}`;
   }
 

@@ -19,6 +19,12 @@ export function homeReducer(
         ...state,
       } as HomeState;
 
+    case HomeActionTypes.GetPostsActionSuccess:
+      return {
+        ...state,
+        posts: action.payload.data,
+      } as HomeState;
+
     default:
       return state;
   }

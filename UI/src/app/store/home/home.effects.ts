@@ -10,6 +10,9 @@ import {
   CreatePostAction,
   CreatePostActionSuccess,
   CreatePostActionFailure,
+  GetPostsAction,
+  GetPostsActionFailure,
+  GetPostsActionSuccess,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 
@@ -46,6 +49,33 @@ export class HomeEffects {
   @Effect({ dispatch: false })
   createPostFailure$ = this.actions$.pipe(
     ofType<CreatePostActionFailure>(HomeActionTypes.CreatePostActionFailure),
+    map(() => {}),
+  );
+
+  @Effect({ dispatch: false })
+  getPosts$ = this.actions$.pipe(
+    ofType<GetPostsAction>(HomeActionTypes.GetPostsAction),
+    tap(async a => {
+      try {
+        const result = await this.postsService.findAll();
+        this.store.dispatch(
+          new GetPostsActionSuccess({ data: result.result.items }),
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  getPostsSuccess$ = this.actions$.pipe(
+    ofType<GetPostsActionSuccess>(HomeActionTypes.GetPostsActionSuccess),
+    tap(() => {}),
+  );
+
+  @Effect({ dispatch: false })
+  getPostsFailure$ = this.actions$.pipe(
+    ofType<GetPostsActionFailure>(HomeActionTypes.GetPostsActionFailure),
     map(() => {}),
   );
 }
