@@ -6,7 +6,7 @@ import { User } from '../../users/models/dto/user';
 import { takeUntil, filter } from 'rxjs/operators';
 import { authState } from '../../store/auth/auth.selectors';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { postCategories } from '../models/post-category';
+import { postCategories } from '../models/view/post-category';
 import { CreatePostCmd } from '../models/cmd/create-post.cmd';
 import { HomeState } from '../../store/home/home.reducer';
 import { CreatePostAction } from '../../store/home/home.actions';

@@ -1,4 +1,4 @@
-import { PostCategory } from '../post-category';
+import { PostCategory } from '../view/post-category';
 
 export interface CreatePostCmd {
   content: string;

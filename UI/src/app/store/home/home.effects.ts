@@ -15,6 +15,8 @@ import {
   GetPostsActionSuccess,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
+import { UsersService } from '../../services/users.service';
+import { DataFilter, SearchType } from '../../shared/models/common';
 
 @Injectable()
 export class HomeEffects {
@@ -23,6 +25,7 @@ export class HomeEffects {
     private store: Store<HomeState>,
     private snackbarService: SnackbarService,
     private postsService: PostsService,
+    private usersService: UsersService
   ) {}
 
   @Effect({ dispatch: false })
@@ -58,6 +61,22 @@ export class HomeEffects {
     tap(async a => {
       try {
         const result = await this.postsService.findAll();
+        const filters: DataFilter[] = [
+          {
+            fieldName: 'id',
+            searchOperator: SearchType.In,
+            searchValue: '92d1f0dc-5a3f-40ab-ab70-f3f6248b0e09'
+          },
+          {
+            fieldName: 'id',
+            searchOperator: SearchType.In,
+            searchValue: 'ab5fbaac-dae5-4448-9ec2-1cfbb2e59cfe'
+          }
+        ];
+
+        const resultUsers = await this.usersService.findAll(filters);
+        console.log(resultUsers);
+
         this.store.dispatch(
           new GetPostsActionSuccess({ data: result.result.items }),
         );

@@ -25,9 +25,24 @@ export interface Sorting {
   sort: SortDirection;
 }
 
+export enum SearchType {
+  Unknown = 'unknown',
+  Equal = 'eq',
+  Not = 'ne',
+  MoreThan = 'gt',
+  MoreThanOrEqual = 'gte',
+  LessThan = 'lt',
+  LessThanOrEqual = 'lte',
+  Like = 'like',
+  Between = 'between',
+  In = 'in',
+  Any = 'any',
+  IsNull = 'isNull',
+}
+
 export interface DataFilter {
   fieldName: string;
-  searchOperator: string;
+  searchOperator: SearchType;
   searchValue: any;
 }
 

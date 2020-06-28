@@ -2,17 +2,17 @@ import { Equal, FindOperator, Not, MoreThan, MoreThanOrEqual, LessThan, LessThan
 
 export enum SearchType {
   Unknown = 'unknown',
-  eq = 'Equal',
-  ne = 'Not',
-  gt = 'MoreThan',
-  gte = 'MoreThanOrEqual',
-  lt = 'LessThan',
-  lte = 'LessThanOrEqual',
-  like = 'Like',
-  between = 'Between',
-  in = 'In',
-  any = 'Any',
-  isNull = 'IsNull',
+  Equal = 'eq',
+  Not = 'ne',
+  MoreThan = 'gt',
+  MoreThanOrEqual = 'gte',
+  LessThan = 'lt',
+  LessThanOrEqual = 'lte',
+  Like = 'like',
+  Between = 'between',
+  In = 'in',
+  Any = 'any',
+  IsNull = 'isNull',
 }
 
 export class DataFiler {
@@ -24,46 +24,46 @@ export class DataFiler {
   }
 
   private searchOperatorMap: { [key: string]: SearchType } = {
-    eq: SearchType.eq,
-    ne: SearchType.ne,
-    gt: SearchType.gt,
-    gte: SearchType.gte,
-    lt: SearchType.lt,
-    lte: SearchType.lte,
-    like: SearchType.like,
-    between: SearchType.between,
-    in: SearchType.in,
-    any: SearchType.any,
-    isNull: SearchType.isNull,
+    eq: SearchType.Equal,
+    ne: SearchType.Not,
+    gt: SearchType.MoreThan,
+    gte: SearchType.MoreThanOrEqual,
+    lt: SearchType.LessThan,
+    lte: SearchType.LessThanOrEqual,
+    like: SearchType.Like,
+    between: SearchType.Between,
+    in: SearchType.In,
+    any: SearchType.Any,
+    isNull: SearchType.IsNull,
   };
 
   private setFilter(searchOperator: SearchType, searchValue: any) {
     switch (searchOperator) {
-      case SearchType.eq:
+      case SearchType.Equal:
         return Equal(searchValue);
-      case SearchType.ne:
+      case SearchType.Not:
         return Not(searchValue);
-      case SearchType.gt:
+      case SearchType.MoreThan:
         return MoreThan(searchValue);
-      case SearchType.gte:
+      case SearchType.MoreThanOrEqual:
         return MoreThanOrEqual(searchValue);
-      case SearchType.lt:
+      case SearchType.LessThan:
         return LessThan(searchValue);
-      case SearchType.lte:
+      case SearchType.LessThanOrEqual:
         return LessThanOrEqual(searchValue);
-      case SearchType.like:
+      case SearchType.Like:
         return Like(`%${searchValue}%`);
-      case SearchType.between:
+      case SearchType.Between:
         const [from, to, type] = searchValue.split(',');
         if (type === 'date') {
           return Between(new Date(from), new Date(to));
         }
         return Between(+from, +to);
-      case SearchType.in:
-        return In(searchValue);
-      case SearchType.any:
+      case SearchType.In:
+        return In(searchValue.split(','));
+      case SearchType.Any:
         return Any(searchValue);
-      case SearchType.isNull:
+      case SearchType.IsNull:
         return IsNull();
 
       default:

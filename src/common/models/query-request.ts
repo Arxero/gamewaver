@@ -20,11 +20,11 @@ export class QueryRequest {
       return;
     }
     this.filters = Object.keys(data.filters).map(x => {
-      const so = Object.keys(data.filters[x])[0];
-      const sv = Object.values(data.filters[x])[0];
-      return new DataFiler(x, so, sv);
+      const searchOperator = Object.keys(data.filters[x])[0];
+      const searchValue = Object.values(data.filters[x])[0];
+      return new DataFiler(x, searchOperator, searchValue);
     });
-
+    
     this.filters.forEach(x => {
       this.filter[x.fieldName] = x.filter;
     });

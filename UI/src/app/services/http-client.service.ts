@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
 import { EnvironmentService } from './environment.service';
 import { AuthService } from './auth.service';
-import { Paging, Sorting } from '../shared/models/common';
+import { Paging, Sorting, DataFilter } from '../shared/models/common';
+import { filter } from 'lodash';
 
 export interface IRequestOptions {
   headers?: HttpHeaders;
@@ -16,8 +17,16 @@ export interface IRequestOptions {
 
 export interface IHttpClientService {
   get<T>(endPoint: string, options?: IRequestOptions): Promise<T>;
-  post<T>(endPoint: string, params: object, options?: IRequestOptions): Promise<T>;
-  put<T>(endPoint: string, params: object, options?: IRequestOptions): Promise<T>;
+  post<T>(
+    endPoint: string,
+    params: object,
+    options?: IRequestOptions,
+  ): Promise<T>;
+  put<T>(
+    endPoint: string,
+    params: object,
+    options?: IRequestOptions,
+  ): Promise<T>;
   delete<T>(endPoint: string, options?: IRequestOptions): Promise<T>;
   setPaging(paging: Paging, httpParams: HttpParams): HttpParams;
   setSorting(sorting: Sorting[], httpParams: HttpParams): HttpParams;
@@ -33,30 +42,42 @@ export class HttpClientService implements IHttpClientService {
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     this.url = this.environmentService.apiUrl;
   }
 
-
-  get<T>(endPoint: string, options?: IRequestOptions): Promise<T> {
-    return this.http.get<T>(this.url + endPoint, this.SetHeaders(options)).toPromise();
+  get<T>(endPoint: string, params?: object, options?: IRequestOptions): Promise<T> {
+    return this.http
+      .get<T>(this.url + endPoint, this.SetHeaders(options))
+      .toPromise();
   }
 
-  post<T>(endPoint: string, params: object, options?: IRequestOptions): Promise<T> {
-    return this.http.post<T>(this.url + endPoint, params, this.SetHeaders(options)).toPromise();
+  post<T>(
+    endPoint: string,
+    params: object,
+    options?: IRequestOptions,
+  ): Promise<T> {
+    return this.http
+      .post<T>(this.url + endPoint, params, this.SetHeaders(options))
+      .toPromise();
   }
 
-  put<T>(endPoint: string, params: object, options?: IRequestOptions): Promise<T> {
-    return this.http.put<T>(this.url + endPoint, params, this.SetHeaders(options)).toPromise();
+  put<T>(
+    endPoint: string,
+    params: object,
+    options?: IRequestOptions,
+  ): Promise<T> {
+    return this.http
+      .put<T>(this.url + endPoint, params, this.SetHeaders(options))
+      .toPromise();
   }
 
   delete<T>(endPoint: string, options?: IRequestOptions): Promise<T> {
-    return this.http.delete<T>(this.url + endPoint, this.SetHeaders(options)).toPromise();
+    return this.http
+      .delete<T>(this.url + endPoint, this.SetHeaders(options))
+      .toPromise();
   }
-
-
-
 
   setPaging(paging: Paging, httpParams: HttpParams): HttpParams {
     throw new Error('Method not implemented.');
@@ -66,8 +87,15 @@ export class HttpClientService implements IHttpClientService {
     throw new Error('Method not implemented.');
   }
 
-  setFilters(filters: [], httpParams: HttpParams): HttpParams {
-    throw new Error('Method not implemented.');
+  setFilters(filters: DataFilter[], httpParams: HttpParams): HttpParams {
+    if (filters && filters.length > 0) {
+      const filterParams = filters.map(
+        x => `filters[${x.fieldName}][${x.searchOperator}=${x.searchValue}]`,
+      );
+      httpParams = httpParams.append('', JSON.stringify(filterParams));
+    }
+
+    return httpParams;
   }
 
   private SetHeaders(options?: IRequestOptions): IRequestOptions {
