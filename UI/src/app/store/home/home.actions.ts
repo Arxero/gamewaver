@@ -1,6 +1,6 @@
 import { CreatePostCmd } from '../../home/models/cmd/create-post.cmd';
 import { Action } from '@ngrx/store';
-import { GetPostDto } from '../../home/models/dto/get-post.dto';
+import { PostViewModel } from '../../home/models/view/post-view-model';
 
 export enum HomeActionTypes {
   CreatePostAction = '[CreatePost] Action',
@@ -29,12 +29,11 @@ export class CreatePostActionFailure implements Action {
 // GET POSTS
 export class GetPostsAction implements Action {
   readonly type = HomeActionTypes.GetPostsAction;
-  // constructor(public payload: { cmd: CreatePostCmd }) {}
 }
 
 export class GetPostsActionSuccess implements Action {
   readonly type = HomeActionTypes.GetPostsActionSuccess;
-  constructor(public payload: { data: GetPostDto[] }) {}
+  constructor(public payload: { data: PostViewModel[] }) {}
 }
 
 export class GetPostsActionFailure implements Action {

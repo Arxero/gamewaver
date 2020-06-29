@@ -7,19 +7,17 @@ import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home.routing';
 import { PostComponent } from './post/post.component';
 
-
-
 @NgModule({
   declarations: [
     HomeComponent,
     CreatePostComponent,
-    PostComponent
+    PostComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
     HomeRoutingModule,
     MarkdownModule.forChild(),
-  ]
+  ],
 })
-export class HomeModule { }
+export class HomeModule {}

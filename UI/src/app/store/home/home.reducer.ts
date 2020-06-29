@@ -1,8 +1,9 @@
 import { GetPostDto } from '../../home/models/dto/get-post.dto';
 import { HomeActions, HomeActionTypes } from './home.actions';
+import { PostViewModel } from '../../home/models/view/post-view-model';
 
 export interface HomeState {
-  posts: GetPostDto[];
+  posts: PostViewModel[];
 }
 
 export const initialHomeState: HomeState = {

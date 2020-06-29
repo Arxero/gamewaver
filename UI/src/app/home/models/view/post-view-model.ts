@@ -6,4 +6,5 @@ export interface PostViewModel extends DataEntity {
   authorId: string;
   authorAvatar: string;
   authorUsername: string;
+  date: string;
 }

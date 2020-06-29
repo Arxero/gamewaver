@@ -4,7 +4,7 @@ export enum PostCategory {
   BLOG_POST = 'blog_post',
   MEME = 'meme',
   NSFW = 'nsfw',
-  OTHER = 'other'
+  OTHER = 'other',
 }
 
 export interface PostCategoryViewModel {
@@ -37,5 +37,5 @@ export const postCategories: PostCategoryViewModel[] = [
     label: 'Other',
     value: PostCategory.OTHER,
   },
-
 ];
+

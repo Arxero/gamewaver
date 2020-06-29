@@ -17,6 +17,8 @@ import {
 import { SnackbarService } from '../../services/snackbar.service';
 import { UsersService } from '../../services/users.service';
 import { DataFilter, SearchType } from '../../shared/models/common';
+import { PostViewModel } from '../../home/models/view/post-view-model';
+import { postCategories } from '../../home/models/view/post-category';
 
 @Injectable()
 export class HomeEffects {
@@ -25,7 +27,7 @@ export class HomeEffects {
     private store: Store<HomeState>,
     private snackbarService: SnackbarService,
     private postsService: PostsService,
-    private usersService: UsersService
+    private usersService: UsersService,
   ) {}
 
   @Effect({ dispatch: false })
@@ -58,28 +60,34 @@ export class HomeEffects {
   @Effect({ dispatch: false })
   getPosts$ = this.actions$.pipe(
     ofType<GetPostsAction>(HomeActionTypes.GetPostsAction),
-    tap(async a => {
+    tap(async () => {
       try {
-        const result = await this.postsService.findAll();
-        const filters: DataFilter[] = [
-          {
-            fieldName: 'id',
-            searchOperator: SearchType.In,
-            searchValue: '92d1f0dc-5a3f-40ab-ab70-f3f6248b0e09'
-          },
-          {
-            fieldName: 'id',
-            searchOperator: SearchType.In,
-            searchValue: 'ab5fbaac-dae5-4448-9ec2-1cfbb2e59cfe'
-          }
-        ];
+        const { result } = await this.postsService.findAll();
+        const filters: DataFilter[] = result.items
+          .filter(post => result.items.some(x => x.authorId !== post.authorId))
+          .map(
+            x =>
+              ({
+                fieldName: 'id',
+                searchOperator: SearchType.In,
+                searchValue: x.authorId,
+              } as DataFilter),
+          );
 
         const resultUsers = await this.usersService.findAll(filters);
-        console.log(resultUsers);
-
-        this.store.dispatch(
-          new GetPostsActionSuccess({ data: result.result.items }),
-        );
+        const posts: PostViewModel[] = result.items.map(post => {
+          const userInPosts = resultUsers.result.items.find(
+            user => post.authorId === user.id,
+          );
+          return {
+            ...post,
+            authorAvatar: userInPosts.avatar,
+            authorUsername: userInPosts.username,
+            category: postCategories.find(j => j.value === post.category).label,
+            date: post.createdAt.toString()
+          } as PostViewModel;
+        });
+        this.store.dispatch(new GetPostsActionSuccess({ data: posts }));
       } catch (error) {
         console.log(error);
       }

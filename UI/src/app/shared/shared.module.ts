@@ -6,13 +6,14 @@ import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { MenuComponent } from './menu/menu.component';
-import { HttpClientModule } from '@angular/common/http';
+import { TimeAgoPipe } from '../pipes/time-ago.pipe';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     NotFoundComponent,
     MenuComponent,
+    TimeAgoPipe,
   ],
   imports: [
     CommonModule,
@@ -29,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     HeaderComponent,
     MenuComponent,
+    TimeAgoPipe
   ],
 
 })

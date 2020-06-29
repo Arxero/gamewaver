@@ -15,6 +15,7 @@ import { cloneDeep } from 'lodash';
 import { GetPostDto } from './models/dto/get-post.dto';
 import { homeStatePosts } from '../store/home/home.selectors';
 import { GetPostsAction } from '../store/home/home.actions';
+import { PostViewModel } from './models/view/post-view-model';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +27,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
   opened = true;
   mode = 'side';
-  posts: GetPostDto[];
+  posts: PostViewModel[];
 
   constructor(
     private breakpointObserver: BreakpointObserver,

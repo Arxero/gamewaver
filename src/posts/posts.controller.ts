@@ -62,7 +62,6 @@ export class PostsController {
     @Query() queryParams: QueryParams,
   ): Promise<IResponse<PagedData<GetPostDto>>> {
     const queryRequest = new QueryRequest(queryParams);
-    console.log(queryRequest);
     const result = await this.postsService.findAll(queryRequest);
     return new ResponseSuccess<PagedData<GetPostDto>>({ result });
   }

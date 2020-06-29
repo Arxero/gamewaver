@@ -1,2 +1,13 @@
-<div *ngIf="post"> {{ post | json }}</div>
+<mat-card class="post">
+  <mat-card-header>
+    <div mat-card-avatar class="post-header-image">
+      <img [src]="post.authorAvatar  || './assets/images/common/no_avatar.jpg'" alt="{{ post.authorUsername }}'s avatar">
+    </div>
+    <mat-card-title>{{ post.authorUsername }}</mat-card-title>
+    <mat-card-subtitle matTooltip="{{ post.date }}">{{ post.category }} · {{ post.date | timeAgo }}</mat-card-subtitle>
+  </mat-card-header>
 
+  <mat-card-content>
+    <markdown [data]="post.content" ngPreserveWhitespaces></markdown>
+  </mat-card-content>
+</mat-card>

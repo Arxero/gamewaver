@@ -1,8 +1,9 @@
 import { DataEntity } from '../../../shared/models/common';
+import { PostCategory } from '../view/post-category';
 
 export interface GetPostDto extends DataEntity {
   content: string;
   title: string;
-  isPublished: boolean;
+  category: PostCategory;
   authorId: string;
 }
