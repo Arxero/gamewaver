@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { tap, map } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { tap, map, withLatestFrom } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
 import { HomeState } from './home.reducer';
 import { PostsService } from '../../services/posts.service';
 import {
@@ -16,15 +15,22 @@ import {
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UsersService } from '../../services/users.service';
-import { DataFilter, SearchType } from '../../shared/models/common';
-import { PostViewModel } from '../../home/models/view/post-view-model';
-import { postCategories } from '../../home/models/view/post-category';
+import {
+  DataFilter,
+  SearchType,
+  Sorting,
+  SortDirection,
+} from '../../shared/models/common';
+import { PostViewModel, mapPostViewModel } from '../../home/models/view/post-view-model';
+import { AuthState } from '../auth/auth.reducer';
+import { userProfile } from '../auth/auth.selectors';
 
 @Injectable()
 export class HomeEffects {
   constructor(
     private actions$: Actions,
     private store: Store<HomeState>,
+    private storeAuth: Store<AuthState>,
     private snackbarService: SnackbarService,
     private postsService: PostsService,
     private usersService: UsersService,
@@ -33,10 +39,13 @@ export class HomeEffects {
   @Effect({ dispatch: false })
   createPost$ = this.actions$.pipe(
     ofType<CreatePostAction>(HomeActionTypes.CreatePostAction),
+    withLatestFrom(this.storeAuth.pipe(select(userProfile))),
     tap(async a => {
       try {
-        const result = await this.postsService.create(a.payload.cmd);
-        this.store.dispatch(new CreatePostActionSuccess());
+        const user = a[1];
+        const { result } = await this.postsService.create(a[0].payload.cmd);
+        const data = mapPostViewModel(result, user);
+        this.store.dispatch(new CreatePostActionSuccess({ data }));
       } catch (error) {
         console.log(error);
       }
@@ -62,7 +71,11 @@ export class HomeEffects {
     ofType<GetPostsAction>(HomeActionTypes.GetPostsAction),
     tap(async () => {
       try {
-        const { result } = await this.postsService.findAll();
+        const dateSort: Sorting = {
+          propertyName: 'createdAt',
+          sort: SortDirection.DESC,
+        };
+        const { result } = await this.postsService.findAll(null, [dateSort]);
         const filters: DataFilter[] = result.items
           .filter(post => result.items.some(x => x.authorId !== post.authorId))
           .map(
@@ -79,13 +92,7 @@ export class HomeEffects {
           const userInPosts = resultUsers.result.items.find(
             user => post.authorId === user.id,
           );
-          return {
-            ...post,
-            authorAvatar: userInPosts.avatar,
-            authorUsername: userInPosts.username,
-            category: postCategories.find(j => j.value === post.category).label,
-            date: post.createdAt.toString()
-          } as PostViewModel;
+          return mapPostViewModel(post, userInPosts);
         });
         this.store.dispatch(new GetPostsActionSuccess({ data: posts }));
       } catch (error) {

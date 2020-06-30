@@ -64,5 +64,6 @@ export class CreatePostComponent extends BaseComponent implements OnInit {
       category: this.category.value,
     };
     this.store.dispatch(new CreatePostAction({ cmd }));
+    this.postForm.reset();
   }
 }

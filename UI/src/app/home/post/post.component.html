@@ -4,7 +4,10 @@
       <img [src]="post.authorAvatar  || './assets/images/common/no_avatar.jpg'" alt="{{ post.authorUsername }}'s avatar">
     </div>
     <mat-card-title>{{ post.authorUsername }}</mat-card-title>
-    <mat-card-subtitle matTooltip="{{ post.date }}">{{ post.category }} · {{ post.date | timeAgo }}</mat-card-subtitle>
+    <mat-card-subtitle>
+      <span>{{ post.category }}</span> ·
+      <span [matTooltip]="post.tooltipDate">{{ post.date | timeAgo }}</span>
+    </mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>

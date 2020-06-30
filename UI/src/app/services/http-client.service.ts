@@ -84,7 +84,12 @@ export class HttpClientService implements IHttpClientService {
   }
 
   setSorting(sorting: Sorting[], httpParams: HttpParams): HttpParams {
-    throw new Error('Method not implemented.');
+    if (sorting && sorting.length > 0) {
+      const sortingParams = sorting.map(x => `${x.propertyName}:${x.sort},`).join();
+      httpParams = httpParams.append('sort', sortingParams.slice(0, sortingParams.length - 1));
+    }
+
+    return httpParams;
   }
 
   setFilters(filters: DataFilter[], httpParams: HttpParams): HttpParams {

@@ -20,6 +20,7 @@ export class CreatePostAction implements Action {
 
 export class CreatePostActionSuccess implements Action {
   readonly type = HomeActionTypes.CreatePostActionSuccess;
+  constructor(public payload: { data: PostViewModel }) {}
 }
 
 export class CreatePostActionFailure implements Action {

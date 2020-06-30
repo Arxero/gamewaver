@@ -15,9 +15,9 @@ export interface DataEntity {
 }
 
 export enum SortDirection {
-  invalid = 0,
-  asc,
-  desc,
+  Unknown = 'Unknown',
+  ASC = 'asc',
+  DESC = 'desc',
 }
 
 export interface Sorting {

@@ -1,7 +1,7 @@
 export enum SortDirection {
   Unknown = 'Unknown',
-  ASC = 'ASC',
-  DESC = 'DESC',
+  ASC = 'asc',
+  DESC = 'desc',
 }
 
 export class Sorting {
