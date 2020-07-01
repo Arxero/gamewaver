@@ -15,4 +15,12 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onDelete() {
+
+  }
+
+  onReply() {
+
+  }
+
 }
