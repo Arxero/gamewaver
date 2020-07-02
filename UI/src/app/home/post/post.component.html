@@ -1,9 +1,15 @@
 <mat-card class="post">
   <mat-card-header>
     <div mat-card-avatar class="post-header-image">
-      <img [src]="post.authorAvatar  || './assets/images/common/no_avatar.jpg'" alt="{{ post.authorUsername }}'s avatar">
+      <a [routerLink]="[userProfileRoute, post.authorId]">
+        <img [src]="post.authorAvatar  || './assets/images/common/no_avatar.jpg'" alt="{{ post.authorUsername }}'s avatar">
+      </a>
     </div>
-    <mat-card-title>{{ post.authorUsername }}</mat-card-title>
+    <mat-card-title>
+      <a [routerLink]="[userProfileRoute, post.authorId]">
+        {{ post.authorUsername }}
+      </a>
+      </mat-card-title>
     <mat-card-subtitle>
       <span>{{ post.category }}</span> ·
       <span [matTooltip]="post.tooltipDate">{{ post.date | timeAgo }}</span>
@@ -24,11 +30,11 @@
     </button>
 
     <mat-menu #menuActions="matMenu">
-      <a mat-menu-item [routerLink]="['users', 'profile']">
+      <a mat-menu-item [routerLink]="['users', 'profile']" *ngIf="canEditOrDelete">
         <mat-icon>edit</mat-icon>
         <span class="menu-item-name">Edit</span>
       </a>
-      <button mat-menu-item (click)="onDelete()">
+      <button mat-menu-item (click)="onDelete()" *ngIf="canEditOrDelete">
         <mat-icon>delete</mat-icon>
         <span class="menu-item-name">Delete</span>
       </button>

@@ -12,6 +12,9 @@ import {
   GetPostsAction,
   GetPostsActionFailure,
   GetPostsActionSuccess,
+  DeletePostAction,
+  DeletePostActionSuccess,
+  DeletePostActionFailure,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UsersService } from '../../services/users.service';
@@ -21,9 +24,13 @@ import {
   Sorting,
   SortDirection,
 } from '../../shared/models/common';
-import { PostViewModel, mapPostViewModel } from '../../home/models/view/post-view-model';
+import {
+  PostViewModel,
+  mapPostViewModel,
+} from '../../home/models/view/post-view-model';
 import { AuthState } from '../auth/auth.reducer';
 import { userProfile } from '../auth/auth.selectors';
+import { uniq, templateSettings, uniqBy } from 'lodash';
 
 @Injectable()
 export class HomeEffects {
@@ -66,6 +73,7 @@ export class HomeEffects {
     map(() => {}),
   );
 
+  // GET POSTS
   @Effect({ dispatch: false })
   getPosts$ = this.actions$.pipe(
     ofType<GetPostsAction>(HomeActionTypes.GetPostsAction),
@@ -76,25 +84,29 @@ export class HomeEffects {
           sort: SortDirection.DESC,
         };
         const { result } = await this.postsService.findAll(null, [dateSort]);
-        const filters: DataFilter[] = result.items
-          .filter(post => result.items.some(x => x.authorId !== post.authorId))
-          .map(
-            x =>
-              ({
-                fieldName: 'id',
-                searchOperator: SearchType.In,
-                searchValue: x.authorId,
-              } as DataFilter),
-          );
+        const searchValueStr = result.items
+          .map(x => x.authorId)
+          .filter((v, i, s) => s.indexOf(v) === i)
+          .join(',');
+        const filter: DataFilter = {
+          fieldName: 'id',
+          searchOperator: SearchType.In,
+          searchValue: searchValueStr,
+        };
 
-        const resultUsers = await this.usersService.findAll(filters);
+        const resultUsers = await this.usersService.findAll([filter]);
         const posts: PostViewModel[] = result.items.map(post => {
           const userInPosts = resultUsers.result.items.find(
             user => post.authorId === user.id,
           );
           return mapPostViewModel(post, userInPosts);
         });
-        this.store.dispatch(new GetPostsActionSuccess({ data: posts }));
+        this.store.dispatch(
+          new GetPostsActionSuccess({
+            data: posts,
+            users: resultUsers.result.items,
+          }),
+        );
       } catch (error) {
         console.log(error);
       }
@@ -111,5 +123,36 @@ export class HomeEffects {
   getPostsFailure$ = this.actions$.pipe(
     ofType<GetPostsActionFailure>(HomeActionTypes.GetPostsActionFailure),
     map(() => {}),
+  );
+
+  // DELETE POST
+  @Effect({ dispatch: false })
+  deletePost$ = this.actions$.pipe(
+    ofType<DeletePostAction>(HomeActionTypes.DeletePostAction),
+    tap(async a => {
+      try {
+        const { result } = await this.postsService.delete(a.payload.id);
+        this.store.dispatch(new DeletePostActionSuccess({ id: a.payload.id }));
+      } catch (error) {
+        this.store.dispatch(new DeletePostActionFailure());
+        console.log(error);
+      }
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  deletePostSuccess$ = this.actions$.pipe(
+    ofType<DeletePostActionSuccess>(HomeActionTypes.DeletePostActionSuccess),
+    tap(() => {
+      this.snackbarService.showInfo('Post Deleted Successfully');
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  deletePostFailure$ = this.actions$.pipe(
+    ofType<DeletePostActionFailure>(HomeActionTypes.DeletePostActionFailure),
+    map(() => {
+      this.snackbarService.showWarn('Post Deletion Failed');
+    }),
   );
 }

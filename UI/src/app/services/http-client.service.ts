@@ -85,8 +85,8 @@ export class HttpClientService implements IHttpClientService {
 
   setSorting(sorting: Sorting[], httpParams: HttpParams): HttpParams {
     if (sorting && sorting.length > 0) {
-      const sortingParams = sorting.map(x => `${x.propertyName}:${x.sort},`).join();
-      httpParams = httpParams.append('sort', sortingParams.slice(0, sortingParams.length - 1));
+      const sortingParams = sorting.map(x => `${x.propertyName}:${x.sort}`).join(',');
+      httpParams = httpParams.append('sort', sortingParams);
     }
 
     return httpParams;
@@ -94,10 +94,9 @@ export class HttpClientService implements IHttpClientService {
 
   setFilters(filters: DataFilter[], httpParams: HttpParams): HttpParams {
     if (filters && filters.length > 0) {
-      const filterParams = filters.map(
-        x => `filters[${x.fieldName}][${x.searchOperator}=${x.searchValue}]`,
-      );
-      httpParams = httpParams.append('', JSON.stringify(filterParams));
+      filters.forEach(x => {
+        httpParams = httpParams.append(`filters[${x.fieldName}][${x.searchOperator}]`, x.searchValue);
+      });
     }
 
     return httpParams;

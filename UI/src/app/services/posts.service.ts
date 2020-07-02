@@ -43,4 +43,8 @@ export class PostsService {
       `${this.BASE_URL}`,
     );
   }
+
+  delete(id: string): Promise<IResponse<GetPostDto>> {
+    return this.httpClient.delete<IResponse<GetPostDto>>(`${this.BASE_URL}/${id}`);
+  }
 }

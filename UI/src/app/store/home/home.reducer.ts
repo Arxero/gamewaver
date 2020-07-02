@@ -2,9 +2,11 @@ import { GetPostDto } from '../../home/models/dto/get-post.dto';
 import { HomeActions, HomeActionTypes } from './home.actions';
 import { PostViewModel } from '../../home/models/view/post-view-model';
 import * as lodash from 'lodash';
+import { User } from '../../users/models/dto/user';
 
 export interface HomeState {
   posts: PostViewModel[];
+  usersInPosts: User[];
 }
 
 export const initialHomeState: HomeState = {
@@ -28,7 +30,14 @@ export function homeReducer(
       return {
         ...state,
         posts: action.payload.data,
+        usersInPosts: action.payload.users
       } as HomeState;
+
+      case HomeActionTypes.DeletePostActionSuccess:
+        return {
+          ...state,
+          posts: state.posts.filter(post => post.id !== action.payload.id),
+        } as HomeState;
 
     default:
       return state;

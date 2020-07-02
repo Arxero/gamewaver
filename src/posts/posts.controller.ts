@@ -89,7 +89,7 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   @Roles('admin')
-  async delete(@Param('id') id: string): Promise<IResponseBase> {
+  async delete(@Param('id') id: string): Promise<IResponse<GetPostDto>> {
     const result = await this.postsService.delete({ id });
     return new ResponseSuccess<GetPostDto>({ result: new GetPostDto(result) });
   }

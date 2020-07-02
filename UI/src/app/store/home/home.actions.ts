@@ -1,6 +1,7 @@
 import { CreatePostCmd } from '../../home/models/cmd/create-post.cmd';
 import { Action } from '@ngrx/store';
 import { PostViewModel } from '../../home/models/view/post-view-model';
+import { User } from '../../users/models/dto/user';
 
 export enum HomeActionTypes {
   CreatePostAction = '[CreatePost] Action',
@@ -10,6 +11,10 @@ export enum HomeActionTypes {
   GetPostsAction = '[GetPostsPost] Action',
   GetPostsActionSuccess = '[GetPostsPostSuccess] Action',
   GetPostsActionFailure = '[GetPostsPostFailure] Action',
+
+  DeletePostAction = '[DeletePost] Action',
+  DeletePostActionSuccess = '[DeletePostSuccess] Action',
+  DeletePostActionFailure = '[DeletePostFailure] Action',
 }
 
 // CREATE POST
@@ -34,11 +39,26 @@ export class GetPostsAction implements Action {
 
 export class GetPostsActionSuccess implements Action {
   readonly type = HomeActionTypes.GetPostsActionSuccess;
-  constructor(public payload: { data: PostViewModel[] }) {}
+  constructor(public payload: { data: PostViewModel[], users: User[] }) {}
 }
 
 export class GetPostsActionFailure implements Action {
   readonly type = HomeActionTypes.GetPostsActionFailure;
+}
+
+// DELETE POST
+export class DeletePostAction implements Action {
+  readonly type = HomeActionTypes.DeletePostAction;
+  constructor(public payload: { id: string }) {}
+}
+
+export class DeletePostActionSuccess implements Action {
+  readonly type = HomeActionTypes.DeletePostActionSuccess;
+  constructor(public payload: { id: string }) {}
+}
+
+export class DeletePostActionFailure implements Action {
+  readonly type = HomeActionTypes.DeletePostActionFailure;
 }
 
 
@@ -48,4 +68,7 @@ export type HomeActions =
   | CreatePostActionFailure
   | GetPostsAction
   | GetPostsActionSuccess
-  | GetPostsActionFailure;
+  | GetPostsActionFailure
+  | DeletePostAction
+  | DeletePostActionSuccess
+  | DeletePostActionFailure;
