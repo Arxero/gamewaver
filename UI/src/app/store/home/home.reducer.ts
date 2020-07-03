@@ -7,6 +7,8 @@ import { User } from '../../users/models/dto/user';
 export interface HomeState {
   posts: PostViewModel[];
   usersInPosts: User[];
+  post: PostViewModel;
+  userInPost: User;
 }
 
 export const initialHomeState: HomeState = {
@@ -23,20 +25,27 @@ export function homeReducer(
       temp.unshift(action.payload.data);
       return {
         ...state,
-        posts: temp
+        posts: temp,
       } as HomeState;
 
     case HomeActionTypes.GetPostsActionSuccess:
       return {
         ...state,
         posts: action.payload.data,
-        usersInPosts: action.payload.users
+        usersInPosts: action.payload.users,
       } as HomeState;
 
-      case HomeActionTypes.DeletePostActionSuccess:
+    case HomeActionTypes.DeletePostActionSuccess:
+      return {
+        ...state,
+        posts: state.posts.filter(post => post.id !== action.payload.id),
+      } as HomeState;
+
+      case HomeActionTypes.GetPostActionSuccess:
         return {
           ...state,
-          posts: state.posts.filter(post => post.id !== action.payload.id),
+          post: action.payload.data,
+          userInPost: action.payload.user
         } as HomeState;
 
     default:

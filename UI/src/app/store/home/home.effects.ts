@@ -15,6 +15,9 @@ import {
   DeletePostAction,
   DeletePostActionSuccess,
   DeletePostActionFailure,
+  GetPostAction,
+  GetPostActionSuccess,
+  GetPostActionFailure,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UsersService } from '../../services/users.service';
@@ -153,6 +156,39 @@ export class HomeEffects {
     ofType<DeletePostActionFailure>(HomeActionTypes.DeletePostActionFailure),
     map(() => {
       this.snackbarService.showWarn('Post Deletion Failed');
+    }),
+  );
+
+  // GET POST
+  @Effect({ dispatch: false })
+  getPost$ = this.actions$.pipe(
+    ofType<GetPostAction>(HomeActionTypes.GetPostAction),
+    tap(async a => {
+      try {
+        const { result } = await this.postsService.findOne(a.payload.id);
+        const userResult = await this.usersService.findOne(result.authorId);
+        const data = mapPostViewModel(result, userResult.result);
+        this.store.dispatch(
+          new GetPostActionSuccess({ data, user: userResult.result }),
+        );
+      } catch (error) {
+        this.store.dispatch(new GetPostActionFailure());
+        console.log(error);
+      }
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  getPostSuccess$ = this.actions$.pipe(
+    ofType<GetPostActionSuccess>(HomeActionTypes.GetPostActionSuccess),
+    tap(() => {}),
+  );
+
+  @Effect({ dispatch: false })
+  getPostFailure$ = this.actions$.pipe(
+    ofType<GetPostActionFailure>(HomeActionTypes.GetPostActionFailure),
+    map(() => {
+      this.snackbarService.showWarn('Load Post Failed');
     }),
   );
 }

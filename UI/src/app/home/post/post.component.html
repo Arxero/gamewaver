@@ -25,6 +25,11 @@
       <mat-icon>reply</mat-icon>
     </button>
 
+    <a mat-button [routerLink]="['post', post.id]" *ngIf="!isSingle">
+      <mat-icon>exit_to_app</mat-icon>
+      <!-- <span class="menu-item-name">View</span> -->
+    </a>
+
     <button mat-button [matMenuTriggerFor]="menuActions">
       <mat-icon>more_horiz</mat-icon>
     </button>
@@ -34,6 +39,7 @@
         <mat-icon>edit</mat-icon>
         <span class="menu-item-name">Edit</span>
       </a>
+
       <button mat-menu-item (click)="onDelete()" *ngIf="canEditOrDelete">
         <mat-icon>delete</mat-icon>
         <span class="menu-item-name">Delete</span>

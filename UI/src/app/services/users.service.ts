@@ -30,4 +30,8 @@ export class UsersService {
 
     return this.httpClient.get<IResponse<PagedData<User>>>(`${this.BASE_URL}`);
   }
+
+  findOne(id: string): Promise<IResponse<User>> {
+    return this.httpClient.get<IResponse<User>>(`${this.BASE_URL}/${id}`);
+  }
 }

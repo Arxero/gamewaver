@@ -67,7 +67,7 @@ export class PostsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<IResponseBase> {
+  async findOne(@Param('id') id: string): Promise<IResponse<GetPostDto>> {
     const result = new GetPostDto(await this.postsService.findOne({ id }));
     return new ResponseSuccess<GetPostDto>({ result });
   }

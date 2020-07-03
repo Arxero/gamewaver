@@ -8,7 +8,7 @@ import { HomeState } from '../../store/home/home.reducer';
 import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../../store/auth/auth.selectors';
 import { cloneDeep } from 'lodash';
-import { UserRole } from 'src/app/users/models/dto/user';
+import { UserRole } from '../../users/models/dto/user';
 
 @Component({
   selector: 'app-post',
@@ -17,6 +17,7 @@ import { UserRole } from 'src/app/users/models/dto/user';
 })
 export class PostComponent extends BaseComponent implements OnInit {
   @Input() post: PostViewModel;
+  @Input() isSingle: boolean;
   canEditOrDelete: boolean;
   get userProfileRoute() {
     return usersProfileFullRoute();

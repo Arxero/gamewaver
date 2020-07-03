@@ -7,7 +7,7 @@ import { AuthGuard } from '../guards/auth.guard';
 
 export const usersRoute = 'users';
 export const usersProfileRoute = 'profile';
-export const usersProfileFullRoute = () => `${usersRoute}/${usersProfileRoute}`;
+export const usersProfileFullRoute = () => `../../${usersRoute}/${usersProfileRoute}`;
 
 const routes: Routes = [
   { path: usersProfileRoute, component: ProfileComponent, canActivate: [AuthGuard] },

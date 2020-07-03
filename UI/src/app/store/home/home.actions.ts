@@ -9,8 +9,12 @@ export enum HomeActionTypes {
   CreatePostActionFailure = '[CreatePostFailure] Action',
 
   GetPostsAction = '[GetPostsPost] Action',
-  GetPostsActionSuccess = '[GetPostsPostSuccess] Action',
-  GetPostsActionFailure = '[GetPostsPostFailure] Action',
+  GetPostsActionSuccess = '[GetPostsSuccess] Action',
+  GetPostsActionFailure = '[GetPostsFailure] Action',
+
+  GetPostAction = '[GetPostPost] Action',
+  GetPostActionSuccess = '[GetPostSuccess] Action',
+  GetPostActionFailure = '[GetPostFailure] Action',
 
   DeletePostAction = '[DeletePost] Action',
   DeletePostActionSuccess = '[DeletePostSuccess] Action',
@@ -46,6 +50,22 @@ export class GetPostsActionFailure implements Action {
   readonly type = HomeActionTypes.GetPostsActionFailure;
 }
 
+
+// GET POST
+export class GetPostAction implements Action {
+  readonly type = HomeActionTypes.GetPostAction;
+  constructor(public payload: { id: string }) {}
+}
+
+export class GetPostActionSuccess implements Action {
+  readonly type = HomeActionTypes.GetPostActionSuccess;
+  constructor(public payload: { data: PostViewModel, user: User }) {}
+}
+
+export class GetPostActionFailure implements Action {
+  readonly type = HomeActionTypes.GetPostActionFailure;
+}
+
 // DELETE POST
 export class DeletePostAction implements Action {
   readonly type = HomeActionTypes.DeletePostAction;
@@ -71,4 +91,7 @@ export type HomeActions =
   | GetPostsActionFailure
   | DeletePostAction
   | DeletePostActionSuccess
-  | DeletePostActionFailure;
+  | DeletePostActionFailure
+  | GetPostAction
+  | GetPostActionSuccess
+  | GetPostActionFailure;

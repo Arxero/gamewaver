@@ -44,7 +44,12 @@ export class PostsService {
     );
   }
 
+  findOne(id: string): Promise<IResponse<GetPostDto>> {
+    return this.httpClient.get<IResponse<GetPostDto>>(`${this.BASE_URL}/${id}`);
+  }
+
   delete(id: string): Promise<IResponse<GetPostDto>> {
     return this.httpClient.delete<IResponse<GetPostDto>>(`${this.BASE_URL}/${id}`);
   }
+
 }
