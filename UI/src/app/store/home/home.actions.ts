@@ -12,7 +12,7 @@ export enum HomeActionTypes {
   GetPostsActionSuccess = '[GetPostsSuccess] Action',
   GetPostsActionFailure = '[GetPostsFailure] Action',
 
-  GetPostAction = '[GetPostPost] Action',
+  GetPostAction = '[GetPost] Action',
   GetPostActionSuccess = '[GetPostSuccess] Action',
   GetPostActionFailure = '[GetPostFailure] Action',
 

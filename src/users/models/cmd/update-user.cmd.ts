@@ -11,14 +11,17 @@ export class UpdateUserCmd {
 
   @ApiProperty()
   @IsString()
+  @IsOptional()
   @IsUrl()
   avatar: string;
 
   @ApiProperty()
+  @IsOptional()
   @IsString()
   summary: string;
 
   @ApiProperty()
+  @IsOptional()
   @IsString()
   location: string;
 

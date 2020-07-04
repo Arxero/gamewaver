@@ -3,10 +3,12 @@ import { UsersActionTypes, UsersActions } from './users.actions';
 
 export interface UsersState {
   users: User[];
+  profileUser: User;
 }
 
 export const initialUsersState: UsersState = {
   users: null,
+  profileUser: null,
 } as UsersState;
 
 export function usersReducer(
@@ -24,6 +26,11 @@ export function usersReducer(
         ...state,
       } as UsersState;
 
+    case UsersActionTypes.GetUserActionSuccess:
+      return {
+        ...state,
+        profileUser: action.payload.user,
+      } as UsersState;
 
     default:
       return state;

@@ -7,10 +7,10 @@
     <div class="location">{{ user.location }}</div>
     <div class="gender">{{ user.gender | titlecase }}</div>
     <div class="summary">
-      <markdown [data]="user.summary" ngPreserveWhitespaces></markdown>
+      <markdown [data]="user.summary || ''" ngPreserveWhitespaces></markdown>
     </div>
     <div class="actions">
-      <a mat-raised-button  [routerLink]="'../edit'" color="primary">Edit Profile</a>
+      <a mat-raised-button  [routerLink]="editProfileUrl" color="primary" *ngIf="canEditProfile">Edit Profile</a>
     </div>
   </div>
 </mat-card>
