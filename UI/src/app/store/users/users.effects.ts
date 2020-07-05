@@ -17,6 +17,7 @@ import { UsersState } from './users.reducer';
 import { UsersService } from '../../services/users.service';
 import { GetUserInfoAction } from '../auth/auth.actions';
 import { SnackbarService } from '../../services/snackbar.service';
+import { usersProfileFullRoute } from '../../users/users.routing';
 
 @Injectable()
 export class UsersEffects {
@@ -34,11 +35,11 @@ export class UsersEffects {
     ofType<EditUserAction>(UsersActionTypes.EditUserAction),
     tap(async a => {
       try {
-        const user = await this.usersService.update(
+        const { result } = await this.usersService.update(
           a.payload.id,
           a.payload.updateUserCmd,
         );
-        this.store.dispatch(new EditUserActionSuccess({ user }));
+        this.store.dispatch(new EditUserActionSuccess({ user: result }));
       } catch (error) {
         console.log(error);
       }
@@ -50,7 +51,7 @@ export class UsersEffects {
     ofType<EditUserActionSuccess>(UsersActionTypes.EditUserActionSuccess),
     tap(a => {
       this.store.dispatch(new GetUserInfoAction());
-      this.router.navigate(['/users/profile']);
+      this.router.navigate([usersProfileFullRoute() + `/${a.payload.user.id}`]);
       this.snackbarService.showInfo('Edit Profile Successfull');
     }),
   );

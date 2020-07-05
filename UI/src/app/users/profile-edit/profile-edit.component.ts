@@ -7,8 +7,10 @@ import { userProfile } from '../../store/auth/auth.selectors';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { cloneDeep } from 'lodash';
 import { UpdateUserCmd } from '../models/cmd/update-user.cmd';
-import { EditUserAction } from '../../store/users/users.actions';
+import { EditUserAction, GetUserAction } from '../../store/users/users.actions';
 import { UsersState } from '../../store/users/users.reducer';
+import { ActivatedRoute } from '@angular/router';
+import { usersStateProfileUser } from '../../store/users/users.selectors';
 
 @Component({
   selector: 'app-edit',
@@ -19,8 +21,9 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
   user: User;
   editProfileForm: FormGroup;
 
-  constructor(private store: Store<UsersState>) {
+  constructor(private store: Store<UsersState>, private route: ActivatedRoute) {
     super();
+    const userId = this.route.snapshot.params.id;
 
     store
       .pipe(
@@ -31,6 +34,20 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
       .subscribe(x => {
         this.user = cloneDeep(x);
       });
+
+    if (userId) {
+      this.store.dispatch(new GetUserAction({ id: userId }));
+
+      store
+        .pipe(
+          takeUntil(this.destroyed$),
+          select(usersStateProfileUser),
+          filter(x => !!x),
+        )
+        .subscribe(x => {
+          this.user = cloneDeep(x);
+        });
+    }
   }
 
   ngOnInit(): void {

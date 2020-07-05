@@ -16,7 +16,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from './models/user.entity';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { UpdateUserCmd } from './models/cmd/update-user.cmd';
-import { IResponseBase, ResponseSuccess } from 'src/common/models/response';
+import { IResponseBase, ResponseSuccess, IResponse } from 'src/common/models/response';
 import { GetUserDto } from './models/dto/get-user.dto';
 import { PagedData } from 'src/common/models/paged-data';
 import { QueryRequest, QueryParams } from 'src/common/models/query-request';
@@ -40,7 +40,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<IResponseBase> {
+  async findOne(@Param('id') id: string): Promise<IResponse<GetUserDto>> {
     const result = new GetUserDto(await this.usersService.findOne({ id }));
     return new ResponseSuccess<GetUserDto>({ result });
   }
@@ -52,7 +52,7 @@ export class UsersController {
     @Param('id') id: string,
     @Body() updateModel: UpdateUserCmd,
     @Request() req,
-  ): Promise<IResponseBase> {
+  ): Promise<IResponse<GetUserDto>> {
     const user = await this.usersService.update(id, new User(updateModel), req);
     return new ResponseSuccess<GetUserDto>({ result: new GetUserDto(user) });
   }
@@ -63,7 +63,7 @@ export class UsersController {
   async delete(
     @Param('id') id: string,
     @Request() req,
-  ): Promise<IResponseBase> {
+  ): Promise<IResponse<GetUserDto>> {
     const user = await this.usersService.delete({ id }, req);
     return new ResponseSuccess<GetUserDto>({ result: new GetUserDto(user) });
   }

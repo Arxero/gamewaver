@@ -16,8 +16,8 @@ export class UsersService {
     @Inject('IHttpClientService') private httpClient: HttpClientService,
   ) {}
 
-  update(id: string, cmd: UpdateUserCmd): Promise<User> {
-    return this.httpClient.put<User>(`${this.BASE_URL}/${id}`, cmd);
+  update(id: string, cmd: UpdateUserCmd): Promise<IResponse<User>> {
+    return this.httpClient.put<IResponse<User>>(`${this.BASE_URL}/${id}`, cmd);
   }
 
   findAll(filters?: DataFilter[]): Promise<IResponse<PagedData<User>>> {

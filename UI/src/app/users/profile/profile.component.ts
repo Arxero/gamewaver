@@ -22,13 +22,12 @@ export class ProfileComponent extends BaseComponent implements OnInit {
   user: User;
   editProfileUrl = '../edit';
   canEditProfile: boolean;
-  userId: string;
 
   constructor(private store: Store<AuthState>, private route: ActivatedRoute) {
     super();
-    this.userId = this.route.snapshot.params.id;
-    this.editProfileUrl = this.userId
-      ? `../${this.editProfileUrl}/${this.userId}`
+    const userId = this.route.snapshot.params.id;
+    this.editProfileUrl = userId
+      ? `../${this.editProfileUrl}/${userId}`
       : this.editProfileUrl;
 
     let loggedUser: User;
@@ -40,14 +39,14 @@ export class ProfileComponent extends BaseComponent implements OnInit {
         filter(x => !!x),
       )
       .subscribe(x => {
-        this.user = this.userId ? null : cloneDeep(x);
+        this.user = userId ? null : cloneDeep(x);
         this.canEditProfile = true;
         loggedUser = x;
       });
 
     // when visiting user profile
-    if (this.userId) {
-      this.store.dispatch(new GetUserAction({ id: this.userId }));
+    if (userId) {
+      this.store.dispatch(new GetUserAction({ id: userId }));
 
       store
         .pipe(
@@ -59,8 +58,8 @@ export class ProfileComponent extends BaseComponent implements OnInit {
           this.user = cloneDeep(x);
           this.canEditProfile =
             loggedUser.role === UserRole.ADMIN ||
-            loggedUser.id === this.userId ||
-            !this.userId
+            loggedUser.id === userId ||
+            !userId
               ? true
               : false;
         });
