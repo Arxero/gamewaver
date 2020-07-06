@@ -24,9 +24,9 @@
             </mat-select>
             <mat-error *ngIf="category.invalid && category.errors.required">Category is required</mat-error>
           </mat-form-field>
-          <button mat-raised-button color="primary" class="form-button" [disabled]="postForm.invalid" (click)="onPost()">POST</button>
-
+          <button mat-raised-button color="primary" class="form-button" [disabled]="postForm.invalid" (click)="onSubmit()">{{ post ? 'SAVE' : 'POST' }}</button>
         </div>
+
       </form>
     </mat-card>
   </mat-tab>

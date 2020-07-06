@@ -18,6 +18,9 @@ import {
   GetPostAction,
   GetPostActionSuccess,
   GetPostActionFailure,
+  EditPostAction,
+  EditPostActionSuccess,
+  EditPostActionFailure,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UsersService } from '../../services/users.service';
@@ -34,6 +37,7 @@ import {
 import { AuthState } from '../auth/auth.reducer';
 import { userProfile } from '../auth/auth.selectors';
 import { uniq, templateSettings, uniqBy } from 'lodash';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class HomeEffects {
@@ -44,8 +48,10 @@ export class HomeEffects {
     private snackbarService: SnackbarService,
     private postsService: PostsService,
     private usersService: UsersService,
+    private router: Router,
   ) {}
 
+  // CREATE POST
   @Effect({ dispatch: false })
   createPost$ = this.actions$.pipe(
     ofType<CreatePostAction>(HomeActionTypes.CreatePostAction),
@@ -73,6 +79,38 @@ export class HomeEffects {
   @Effect({ dispatch: false })
   createPostFailure$ = this.actions$.pipe(
     ofType<CreatePostActionFailure>(HomeActionTypes.CreatePostActionFailure),
+    map(() => {}),
+  );
+
+  // EDIT POST
+  @Effect({ dispatch: false })
+  editPost$ = this.actions$.pipe(
+    ofType<EditPostAction>(HomeActionTypes.EditPostAction),
+    tap(async a => {
+      try {
+        const { result } = await this.postsService.update(
+          a.payload.id,
+          a.payload.cmd,
+        );
+        this.store.dispatch(new EditPostActionSuccess({ id: a.payload.id }));
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  editPostSuccess$ = this.actions$.pipe(
+    ofType<EditPostActionSuccess>(HomeActionTypes.EditPostActionSuccess),
+    tap(a => {
+      this.snackbarService.showInfo('Post Edited Successfully');
+      this.store.dispatch(new GetPostAction({ id: a.payload.id }));
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  editPostFailure$ = this.actions$.pipe(
+    ofType<EditPostActionFailure>(HomeActionTypes.EditPostActionFailure),
     map(() => {}),
   );
 

@@ -1,6 +1,6 @@
 import { PostCategory } from '../view/post-category';
 
-export interface CreatePostCmd {
+export interface UpdatePostCmd {
   content: string;
   category: PostCategory;
 }

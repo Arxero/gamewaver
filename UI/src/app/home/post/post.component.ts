@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PostViewModel } from '../models/view/post-view-model';
 import { usersProfileFullRoute } from '../../users/users.routing';
 import { DeletePostAction } from '../../store/home/home.actions';
@@ -19,6 +19,7 @@ export class PostComponent extends BaseComponent implements OnInit {
   @Input() post: PostViewModel;
   @Input() isSingle: boolean;
   canEditOrDelete: boolean;
+  @Output() editPost: EventEmitter<void> = new EventEmitter();
   get userProfileRoute() {
     return usersProfileFullRoute();
   }
@@ -43,6 +44,10 @@ export class PostComponent extends BaseComponent implements OnInit {
   }
 
   onReply() {}
+
+  onEdit() {
+    this.editPost.emit();
+  }
 
   onDelete() {
     this.store.dispatch(new DeletePostAction({ id: this.post.id }));

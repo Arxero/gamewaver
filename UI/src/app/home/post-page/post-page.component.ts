@@ -9,6 +9,7 @@ import {
   homeStatePosts,
   usersInPosts,
   homeStatePost,
+  homeStateisEditSuccessful,
 } from '../../store/home/home.selectors';
 import { GetPostAction } from '../../store/home/home.actions';
 
@@ -20,6 +21,7 @@ import { GetPostAction } from '../../store/home/home.actions';
 export class PostPageComponent extends BaseComponent implements OnInit {
   post: PostViewModel;
   postId: string;
+  isEdit: boolean;
 
   constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
     super();
@@ -42,7 +44,17 @@ export class PostPageComponent extends BaseComponent implements OnInit {
         filter(x => !!x),
       )
       .subscribe(x => {
-        this.post = this.post ? this.post : x;
+        this.post = x;
+      });
+
+    store
+      .pipe(
+        takeUntil(this.destroyed$),
+        select(homeStateisEditSuccessful),
+        filter(x => !!x),
+      )
+      .subscribe(x => {
+        this.isEdit = x ? false : true;
       });
   }
 
@@ -50,5 +62,13 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     if (!this.post) {
       this.store.dispatch(new GetPostAction({ id: this.postId }));
     }
+  }
+
+  onEditPost() {
+    this.isEdit = !this.isEdit;
+  }
+
+  onCancel() {
+    this.isEdit = false;
   }
 }

@@ -10,6 +10,7 @@ import {
   SortDirection,
 } from '../shared/models/common';
 import { HttpParams } from '@angular/common/http';
+import { UpdatePostCmd } from '../home/models/cmd/update-post.cmd';
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +51,10 @@ export class PostsService {
 
   delete(id: string): Promise<IResponse<GetPostDto>> {
     return this.httpClient.delete<IResponse<GetPostDto>>(`${this.BASE_URL}/${id}`);
+  }
+
+  update(id: string, cmd: UpdatePostCmd): Promise<IResponse<GetPostDto>> {
+    return this.httpClient.put<IResponse<GetPostDto>>(`${this.BASE_URL}/${id}`, cmd);
   }
 
 }

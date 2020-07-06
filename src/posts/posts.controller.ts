@@ -78,7 +78,7 @@ export class PostsController {
   async update(
     @Param('id') id: string,
     @Body() updateModel: UpdatePostCmd,
-  ): Promise<IResponseBase> {
+  ): Promise<IResponse<GetPostDto>> {
     const result = await this.postsService.update(
       id,
       new PostModel(updateModel),

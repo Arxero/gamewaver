@@ -7,10 +7,7 @@
 <div>
   <mat-sidenav-container>
     <mat-sidenav-content>
-      <app-create-post></app-create-post>
-      <ng-container *ngFor="let item of posts">
-        <app-post [post]="item"></app-post>
-      </ng-container>
+      <router-outlet></router-outlet>
     </mat-sidenav-content>
     <mat-sidenav #sidenav [mode]="mode" [opened]="opened" position="end">
       <mat-card>Sidebar 1</mat-card>

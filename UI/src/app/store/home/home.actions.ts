@@ -2,11 +2,16 @@ import { CreatePostCmd } from '../../home/models/cmd/create-post.cmd';
 import { Action } from '@ngrx/store';
 import { PostViewModel } from '../../home/models/view/post-view-model';
 import { User } from '../../users/models/dto/user';
+import { UpdatePostCmd } from 'src/app/home/models/cmd/update-post.cmd';
 
 export enum HomeActionTypes {
   CreatePostAction = '[CreatePost] Action',
   CreatePostActionSuccess = '[CreatePostSuccess] Action',
   CreatePostActionFailure = '[CreatePostFailure] Action',
+
+  EditPostAction = '[EditPost] Action',
+  EditPostActionSuccess = '[EditPostSuccess] Action',
+  EditPostActionFailure = '[EditPostFailure] Action',
 
   GetPostsAction = '[GetPostsPost] Action',
   GetPostsActionSuccess = '[GetPostsSuccess] Action',
@@ -34,6 +39,21 @@ export class CreatePostActionSuccess implements Action {
 
 export class CreatePostActionFailure implements Action {
   readonly type = HomeActionTypes.CreatePostActionFailure;
+}
+
+// EDIT POST
+export class EditPostAction implements Action {
+  readonly type = HomeActionTypes.EditPostAction;
+  constructor(public payload: { cmd: UpdatePostCmd, id: string }) {}
+}
+
+export class EditPostActionSuccess implements Action {
+  readonly type = HomeActionTypes.EditPostActionSuccess;
+  constructor(public payload: { id: string }) {}
+}
+
+export class EditPostActionFailure implements Action {
+  readonly type = HomeActionTypes.EditPostActionFailure;
 }
 
 // GET POSTS
@@ -86,6 +106,9 @@ export type HomeActions =
   | CreatePostAction
   | CreatePostActionSuccess
   | CreatePostActionFailure
+  | EditPostAction
+  | EditPostActionSuccess
+  | EditPostActionFailure
   | GetPostsAction
   | GetPostsActionSuccess
   | GetPostsActionFailure

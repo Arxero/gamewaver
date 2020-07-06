@@ -9,6 +9,7 @@ export interface HomeState {
   usersInPosts: User[];
   post: PostViewModel;
   userInPost: User;
+  isEditSuccessful: boolean;
 }
 
 export const initialHomeState: HomeState = {
@@ -41,11 +42,23 @@ export function homeReducer(
         posts: state.posts.filter(post => post.id !== action.payload.id),
       } as HomeState;
 
-      case HomeActionTypes.GetPostActionSuccess:
+    case HomeActionTypes.GetPostActionSuccess:
+      return {
+        ...state,
+        post: action.payload.data,
+        userInPost: action.payload.user,
+      } as HomeState;
+
+      case HomeActionTypes.EditPostAction:
         return {
           ...state,
-          post: action.payload.data,
-          userInPost: action.payload.user
+          isEditSuccessful: false
+        } as HomeState;
+
+      case HomeActionTypes.EditPostActionSuccess:
+        return {
+          ...state,
+          isEditSuccessful: true
         } as HomeState;
 
     default:

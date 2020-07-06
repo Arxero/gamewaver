@@ -27,12 +27,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
   opened = true;
   mode = 'side';
-  posts: PostViewModel[];
 
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private store: Store<HomeState>,
-  ) {
+  constructor(private breakpointObserver: BreakpointObserver) {
     super();
     breakpointObserver.observe(['(max-width: 768px)']).subscribe(result => {
       if (result.matches) {
@@ -43,21 +39,9 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.mode = 'side';
       }
     });
-
-    store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(homeStatePosts),
-        filter(x => !!x),
-      )
-      .subscribe(x => {
-        this.posts = x;
-      });
   }
 
-  ngOnInit(): void {
-    this.store.dispatch(new GetPostsAction());
-  }
+  ngOnInit(): void {}
 
   onToggle() {
     this.sidenav.toggle();

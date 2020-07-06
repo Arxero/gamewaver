@@ -35,10 +35,10 @@
     </button>
 
     <mat-menu #menuActions="matMenu">
-      <a mat-menu-item [routerLink]="['users', 'profile']" *ngIf="canEditOrDelete">
+      <button mat-menu-item (click)="onEdit()" *ngIf="canEditOrDelete">
         <mat-icon>edit</mat-icon>
         <span class="menu-item-name">Edit</span>
-      </a>
+      </button>
 
       <button mat-menu-item (click)="onDelete()" *ngIf="canEditOrDelete">
         <mat-icon>delete</mat-icon>
