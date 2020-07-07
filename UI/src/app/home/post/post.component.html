@@ -21,13 +21,12 @@
   </mat-card-content>
 
   <mat-card-actions>
-    <button mat-button (click)="onReply()">
+    <button mat-button (click)="onReply()" *ngIf="isSingle">
       <mat-icon>reply</mat-icon>
     </button>
 
     <a mat-button [routerLink]="['post', post.id]" *ngIf="!isSingle">
-      <mat-icon>exit_to_app</mat-icon>
-      <!-- <span class="menu-item-name">View</span> -->
+      <mat-icon>comment</mat-icon>
     </a>
 
     <button mat-button [matMenuTriggerFor]="menuActions">
@@ -35,7 +34,7 @@
     </button>
 
     <mat-menu #menuActions="matMenu">
-      <button mat-menu-item (click)="onEdit()" *ngIf="canEditOrDelete">
+      <button mat-menu-item (click)="onEdit()" *ngIf="canEditOrDelete && isSingle">
         <mat-icon>edit</mat-icon>
         <span class="menu-item-name">Edit</span>
       </button>
