@@ -1,6 +1,23 @@
-<app-post [post]="post" [isSingle]="true" *ngIf="post && !isEdit" (editPost)="onEditPost()"></app-post>
+<app-post
+  [post]="post"
+  [isSingle]="true"
+  *ngIf="post && !isEdit"
+  (editPost)="onEditPost()"
+  (addComment)="onAddComment($event)"
+></app-post>
 <app-create-post *ngIf="isEdit" [post]="post"></app-create-post>
 
 <div class="cancel-wrapper">
-  <button mat-stroked-button color="accent" class="form-button" *ngIf="isEdit" (click)="onCancel()">Cancel</button>
+  <button
+    mat-stroked-button
+    color="accent"
+    class="form-button"
+    *ngIf="isEdit"
+    (click)="onCancel()"
+  >
+    Cancel
+  </button>
 </div>
+
+<app-add-comment *ngIf="isAddComment && user" [user]="user"></app-add-comment>
+

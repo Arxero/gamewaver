@@ -2,9 +2,11 @@ import { CreatePostCmd } from '../../home/models/cmd/create-post.cmd';
 import { Action } from '@ngrx/store';
 import { PostViewModel } from '../../home/models/view/post-view-model';
 import { User } from '../../users/models/dto/user';
-import { UpdatePostCmd } from 'src/app/home/models/cmd/update-post.cmd';
+import { UpdatePostCmd } from '../../home/models/cmd/update-post.cmd';
+import { CreateCommentCmd } from '../../home/models/cmd/create-comment.cmd';
 
 export enum HomeActionTypes {
+  // POSTS
   CreatePostAction = '[CreatePost] Action',
   CreatePostActionSuccess = '[CreatePostSuccess] Action',
   CreatePostActionFailure = '[CreatePostFailure] Action',
@@ -24,6 +26,11 @@ export enum HomeActionTypes {
   DeletePostAction = '[DeletePost] Action',
   DeletePostActionSuccess = '[DeletePostSuccess] Action',
   DeletePostActionFailure = '[DeletePostFailure] Action',
+
+  // COMMENTS
+  CreateCommentAction = '[CreateComment] Action',
+  CreateCommentActionSuccess = '[CreateCommentSuccess] Action',
+  CreateCommentActionFailure = '[CreateCommentFailure] Action',
 }
 
 // CREATE POST
@@ -101,6 +108,21 @@ export class DeletePostActionFailure implements Action {
   readonly type = HomeActionTypes.DeletePostActionFailure;
 }
 
+// CREATE COMMENT
+export class CreateCommentAction implements Action {
+  readonly type = HomeActionTypes.CreateCommentAction;
+  constructor(public payload: { cmd: CreateCommentCmd }) {}
+}
+
+export class CreateCommentActionSuccess implements Action {
+  readonly type = HomeActionTypes.CreateCommentActionSuccess;
+  constructor(public payload: { data: PostViewModel }) {}
+}
+
+export class CreateCommentActionFailure implements Action {
+  readonly type = HomeActionTypes.CreateCommentActionFailure;
+}
+
 
 export type HomeActions =
   | CreatePostAction
@@ -117,4 +139,7 @@ export type HomeActions =
   | DeletePostActionFailure
   | GetPostAction
   | GetPostActionSuccess
-  | GetPostActionFailure;
+  | GetPostActionFailure
+  | CreateCommentAction
+  | CreateCommentActionSuccess
+  | CreateCommentActionFailure;

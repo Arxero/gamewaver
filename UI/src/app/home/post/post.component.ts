@@ -19,7 +19,9 @@ export class PostComponent extends BaseComponent implements OnInit {
   @Input() post: PostViewModel;
   @Input() isSingle: boolean;
   canEditOrDelete: boolean;
+  isAddComment: boolean;
   @Output() editPost: EventEmitter<void> = new EventEmitter();
+  @Output() addComment: EventEmitter<boolean> = new EventEmitter();
   get userProfileRoute() {
     return usersProfileFullRoute();
   }
@@ -43,9 +45,14 @@ export class PostComponent extends BaseComponent implements OnInit {
       });
   }
 
-  onReply() {}
+  onReply() {
+    this.isAddComment = !this.isAddComment;
+    this.addComment.emit(this.isAddComment);
+  }
 
   onEdit() {
+    this.isAddComment = false;
+    this.addComment.emit(this.isAddComment);
     this.editPost.emit();
   }
 

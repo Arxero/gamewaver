@@ -1,10 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import { BaseComponent } from '../../shared/base.component';
-import { Store, select } from '@ngrx/store';
-import { AuthState } from '../../store/auth/auth.reducer';
+import { Store } from '@ngrx/store';
 import { User } from '../../users/models/dto/user';
-import { takeUntil, filter } from 'rxjs/operators';
-import { authState } from '../../store/auth/auth.selectors';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { postCategories } from '../models/view/post-category';
 import { CreatePostCmd } from '../models/cmd/create-post.cmd';
@@ -22,29 +18,15 @@ import { UpdatePostCmd } from '../models/cmd/update-post.cmd';
   styleUrls: ['./create-post.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CreatePostComponent extends BaseComponent implements OnInit {
+export class CreatePostComponent implements OnInit {
   @Input() post: PostViewModel;
-  isLoggedIn: boolean;
-  user: User;
+  @Input() user: User;
   postForm: FormGroup;
   get categories() {
     return postCategories;
   }
 
-  constructor(private store: Store<HomeState>) {
-    super();
-
-    store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(authState),
-        filter(x => !!x),
-      )
-      .subscribe(x => {
-        this.isLoggedIn = x.isAuthenticated;
-        this.user = x.profile;
-      });
-  }
+  constructor(private store: Store<HomeState>) {}
 
   ngOnInit(): void {
     this.postForm = new FormGroup({

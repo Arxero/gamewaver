@@ -6,6 +6,8 @@ import { Store, select } from '@ngrx/store';
 import { GetPostsAction } from '../../store/home/home.actions';
 import { takeUntil, filter } from 'rxjs/operators';
 import { homeStatePosts } from '../../store/home/home.selectors';
+import { User } from '../../users/models/dto/user';
+import { userProfile } from '../../store/auth/auth.selectors';
 
 @Component({
   selector: 'app-posts',
@@ -14,9 +16,19 @@ import { homeStatePosts } from '../../store/home/home.selectors';
 })
 export class PostsComponent extends BaseComponent implements OnInit {
   posts: PostViewModel[];
+  user: User;
 
   constructor(private store: Store<HomeState>) {
     super();
+    store
+      .pipe(
+        takeUntil(this.destroyed$),
+        select(userProfile),
+        filter(x => !!x),
+      )
+      .subscribe(x => {
+        this.user = x;
+      });
 
     store
       .pipe(

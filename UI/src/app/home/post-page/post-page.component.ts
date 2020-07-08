@@ -12,6 +12,8 @@ import {
   homeStateisEditSuccessful,
 } from '../../store/home/home.selectors';
 import { GetPostAction } from '../../store/home/home.actions';
+import { User } from '../../users/models/dto/user';
+import { userProfile } from '../../store/auth/auth.selectors';
 
 @Component({
   selector: 'app-post-page',
@@ -20,13 +22,16 @@ import { GetPostAction } from '../../store/home/home.actions';
 })
 export class PostPageComponent extends BaseComponent implements OnInit {
   post: PostViewModel;
+  user: User;
   postId: string;
   isEdit: boolean;
+  isAddComment: boolean;
 
   constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
     super();
     this.postId = this.route.snapshot.params.id;
 
+    // load post when its clicked from home page
     store
       .pipe(
         takeUntil(this.destroyed$),
@@ -37,6 +42,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
         this.post = x.find(p => p.id === this.postId);
       });
 
+    // load post when by link
     store
       .pipe(
         takeUntil(this.destroyed$),
@@ -56,6 +62,16 @@ export class PostPageComponent extends BaseComponent implements OnInit {
       .subscribe(x => {
         this.isEdit = x ? false : true;
       });
+
+    store
+      .pipe(
+        takeUntil(this.destroyed$),
+        select(userProfile),
+        filter(x => !!x),
+      )
+      .subscribe(x => {
+        this.user = x;
+      });
   }
 
   ngOnInit(): void {
@@ -70,5 +86,9 @@ export class PostPageComponent extends BaseComponent implements OnInit {
 
   onCancel() {
     this.isEdit = false;
+  }
+
+  onAddComment(value: boolean) {
+    this.isAddComment = value;
   }
 }

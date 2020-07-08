@@ -8,6 +8,7 @@ import { HomeRoutingModule } from './home.routing';
 import { PostComponent } from './post/post.component';
 import { PostPageComponent } from './post-page/post-page.component';
 import { PostsComponent } from './posts/posts.component';
+import { AddCommentComponent } from './add-comment/add-comment.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { PostsComponent } from './posts/posts.component';
     PostComponent,
     PostPageComponent,
     PostsComponent,
+    AddCommentComponent,
   ],
   imports: [
     CommonModule,

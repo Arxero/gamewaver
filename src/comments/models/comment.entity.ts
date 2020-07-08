@@ -5,6 +5,8 @@ import { Post } from 'src/posts/models/post.entity';
 
 export interface IComment extends IDataEntity {
   content: string;
+  author?: User;
+  post?: Post;
 }
 
 @Entity({ name: 'comments' })

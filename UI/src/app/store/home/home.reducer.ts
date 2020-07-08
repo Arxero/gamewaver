@@ -1,8 +1,8 @@
-import { GetPostDto } from '../../home/models/dto/get-post.dto';
 import { HomeActions, HomeActionTypes } from './home.actions';
 import { PostViewModel } from '../../home/models/view/post-view-model';
 import * as lodash from 'lodash';
 import { User } from '../../users/models/dto/user';
+import { CommentViewModel } from '../../home/models/view/comment-view-model';
 
 export interface HomeState {
   posts: PostViewModel[];
@@ -10,6 +10,7 @@ export interface HomeState {
   post: PostViewModel;
   userInPost: User;
   isEditSuccessful: boolean;
+  comments: CommentViewModel[];
 }
 
 export const initialHomeState: HomeState = {
