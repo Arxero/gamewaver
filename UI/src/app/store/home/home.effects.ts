@@ -21,6 +21,9 @@ import {
   EditPostAction,
   EditPostActionSuccess,
   EditPostActionFailure,
+  CreateCommentAction,
+  CreateCommentActionSuccess,
+  CreateCommentActionFailure,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UsersService } from '../../services/users.service';
@@ -38,6 +41,8 @@ import { AuthState } from '../auth/auth.reducer';
 import { userProfile } from '../auth/auth.selectors';
 import { uniq, templateSettings, uniqBy } from 'lodash';
 import { Router } from '@angular/router';
+import { CommentsService } from '../../services/comments.service';
+import { mapCommmentViewModel } from '../../home/models/view/comment-view-model';
 
 @Injectable()
 export class HomeEffects {
@@ -48,6 +53,7 @@ export class HomeEffects {
     private snackbarService: SnackbarService,
     private postsService: PostsService,
     private usersService: UsersService,
+    private commentsService: CommentsService,
     private router: Router,
   ) {}
 
@@ -142,12 +148,7 @@ export class HomeEffects {
           );
           return mapPostViewModel(post, userInPosts);
         });
-        this.store.dispatch(
-          new GetPostsActionSuccess({
-            data: posts,
-            users: resultUsers.result.items,
-          }),
-        );
+        this.store.dispatch(new GetPostsActionSuccess({ data: posts }));
       } catch (error) {
         console.log(error);
       }
@@ -206,9 +207,7 @@ export class HomeEffects {
         const { result } = await this.postsService.findOne(a.payload.id);
         const userResult = await this.usersService.findOne(result.authorId);
         const data = mapPostViewModel(result, userResult.result);
-        this.store.dispatch(
-          new GetPostActionSuccess({ data, user: userResult.result }),
-        );
+        this.store.dispatch(new GetPostActionSuccess({ data }));
       } catch (error) {
         this.store.dispatch(new GetPostActionFailure());
         console.log(error);
@@ -227,6 +226,41 @@ export class HomeEffects {
     ofType<GetPostActionFailure>(HomeActionTypes.GetPostActionFailure),
     map(() => {
       this.snackbarService.showWarn('Load Post Failed');
+    }),
+  );
+
+// COMMENTS /////////////////////////////////////////////////
+
+  // CREATE COMMENT
+  @Effect({ dispatch: false })
+  createComment$ = this.actions$.pipe(
+    ofType<CreateCommentAction>(HomeActionTypes.CreateCommentAction),
+    tap(async a => {
+      try {
+        const { result } = await this.commentsService.create(a.payload.cmd, a.payload.postId);
+        const userResult = await this.usersService.findOne(result.authorId);
+        const data = mapCommmentViewModel(result, userResult.result);
+        this.store.dispatch(new CreateCommentActionSuccess({ data }));
+      } catch (error) {
+        this.store.dispatch(new CreateCommentActionFailure());
+        console.log(error);
+      }
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  createCommentSuccess$ = this.actions$.pipe(
+    ofType<CreateCommentActionSuccess>(HomeActionTypes.CreateCommentActionSuccess),
+    tap(() => {
+      this.snackbarService.showInfo('Comment Added Successfully');
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  createCommentFailure$ = this.actions$.pipe(
+    ofType<CreateCommentActionFailure>(HomeActionTypes.CreateCommentActionFailure),
+    map(() => {
+      this.snackbarService.showWarn('Create Comment Failed');
     }),
   );
 }

@@ -6,15 +6,14 @@ import { CommentViewModel } from '../../home/models/view/comment-view-model';
 
 export interface HomeState {
   posts: PostViewModel[];
-  usersInPosts: User[];
   post: PostViewModel;
-  userInPost: User;
   isEditSuccessful: boolean;
   comments: CommentViewModel[];
 }
 
 export const initialHomeState: HomeState = {
   posts: null,
+  comments: [],
 } as HomeState;
 
 export function homeReducer(
@@ -34,7 +33,6 @@ export function homeReducer(
       return {
         ...state,
         posts: action.payload.data,
-        usersInPosts: action.payload.users,
       } as HomeState;
 
     case HomeActionTypes.DeletePostActionSuccess:
@@ -46,8 +44,7 @@ export function homeReducer(
     case HomeActionTypes.GetPostActionSuccess:
       return {
         ...state,
-        post: action.payload.data,
-        userInPost: action.payload.user,
+        post: action.payload.data
       } as HomeState;
 
       case HomeActionTypes.EditPostAction:
@@ -61,6 +58,14 @@ export function homeReducer(
           ...state,
           isEditSuccessful: true
         } as HomeState;
+
+        case HomeActionTypes.CreateCommentActionSuccess:
+          const tempComments = lodash.cloneDeep(state.comments);
+          tempComments.unshift(action.payload.data);
+          return {
+            ...state,
+            comments: tempComments
+          } as HomeState;
 
     default:
       return state;

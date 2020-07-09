@@ -19,5 +19,5 @@
   </button>
 </div>
 
-<app-add-comment *ngIf="isAddComment && user" [user]="user"></app-add-comment>
+<app-add-comment *ngIf="isAddComment && user" [user]="user" [postId]="post.id"></app-add-comment>
 

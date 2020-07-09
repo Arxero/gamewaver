@@ -4,6 +4,7 @@ import { PostViewModel } from '../../home/models/view/post-view-model';
 import { User } from '../../users/models/dto/user';
 import { UpdatePostCmd } from '../../home/models/cmd/update-post.cmd';
 import { CreateCommentCmd } from '../../home/models/cmd/create-comment.cmd';
+import { CommentViewModel } from '../../home/models/view/comment-view-model';
 
 export enum HomeActionTypes {
   // POSTS
@@ -70,7 +71,7 @@ export class GetPostsAction implements Action {
 
 export class GetPostsActionSuccess implements Action {
   readonly type = HomeActionTypes.GetPostsActionSuccess;
-  constructor(public payload: { data: PostViewModel[], users: User[] }) {}
+  constructor(public payload: { data: PostViewModel[] }) {}
 }
 
 export class GetPostsActionFailure implements Action {
@@ -86,7 +87,7 @@ export class GetPostAction implements Action {
 
 export class GetPostActionSuccess implements Action {
   readonly type = HomeActionTypes.GetPostActionSuccess;
-  constructor(public payload: { data: PostViewModel, user: User }) {}
+  constructor(public payload: { data: PostViewModel }) {}
 }
 
 export class GetPostActionFailure implements Action {
@@ -111,12 +112,12 @@ export class DeletePostActionFailure implements Action {
 // CREATE COMMENT
 export class CreateCommentAction implements Action {
   readonly type = HomeActionTypes.CreateCommentAction;
-  constructor(public payload: { cmd: CreateCommentCmd }) {}
+  constructor(public payload: { cmd: CreateCommentCmd, postId: string }) {}
 }
 
 export class CreateCommentActionSuccess implements Action {
   readonly type = HomeActionTypes.CreateCommentActionSuccess;
-  constructor(public payload: { data: PostViewModel }) {}
+  constructor(public payload: { data: CommentViewModel }) {}
 }
 
 export class CreateCommentActionFailure implements Action {

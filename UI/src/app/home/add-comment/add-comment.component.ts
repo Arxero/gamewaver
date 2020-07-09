@@ -14,6 +14,7 @@ import { CreateCommentAction } from '../../store/home/home.actions';
 })
 export class AddCommentComponent implements OnInit {
   @Input() user: User;
+  @Input() postId: string;
   commentForm: FormGroup;
 
   constructor(private store: Store<HomeState>) {}
@@ -37,6 +38,7 @@ export class AddCommentComponent implements OnInit {
       content: this.content.value,
     };
 
-    this.store.dispatch(new CreateCommentAction({ cmd }));
+    this.store.dispatch(new CreateCommentAction({ cmd, postId: this.postId }));
+    this.commentForm.reset();
   }
 }

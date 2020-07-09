@@ -3,16 +3,11 @@ import { GetPostDto } from '../dto/get-post.dto';
 import { postCategories, PostCategory } from './post-category';
 import * as moment from 'moment';
 import { User } from '../../../users/models/dto/user';
+import { HomeViewModel } from './home-view-model';
 
-export interface PostViewModel extends DataEntity {
-  content: string;
+export interface PostViewModel extends HomeViewModel {
   category: string;
   categoryEnum: PostCategory;
-  authorId: string;
-  authorAvatar: string;
-  authorUsername: string;
-  date: string;
-  tooltipDate: string;
 }
 
 export function mapPostViewModel(post: GetPostDto, userInPosts: User): PostViewModel{

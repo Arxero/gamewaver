@@ -1,11 +1,21 @@
-import { DataEntity } from '../../../shared/models/common';
+import { HomeViewModel } from './home-view-model';
+import { GetCommentDto } from '../dto/get-comment.dto';
+import { User } from '../../../users/models/dto/user';
+import * as moment from 'moment';
 
-export interface CommentViewModel extends DataEntity {
-  content: string;
-  authorId: string;
+export interface CommentViewModel extends HomeViewModel {
   postId: string;
-  authorAvatar: string;
-  authorUsername: string;
-  date: string;
-  tooltipDate: string;
 }
+
+export function mapCommmentViewModel(comment: GetCommentDto, userInPosts: User): CommentViewModel{
+  return {
+    ...comment,
+    authorAvatar: userInPosts.avatar,
+    authorUsername: userInPosts.username,
+    date: comment.createdAt.toString(),
+    tooltipDate: moment(comment.createdAt).format(
+      'MMMM DD, YYYY [at] hh:mm A',
+    ),
+  } as CommentViewModel;
+}
+

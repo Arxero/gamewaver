@@ -8,7 +8,6 @@ import { User, UserRole } from '../models/dto/user';
 import { cloneDeep } from 'lodash';
 import { MarkdownComponent } from 'ngx-markdown';
 import { ActivatedRoute } from '@angular/router';
-import { usersInPosts } from '../../store/home/home.selectors';
 import { usersProfileEditFullRoute } from '../users.routing';
 import { GetUserAction } from '../../store/users/users.actions';
 import { usersStateProfileUser } from '../../store/users/users.selectors';
