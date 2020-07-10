@@ -33,6 +33,7 @@ export function homeReducer(
       return {
         ...state,
         posts: action.payload.data,
+        post: null,
       } as HomeState;
 
     case HomeActionTypes.DeletePostActionSuccess:
@@ -44,28 +45,34 @@ export function homeReducer(
     case HomeActionTypes.GetPostActionSuccess:
       return {
         ...state,
-        post: action.payload.data
+        post: action.payload.data,
       } as HomeState;
 
-      case HomeActionTypes.EditPostAction:
-        return {
-          ...state,
-          isEditSuccessful: false
-        } as HomeState;
+    case HomeActionTypes.EditPostAction:
+      return {
+        ...state,
+        isEditSuccessful: false,
+      } as HomeState;
 
-      case HomeActionTypes.EditPostActionSuccess:
-        return {
-          ...state,
-          isEditSuccessful: true
-        } as HomeState;
+    case HomeActionTypes.EditPostActionSuccess:
+      return {
+        ...state,
+        isEditSuccessful: true,
+      } as HomeState;
 
-        case HomeActionTypes.CreateCommentActionSuccess:
-          const tempComments = lodash.cloneDeep(state.comments);
-          tempComments.unshift(action.payload.data);
-          return {
-            ...state,
-            comments: tempComments
-          } as HomeState;
+    case HomeActionTypes.CreateCommentActionSuccess:
+      const tempComments = lodash.cloneDeep(state.comments);
+      tempComments.unshift(action.payload.data);
+      return {
+        ...state,
+        comments: tempComments,
+      } as HomeState;
+
+    case HomeActionTypes.GetCommentsActionSuccess:
+      return {
+        ...state,
+        comments: action.payload.data,
+      } as HomeState;
 
     default:
       return state;

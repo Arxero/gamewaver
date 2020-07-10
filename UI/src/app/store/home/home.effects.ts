@@ -24,6 +24,9 @@ import {
   CreateCommentAction,
   CreateCommentActionSuccess,
   CreateCommentActionFailure,
+  GetCommentsActionFailure,
+  GetCommentsAction,
+  GetCommentsActionSuccess,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UsersService } from '../../services/users.service';
@@ -42,7 +45,7 @@ import { userProfile } from '../auth/auth.selectors';
 import { uniq, templateSettings, uniqBy } from 'lodash';
 import { Router } from '@angular/router';
 import { CommentsService } from '../../services/comments.service';
-import { mapCommmentViewModel } from '../../home/models/view/comment-view-model';
+import { mapCommmentViewModel, CommentViewModel } from '../../home/models/view/comment-view-model';
 
 @Injectable()
 export class HomeEffects {
@@ -229,7 +232,7 @@ export class HomeEffects {
     }),
   );
 
-// COMMENTS /////////////////////////////////////////////////
+  // COMMENTS /////////////////////////////////////////////////
 
   // CREATE COMMENT
   @Effect({ dispatch: false })
@@ -237,7 +240,10 @@ export class HomeEffects {
     ofType<CreateCommentAction>(HomeActionTypes.CreateCommentAction),
     tap(async a => {
       try {
-        const { result } = await this.commentsService.create(a.payload.cmd, a.payload.postId);
+        const { result } = await this.commentsService.create(
+          a.payload.cmd,
+          a.payload.postId,
+        );
         const userResult = await this.usersService.findOne(result.authorId);
         const data = mapCommmentViewModel(result, userResult.result);
         this.store.dispatch(new CreateCommentActionSuccess({ data }));
@@ -250,7 +256,9 @@ export class HomeEffects {
 
   @Effect({ dispatch: false })
   createCommentSuccess$ = this.actions$.pipe(
-    ofType<CreateCommentActionSuccess>(HomeActionTypes.CreateCommentActionSuccess),
+    ofType<CreateCommentActionSuccess>(
+      HomeActionTypes.CreateCommentActionSuccess,
+    ),
     tap(() => {
       this.snackbarService.showInfo('Comment Added Successfully');
     }),
@@ -258,9 +266,71 @@ export class HomeEffects {
 
   @Effect({ dispatch: false })
   createCommentFailure$ = this.actions$.pipe(
-    ofType<CreateCommentActionFailure>(HomeActionTypes.CreateCommentActionFailure),
+    ofType<CreateCommentActionFailure>(
+      HomeActionTypes.CreateCommentActionFailure,
+    ),
     map(() => {
       this.snackbarService.showWarn('Create Comment Failed');
+    }),
+  );
+
+  // GET COMMENTS
+  @Effect({ dispatch: false })
+  getComment$ = this.actions$.pipe(
+    ofType<GetCommentsAction>(HomeActionTypes.GetCommentsAction),
+    tap(async a => {
+      try {
+        const dateSort: Sorting = {
+          propertyName: 'createdAt',
+          sort: SortDirection.DESC,
+        };
+        const filterIdPost: DataFilter = {
+          fieldName: 'post',
+          searchOperator: SearchType.In,
+          searchValue: a.payload.postId,
+        };
+        const { result } = await this.commentsService.findAll(
+          [filterIdPost],
+          [dateSort],
+        );
+
+        const searchValueStr = result.items
+          .map(x => x.authorId)
+          .filter((v, i, s) => s.indexOf(v) === i)
+          .join(',');
+        const filter: DataFilter = {
+          fieldName: 'id',
+          searchOperator: SearchType.In,
+          searchValue: searchValueStr,
+        };
+
+        const resultUsers = await this.usersService.findAll([filter]);
+        const comments: CommentViewModel[] = result.items.map(comment => {
+          const userInComments = resultUsers.result.items.find(
+            user => comment.authorId === user.id,
+          );
+          return mapCommmentViewModel(comment, userInComments);
+        });
+        this.store.dispatch(new GetCommentsActionSuccess({ data: comments }));
+      } catch (error) {
+        this.store.dispatch(new GetCommentsActionFailure());
+        console.log(error);
+      }
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  getCommentSuccess$ = this.actions$.pipe(
+    ofType<GetCommentsActionSuccess>(HomeActionTypes.GetCommentsActionSuccess),
+    tap(() => {
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  getCommentFailure$ = this.actions$.pipe(
+    ofType<GetCommentsActionFailure>(HomeActionTypes.GetCommentsActionFailure),
+    map(() => {
+      this.snackbarService.showWarn('Get Comments Failed');
     }),
   );
 }

@@ -14,7 +14,6 @@ export const homeStatePosts = createSelector(
   homeState => homeState.posts
 );
 
-
 export const homeStatePost = createSelector(
   selectHomeState,
   homeState => homeState.post
@@ -23,4 +22,9 @@ export const homeStatePost = createSelector(
 export const homeStateisEditSuccessful = createSelector(
   selectHomeState,
   homeState => homeState.isEditSuccessful
+);
+
+export const homeStatePostComments = createSelector(
+  selectHomeState,
+  homeState => homeState.comments
 );

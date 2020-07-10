@@ -32,6 +32,10 @@ export enum HomeActionTypes {
   CreateCommentAction = '[CreateComment] Action',
   CreateCommentActionSuccess = '[CreateCommentSuccess] Action',
   CreateCommentActionFailure = '[CreateCommentFailure] Action',
+
+  GetCommentsAction = '[GetCommentsPost] Action',
+  GetCommentsActionSuccess = '[GetCommentsSuccess] Action',
+  GetCommentsActionFailure = '[GetCommentsFailure] Action',
 }
 
 // CREATE POST
@@ -124,6 +128,21 @@ export class CreateCommentActionFailure implements Action {
   readonly type = HomeActionTypes.CreateCommentActionFailure;
 }
 
+// GET COMMENTS
+export class GetCommentsAction implements Action {
+  readonly type = HomeActionTypes.GetCommentsAction;
+  constructor(public payload: { postId: string }) {}
+}
+
+export class GetCommentsActionSuccess implements Action {
+  readonly type = HomeActionTypes.GetCommentsActionSuccess;
+  constructor(public payload: { data: CommentViewModel[] }) {}
+}
+
+export class GetCommentsActionFailure implements Action {
+  readonly type = HomeActionTypes.GetCommentsActionFailure;
+}
+
 
 export type HomeActions =
   | CreatePostAction
@@ -143,4 +162,7 @@ export type HomeActions =
   | GetPostActionFailure
   | CreateCommentAction
   | CreateCommentActionSuccess
-  | CreateCommentActionFailure;
+  | CreateCommentActionFailure
+  | GetCommentsAction
+  | GetCommentsActionSuccess
+  | GetCommentsActionFailure;

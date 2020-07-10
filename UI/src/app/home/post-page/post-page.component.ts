@@ -10,7 +10,10 @@ import {
   homeStatePost,
   homeStateisEditSuccessful,
 } from '../../store/home/home.selectors';
-import { GetPostAction } from '../../store/home/home.actions';
+import {
+  GetPostAction,
+  GetCommentsAction,
+} from '../../store/home/home.actions';
 import { User } from '../../users/models/dto/user';
 import { userProfile } from '../../store/auth/auth.selectors';
 
@@ -77,6 +80,8 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     if (!this.post) {
       this.store.dispatch(new GetPostAction({ id: this.postId }));
     }
+
+    this.store.dispatch(new GetCommentsAction({ postId: this.postId }));
   }
 
   onEditPost() {

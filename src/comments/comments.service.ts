@@ -49,7 +49,7 @@ export class CommentsService {
       where: queryRequest.filter,
       skip: queryRequest.paging.skip,
       take: queryRequest.paging.take,
-      relations: ['author'],
+      relations: ['author', 'post'],
     });
 
     return new PagedData<GetCommentDto>(

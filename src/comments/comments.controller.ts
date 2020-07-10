@@ -14,7 +14,7 @@ import {
 import { CommentsService } from './comments.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CommentCreateCmd } from './models/cmd/comment-create.cmd';
-import { IResponseBase, ResponseSuccess } from 'src/common/models/response';
+import { IResponseBase, ResponseSuccess, IResponse } from 'src/common/models/response';
 import { Comment } from './models/comment.entity';
 import { GetCommentDto } from './models/dto/get-comment.dto';
 import { QueryParams, QueryRequest } from 'src/common/models/query-request';
@@ -35,7 +35,7 @@ export class CommentsController {
   async create(
     @Param('postId') postId: string,
     @Body() createModel: CommentCreateCmd,
-  ): Promise<IResponseBase> {
+  ): Promise<IResponse<GetCommentDto>> {
     const result = await this.commentsService.create(
       postId,
       new Comment(createModel),
@@ -49,7 +49,7 @@ export class CommentsController {
   @ApiQuery({ name: 'take', required: false })
   @ApiQuery({ name: 'skip', required: false })
   @Get()
-  async findAll(@Query() queryParams: QueryParams): Promise<IResponseBase> {
+  async findAll(@Query() queryParams: QueryParams): Promise<IResponse<PagedData<GetCommentDto>>> {
     const queryRequest = new QueryRequest(queryParams);
     const result = await this.commentsService.findAll(queryRequest);
     return new ResponseSuccess<PagedData<GetCommentDto>>({ result });
