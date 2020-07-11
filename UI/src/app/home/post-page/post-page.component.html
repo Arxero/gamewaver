@@ -1,6 +1,7 @@
 <app-post
   [post]="post"
   [isSingle]="true"
+  [user]="user"
   *ngIf="post && !isEdit"
   (editPost)="onEditPost()"
   (addComment)="onAddComment($event)"
@@ -21,3 +22,6 @@
 
 <app-add-comment *ngIf="isAddComment && user" [user]="user" [postId]="post.id"></app-add-comment>
 
+<ng-container *ngFor="let item of comments">
+  <app-comment [comment]="item" [user]="user"></app-comment>
+</ng-container>

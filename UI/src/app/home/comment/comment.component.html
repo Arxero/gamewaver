@@ -1,0 +1,38 @@
+<mat-card class="comment">
+  <mat-card-header>
+    <div mat-card-avatar class="post-header-image">
+      <a [routerLink]="[userProfileRoute, comment.authorId]">
+        <img [src]="comment.authorAvatar  || './assets/images/common/no_avatar.jpg'" alt="{{ comment.authorUsername }}'s avatar">
+      </a>
+    </div>
+    <mat-card-title>
+      <a [routerLink]="[userProfileRoute, comment.authorId]">
+        {{ comment.authorUsername }}
+      </a>
+      <span class="time" [matTooltip]="comment.tooltipDate"> · {{ comment.date | timeAgo }}</span>
+      </mat-card-title>
+
+    <mat-card-subtitle>
+      <markdown [data]="comment.content" ngPreserveWhitespaces></markdown>
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-actions>
+    <button mat-button [matMenuTriggerFor]="menuActions">
+      <mat-icon>more_horiz</mat-icon>
+    </button>
+
+    <mat-menu #menuActions="matMenu">
+      <button mat-menu-item (click)="onEdit()" *ngIf="canEditOrDelete">
+        <mat-icon>edit</mat-icon>
+        <span class="menu-item-name">Edit</span>
+      </button>
+
+      <button mat-menu-item (click)="onDelete()" *ngIf="canEditOrDelete">
+        <mat-icon>delete</mat-icon>
+        <span class="menu-item-name">Delete</span>
+      </button>
+    </mat-menu>
+  </mat-card-actions>
+</mat-card>
+

@@ -74,6 +74,12 @@ export function homeReducer(
         comments: action.payload.data,
       } as HomeState;
 
+    case HomeActionTypes.DeleteCommentActionSuccess:
+      return {
+        ...state,
+        comments: state.comments.filter(c => c.id !== action.payload.id),
+      } as HomeState;
+
     default:
       return state;
   }

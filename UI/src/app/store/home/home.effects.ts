@@ -27,6 +27,9 @@ import {
   GetCommentsActionFailure,
   GetCommentsAction,
   GetCommentsActionSuccess,
+  DeleteCommentAction,
+  DeleteCommentActionSuccess,
+  DeleteCommentActionFailure,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UsersService } from '../../services/users.service';
@@ -45,7 +48,10 @@ import { userProfile } from '../auth/auth.selectors';
 import { uniq, templateSettings, uniqBy } from 'lodash';
 import { Router } from '@angular/router';
 import { CommentsService } from '../../services/comments.service';
-import { mapCommmentViewModel, CommentViewModel } from '../../home/models/view/comment-view-model';
+import {
+  mapCommmentViewModel,
+  CommentViewModel,
+} from '../../home/models/view/comment-view-model';
 
 @Injectable()
 export class HomeEffects {
@@ -322,8 +328,7 @@ export class HomeEffects {
   @Effect({ dispatch: false })
   getCommentSuccess$ = this.actions$.pipe(
     ofType<GetCommentsActionSuccess>(HomeActionTypes.GetCommentsActionSuccess),
-    tap(() => {
-    }),
+    tap(() => {}),
   );
 
   @Effect({ dispatch: false })
@@ -331,6 +336,43 @@ export class HomeEffects {
     ofType<GetCommentsActionFailure>(HomeActionTypes.GetCommentsActionFailure),
     map(() => {
       this.snackbarService.showWarn('Get Comments Failed');
+    }),
+  );
+
+  // DELETE COMMENT
+  @Effect({ dispatch: false })
+  deleteComment$ = this.actions$.pipe(
+    ofType<DeleteCommentAction>(HomeActionTypes.DeleteCommentAction),
+    tap(async a => {
+      try {
+        // const { result } = await this.postsService.delete(a.payload.id);
+        this.store.dispatch(
+          new DeleteCommentActionSuccess({ id: a.payload.id }),
+        );
+      } catch (error) {
+        this.store.dispatch(new DeleteCommentActionFailure());
+        console.log(error);
+      }
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  deleteCommentSuccess$ = this.actions$.pipe(
+    ofType<DeleteCommentActionSuccess>(
+      HomeActionTypes.DeleteCommentActionSuccess,
+    ),
+    tap(() => {
+      this.snackbarService.showInfo('Comment Deleted Successfully');
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  deleteCommentFailure$ = this.actions$.pipe(
+    ofType<DeleteCommentActionFailure>(
+      HomeActionTypes.DeleteCommentActionFailure,
+    ),
+    map(() => {
+      this.snackbarService.showWarn('Comment Deletion Failed');
     }),
   );
 }

@@ -9,6 +9,7 @@ import {
   homeStatePosts,
   homeStatePost,
   homeStateisEditSuccessful,
+  homeStatePostComments,
 } from '../../store/home/home.selectors';
 import {
   GetPostAction,
@@ -16,6 +17,7 @@ import {
 } from '../../store/home/home.actions';
 import { User } from '../../users/models/dto/user';
 import { userProfile } from '../../store/auth/auth.selectors';
+import { CommentViewModel } from '../models/view/comment-view-model';
 
 @Component({
   selector: 'app-post-page',
@@ -28,6 +30,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   postId: string;
   isEdit: boolean;
   isAddComment: boolean;
+  comments: CommentViewModel[];
 
   constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
     super();
@@ -73,6 +76,16 @@ export class PostPageComponent extends BaseComponent implements OnInit {
       )
       .subscribe(x => {
         this.user = x;
+      });
+
+    store
+      .pipe(
+        takeUntil(this.destroyed$),
+        select(homeStatePostComments),
+        filter(x => !!x),
+      )
+      .subscribe(x => {
+        this.comments = x;
       });
   }
 

@@ -1,4 +1,4 @@
 <app-create-post *ngIf="user" [user]="user"></app-create-post>
 <ng-container *ngFor="let item of posts">
-  <app-post [post]="item"></app-post>
+  <app-post [post]="item" [user]="user"></app-post>
 </ng-container>

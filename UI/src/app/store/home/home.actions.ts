@@ -36,6 +36,10 @@ export enum HomeActionTypes {
   GetCommentsAction = '[GetCommentsPost] Action',
   GetCommentsActionSuccess = '[GetCommentsSuccess] Action',
   GetCommentsActionFailure = '[GetCommentsFailure] Action',
+
+  DeleteCommentAction = '[DeleteComment] Action',
+  DeleteCommentActionSuccess = '[DeleteCommentSuccess] Action',
+  DeleteCommentActionFailure = '[DeleteCommentFailure] Action',
 }
 
 // CREATE POST
@@ -143,6 +147,21 @@ export class GetCommentsActionFailure implements Action {
   readonly type = HomeActionTypes.GetCommentsActionFailure;
 }
 
+// DELETE COMMENT
+export class DeleteCommentAction implements Action {
+  readonly type = HomeActionTypes.DeleteCommentAction;
+  constructor(public payload: { id: string }) {}
+}
+
+export class DeleteCommentActionSuccess implements Action {
+  readonly type = HomeActionTypes.DeleteCommentActionSuccess;
+  constructor(public payload: { id: string }) {}
+}
+
+export class DeleteCommentActionFailure implements Action {
+  readonly type = HomeActionTypes.DeleteCommentActionFailure;
+}
+
 
 export type HomeActions =
   | CreatePostAction
@@ -165,4 +184,7 @@ export type HomeActions =
   | CreateCommentActionFailure
   | GetCommentsAction
   | GetCommentsActionSuccess
-  | GetCommentsActionFailure;
+  | GetCommentsActionFailure
+  | DeleteCommentAction
+  | DeleteCommentActionSuccess
+  | DeleteCommentActionFailure;

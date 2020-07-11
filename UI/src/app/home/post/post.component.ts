@@ -8,16 +8,17 @@ import { HomeState } from '../../store/home/home.reducer';
 import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../../store/auth/auth.selectors';
 import { cloneDeep } from 'lodash';
-import { UserRole } from '../../users/models/dto/user';
+import { UserRole, User } from '../../users/models/dto/user';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
 })
-export class PostComponent extends BaseComponent implements OnInit {
+export class PostComponent implements OnInit {
   @Input() post: PostViewModel;
   @Input() isSingle: boolean;
+  @Input() user: User;
   canEditOrDelete: boolean;
   isAddComment: boolean;
   @Output() editPost: EventEmitter<void> = new EventEmitter();
@@ -26,23 +27,13 @@ export class PostComponent extends BaseComponent implements OnInit {
     return usersProfileFullRoute();
   }
 
-  constructor(private store: Store<HomeState>) {
-    super();
-  }
+  constructor(private store: Store<HomeState>) {}
 
   ngOnInit(): void {
-    this.store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(userProfile),
-        filter(x => !!x),
-      )
-      .subscribe(x => {
-        this.canEditOrDelete =
-          x.id === this.post?.authorId || x.role === UserRole.ADMIN
-            ? true
-            : false;
-      });
+    this.canEditOrDelete =
+      this.user.id === this.post?.authorId || this.user.role === UserRole.ADMIN
+        ? true
+        : false;
   }
 
   onReply() {
