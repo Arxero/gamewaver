@@ -79,10 +79,10 @@ export class CommentsController {
     });
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   @Roles('admin')
-  async delete(@Param('id') id: string): Promise<IResponseBase> {
+  async delete(@Param('id') id: string): Promise<IResponse<GetCommentDto>> {
     const result = await this.commentsService.delete({ id });
     return new ResponseSuccess<GetCommentDto>({
       result: new GetCommentDto(result),

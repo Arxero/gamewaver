@@ -5,6 +5,7 @@ import { User } from '../../users/models/dto/user';
 import { UpdatePostCmd } from '../../home/models/cmd/update-post.cmd';
 import { CreateCommentCmd } from '../../home/models/cmd/create-comment.cmd';
 import { CommentViewModel } from '../../home/models/view/comment-view-model';
+import { ResponseError } from '../../shared/models/response';
 
 export enum HomeActionTypes {
   // POSTS
@@ -40,6 +41,10 @@ export enum HomeActionTypes {
   DeleteCommentAction = '[DeleteComment] Action',
   DeleteCommentActionSuccess = '[DeleteCommentSuccess] Action',
   DeleteCommentActionFailure = '[DeleteCommentFailure] Action',
+
+  EditCommentAction = '[EditComment] Action',
+  EditCommentActionSuccess = '[EditCommentSuccess] Action',
+  EditCommentActionFailure = '[EditCommentFailure] Action',
 }
 
 // CREATE POST
@@ -160,6 +165,22 @@ export class DeleteCommentActionSuccess implements Action {
 
 export class DeleteCommentActionFailure implements Action {
   readonly type = HomeActionTypes.DeleteCommentActionFailure;
+  constructor(public payload: { error: ResponseError }) {}
+}
+
+// EDIT POST
+export class EditCommentAction implements Action {
+  readonly type = HomeActionTypes.EditCommentAction;
+  constructor(public payload: { cmd: UpdatePostCmd, id: string }) {}
+}
+
+export class EditCommentActionSuccess implements Action {
+  readonly type = HomeActionTypes.EditCommentActionSuccess;
+  constructor(public payload: { id: string }) {}
+}
+
+export class EditCommentActionFailure implements Action {
+  readonly type = HomeActionTypes.EditCommentActionFailure;
 }
 
 
@@ -187,4 +208,7 @@ export type HomeActions =
   | GetCommentsActionFailure
   | DeleteCommentAction
   | DeleteCommentActionSuccess
-  | DeleteCommentActionFailure;
+  | DeleteCommentActionFailure
+  | EditCommentAction
+  | EditCommentActionSuccess
+  | EditCommentActionFailure;

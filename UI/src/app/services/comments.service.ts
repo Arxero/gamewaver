@@ -5,6 +5,7 @@ import { CreateCommentCmd } from '../home/models/cmd/create-comment.cmd';
 import { IResponse } from '../shared/models/response';
 import { DataFilter, Sorting, PagedData } from '../shared/models/common';
 import { HttpParams } from '@angular/common/http';
+import { UpdateCommentCmd } from '../home/models/cmd/update-comment.cmd';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,13 @@ export class CommentsService {
     return this.httpClient.get<IResponse<PagedData<GetCommentDto>>>(
       `${this.BASE_URL}`,
     );
+  }
+
+  delete(id: string): Promise<IResponse<GetCommentDto>> {
+    return this.httpClient.delete<IResponse<GetCommentDto>>(`${this.BASE_URL}/${id}`);
+  }
+
+  update(id: string, cmd: UpdateCommentCmd): Promise<IResponse<GetCommentDto>> {
+    return this.httpClient.put<IResponse<GetCommentDto>>(`${this.BASE_URL}/${id}`, cmd);
   }
 }

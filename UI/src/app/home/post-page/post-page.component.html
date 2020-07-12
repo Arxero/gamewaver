@@ -2,26 +2,30 @@
   [post]="post"
   [isSingle]="true"
   [user]="user"
-  *ngIf="post && !isEdit"
+  *ngIf="post && !isEditPost"
   (editPost)="onEditPost()"
-  (addComment)="onAddComment($event)"
 ></app-post>
-<app-create-post *ngIf="isEdit" [post]="post"></app-create-post>
 
-<div class="cancel-wrapper">
-  <button
-    mat-stroked-button
-    color="accent"
-    class="form-button"
-    *ngIf="isEdit"
-    (click)="onCancel()"
-  >
-    Cancel
-  </button>
-</div>
+<app-create-post
+  (cancelEditPost)="onCancelPostEdit()"
+  *ngIf="isEditPost"
+  [post]="post"
+  [user]="user"
+></app-create-post>
 
-<app-add-comment *ngIf="isAddComment && user" [user]="user" [postId]="post.id"></app-add-comment>
+
+<app-add-comment
+  *ngIf="isAddComment && user && post"
+  [user]="user"
+  [postId]="post.id"
+  [comment]="comment"
+  (cancelEditComment)="onCancelCommentEdit()"
+></app-add-comment>
 
 <ng-container *ngFor="let item of comments">
-  <app-comment [comment]="item" [user]="user"></app-comment>
+  <app-comment
+    [comment]="item"
+    [user]="user"
+    (editComment)="onEditComment($event)"
+  ></app-comment>
 </ng-container>

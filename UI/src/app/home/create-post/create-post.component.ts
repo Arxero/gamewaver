@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { User } from '../../users/models/dto/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -21,6 +21,8 @@ import { UpdatePostCmd } from '../models/cmd/update-post.cmd';
 export class CreatePostComponent implements OnInit {
   @Input() post: PostViewModel;
   @Input() user: User;
+  @Output() cancelEditPost: EventEmitter<void> = new EventEmitter();
+
   postForm: FormGroup;
   get categories() {
     return postCategories;
@@ -65,5 +67,9 @@ export class CreatePostComponent implements OnInit {
       : this.store.dispatch(new CreatePostAction({ cmd: createCmd }));
 
     this.postForm.reset();
+  }
+
+  onCancel() {
+    this.cancelEditPost.emit();
   }
 }

@@ -24,6 +24,7 @@
             </mat-select>
             <mat-error *ngIf="category.invalid && category.errors.required">Category is required</mat-error>
           </mat-form-field>
+          <button mat-stroked-button color="accent" class="form-button cancel" *ngIf="post" (click)="onCancel()">Cancel</button>
           <button mat-raised-button color="primary" class="form-button" [disabled]="postForm.invalid" (click)="onSubmit()">{{ post ? 'SAVE' : 'POST' }}</button>
         </div>
 

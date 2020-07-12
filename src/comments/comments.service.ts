@@ -62,7 +62,7 @@ export class CommentsService {
     let comment: Comment;
     try {
       comment = await this.commentsRepository.findOne(params, {
-        relations: ['author'],
+        relations: ['author', 'post'],
       });
     } catch (error) {
       throw new InternalServerErrorException(error.toString());

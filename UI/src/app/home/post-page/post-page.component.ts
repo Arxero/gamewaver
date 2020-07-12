@@ -28,9 +28,10 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   post: PostViewModel;
   user: User;
   postId: string;
-  isEdit: boolean;
-  isAddComment: boolean;
+  isEditPost: boolean;
+  isAddComment = true;
   comments: CommentViewModel[];
+  comment: CommentViewModel;
 
   constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
     super();
@@ -65,7 +66,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
         filter(x => !!x),
       )
       .subscribe(x => {
-        this.isEdit = x ? false : true;
+        this.isEditPost = x ? false : true;
       });
 
     store
@@ -98,14 +99,22 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   }
 
   onEditPost() {
-    this.isEdit = !this.isEdit;
+    this.isEditPost = !this.isEditPost;
+    this.isAddComment = false;
   }
 
-  onCancel() {
-    this.isEdit = false;
+  onCancelPostEdit() {
+    this.isEditPost = false;
+    this.isAddComment = true;
+    this.comment = null;
   }
 
-  onAddComment(value: boolean) {
-    this.isAddComment = value;
+  onCancelCommentEdit() {
+    this.comment = null;
+  }
+
+  onEditComment(id: string) {
+    this.isAddComment = this.isEditPost ? false : true;
+    this.comment = this.comments.find(x => x.id === id);
   }
 }

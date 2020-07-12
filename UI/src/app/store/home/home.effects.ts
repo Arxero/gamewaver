@@ -345,12 +345,12 @@ export class HomeEffects {
     ofType<DeleteCommentAction>(HomeActionTypes.DeleteCommentAction),
     tap(async a => {
       try {
-        // const { result } = await this.postsService.delete(a.payload.id);
+        const { result } = await this.commentsService.delete(a.payload.id);
         this.store.dispatch(
           new DeleteCommentActionSuccess({ id: a.payload.id }),
         );
-      } catch (error) {
-        this.store.dispatch(new DeleteCommentActionFailure());
+      } catch ({ error }) {
+        this.store.dispatch(new DeleteCommentActionFailure({ error }));
         console.log(error);
       }
     }),
@@ -371,8 +371,8 @@ export class HomeEffects {
     ofType<DeleteCommentActionFailure>(
       HomeActionTypes.DeleteCommentActionFailure,
     ),
-    map(() => {
-      this.snackbarService.showWarn('Comment Deletion Failed');
+    map(a => {
+      this.snackbarService.showWarn(a.payload.error.message);
     }),
   );
 }
