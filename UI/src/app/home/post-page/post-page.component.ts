@@ -14,6 +14,8 @@ import {
 import {
   GetPostAction,
   GetCommentsAction,
+  EditCommentAction,
+  EditCommentInitiateAction,
 } from '../../store/home/home.actions';
 import { User } from '../../users/models/dto/user';
 import { userProfile } from '../../store/auth/auth.selectors';
@@ -116,5 +118,6 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   onEditComment(id: string) {
     this.isAddComment = this.isEditPost ? false : true;
     this.comment = this.comments.find(x => x.id === id);
+    this.store.dispatch(new EditCommentInitiateAction({ id }));
   }
 }

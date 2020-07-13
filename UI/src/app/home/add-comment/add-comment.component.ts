@@ -11,8 +11,13 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { HomeState } from '../../store/home/home.reducer';
 import { CreateCommentCmd } from '../models/cmd/create-comment.cmd';
-import { CreateCommentAction } from '../../store/home/home.actions';
+import {
+  CreateCommentAction,
+  EditCommentCancelAction,
+  EditCommentAction,
+} from '../../store/home/home.actions';
 import { CommentViewModel } from '../models/view/comment-view-model';
+import { UpdateCommentCmd } from '../models/cmd/update-comment.cmd';
 
 @Component({
   selector: 'app-add-comment',
@@ -54,15 +59,27 @@ export class AddCommentComponent implements OnInit {
   }
 
   onSubmit() {
-    const cmd: CreateCommentCmd = {
+    const cmdCreate: CreateCommentCmd = {
       content: this.content.value,
     };
 
-    this.store.dispatch(new CreateCommentAction({ cmd, postId: this.postId }));
+    const cmdUpdate: UpdateCommentCmd = {
+      content: this.content.value,
+    };
+
+    this.comment
+      ? this.store.dispatch(
+          new EditCommentAction({ cmd: cmdUpdate, id: this.comment.id }),
+        )
+      : this.store.dispatch(
+          new CreateCommentAction({ cmd: cmdCreate, postId: this.postId }),
+        );
+
     this.commentForm.reset();
   }
 
   onCancel() {
+    this.store.dispatch(new EditCommentCancelAction({ data: this.comment }));
     this.cancelEditComment.emit();
   }
 }

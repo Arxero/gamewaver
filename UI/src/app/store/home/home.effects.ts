@@ -30,6 +30,9 @@ import {
   DeleteCommentAction,
   DeleteCommentActionSuccess,
   DeleteCommentActionFailure,
+  EditCommentActionFailure,
+  EditCommentAction,
+  EditCommentActionSuccess,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UsersService } from '../../services/users.service';
@@ -371,6 +374,43 @@ export class HomeEffects {
     ofType<DeleteCommentActionFailure>(
       HomeActionTypes.DeleteCommentActionFailure,
     ),
+    map(a => {
+      this.snackbarService.showWarn(a.payload.error.message);
+    }),
+  );
+
+  // EDIT COMMENT
+  @Effect({ dispatch: false })
+  editComment$ = this.actions$.pipe(
+    ofType<EditCommentAction>(HomeActionTypes.EditCommentAction),
+    tap(async a => {
+      try {
+        const { result } = await this.commentsService.update(
+          a.payload.id,
+          a.payload.cmd,
+        );
+
+        const resultUser = await this.usersService.findOne(result.authorId);
+        const data = mapCommmentViewModel(result, resultUser.result);
+        this.store.dispatch(new EditCommentActionSuccess({ data }));
+      } catch ({ error }) {
+        this.store.dispatch(new EditCommentActionFailure({ error }));
+        console.log(error);
+      }
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  editCommentSuccess$ = this.actions$.pipe(
+    ofType<EditCommentActionSuccess>(HomeActionTypes.EditCommentActionSuccess),
+    tap(a => {
+      this.snackbarService.showInfo('Comment Edited Successfully');
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  editCommentFailure$ = this.actions$.pipe(
+    ofType<EditCommentActionFailure>(HomeActionTypes.EditCommentActionFailure),
     map(a => {
       this.snackbarService.showWarn(a.payload.error.message);
     }),

@@ -6,6 +6,7 @@ import { UpdatePostCmd } from '../../home/models/cmd/update-post.cmd';
 import { CreateCommentCmd } from '../../home/models/cmd/create-comment.cmd';
 import { CommentViewModel } from '../../home/models/view/comment-view-model';
 import { ResponseError } from '../../shared/models/response';
+import { UpdateCommentCmd } from '../../home/models/cmd/update-comment.cmd';
 
 export enum HomeActionTypes {
   // POSTS
@@ -42,6 +43,8 @@ export enum HomeActionTypes {
   DeleteCommentActionSuccess = '[DeleteCommentSuccess] Action',
   DeleteCommentActionFailure = '[DeleteCommentFailure] Action',
 
+  EditCommentInitiateAction = '[EditCommentInitiate] Action',
+  EditCommentCancelAction = '[EditCommentCancel] Action',
   EditCommentAction = '[EditComment] Action',
   EditCommentActionSuccess = '[EditCommentSuccess] Action',
   EditCommentActionFailure = '[EditCommentFailure] Action',
@@ -169,19 +172,32 @@ export class DeleteCommentActionFailure implements Action {
 }
 
 // EDIT POST
+export class EditCommentInitiateAction implements Action {
+  readonly type = HomeActionTypes.EditCommentInitiateAction;
+  constructor(public payload: { id: string }) {}
+}
+
+export class EditCommentCancelAction implements Action {
+  readonly type = HomeActionTypes.EditCommentCancelAction;
+  constructor(public payload: { data: CommentViewModel }) {}
+}
+
 export class EditCommentAction implements Action {
   readonly type = HomeActionTypes.EditCommentAction;
-  constructor(public payload: { cmd: UpdatePostCmd, id: string }) {}
+  constructor(public payload: { cmd: UpdateCommentCmd, id: string }) {}
 }
 
 export class EditCommentActionSuccess implements Action {
   readonly type = HomeActionTypes.EditCommentActionSuccess;
-  constructor(public payload: { id: string }) {}
+  constructor(public payload: { data: CommentViewModel }) {}
 }
 
 export class EditCommentActionFailure implements Action {
   readonly type = HomeActionTypes.EditCommentActionFailure;
+  constructor(public payload: { error: ResponseError }) {}
+
 }
+
 
 
 export type HomeActions =
@@ -209,6 +225,8 @@ export type HomeActions =
   | DeleteCommentAction
   | DeleteCommentActionSuccess
   | DeleteCommentActionFailure
+  | EditCommentInitiateAction
+  | EditCommentCancelAction
   | EditCommentAction
   | EditCommentActionSuccess
   | EditCommentActionFailure;

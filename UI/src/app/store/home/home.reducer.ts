@@ -9,6 +9,7 @@ export interface HomeState {
   post: PostViewModel;
   isEditSuccessful: boolean;
   comments: CommentViewModel[];
+  indexOfEditedComment: number;
 }
 
 export const initialHomeState: HomeState = {
@@ -60,6 +61,7 @@ export function homeReducer(
         isEditSuccessful: true,
       } as HomeState;
 
+    // COMMENTS ////////////////////////////////////////
     case HomeActionTypes.CreateCommentActionSuccess:
       const tempComments = lodash.cloneDeep(state.comments);
       tempComments.unshift(action.payload.data);
@@ -78,6 +80,40 @@ export function homeReducer(
       return {
         ...state,
         comments: state.comments.filter(c => c.id !== action.payload.id),
+      } as HomeState;
+
+    case HomeActionTypes.EditCommentInitiateAction:
+      return {
+        ...state,
+        indexOfEditedComment: state.comments.findIndex(
+          x => x.id === action.payload.id,
+        ),
+        comments: state.comments.filter(c => c.id !== action.payload.id),
+      } as HomeState;
+
+    case HomeActionTypes.EditCommentCancelAction:
+      const tempCommentsCancel = lodash.cloneDeep(state.comments);
+      tempCommentsCancel.splice(
+        state.indexOfEditedComment,
+        0,
+        action.payload.data,
+      );
+      return {
+        ...state,
+        comments: tempCommentsCancel,
+        indexOfEditedComment: null,
+      } as HomeState;
+
+    case HomeActionTypes.EditCommentActionSuccess:
+      const tempCommentsEditSuccess = lodash.cloneDeep(state.comments);
+      tempCommentsEditSuccess.splice(
+        state.indexOfEditedComment,
+        0,
+        action.payload.data,
+      );
+      return {
+        ...state,
+        comments: tempCommentsEditSuccess,
       } as HomeState;
 
     default:
