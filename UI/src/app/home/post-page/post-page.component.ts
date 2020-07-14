@@ -10,6 +10,7 @@ import {
   homeStatePost,
   homeStateisEditSuccessful,
   homeStatePostComments,
+  homeStateisEditCommentSuccessful,
 } from '../../store/home/home.selectors';
 import {
   GetPostAction,
@@ -89,6 +90,16 @@ export class PostPageComponent extends BaseComponent implements OnInit {
       )
       .subscribe(x => {
         this.comments = x;
+      });
+
+    store
+      .pipe(
+        takeUntil(this.destroyed$),
+        select(homeStateisEditCommentSuccessful),
+        filter(x => !!x),
+      )
+      .subscribe(x => {
+        this.comment = x ? null : this.comment;
       });
   }
 

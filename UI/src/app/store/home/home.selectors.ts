@@ -28,3 +28,8 @@ export const homeStatePostComments = createSelector(
   selectHomeState,
   homeState => homeState.comments
 );
+
+export const homeStateisEditCommentSuccessful = createSelector(
+  selectHomeState,
+  homeState => homeState.isEditCommentSuccessful
+);

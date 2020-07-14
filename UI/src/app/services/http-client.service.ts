@@ -80,7 +80,10 @@ export class HttpClientService implements IHttpClientService {
   }
 
   setPaging(paging: Paging, httpParams: HttpParams): HttpParams {
-    throw new Error('Method not implemented.');
+    if (paging) {
+      httpParams = httpParams.append('skip', paging.skip.toString()).append('take', paging.take.toString());
+    }
+    return httpParams;
   }
 
   setSorting(sorting: Sorting[], httpParams: HttpParams): HttpParams {

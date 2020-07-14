@@ -8,6 +8,7 @@ import {
   DataFilter,
   Sorting,
   SortDirection,
+  Paging,
 } from '../shared/models/common';
 import { HttpParams } from '@angular/common/http';
 import { UpdatePostCmd } from '../home/models/cmd/update-post.cmd';
@@ -27,11 +28,13 @@ export class PostsService {
   }
 
   findAll(
+    paging?: Paging,
     filters?: DataFilter[],
     sorting?: Sorting[],
   ): Promise<IResponse<PagedData<GetPostDto>>> {
-    if (filters || sorting) {
+    if (paging || filters || sorting) {
       let httpParams = new HttpParams();
+      httpParams = this.httpClient.setPaging(paging, httpParams);
       httpParams = this.httpClient.setFilters(filters, httpParams);
       httpParams = this.httpClient.setSorting(sorting, httpParams);
 

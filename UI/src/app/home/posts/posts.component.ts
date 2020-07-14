@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { BaseComponent } from '../../shared/base.component';
 import { PostViewModel } from '../models/view/post-view-model';
 import { HomeState } from '../../store/home/home.reducer';
@@ -13,10 +13,13 @@ import { userProfile } from '../../store/auth/auth.selectors';
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostsComponent extends BaseComponent implements OnInit {
   posts: PostViewModel[];
   user: User;
+  items = Array.from({length: 100000}).map((_, i) => `Item #${i}`);
+
 
   constructor(private store: Store<HomeState>) {
     super();
@@ -42,6 +45,26 @@ export class PostsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetPostsAction());
+    this.store.dispatch(new GetPostsAction({ paging: { skip: 0, take: 2 } }));
+  }
+
+  onScrollDown() {
+    console.log('scrolled down!!');
+
+    // // add another 20 items
+    // const start = this.sum;
+    // this.sum += 20;
+    // this.appendItems(start, this.sum);
+
+    // this.direction = 'down'
+  }
+
+  onUp() {
+    console.log('scrolled up!');
+    // const start = this.sum;
+    // this.sum += 20;
+    // this.prependItems(start, this.sum);
+
+    // this.direction = 'up';
   }
 }

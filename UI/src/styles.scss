@@ -185,3 +185,16 @@ main {
 .warn-snackbar {
   color: #f44336 !important;
 }
+
+::-webkit-scrollbar {
+  background-color: #232627;
+  color: #a19a90;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: #1c1e1f;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #45494c;
+}

@@ -1,4 +1,15 @@
 <app-create-post *ngIf="user" [user]="user"></app-create-post>
+
+<div
+infinite-scroll
+[infiniteScrollDistance]="1"
+[infiniteScrollUpDistance]="50"
+[infiniteScrollThrottle]="300"
+(scrolled)="onScrollDown()"
+(scrolledUp)="onUp()"
+>
 <ng-container *ngFor="let item of posts">
   <app-post [post]="item" [user]="user"></app-post>
 </ng-container>
+
+</div>

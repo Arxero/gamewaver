@@ -8,6 +8,7 @@ export interface HomeState {
   posts: PostViewModel[];
   post: PostViewModel;
   isEditSuccessful: boolean;
+  isEditCommentSuccessful: boolean;
   comments: CommentViewModel[];
   indexOfEditedComment: number;
 }
@@ -89,6 +90,7 @@ export function homeReducer(
           x => x.id === action.payload.id,
         ),
         comments: state.comments.filter(c => c.id !== action.payload.id),
+        isEditCommentSuccessful: false
       } as HomeState;
 
     case HomeActionTypes.EditCommentCancelAction:
@@ -114,6 +116,8 @@ export function homeReducer(
       return {
         ...state,
         comments: tempCommentsEditSuccess,
+        indexOfEditedComment: null,
+        isEditCommentSuccessful: true
       } as HomeState;
 
     default:

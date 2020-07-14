@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { MenuComponent } from './menu/menu.component';
 import { TimeAgoPipe } from '../pipes/time-ago.pipe';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { TimeAgoPipe } from '../pipes/time-ago.pipe';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    InfiniteScrollModule,
   ],
 
   exports: [
@@ -28,6 +30,7 @@ import { TimeAgoPipe } from '../pipes/time-ago.pipe';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    InfiniteScrollModule,
     HeaderComponent,
     MenuComponent,
     TimeAgoPipe

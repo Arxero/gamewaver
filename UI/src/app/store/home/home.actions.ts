@@ -7,6 +7,7 @@ import { CreateCommentCmd } from '../../home/models/cmd/create-comment.cmd';
 import { CommentViewModel } from '../../home/models/view/comment-view-model';
 import { ResponseError } from '../../shared/models/response';
 import { UpdateCommentCmd } from '../../home/models/cmd/update-comment.cmd';
+import { Paging } from '../../shared/models/common';
 
 export enum HomeActionTypes {
   // POSTS
@@ -83,6 +84,7 @@ export class EditPostActionFailure implements Action {
 // GET POSTS
 export class GetPostsAction implements Action {
   readonly type = HomeActionTypes.GetPostsAction;
+  constructor(public payload: { paging: Paging }) {}
 }
 
 export class GetPostsActionSuccess implements Action {
@@ -195,7 +197,6 @@ export class EditCommentActionSuccess implements Action {
 export class EditCommentActionFailure implements Action {
   readonly type = HomeActionTypes.EditCommentActionFailure;
   constructor(public payload: { error: ResponseError }) {}
-
 }
 
 
