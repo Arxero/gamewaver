@@ -1,25 +1,24 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { BaseComponent } from '../../shared/base.component';
 import { PostViewModel } from '../models/view/post-view-model';
 import { HomeState } from '../../store/home/home.reducer';
 import { Store, select } from '@ngrx/store';
-import { GetPostsAction } from '../../store/home/home.actions';
+import { GetPostsAction, ClearPostsAction } from '../../store/home/home.actions';
 import { takeUntil, filter } from 'rxjs/operators';
 import { homeStatePosts } from '../../store/home/home.selectors';
 import { User } from '../../users/models/dto/user';
 import { userProfile } from '../../store/auth/auth.selectors';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostsComponent extends BaseComponent implements OnInit {
-  posts: PostViewModel[];
+  posts: PostViewModel[] = [];
   user: User;
-  items = Array.from({length: 100000}).map((_, i) => `Item #${i}`);
-
+  take = 3;
 
   constructor(private store: Store<HomeState>) {
     super();
@@ -37,7 +36,7 @@ export class PostsComponent extends BaseComponent implements OnInit {
       .pipe(
         takeUntil(this.destroyed$),
         select(homeStatePosts),
-        filter(x => !!x),
+        filter(x => !!x && x.length > 0),
       )
       .subscribe(x => {
         this.posts = x;
@@ -45,26 +44,14 @@ export class PostsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetPostsAction({ paging: { skip: 0, take: 2 } }));
+    this.store.dispatch(new GetPostsAction({ paging: { skip: this.posts.length, take: this.take } }));
   }
 
   onScrollDown() {
-    console.log('scrolled down!!');
-
-    // // add another 20 items
-    // const start = this.sum;
-    // this.sum += 20;
-    // this.appendItems(start, this.sum);
-
-    // this.direction = 'down'
+    this.store.dispatch(new GetPostsAction({ paging: { skip: this.posts.length, take: this.take } }));
   }
 
-  onUp() {
-    console.log('scrolled up!');
-    // const start = this.sum;
-    // this.sum += 20;
-    // this.prependItems(start, this.sum);
-
-    // this.direction = 'up';
+  onDestroy() {
+    this.store.dispatch(new ClearPostsAction());
   }
 }

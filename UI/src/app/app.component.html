@@ -1,4 +1,4 @@
-<mat-sidenav-container class="example-container" (backdropClick)="close()">
+<mat-sidenav-container (backdropClick)="close()">
   <mat-sidenav #sidenav (keydown.escape)="close()" disableClose class="sidenav">
     <div>
       <button mat-icon-button (click)="close()">
@@ -9,7 +9,7 @@
     <app-menu></app-menu>
   </mat-sidenav>
 
-  <mat-sidenav-content>
+  <mat-sidenav-content class="infinite-scroll">
     <app-header [sidenav]="sidenav"></app-header>
     <main>
       <router-outlet></router-outlet>

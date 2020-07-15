@@ -13,7 +13,6 @@
   [user]="user"
 ></app-create-post>
 
-
 <app-add-comment
   *ngIf="isAddComment && user && post"
   [user]="user"
@@ -22,10 +21,18 @@
   (cancelEditComment)="onCancelCommentEdit()"
 ></app-add-comment>
 
-<ng-container *ngFor="let item of comments">
-  <app-comment
-    [comment]="item"
-    [user]="user"
-    (editComment)="onEditComment($event)"
-  ></app-comment>
-</ng-container>
+<div
+  infiniteScroll
+  (scrolled)="onScrollDown()"
+  [scrollWindow]="false"
+  infiniteScrollContainer=".infinite-scroll"
+  [fromRoot]="true"
+>
+  <ng-container *ngFor="let item of comments">
+    <app-comment
+      [comment]="item"
+      [user]="user"
+      (editComment)="onEditComment($event)"
+    ></app-comment>
+  </ng-container>
+</div>

@@ -299,6 +299,7 @@ export class HomeEffects {
           searchValue: a.payload.postId,
         };
         const { result } = await this.commentsService.findAll(
+          a.payload.paging,
           [filterIdPost],
           [dateSort],
         );

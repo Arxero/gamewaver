@@ -3,7 +3,7 @@ import { HttpClientService } from './http-client.service';
 import { GetCommentDto } from '../home/models/dto/get-comment.dto';
 import { CreateCommentCmd } from '../home/models/cmd/create-comment.cmd';
 import { IResponse } from '../shared/models/response';
-import { DataFilter, Sorting, PagedData } from '../shared/models/common';
+import { DataFilter, Sorting, PagedData, Paging } from '../shared/models/common';
 import { HttpParams } from '@angular/common/http';
 import { UpdateCommentCmd } from '../home/models/cmd/update-comment.cmd';
 
@@ -22,11 +22,13 @@ export class CommentsService {
   }
 
   findAll(
+    paging?: Paging,
     filters?: DataFilter[],
     sorting?: Sorting[],
   ): Promise<IResponse<PagedData<GetCommentDto>>> {
-    if (filters || sorting) {
+    if (paging || filters || sorting) {
       let httpParams = new HttpParams();
+      httpParams = this.httpClient.setPaging(paging, httpParams);
       httpParams = this.httpClient.setFilters(filters, httpParams);
       httpParams = this.httpClient.setSorting(sorting, httpParams);
 

@@ -14,7 +14,7 @@ export interface HomeState {
 }
 
 export const initialHomeState: HomeState = {
-  posts: null,
+  posts: [],
   comments: [],
 } as HomeState;
 
@@ -22,21 +22,29 @@ export function homeReducer(
   state = initialHomeState,
   action: HomeActions,
 ): HomeState {
+  const commentsClone = lodash.cloneDeep(state.comments);
+  const postsClone = lodash.cloneDeep(state.posts);
+
   switch (action.type) {
     case HomeActionTypes.CreatePostActionSuccess:
-      const temp = lodash.cloneDeep(state.posts);
-      temp.unshift(action.payload.data);
+      postsClone.unshift(action.payload.data);
       return {
         ...state,
-        posts: temp,
+        posts: postsClone,
       } as HomeState;
 
     case HomeActionTypes.GetPostsActionSuccess:
       return {
         ...state,
-        posts: action.payload.data,
+        posts: postsClone.concat(action.payload.data),
         post: null,
       } as HomeState;
+
+      case HomeActionTypes.ClearPostsAction:
+        return {
+          ...state,
+          posts: initialHomeState.posts,
+        } as HomeState;
 
     case HomeActionTypes.DeletePostActionSuccess:
       return {
@@ -64,17 +72,16 @@ export function homeReducer(
 
     // COMMENTS ////////////////////////////////////////
     case HomeActionTypes.CreateCommentActionSuccess:
-      const tempComments = lodash.cloneDeep(state.comments);
-      tempComments.unshift(action.payload.data);
+      commentsClone.unshift(action.payload.data);
       return {
         ...state,
-        comments: tempComments,
+        comments: commentsClone,
       } as HomeState;
 
     case HomeActionTypes.GetCommentsActionSuccess:
       return {
         ...state,
-        comments: action.payload.data,
+        comments: commentsClone.concat(action.payload.data),
       } as HomeState;
 
     case HomeActionTypes.DeleteCommentActionSuccess:
@@ -94,28 +101,26 @@ export function homeReducer(
       } as HomeState;
 
     case HomeActionTypes.EditCommentCancelAction:
-      const tempCommentsCancel = lodash.cloneDeep(state.comments);
-      tempCommentsCancel.splice(
+      commentsClone.splice(
         state.indexOfEditedComment,
         0,
         action.payload.data,
       );
       return {
         ...state,
-        comments: tempCommentsCancel,
+        comments: commentsClone,
         indexOfEditedComment: null,
       } as HomeState;
 
     case HomeActionTypes.EditCommentActionSuccess:
-      const tempCommentsEditSuccess = lodash.cloneDeep(state.comments);
-      tempCommentsEditSuccess.splice(
+      commentsClone.splice(
         state.indexOfEditedComment,
         0,
         action.payload.data,
       );
       return {
         ...state,
-        comments: tempCommentsEditSuccess,
+        comments: commentsClone,
         indexOfEditedComment: null,
         isEditCommentSuccessful: true
       } as HomeState;

@@ -32,4 +32,12 @@ export class AppComponent implements OnInit {
   onLogout() {
 
   }
+
+  onScrollDown() {
+    console.log('scrolled down!!');
+  }
+
+  onUp() {
+    console.log('scrolled up!');
+  }
 }

@@ -33,8 +33,9 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   postId: string;
   isEditPost: boolean;
   isAddComment = true;
-  comments: CommentViewModel[];
+  comments: CommentViewModel[] = [];
   comment: CommentViewModel;
+  take = 5;
 
   constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
     super();
@@ -108,7 +109,12 @@ export class PostPageComponent extends BaseComponent implements OnInit {
       this.store.dispatch(new GetPostAction({ id: this.postId }));
     }
 
-    this.store.dispatch(new GetCommentsAction({ postId: this.postId }));
+    this.store.dispatch(
+      new GetCommentsAction({
+        paging: { skip: this.comments.length, take: this.take },
+        postId: this.postId,
+      }),
+    );
   }
 
   onEditPost() {
@@ -130,5 +136,14 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     this.isAddComment = this.isEditPost ? false : true;
     this.comment = this.comments.find(x => x.id === id);
     this.store.dispatch(new EditCommentInitiateAction({ id }));
+  }
+
+  onScrollDown() {
+    this.store.dispatch(
+      new GetCommentsAction({
+        paging: { skip: this.comments.length, take: this.take },
+        postId: this.postId,
+      }),
+    );
   }
 }

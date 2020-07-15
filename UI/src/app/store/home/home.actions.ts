@@ -22,6 +22,7 @@ export enum HomeActionTypes {
   GetPostsAction = '[GetPostsPost] Action',
   GetPostsActionSuccess = '[GetPostsSuccess] Action',
   GetPostsActionFailure = '[GetPostsFailure] Action',
+  ClearPostsAction = '[ClearPosts] Action',
 
   GetPostAction = '[GetPost] Action',
   GetPostActionSuccess = '[GetPostSuccess] Action',
@@ -96,6 +97,10 @@ export class GetPostsActionFailure implements Action {
   readonly type = HomeActionTypes.GetPostsActionFailure;
 }
 
+export class ClearPostsAction implements Action {
+  readonly type = HomeActionTypes.ClearPostsAction;
+}
+
 
 // GET POST
 export class GetPostAction implements Action {
@@ -111,6 +116,7 @@ export class GetPostActionSuccess implements Action {
 export class GetPostActionFailure implements Action {
   readonly type = HomeActionTypes.GetPostActionFailure;
 }
+
 
 // DELETE POST
 export class DeletePostAction implements Action {
@@ -145,7 +151,7 @@ export class CreateCommentActionFailure implements Action {
 // GET COMMENTS
 export class GetCommentsAction implements Action {
   readonly type = HomeActionTypes.GetCommentsAction;
-  constructor(public payload: { postId: string }) {}
+  constructor(public payload: { paging: Paging, postId: string }) {}
 }
 
 export class GetCommentsActionSuccess implements Action {
@@ -211,6 +217,7 @@ export type HomeActions =
   | GetPostsAction
   | GetPostsActionSuccess
   | GetPostsActionFailure
+  | ClearPostsAction
   | DeletePostAction
   | DeletePostActionSuccess
   | DeletePostActionFailure
