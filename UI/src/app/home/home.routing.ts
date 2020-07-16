@@ -10,9 +10,10 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       { path: '', component: PostsComponent },
+      { path: 'search', component: PostsComponent },
       { path: 'post/:id', component: PostPageComponent },
     ],
-  },
+  }
 ];
 
 @NgModule({

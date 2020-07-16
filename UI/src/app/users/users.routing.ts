@@ -8,7 +8,7 @@ import { AuthGuard } from '../guards/auth.guard';
 export const usersRoute = 'users';
 export const usersProfileRoute = 'profile';
 export const usersProfileEditRoute = 'edit';
-export const usersProfileFullRoute = () => `../../${usersRoute}/${usersProfileRoute}`;
+export const usersProfileFullRoute = () => `${usersRoute}/${usersProfileRoute}`;
 export const usersProfileEditFullRoute = () => `../../${usersRoute}/${usersProfileEditRoute}`;
 
 const routes: Routes = [

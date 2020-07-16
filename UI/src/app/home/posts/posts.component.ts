@@ -9,6 +9,7 @@ import { homeStatePosts } from '../../store/home/home.selectors';
 import { User } from '../../users/models/dto/user';
 import { userProfile } from '../../store/auth/auth.selectors';
 import { cloneDeep } from 'lodash';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-posts',
@@ -20,8 +21,13 @@ export class PostsComponent extends BaseComponent implements OnInit {
   user: User;
   take = 3;
 
-  constructor(private store: Store<HomeState>) {
+  constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
     super();
+
+    this.route.queryParams.subscribe(params => {
+      console.log(params);
+    });
+
     store
       .pipe(
         takeUntil(this.destroyed$),

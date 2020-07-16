@@ -19,7 +19,7 @@ export class CommentComponent extends BaseComponent implements OnInit {
   @Output() editComment: EventEmitter<string> = new EventEmitter();
 
   get userProfileRoute() {
-    return usersProfileFullRoute();
+    return `../../${usersProfileFullRoute()}`;
   }
 
   constructor(private store: Store<HomeState>) {

@@ -18,7 +18,7 @@ export class PostComponent implements OnInit {
   canEditOrDelete: boolean;
   @Output() editPost: EventEmitter<void> = new EventEmitter();
   get userProfileRoute() {
-    return usersProfileFullRoute();
+    return this.isSingle ? `../../${usersProfileFullRoute()}` : `../${usersProfileFullRoute()}`;
   }
 
   constructor(private store: Store<HomeState>) {}
