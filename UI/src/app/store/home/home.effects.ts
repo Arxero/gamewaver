@@ -136,13 +136,17 @@ export class HomeEffects {
   @Effect({ dispatch: false })
   getPosts$ = this.actions$.pipe(
     ofType<GetPostsAction>(HomeActionTypes.GetPostsAction),
-    tap(async (a) => {
+    tap(async a => {
       try {
         const dateSort: Sorting = {
           propertyName: 'createdAt',
           sort: SortDirection.DESC,
         };
-        const { result } = await this.postsService.findAll(a.payload.paging, null, [dateSort]);
+        const { result } = await this.postsService.findAll(
+          a.payload.paging,
+          a.payload.filters,
+          [dateSort],
+        );
         const searchValueStr = result.items
           .map(x => x.authorId)
           .filter((v, i, s) => s.indexOf(v) === i)
