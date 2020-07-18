@@ -19,6 +19,7 @@ import { userProfile } from '../../store/auth/auth.selectors';
 import { cloneDeep } from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 import { DataFilter, SearchType } from '../../shared/models/common';
+import { QueryRequest, QueryParams } from '../../shared/models/query-request';
 
 @Component({
   selector: 'app-posts',
@@ -29,14 +30,13 @@ export class PostsComponent extends BaseComponent implements OnInit {
   posts: PostViewModel[] = [];
   user: User;
   take = 3;
-  filter: DataFilter[];
+  queryRequest: QueryRequest;
 
   constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
     super();
 
     this.route.queryParams.subscribe(params => {
-      const category = params.category;
-      this.filter = category ? [this.mapCategoryFilter(category)] : null;
+      this.queryRequest = new QueryRequest(params as QueryParams);
     });
 
     store
@@ -64,7 +64,7 @@ export class PostsComponent extends BaseComponent implements OnInit {
     this.store.dispatch(
       new GetPostsAction({
         paging: { skip: this.posts.length, take: this.take },
-        filters: this.filter
+        filters: this.queryRequest?.filters
       }),
     );
   }
@@ -73,20 +73,12 @@ export class PostsComponent extends BaseComponent implements OnInit {
     this.store.dispatch(
       new GetPostsAction({
         paging: { skip: this.posts.length, take: this.take },
-        filters: this.filter
+        filters: this.queryRequest.filters
       }),
     );
   }
 
   onDestroy() {
     this.store.dispatch(new ClearPostsAction());
-  }
-
-  private mapCategoryFilter(x: string): DataFilter {
-    return {
-      fieldName: 'category',
-      searchOperator: SearchType.Equal,
-      searchValue: x
-    } as DataFilter;
   }
 }

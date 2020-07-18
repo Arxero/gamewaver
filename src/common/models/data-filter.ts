@@ -15,7 +15,7 @@ export enum SearchType {
   IsNull = 'isNull',
 }
 
-export class DataFiler {
+export class DataFilter {
   constructor(fieldName: string, searchOperator: string, searchValue: any) {
     this.fieldName = fieldName;
     this.searchOperator = this.searchOperatorMap[searchOperator];

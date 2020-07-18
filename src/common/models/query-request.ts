@@ -1,6 +1,6 @@
 import { Paging } from './paging';
 import { Sorting } from './sorting';
-import { DataFiler } from './data-filter';
+import { DataFilter } from './data-filter';
 import { Defaults } from './defaults';
 
 export interface QueryParams {
@@ -19,10 +19,11 @@ export class QueryRequest {
     if (!data.filters) {
       return;
     }
+    console.log(data.filters);
     this.filters = Object.keys(data.filters).map(x => {
       const searchOperator = Object.keys(data.filters[x])[0];
       const searchValue = Object.values(data.filters[x])[0];
-      return new DataFiler(x, searchOperator, searchValue);
+      return new DataFilter(x, searchOperator, searchValue);
     });
     
     this.filters.forEach(x => {
@@ -33,6 +34,6 @@ export class QueryRequest {
 
   paging: Paging;
   sorting: Sorting;
-  filters: DataFiler[];
+  filters: DataFilter[];
   filter: { [key: string]: any } = {};
 }
