@@ -21,8 +21,7 @@ export class QueryRequest {
     if (!data.filters) {
       return;
     }
-    const merged = [].concat(data.filters);
-    console.log(merged);
+
     this.filters = [].concat(data.filters).map(filter => {
       const [fieldName, searchOperator, searchValue] = filter.split('!');
       return {

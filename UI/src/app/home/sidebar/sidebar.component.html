@@ -1,0 +1,32 @@
+<mat-card>
+  <h2>Category</h2>
+  <ng-container *ngFor="let item of categories">
+    <a mat-menu-item (click)="navigate(item.value)">
+      <span>{{ item.label }}</span>
+    </a>
+  </ng-container>
+</mat-card>
+
+<mat-card>
+  <h2>Search</h2>
+  <form class="search-form">
+    <mat-form-field class="form-field">
+      <input matInput placeholder="Search..." [formControl]="searchTerm" />
+      <mat-icon class="search-icon" color="primary" matSuffix (click)="onSubmit()">search</mat-icon>
+    </mat-form-field>
+
+    <div class="submit-wrapper">
+      <button
+        mat-raised-button
+        color="primary"
+        class="form-button"
+        [disabled]="!searchTerm.value"
+        (click)="onSubmit()"
+      >
+      <mat-icon>search</mat-icon>
+    </button>
+    </div>
+  </form>
+</mat-card>
+
+

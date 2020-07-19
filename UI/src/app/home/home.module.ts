@@ -10,6 +10,7 @@ import { PostPageComponent } from './post-page/post-page.component';
 import { PostsComponent } from './posts/posts.component';
 import { AddCommentComponent } from './add-comment/add-comment.component';
 import { CommentComponent } from './comment/comment.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { CommentComponent } from './comment/comment.component';
     PostsComponent,
     AddCommentComponent,
     CommentComponent,
+    SidebarComponent,
   ],
   imports: [
     CommonModule,

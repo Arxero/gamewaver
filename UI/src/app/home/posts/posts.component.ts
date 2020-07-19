@@ -37,6 +37,14 @@ export class PostsComponent extends BaseComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.queryRequest = new QueryRequest(params as QueryParams);
+      this.store.dispatch(new ClearPostsAction());
+      this.posts = [];
+      this.store.dispatch(
+        new GetPostsAction({
+          paging: { skip: this.posts.length, take: this.take },
+          filters: this.queryRequest?.filters
+        }),
+      );
     });
 
     store
@@ -60,14 +68,7 @@ export class PostsComponent extends BaseComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {
-    this.store.dispatch(
-      new GetPostsAction({
-        paging: { skip: this.posts.length, take: this.take },
-        filters: this.queryRequest?.filters
-      }),
-    );
-  }
+  ngOnInit(): void {}
 
   onScrollDown() {
     this.store.dispatch(

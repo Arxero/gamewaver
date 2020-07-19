@@ -19,7 +19,7 @@ export class QueryRequest {
     if (!data.filters) {
       return;
     }
-    console.log(data.filters);
+
     this.filters = Object.keys(data.filters).map(x => {
       const searchOperator = Object.keys(data.filters[x])[0];
       const searchValue = Object.values(data.filters[x])[0];
