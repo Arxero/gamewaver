@@ -1,14 +1,4 @@
 <mat-card>
-  <h2>Category</h2>
-  <ng-container *ngFor="let item of categories">
-    <a mat-menu-item (click)="navigate(item.value)">
-      <span>{{ item.label }}</span>
-    </a>
-  </ng-container>
-</mat-card>
-
-<mat-card>
-  <h2>Search</h2>
   <form class="search-form">
     <mat-form-field class="form-field">
       <input matInput placeholder="Search..." [formControl]="searchTerm" />
@@ -27,6 +17,31 @@
     </button>
     </div>
   </form>
+</mat-card>
+
+<mat-card>
+  <h2>Category</h2>
+  <ng-container *ngFor="let item of categories">
+    <a mat-menu-item (click)="navigate(item.value)">
+      <span>{{ item.label }}</span>
+    </a>
+  </ng-container>
+</mat-card>
+
+<mat-card class="archive">
+  <h2>Archive</h2>
+  <div class="title">{{ getCurrentYear() }}</div>
+
+  <div class="months">
+    <ng-container *ngFor="let item of months">
+      <span class="month" (click)="navigateToMonth(item)">{{ item }}</span>
+    </ng-container>
+  </div>
+
+  <div class="title">ARCHIVES BY YEAR</div>
+  <div class="years" *ngFor="let item of years">
+    <span class="year" (click)="navigateToYear(item)">{{ item }}</span>
+  </div>
 </mat-card>
 
 
