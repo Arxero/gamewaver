@@ -24,6 +24,10 @@ export class PostComponent implements OnInit {
   constructor(private store: Store<HomeState>) {}
 
   ngOnInit(): void {
+    if (!this.user) {
+      return;
+    }
+
     this.canEditOrDelete =
       this.user.id === this.post?.authorId || this.user.role === UserRole.ADMIN
         ? true

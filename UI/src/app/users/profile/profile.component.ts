@@ -19,15 +19,11 @@ import { usersStateProfileUser } from '../../store/users/users.selectors';
 })
 export class ProfileComponent extends BaseComponent implements OnInit {
   user: User;
-  editProfileUrl = '../edit';
   canEditProfile: boolean;
 
   constructor(private store: Store<AuthState>, private route: ActivatedRoute) {
     super();
     const userId = this.route.snapshot.params.id;
-    this.editProfileUrl = userId
-      ? `../${this.editProfileUrl}/${userId}`
-      : this.editProfileUrl;
 
     let loggedUser: User;
     // load user from profile page
