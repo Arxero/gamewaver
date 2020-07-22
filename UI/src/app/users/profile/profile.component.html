@@ -14,3 +14,15 @@
     </div>
   </div>
 </mat-card>
+
+
+<nav mat-tab-nav-bar>
+  <a mat-tab-link *ngFor="let item of navLinks"
+  (click)="activeLink = item"
+  [routerLink]="item.link"
+  [active]="activeLink === item"> {{ item.label }} </a>
+</nav>
+
+<router-outlet></router-outlet>
+
+

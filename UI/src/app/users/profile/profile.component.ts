@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '../../shared/base.component';
 import { Store, select } from '@ngrx/store';
 import { AuthState } from '../../store/auth/auth.reducer';
@@ -7,21 +7,49 @@ import { authState, userProfile } from '../../store/auth/auth.selectors';
 import { User, UserRole } from '../models/dto/user';
 import { cloneDeep } from 'lodash';
 import { MarkdownComponent } from 'ngx-markdown';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { usersProfileEditFullRoute } from '../users.routing';
 import { GetUserAction } from '../../store/users/users.actions';
 import { usersStateProfileUser } from '../../store/users/users.selectors';
+
+export interface NavLink {
+  label: string;
+  link: string;
+  index: number;
+}
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProfileComponent extends BaseComponent implements OnInit {
   user: User;
   canEditProfile: boolean;
+  navLinks: NavLink[] = [
+    {
+      label: 'Home',
+      link: './',
+      index: 0
+    },
+    {
+      label: 'Posts',
+      link: 'posts',
+      index: 1
+    },
+    {
+      label: 'Comments',
+      link: 'comments',
+      index: 2
+    },
+  ];
+  activeLink = this.navLinks[0];
 
-  constructor(private store: Store<AuthState>, private route: ActivatedRoute) {
+  constructor(
+    private store: Store<AuthState>,
+    private route: ActivatedRoute,
+    private router: Router) {
     super();
     const userId = this.route.snapshot.params.id;
 
