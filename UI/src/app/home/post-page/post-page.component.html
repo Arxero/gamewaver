@@ -1,6 +1,6 @@
 <app-post
   [post]="post"
-  [isSingle]="true"
+  [postContext]="postContext.PostPage"
   [user]="user"
   *ngIf="post && !isEditPost"
   (editPost)="onEditPost()"

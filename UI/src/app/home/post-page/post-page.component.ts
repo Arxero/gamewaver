@@ -21,6 +21,7 @@ import {
 import { User } from '../../users/models/dto/user';
 import { userProfile } from '../../store/auth/auth.selectors';
 import { CommentViewModel } from '../models/view/comment-view-model';
+import { PostContext } from '../models/view/post-context';
 
 @Component({
   selector: 'app-post-page',
@@ -36,6 +37,9 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   comments: CommentViewModel[] = [];
   comment: CommentViewModel;
   take = 5;
+  get postContext() {
+    return PostContext;
+  }
 
   constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
     super();

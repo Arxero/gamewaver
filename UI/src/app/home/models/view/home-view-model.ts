@@ -8,3 +8,5 @@ export interface HomeViewModel extends DataEntity {
   date: string;
   tooltipDate: string;
 }
+
+

@@ -20,6 +20,7 @@ import { cloneDeep } from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 import { DataFilter, SearchType } from '../../shared/models/common';
 import { QueryRequest, QueryParams } from '../../shared/models/query-request';
+import { PostContext } from '../models/view/post-context';
 
 @Component({
   selector: 'app-posts',
@@ -31,6 +32,9 @@ export class PostsComponent extends BaseComponent implements OnInit {
   user: User;
   take = 3;
   queryRequest: QueryRequest;
+  get postContext() {
+    return PostContext;
+  }
 
   constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
     super();

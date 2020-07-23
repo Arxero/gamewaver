@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PostViewModel } from '../models/view/post-view-model';
 import { usersProfileFullRoute } from '../../users/users.routing';
 import { DeletePostAction } from '../../store/home/home.actions';
 import { Store } from '@ngrx/store';
 import { HomeState } from '../../store/home/home.reducer';
 import { UserRole, User } from '../../users/models/dto/user';
+import { PostViewModel } from '../../home/models/view/post-view-model';
+import { PostContext } from '../../home/models/view/post-context';
 
 @Component({
   selector: 'app-post',
@@ -13,13 +14,25 @@ import { UserRole, User } from '../../users/models/dto/user';
 })
 export class PostComponent implements OnInit {
   @Input() post: PostViewModel;
-  @Input() isSingle: boolean;
+  @Input() postContext: PostContext;
   @Input() user: User;
-  canEditOrDelete: boolean;
   @Output() editPost: EventEmitter<void> = new EventEmitter();
-  get userProfileRoute() {
-    return this.isSingle ? `../../${usersProfileFullRoute()}` : `../${usersProfileFullRoute()}`;
+  postRoute: {[key: number]: string} = {
+    [PostContext.PostsPage] : `post`,
+    [PostContext.ProfilePage]: '../../../../post'
+  };
+
+  canEditOrDelete: boolean;
+  get postContexts() {
+    return PostContext;
   }
+
+  get userProfileRoute(): string {
+    return this.postContext === PostContext.PostPage
+      ? `../../${usersProfileFullRoute()}`
+      : `../${usersProfileFullRoute()}`;
+  }
+
 
   constructor(private store: Store<HomeState>) {}
 

@@ -5,7 +5,6 @@ import { MarkdownModule } from 'ngx-markdown';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home.routing';
-import { PostComponent } from './post/post.component';
 import { PostPageComponent } from './post-page/post-page.component';
 import { PostsComponent } from './posts/posts.component';
 import { AddCommentComponent } from './add-comment/add-comment.component';
@@ -16,7 +15,6 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   declarations: [
     HomeComponent,
     CreatePostComponent,
-    PostComponent,
     PostPageComponent,
     PostsComponent,
     AddCommentComponent,

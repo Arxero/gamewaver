@@ -1,5 +1,5 @@
 <mat-card class="post">
-  <mat-card-header>
+  <mat-card-header *ngIf="postContext === postContexts.PostsPage || postContext === postContexts.PostPage">
     <div mat-card-avatar class="post-header-image">
       <a [routerLink]="[userProfileRoute, post.authorId]">
         <img [src]="post.authorAvatar  || './assets/images/common/no_avatar.jpg'" alt="{{ post.authorUsername }}'s avatar">
@@ -9,19 +9,25 @@
       <a [routerLink]="[userProfileRoute, post.authorId]">
         {{ post.authorUsername }}
       </a>
-      </mat-card-title>
+    </mat-card-title>
     <mat-card-subtitle>
       <span>{{ post.category }}</span> ·
       <span [matTooltip]="post.tooltipDate">{{ post.date | timeAgo }}</span>
     </mat-card-subtitle>
   </mat-card-header>
 
+  <mat-card-subtitle *ngIf="postContext === postContexts.ProfilePage">
+    <span>{{ post.category }}</span> ·
+    <span [matTooltip]="post.tooltipDate">{{ post.date | timeAgo }}</span>
+  </mat-card-subtitle>
+
+
   <mat-card-content>
     <markdown [data]="post.content" ngPreserveWhitespaces></markdown>
   </mat-card-content>
 
   <mat-card-actions>
-    <a mat-button [routerLink]="['../post', post.id]" *ngIf="!isSingle">
+    <a mat-button [routerLink]="[postRoute[postContext], post.id]" *ngIf="postContext === postContexts.PostsPage || postContext ===  postContexts.ProfilePage">
       <mat-icon>comment</mat-icon>
     </a>
 
@@ -30,7 +36,7 @@
     </button>
 
     <mat-menu #menuActions="matMenu">
-      <button mat-menu-item (click)="onEdit()" *ngIf="canEditOrDelete && isSingle">
+      <button mat-menu-item (click)="onEdit()" *ngIf="canEditOrDelete && postContext === postContexts.PostPage">
         <mat-icon>edit</mat-icon>
         <span class="menu-item-name">Edit</span>
       </button>

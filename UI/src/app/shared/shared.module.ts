@@ -8,12 +8,15 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { MenuComponent } from './menu/menu.component';
 import { TimeAgoPipe } from '../pipes/time-ago.pipe';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { PostComponent } from './post/post.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     NotFoundComponent,
     MenuComponent,
+    PostComponent,
     TimeAgoPipe,
   ],
   imports: [
@@ -23,6 +26,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     FormsModule,
     ReactiveFormsModule,
     InfiniteScrollModule,
+    MarkdownModule.forChild(),
   ],
 
   exports: [
@@ -33,6 +37,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     InfiniteScrollModule,
     HeaderComponent,
     MenuComponent,
+    PostComponent,
     TimeAgoPipe
   ],
 

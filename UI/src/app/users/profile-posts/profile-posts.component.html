@@ -1,1 +1,11 @@
-<p>profile-posts works!</p>
+<div
+  infiniteScroll
+  (scrolled)="onScrollDown()"
+  [scrollWindow]="false"
+  infiniteScrollContainer=".infinite-scroll"
+  [fromRoot]="true"
+>
+  <ng-container *ngFor="let item of posts">
+    <app-post [post]="item" [user]="user" [postContext]="postContext.ProfilePage"></app-post>
+  </ng-container>
+</div>
