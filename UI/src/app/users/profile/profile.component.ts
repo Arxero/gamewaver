@@ -53,6 +53,12 @@ export class ProfileComponent extends BaseComponent implements OnInit {
     super();
     const userId = this.route.snapshot.params.id;
 
+    if (this.router.url.includes('comments')) {
+      this.activeLink = this.navLinks[2];
+    } else if (this.router.url.includes('posts')) {
+      this.activeLink = this.navLinks[1];
+    }
+
     let loggedUser: User;
     // load user from profile page
     store

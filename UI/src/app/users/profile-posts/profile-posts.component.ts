@@ -4,30 +4,42 @@ import { PostViewModel } from '../../home/models/view/post-view-model';
 import { User } from '../models/dto/user';
 import { Store, select } from '@ngrx/store';
 import { HomeState } from '../../store/home/home.reducer';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../../store/auth/auth.selectors';
 import { homeStatePosts } from '../../store/home/home.selectors';
-import { GetPostsAction, ClearPostsAction } from '../../store/home/home.actions';
+import {
+  GetPostsAction,
+  ClearPostsAction,
+  GetCommentsAction,
+} from '../../store/home/home.actions';
 import { DataFilter, SearchType } from '../../shared/models/common';
-import { PostContext } from '../../home/models/view/post-context';
+import { PostContext } from '../../home/models/view/home-view-model';
 
 @Component({
   selector: 'app-profile-posts',
   templateUrl: './profile-posts.component.html',
-  styleUrls: ['./profile-posts.component.scss']
+  styleUrls: ['./profile-posts.component.scss'],
 })
 export class ProfilePostsComponent extends BaseComponent implements OnInit {
   posts: PostViewModel[] = [];
   user: User;
   take = 3;
-  filters: DataFilter[] = [];
   get postContext() {
     return PostContext;
   }
+  postsfilters: DataFilter[] = [];
+  commentsFilters: DataFilter[] = [];
+  postContextUrl: PostContext;
 
-  constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
+  constructor(
+    private store: Store<HomeState>,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {
     super();
+    this.setFilters(this.route.parent.snapshot.params.id);
+    this.setPostContextUrl(this.router.url);
 
     store
       .pipe(
@@ -37,12 +49,6 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
       )
       .subscribe(x => {
         this.user = x;
-        this.filters.push({
-          fieldName: 'author',
-          searchOperator: SearchType.In,
-          searchValue: this.user.id
-        });
-
       });
 
     store
@@ -57,25 +63,71 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(
-      new GetPostsAction({
-        paging: { skip: this.posts.length, take: this.take },
-        filters: this.filters
-      }),
-    );
+    this.loadData();
   }
 
   onScrollDown() {
-    this.store.dispatch(
-      new GetPostsAction({
-        paging: { skip: this.posts.length, take: this.take },
-        filters: this.filters
-      }),
-    );
+    this.loadData();
   }
 
   onDestroy() {
     this.store.dispatch(new ClearPostsAction());
   }
 
+  private setFilters(id: string) {
+    this.postsfilters.push({
+      fieldName: 'author',
+      searchOperator: SearchType.In,
+      searchValue: id,
+    });
+
+    this.commentsFilters.push({
+      fieldName: 'author',
+      searchOperator: SearchType.Equal,
+      searchValue: id,
+    });
+  }
+
+  private setPostContextUrl(url: string) {
+    if (url.includes('posts')) {
+      this.postContextUrl = PostContext.ProfilePagePosts;
+    } else if (url.includes('comments')) {
+      this.postContextUrl = PostContext.ProfilePageComments;
+    } else {
+      this.postContextUrl = PostContext.ProfilePageHome;
+    }
+  }
+
+  private getPosts() {
+    this.store.dispatch(
+      new GetPostsAction({
+        paging: { skip: this.posts.length, take: this.take },
+        filters: this.postsfilters,
+      }),
+    );
+  }
+
+  private getComments() {
+    this.store.dispatch(
+      new GetCommentsAction({
+        paging: { skip: 0, take: this.take },
+        filters: this.commentsFilters,
+      }),
+    );
+  }
+
+  private loadData() {
+    switch (this.postContextUrl) {
+      case PostContext.ProfilePagePosts:
+        this.getPosts();
+        break;
+      case PostContext.ProfilePageComments:
+        this.getComments();
+        break;
+      case PostContext.ProfilePageHome:
+        this.getPosts();
+        this.getComments();
+        break;
+    }
+  }
 }

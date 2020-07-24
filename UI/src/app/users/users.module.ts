@@ -6,7 +6,6 @@ import { MarkdownModule } from 'ngx-markdown';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { ProfilePostsComponent } from './profile-posts/profile-posts.component';
-import { ProfileCommentsComponent } from './profile-comments/profile-comments.component';
 
 
 
@@ -15,7 +14,6 @@ import { ProfileCommentsComponent } from './profile-comments/profile-comments.co
     ProfileComponent,
     ProfileEditComponent,
     ProfilePostsComponent,
-    ProfileCommentsComponent,
   ],
   imports: [
     CommonModule,

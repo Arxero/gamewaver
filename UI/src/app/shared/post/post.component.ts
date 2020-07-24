@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { HomeState } from '../../store/home/home.reducer';
 import { UserRole, User } from '../../users/models/dto/user';
 import { PostViewModel } from '../../home/models/view/post-view-model';
-import { PostContext } from '../../home/models/view/post-context';
+import { PostContext } from '../../home/models/view/home-view-model';
 
 @Component({
   selector: 'app-post',
@@ -19,9 +19,10 @@ export class PostComponent implements OnInit {
   @Output() editPost: EventEmitter<void> = new EventEmitter();
   postRoute: {[key: number]: string} = {
     [PostContext.PostsPage] : `post`,
-    [PostContext.ProfilePage]: '../../../../post'
+    [PostContext.ProfilePageHome]: '../../../../post'
   };
 
+  userActionOnPost: string;
   canEditOrDelete: boolean;
   get postContexts() {
     return PostContext;

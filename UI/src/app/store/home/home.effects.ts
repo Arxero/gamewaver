@@ -55,6 +55,7 @@ import {
   mapCommmentViewModel,
   CommentViewModel,
 } from '../../home/models/view/comment-view-model';
+import { UserActionOnPost } from '../../home/models/view/home-view-model';
 
 @Injectable()
 export class HomeEffects {
@@ -162,7 +163,7 @@ export class HomeEffects {
           const userInPosts = resultUsers.result.items.find(
             user => post.authorId === user.id,
           );
-          return mapPostViewModel(post, userInPosts);
+          return mapPostViewModel(post, userInPosts, UserActionOnPost.Posted);
         });
         this.store.dispatch(new GetPostsActionSuccess({ data: posts }));
       } catch (error) {
@@ -297,14 +298,10 @@ export class HomeEffects {
           propertyName: 'createdAt',
           sort: SortDirection.DESC,
         };
-        const filterIdPost: DataFilter = {
-          fieldName: 'post',
-          searchOperator: SearchType.In,
-          searchValue: a.payload.postId,
-        };
+
         const { result } = await this.commentsService.findAll(
           a.payload.paging,
-          [filterIdPost],
+          a.payload.filters,
           [dateSort],
         );
 

@@ -151,7 +151,7 @@ export class CreateCommentActionFailure implements Action {
 // GET COMMENTS
 export class GetCommentsAction implements Action {
   readonly type = HomeActionTypes.GetCommentsAction;
-  constructor(public payload: { paging: Paging, postId: string }) {}
+  constructor(public payload: { paging: Paging, filters?: DataFilter[] }) {}
 }
 
 export class GetCommentsActionSuccess implements Action {

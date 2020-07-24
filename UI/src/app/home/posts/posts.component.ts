@@ -20,7 +20,7 @@ import { cloneDeep } from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 import { DataFilter, SearchType } from '../../shared/models/common';
 import { QueryRequest, QueryParams } from '../../shared/models/query-request';
-import { PostContext } from '../models/view/post-context';
+import { PostContext } from '../models/view/home-view-model';
 
 @Component({
   selector: 'app-posts',

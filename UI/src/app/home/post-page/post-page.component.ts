@@ -21,7 +21,8 @@ import {
 import { User } from '../../users/models/dto/user';
 import { userProfile } from '../../store/auth/auth.selectors';
 import { CommentViewModel } from '../models/view/comment-view-model';
-import { PostContext } from '../models/view/post-context';
+import { PostContext } from '../models/view/home-view-model';
+import { SearchType, DataFilter } from '../../shared/models/common';
 
 @Component({
   selector: 'app-post-page',
@@ -40,10 +41,16 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   get postContext() {
     return PostContext;
   }
+  commentsFilters: DataFilter[] = [];
 
   constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
     super();
     this.postId = this.route.snapshot.params.id;
+    this.commentsFilters.push({
+      fieldName: 'post',
+      searchOperator: SearchType.In,
+      searchValue: this.postId,
+    });
 
     // load post when its clicked from home page
     store
@@ -116,7 +123,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     this.store.dispatch(
       new GetCommentsAction({
         paging: { skip: this.comments.length, take: this.take },
-        postId: this.postId,
+        filters: this.commentsFilters,
       }),
     );
   }
@@ -146,7 +153,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     this.store.dispatch(
       new GetCommentsAction({
         paging: { skip: this.comments.length, take: this.take },
-        postId: this.postId,
+        filters: this.commentsFilters,
       }),
     );
   }

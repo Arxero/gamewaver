@@ -9,4 +9,19 @@ export interface HomeViewModel extends DataEntity {
   tooltipDate: string;
 }
 
+export enum PostContext {
+  Unknown,
+  PostPage,
+  PostsPage,
+  ProfilePageHome,
+  ProfilePagePosts,
+  ProfilePageComments,
+}
+
+export enum UserActionOnPost {
+  Unknown = 'unknown',
+  Posted = 'posted',
+  Commented = 'commented'
+}
+
 
