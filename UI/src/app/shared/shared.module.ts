@@ -10,6 +10,7 @@ import { TimeAgoPipe } from '../pipes/time-ago.pipe';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PostComponent } from './post/post.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { CommentComponent } from './comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { MarkdownModule } from 'ngx-markdown';
     NotFoundComponent,
     MenuComponent,
     PostComponent,
+    CommentComponent,
     TimeAgoPipe,
   ],
   imports: [
@@ -38,6 +40,7 @@ import { MarkdownModule } from 'ngx-markdown';
     HeaderComponent,
     MenuComponent,
     PostComponent,
+    CommentComponent,
     TimeAgoPipe
   ],
 

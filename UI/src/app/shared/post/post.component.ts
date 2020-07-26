@@ -19,7 +19,7 @@ export class PostComponent implements OnInit {
   @Output() editPost: EventEmitter<void> = new EventEmitter();
   postRoute: {[key: number]: string} = {
     [PostContext.PostsPage] : `post`,
-    [PostContext.ProfilePageHome]: '../../../../post'
+    [PostContext.ProfilePage]: '../../../../post'
   };
 
   userActionOnPost: string;

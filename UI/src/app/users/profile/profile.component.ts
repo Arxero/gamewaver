@@ -11,12 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { usersProfileEditFullRoute } from '../users.routing';
 import { GetUserAction } from '../../store/users/users.actions';
 import { usersStateProfileUser } from '../../store/users/users.selectors';
+import { NavLink } from '../models/view/nav-link';
 
-export interface NavLink {
-  label: string;
-  link: string;
-  index: number;
-}
 
 @Component({
   selector: 'app-profile',
@@ -31,17 +27,14 @@ export class ProfileComponent extends BaseComponent implements OnInit {
     {
       label: 'Home',
       link: './',
-      index: 0
     },
     {
       label: 'Posts',
       link: 'posts',
-      index: 1
     },
     {
       label: 'Comments',
       link: 'comments',
-      index: 2
     },
   ];
   activeLink = this.navLinks[0];

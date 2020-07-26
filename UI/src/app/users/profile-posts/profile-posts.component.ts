@@ -7,14 +7,20 @@ import { HomeState } from '../../store/home/home.reducer';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../../store/auth/auth.selectors';
-import { homeStatePosts } from '../../store/home/home.selectors';
+import {
+  homeStatePosts,
+  homeStatePostComments,
+} from '../../store/home/home.selectors';
 import {
   GetPostsAction,
   ClearPostsAction,
   GetCommentsAction,
 } from '../../store/home/home.actions';
 import { DataFilter, SearchType } from '../../shared/models/common';
-import { PostContext } from '../../home/models/view/home-view-model';
+import {
+  PostContext,
+  UserActionOnPost,
+} from '../../home/models/view/home-view-model';
 
 @Component({
   selector: 'app-profile-posts',
@@ -28,9 +34,9 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
   get postContext() {
     return PostContext;
   }
-  postsfilters: DataFilter[] = [];
-  commentsFilters: DataFilter[] = [];
   postContextUrl: PostContext;
+  userId: string;
+  commentsLength = 0;
 
   constructor(
     private store: Store<HomeState>,
@@ -38,8 +44,7 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
     private router: Router,
   ) {
     super();
-    this.setFilters(this.route.parent.snapshot.params.id);
-    this.setPostContextUrl(this.router.url);
+    this.userId = this.route.parent.snapshot.params.id;
 
     store
       .pipe(
@@ -63,71 +68,30 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadData();
+    this.getPosts(UserActionOnPost.Posted);
   }
 
   onScrollDown() {
-    this.loadData();
+    this.getPosts(UserActionOnPost.Posted);
   }
 
   onDestroy() {
     this.store.dispatch(new ClearPostsAction());
   }
 
-  private setFilters(id: string) {
-    this.postsfilters.push({
+  private getPosts(userActionOnPost?: UserActionOnPost) {
+    const postsFilter = {
       fieldName: 'author',
       searchOperator: SearchType.In,
-      searchValue: id,
-    });
+      searchValue: this.userId,
+    };
 
-    this.commentsFilters.push({
-      fieldName: 'author',
-      searchOperator: SearchType.Equal,
-      searchValue: id,
-    });
-  }
-
-  private setPostContextUrl(url: string) {
-    if (url.includes('posts')) {
-      this.postContextUrl = PostContext.ProfilePagePosts;
-    } else if (url.includes('comments')) {
-      this.postContextUrl = PostContext.ProfilePageComments;
-    } else {
-      this.postContextUrl = PostContext.ProfilePageHome;
-    }
-  }
-
-  private getPosts() {
     this.store.dispatch(
       new GetPostsAction({
         paging: { skip: this.posts.length, take: this.take },
-        filters: this.postsfilters,
+        filters: [postsFilter],
+        userActionOnPost,
       }),
     );
-  }
-
-  private getComments() {
-    this.store.dispatch(
-      new GetCommentsAction({
-        paging: { skip: 0, take: this.take },
-        filters: this.commentsFilters,
-      }),
-    );
-  }
-
-  private loadData() {
-    switch (this.postContextUrl) {
-      case PostContext.ProfilePagePosts:
-        this.getPosts();
-        break;
-      case PostContext.ProfilePageComments:
-        this.getComments();
-        break;
-      case PostContext.ProfilePageHome:
-        this.getPosts();
-        this.getComments();
-        break;
-    }
   }
 }

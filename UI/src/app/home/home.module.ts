@@ -8,7 +8,6 @@ import { HomeRoutingModule } from './home.routing';
 import { PostPageComponent } from './post-page/post-page.component';
 import { PostsComponent } from './posts/posts.component';
 import { AddCommentComponent } from './add-comment/add-comment.component';
-import { CommentComponent } from './comment/comment.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
@@ -18,7 +17,6 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     PostPageComponent,
     PostsComponent,
     AddCommentComponent,
-    CommentComponent,
     SidebarComponent,
   ],
   imports: [

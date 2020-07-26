@@ -1,0 +1,15 @@
+<div
+  infiniteScroll
+  (scrolled)="onScrollDown()"
+  [scrollWindow]="false"
+  infiniteScrollContainer=".infinite-scroll"
+  [fromRoot]="true"
+>
+  <ng-container *ngFor="let item of comments">
+    <app-comment
+      [comment]="item"
+      [user]="user"
+      [postContext]="postContext.ProfilePage"
+    ></app-comment>
+  </ng-container>
+</div>

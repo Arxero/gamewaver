@@ -5,6 +5,8 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { AuthGuard } from '../guards/auth.guard';
 import { ProfilePostsComponent } from './profile-posts/profile-posts.component';
+import { ProfileCommentsComponent } from './profile-comments/profile-comments.component';
+import { ProfileHomeComponent } from './profile-home/profile-home.component';
 
 export const usersRoute = 'users';
 export const usersProfileRoute = 'profile';
@@ -20,7 +22,7 @@ const routes: Routes = [
     children: [
       {
         path: ``,
-        component: ProfilePostsComponent,
+        component: ProfileHomeComponent,
       },
       {
         path: `posts`,
@@ -28,7 +30,7 @@ const routes: Routes = [
       },
       {
         path: `comments`,
-        component: ProfilePostsComponent,
+        component: ProfileCommentsComponent,
       },
     ],
   },

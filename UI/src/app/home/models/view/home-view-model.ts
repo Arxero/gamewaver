@@ -13,9 +13,7 @@ export enum PostContext {
   Unknown,
   PostPage,
   PostsPage,
-  ProfilePageHome,
-  ProfilePagePosts,
-  ProfilePageComments,
+  ProfilePage,
 }
 
 export enum UserActionOnPost {

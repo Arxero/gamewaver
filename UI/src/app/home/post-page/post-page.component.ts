@@ -17,6 +17,8 @@ import {
   GetCommentsAction,
   EditCommentAction,
   EditCommentInitiateAction,
+  ClearPostsAction,
+  ClearPostAction,
 } from '../../store/home/home.actions';
 import { User } from '../../users/models/dto/user';
 import { userProfile } from '../../store/auth/auth.selectors';
@@ -156,5 +158,10 @@ export class PostPageComponent extends BaseComponent implements OnInit {
         filters: this.commentsFilters,
       }),
     );
+  }
+
+  onDestroy() {
+    this.store.dispatch(new ClearPostsAction());
+    this.store.dispatch(new ClearPostAction());
   }
 }

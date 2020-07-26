@@ -40,11 +40,18 @@ export function homeReducer(
         post: null,
       } as HomeState;
 
-      case HomeActionTypes.ClearPostsAction:
-        return {
-          ...state,
-          posts: initialHomeState.posts,
-        } as HomeState;
+    case HomeActionTypes.ClearPostsAction:
+      return {
+        ...state,
+        posts: initialHomeState.posts,
+        comments: initialHomeState.comments,
+      } as HomeState;
+
+    case HomeActionTypes.ClearPostAction:
+      return {
+        ...state,
+        post: null,
+      } as HomeState;
 
     case HomeActionTypes.DeletePostActionSuccess:
       return {
@@ -97,15 +104,11 @@ export function homeReducer(
           x => x.id === action.payload.id,
         ),
         comments: state.comments.filter(c => c.id !== action.payload.id),
-        isEditCommentSuccessful: false
+        isEditCommentSuccessful: false,
       } as HomeState;
 
     case HomeActionTypes.EditCommentCancelAction:
-      commentsClone.splice(
-        state.indexOfEditedComment,
-        0,
-        action.payload.data,
-      );
+      commentsClone.splice(state.indexOfEditedComment, 0, action.payload.data);
       return {
         ...state,
         comments: commentsClone,
@@ -113,16 +116,12 @@ export function homeReducer(
       } as HomeState;
 
     case HomeActionTypes.EditCommentActionSuccess:
-      commentsClone.splice(
-        state.indexOfEditedComment,
-        0,
-        action.payload.data,
-      );
+      commentsClone.splice(state.indexOfEditedComment, 0, action.payload.data);
       return {
         ...state,
         comments: commentsClone,
         indexOfEditedComment: null,
-        isEditCommentSuccessful: true
+        isEditCommentSuccessful: true,
       } as HomeState;
 
     default:

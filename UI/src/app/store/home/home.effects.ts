@@ -163,7 +163,7 @@ export class HomeEffects {
           const userInPosts = resultUsers.result.items.find(
             user => post.authorId === user.id,
           );
-          return mapPostViewModel(post, userInPosts, UserActionOnPost.Posted);
+          return mapPostViewModel(post, userInPosts, a.payload.userActionOnPost);
         });
         this.store.dispatch(new GetPostsActionSuccess({ data: posts }));
       } catch (error) {

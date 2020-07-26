@@ -8,6 +8,7 @@ import { CommentViewModel } from '../../home/models/view/comment-view-model';
 import { ResponseError } from '../../shared/models/response';
 import { UpdateCommentCmd } from '../../home/models/cmd/update-comment.cmd';
 import { Paging, DataFilter } from '../../shared/models/common';
+import { UserActionOnPost } from '../../home/models/view/home-view-model';
 
 export enum HomeActionTypes {
   // POSTS
@@ -23,6 +24,7 @@ export enum HomeActionTypes {
   GetPostsActionSuccess = '[GetPostsSuccess] Action',
   GetPostsActionFailure = '[GetPostsFailure] Action',
   ClearPostsAction = '[ClearPosts] Action',
+  ClearPostAction = '[ClearPost] Action',
 
   GetPostAction = '[GetPost] Action',
   GetPostActionSuccess = '[GetPostSuccess] Action',
@@ -70,7 +72,7 @@ export class CreatePostActionFailure implements Action {
 // EDIT POST
 export class EditPostAction implements Action {
   readonly type = HomeActionTypes.EditPostAction;
-  constructor(public payload: { cmd: UpdatePostCmd, id: string }) {}
+  constructor(public payload: { cmd: UpdatePostCmd; id: string }) {}
 }
 
 export class EditPostActionSuccess implements Action {
@@ -85,7 +87,13 @@ export class EditPostActionFailure implements Action {
 // GET POSTS
 export class GetPostsAction implements Action {
   readonly type = HomeActionTypes.GetPostsAction;
-  constructor(public payload: { paging: Paging, filters?: DataFilter[] }) {}
+  constructor(
+    public payload: {
+      paging: Paging;
+      filters?: DataFilter[];
+      userActionOnPost?: UserActionOnPost;
+    },
+  ) {}
 }
 
 export class GetPostsActionSuccess implements Action {
@@ -101,6 +109,9 @@ export class ClearPostsAction implements Action {
   readonly type = HomeActionTypes.ClearPostsAction;
 }
 
+export class ClearPostAction implements Action {
+  readonly type = HomeActionTypes.ClearPostAction;
+}
 
 // GET POST
 export class GetPostAction implements Action {
@@ -116,7 +127,6 @@ export class GetPostActionSuccess implements Action {
 export class GetPostActionFailure implements Action {
   readonly type = HomeActionTypes.GetPostActionFailure;
 }
-
 
 // DELETE POST
 export class DeletePostAction implements Action {
@@ -136,7 +146,7 @@ export class DeletePostActionFailure implements Action {
 // CREATE COMMENT
 export class CreateCommentAction implements Action {
   readonly type = HomeActionTypes.CreateCommentAction;
-  constructor(public payload: { cmd: CreateCommentCmd, postId: string }) {}
+  constructor(public payload: { cmd: CreateCommentCmd; postId: string }) {}
 }
 
 export class CreateCommentActionSuccess implements Action {
@@ -151,7 +161,7 @@ export class CreateCommentActionFailure implements Action {
 // GET COMMENTS
 export class GetCommentsAction implements Action {
   readonly type = HomeActionTypes.GetCommentsAction;
-  constructor(public payload: { paging: Paging, filters?: DataFilter[] }) {}
+  constructor(public payload: { paging: Paging; filters?: DataFilter[] }) {}
 }
 
 export class GetCommentsActionSuccess implements Action {
@@ -192,7 +202,7 @@ export class EditCommentCancelAction implements Action {
 
 export class EditCommentAction implements Action {
   readonly type = HomeActionTypes.EditCommentAction;
-  constructor(public payload: { cmd: UpdateCommentCmd, id: string }) {}
+  constructor(public payload: { cmd: UpdateCommentCmd; id: string }) {}
 }
 
 export class EditCommentActionSuccess implements Action {
@@ -205,8 +215,6 @@ export class EditCommentActionFailure implements Action {
   constructor(public payload: { error: ResponseError }) {}
 }
 
-
-
 export type HomeActions =
   | CreatePostAction
   | CreatePostActionSuccess
@@ -218,6 +226,7 @@ export type HomeActions =
   | GetPostsActionSuccess
   | GetPostsActionFailure
   | ClearPostsAction
+  | ClearPostAction
   | DeletePostAction
   | DeletePostActionSuccess
   | DeletePostActionFailure
