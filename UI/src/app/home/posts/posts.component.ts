@@ -55,7 +55,7 @@ export class PostsComponent extends BaseComponent implements OnInit {
       .pipe(
         takeUntil(this.destroyed$),
         select(userProfile),
-        filter(x => !!x),
+        // filter(x => !!x),
       )
       .subscribe(x => {
         this.user = x;

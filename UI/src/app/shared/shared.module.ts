@@ -11,6 +11,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PostComponent } from './post/post.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { CommentComponent } from './comment/comment.component';
+import { FormattingHelpComponent } from './formatting-help/formatting-help.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { CommentComponent } from './comment/comment.component';
     PostComponent,
     CommentComponent,
     TimeAgoPipe,
+    FormattingHelpComponent,
   ],
   imports: [
     CommonModule,

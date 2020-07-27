@@ -11,6 +11,8 @@ import {
 } from '../../store/home/home.actions';
 import { PostViewModel } from '../models/view/post-view-model';
 import { UpdatePostCmd } from '../models/cmd/update-post.cmd';
+import { MatDialog } from '@angular/material/dialog';
+import { FormattingHelpComponent } from '../../shared/formatting-help/formatting-help.component';
 
 @Component({
   selector: 'app-create-post',
@@ -28,7 +30,7 @@ export class CreatePostComponent implements OnInit {
     return postCategories;
   }
 
-  constructor(private store: Store<HomeState>) {}
+  constructor(public dialog: MatDialog, private store: Store<HomeState>) {}
 
   ngOnInit(): void {
     this.postForm = new FormGroup({
@@ -70,5 +72,9 @@ export class CreatePostComponent implements OnInit {
 
   onCancel() {
     this.cancelEditPost.emit();
+  }
+
+  onFormatHelp() {
+    this.dialog.open(FormattingHelpComponent);
   }
 }

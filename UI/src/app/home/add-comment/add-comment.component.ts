@@ -18,6 +18,8 @@ import {
 } from '../../store/home/home.actions';
 import { CommentViewModel } from '../models/view/comment-view-model';
 import { UpdateCommentCmd } from '../models/cmd/update-comment.cmd';
+import { MatDialog } from '@angular/material/dialog';
+import { FormattingHelpComponent } from '../../shared/formatting-help/formatting-help.component';
 
 @Component({
   selector: 'app-add-comment',
@@ -42,7 +44,7 @@ export class AddCommentComponent implements OnInit {
 
   commentForm: FormGroup;
 
-  constructor(private store: Store<HomeState>) {}
+  constructor(public dialog: MatDialog, private store: Store<HomeState>) {}
 
   ngOnInit(): void {
     this.commentForm = new FormGroup({
@@ -80,5 +82,9 @@ export class AddCommentComponent implements OnInit {
   onCancel() {
     this.store.dispatch(new EditCommentCancelAction({ data: this.comment }));
     this.cancelEditComment.emit();
+  }
+
+  onFormatHelp() {
+    this.dialog.open(FormattingHelpComponent);
   }
 }

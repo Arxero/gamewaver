@@ -137,6 +137,7 @@ html {
   height: 100%;
 }
 
+
 *,
 *::before,
 * ::after {
@@ -172,6 +173,26 @@ blockquote {
   padding: 0 1em;
   color: #968F83;
   border-left: .25em solid #dadada;
+}
+
+table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  margin-top: 0;
+  margin-bottom: 16px;
+  border-spacing: 0;
+  border-collapse: collapse;
+  border-color: #52595b;
+}
+
+table th, table td {
+  padding: 6px 13px;
+  border: 1px solid rgb(57, 61, 63);
+}
+
+table th {
+  font-weight: 600;
 }
 
 main {
