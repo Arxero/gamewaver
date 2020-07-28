@@ -1,7 +1,23 @@
+.formatting-help {
+  word-break: break-all;
+}
+
 .button-wrapper {
   text-align: right;
+  margin-bottom: 32px !important;
 }
 
 .formatting-table {
   margin-bottom: 32px;
 }
+
+mat-row, mat-header-row, mat-footer-row {
+  margin-top: 16px;
+}
+
+mat-cell:first-of-type {
+  padding-right: 24px;;
+}
+
+
+

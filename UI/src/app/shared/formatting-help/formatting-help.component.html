@@ -1,4 +1,4 @@
-<mat-card-content>
+<mat-dialog-content class="formatting-help">
   <h1>TEXT FORMATTING</h1>
   <p>
     We support markdown and these examples shows you how to add formatting to
@@ -9,7 +9,7 @@
     <!-- Position Column -->
     <ng-container matColumnDef="syntax">
       <mat-header-cell *matHeaderCellDef>Syntax</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.syntax}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{ element.syntax }} </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
@@ -20,26 +20,20 @@
       </mat-cell>
     </ng-container>
 
-
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </mat-table>
-
-
-
 
   <div class="button-wrapper">
     <a
-    href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
-    mat-stroked-button
-    target="_blank"
-    color="primary"
-    >Markdown Cheatsheet</a
-  >
+      href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+      mat-stroked-button
+      target="_blank"
+      color="primary"
+      >Markdown Cheatsheet</a
+    >
   </div>
-
-</mat-card-content>
-
+</mat-dialog-content>
 
 
 
