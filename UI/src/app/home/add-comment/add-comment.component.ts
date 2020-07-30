@@ -20,6 +20,7 @@ import { CommentViewModel } from '../models/view/comment-view-model';
 import { UpdateCommentCmd } from '../models/cmd/update-comment.cmd';
 import { MatDialog } from '@angular/material/dialog';
 import { FormattingHelpComponent } from '../../shared/formatting-help/formatting-help.component';
+import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Component({
   selector: 'app-add-comment',
@@ -41,8 +42,9 @@ export class AddCommentComponent implements OnInit {
     return this._comment;
   }
   @Output() cancelEditComment: EventEmitter<void> = new EventEmitter();
-
+  isAddEmoji: boolean;
   commentForm: FormGroup;
+  emojiStyle: { left: '350px', bottom: '10px', position: 'fixed' };
 
   constructor(public dialog: MatDialog, private store: Store<HomeState>) {}
 
@@ -86,5 +88,16 @@ export class AddCommentComponent implements OnInit {
 
   onFormatHelp() {
     this.dialog.open(FormattingHelpComponent);
+  }
+
+  onAddEmoji() {
+    this.isAddEmoji = !this.isAddEmoji;
+  }
+
+  onAddedEmoji(emoji: EmojiData) {
+    this.isAddEmoji = !this.isAddEmoji;
+    this.commentForm.patchValue({
+      content: this.content.value + emoji.native
+    });
   }
 }

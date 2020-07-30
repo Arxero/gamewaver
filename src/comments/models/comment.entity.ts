@@ -19,7 +19,7 @@ export class Comment extends DataEntity implements IComment {
     }
   }
 
-  @Column({ type: 'varchar', length: 1000 })
+  @Column({ type: 'varchar', length: 1000, charset: 'utf8mb4', collation: 'utf8mb4_general_ci' })
   content: string;
 
   @ManyToOne(() => User, author => author.posts)

@@ -24,6 +24,7 @@ import configuration from './config/configuration';
         database: configService.get<string>('db.database'),
         entities: [Post, User, Comment],
         synchronize: true,
+        charset: 'utf8mb4',
       }),
       inject: [ConfigService],
     }),

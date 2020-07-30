@@ -68,7 +68,7 @@ export class User extends DataEntity implements IUser {
   @Column({ nullable: true })
   avatar: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, charset: 'utf8mb4', collation: 'utf8mb4_general_ci' })
   summary: string;
 
   @Column({ nullable: true })

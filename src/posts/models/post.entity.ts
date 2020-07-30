@@ -29,7 +29,7 @@ export class Post extends DataEntity implements IPost {
     }
   }
 
-  @Column({ type: 'varchar', length: 5000 })
+  @Column({ type: 'varchar', length: 5000, charset: 'utf8mb4', collation: 'utf8mb4_general_ci' })
   content: string;
 
   @Column()

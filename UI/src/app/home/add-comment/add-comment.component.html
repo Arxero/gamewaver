@@ -19,6 +19,9 @@
           <button mat-icon-button color="primary" class="format-text-button" (click)="onFormatHelp()">
             <mat-icon>text_format</mat-icon>
           </button>
+          <button mat-icon-button color="primary" class="format-text-button" (click)="onAddEmoji()">
+            <mat-icon>insert_emoticon</mat-icon>
+          </button>
           <button mat-stroked-button color="accent" class="form-button cancel" *ngIf="comment" (click)="onCancel()">Cancel</button>
           <button mat-raised-button color="primary" class="form-button" [disabled]="commentForm.invalid" (click)="onSubmit()">{{ comment ? 'SAVE':'POST' }}</button>
         </div>
@@ -32,3 +35,11 @@
     </mat-card>
   </mat-tab>
 </mat-tab-group>
+
+<div style="position: relative;">
+  <div class="emoji-comment">
+    <app-emoji *ngIf="isAddEmoji" (emoji)="onAddedEmoji($event)" [class]="emojiStyle"></app-emoji>
+  </div>
+</div>
+
+

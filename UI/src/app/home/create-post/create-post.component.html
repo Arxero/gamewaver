@@ -43,7 +43,9 @@
   </mat-tab>
 </mat-tab-group>
 
-<app-emoji *ngIf="isAddEmoji"></app-emoji>
+<div class="emoji-post">
+  <app-emoji *ngIf="isAddEmoji" (emoji)="onAddedEmoji($event)"></app-emoji>
+</div>
 
 
 

@@ -13,6 +13,7 @@ import { PostViewModel } from '../models/view/post-view-model';
 import { UpdatePostCmd } from '../models/cmd/update-post.cmd';
 import { MatDialog } from '@angular/material/dialog';
 import { FormattingHelpComponent } from '../../shared/formatting-help/formatting-help.component';
+import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Component({
   selector: 'app-create-post',
@@ -81,5 +82,12 @@ export class CreatePostComponent implements OnInit {
 
   onAddEmoji() {
     this.isAddEmoji = !this.isAddEmoji;
+  }
+
+  onAddedEmoji(emoji: EmojiData) {
+    this.isAddEmoji = !this.isAddEmoji;
+    this.postForm.patchValue({
+      content: this.content.value + emoji.native
+    });
   }
 }

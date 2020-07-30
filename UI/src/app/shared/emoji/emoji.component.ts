@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { EmojiEvent, EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Component({
   selector: 'app-emoji',
@@ -6,15 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./emoji.component.scss']
 })
 export class EmojiComponent implements OnInit {
+  @Output() emoji: EventEmitter<EmojiData> = new EventEmitter();
+  @Input() class: any;
 
   constructor() { }
 
-  ngOnInit(): void {
-    console.log('Initializing app emoji component');
+  ngOnInit(): void {}
 
-  }
-
-  addEmoji(ev) {
-    console.log(ev);
+  addEmoji(ev: EmojiEvent) {
+    this.emoji.emit(ev.emoji);
   }
 }
