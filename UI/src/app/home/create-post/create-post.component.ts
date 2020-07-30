@@ -24,6 +24,7 @@ export class CreatePostComponent implements OnInit {
   @Input() post: PostViewModel;
   @Input() user: User;
   @Output() cancelEditPost: EventEmitter<void> = new EventEmitter();
+  isAddEmoji: boolean;
 
   postForm: FormGroup;
   get categories() {
@@ -76,5 +77,9 @@ export class CreatePostComponent implements OnInit {
 
   onFormatHelp() {
     this.dialog.open(FormattingHelpComponent);
+  }
+
+  onAddEmoji() {
+    this.isAddEmoji = !this.isAddEmoji;
   }
 }

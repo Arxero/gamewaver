@@ -12,6 +12,9 @@ import { PostComponent } from './post/post.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { CommentComponent } from './comment/comment.component';
 import { FormattingHelpComponent } from './formatting-help/formatting-help.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { EmojiComponent } from './emoji/emoji.component';
+
 
 @NgModule({
   declarations: [
@@ -22,6 +25,7 @@ import { FormattingHelpComponent } from './formatting-help/formatting-help.compo
     CommentComponent,
     TimeAgoPipe,
     FormattingHelpComponent,
+    EmojiComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +35,7 @@ import { FormattingHelpComponent } from './formatting-help/formatting-help.compo
     ReactiveFormsModule,
     InfiniteScrollModule,
     MarkdownModule.forChild(),
+    PickerModule,
   ],
 
   exports: [
@@ -43,7 +48,9 @@ import { FormattingHelpComponent } from './formatting-help/formatting-help.compo
     MenuComponent,
     PostComponent,
     CommentComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    PickerModule,
+    EmojiComponent,
   ],
 
 })
