@@ -7,6 +7,7 @@ export interface HomeViewModel extends DataEntity {
   authorUsername: string;
   date: string;
   tooltipDate: string;
+  userRole: string;
 }
 
 export enum PostContext {

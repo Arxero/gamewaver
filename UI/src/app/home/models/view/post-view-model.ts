@@ -2,7 +2,7 @@ import { DataEntity } from '../../../shared/models/common';
 import { GetPostDto } from '../dto/get-post.dto';
 import { postCategories, PostCategory } from './post-category';
 import * as moment from 'moment';
-import { User } from '../../../users/models/dto/user';
+import { User, UserRole } from '../../../users/models/dto/user';
 import { HomeViewModel, UserActionOnPost } from './home-view-model';
 
 export interface PostViewModel extends HomeViewModel {
@@ -24,6 +24,7 @@ export function mapPostViewModel(
     date: post.createdAt.toString(),
     tooltipDate: moment(post.createdAt).format('MMMM DD, YYYY [at] hh:mm A'),
     categoryEnum: post.category,
-    userActionOnPost
+    userActionOnPost,
+    userRole: userInPosts.role !== UserRole.USER ? userInPosts.role : null,
   } as PostViewModel;
 }

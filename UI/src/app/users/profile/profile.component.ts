@@ -13,16 +13,16 @@ import { GetUserAction } from '../../store/users/users.actions';
 import { usersStateProfileUser } from '../../store/users/users.selectors';
 import { NavLink } from '../models/view/nav-link';
 
-
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class ProfileComponent extends BaseComponent implements OnInit {
   user: User;
   canEditProfile: boolean;
+  userRole: string;
   navLinks: NavLink[] = [
     {
       label: 'Home',
@@ -42,7 +42,8 @@ export class ProfileComponent extends BaseComponent implements OnInit {
   constructor(
     private store: Store<AuthState>,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+  ) {
     super();
     const userId = this.route.snapshot.params.id;
 
@@ -84,6 +85,9 @@ export class ProfileComponent extends BaseComponent implements OnInit {
             !userId
               ? true
               : false;
+
+          this.userRole =
+            this.user.role !== UserRole.USER ? this.user.role : null;
         });
     }
   }

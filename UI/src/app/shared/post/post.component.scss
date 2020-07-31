@@ -10,6 +10,10 @@
   a:hover {
     text-decoration: underline;
   }
+
+  .category {
+    cursor: pointer;
+  }
 }
 
 markdown ::ng-deep {
@@ -35,6 +39,11 @@ mat-card {
 
 .mat-card-header .mat-card-title {
   font-size: 18px;
+}
+
+.mat-card-title {
+  display: flex;
+  align-items: center;
 }
 
 .mat-card-actions {

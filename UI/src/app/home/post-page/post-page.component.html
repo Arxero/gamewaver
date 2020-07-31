@@ -1,40 +1,39 @@
 <app-post
-  [post]="post"
-  [postContext]="postContext.PostPage"
-  [user]="user"
-  *ngIf="post && !isEditPost"
-  (editPost)="onEditPost()"
+[post]="post"
+[postContext]="postContext.PostPage"
+[user]="user"
+*ngIf="post && !isEditPost"
+(editPost)="onEditPost()"
 ></app-post>
 
 <app-create-post
-  (cancelEditPost)="onCancelPostEdit()"
-  *ngIf="isEditPost"
-  [post]="post"
-  [user]="user"
+(cancelEditPost)="onCancelPostEdit()"
+*ngIf="isEditPost"
+[post]="post"
+[user]="user"
 ></app-create-post>
 
 <app-add-comment
-  *ngIf="isAddComment && user && post"
-  [user]="user"
-  [postId]="post.id"
-  [comment]="comment"
-  (cancelEditComment)="onCancelCommentEdit()"
+*ngIf="isAddComment && user && post"
+[user]="user"
+[postId]="post.id"
+[comment]="comment"
+(cancelEditComment)="onCancelCommentEdit()"
 ></app-add-comment>
 
 <div
-  infiniteScroll
-  (scrolled)="onScrollDown()"
-  [scrollWindow]="false"
-  infiniteScrollContainer=".infinite-scroll"
-  [fromRoot]="true"
+infiniteScroll
+(scrolled)="onScrollDown()"
+[scrollWindow]="false"
+infiniteScrollContainer=".infinite-scroll"
+[fromRoot]="true"
 >
-  <ng-container *ngFor="let item of comments">
-    <app-comment
-      [comment]="item"
-      [user]="user"
-      (editComment)="onEditComment($event)"
-      [postContext]="postContext.PostPage"
-    ></app-comment>
-  </ng-container>
+<ng-container *ngFor="let item of comments">
+  <app-comment
+    [comment]="item"
+    [user]="user"
+    (editComment)="onEditComment($event)"
+    [postContext]="postContext.PostPage"
+  ></app-comment>
+</ng-container>
 </div>
-

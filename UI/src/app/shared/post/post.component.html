@@ -9,9 +9,10 @@
       <a [routerLink]="[userProfileRoute, post.authorId]">
         {{ post.authorUsername }}
       </a>
+      <span class="role role-red" *ngIf="post.userRole">{{ post.userRole | titlecase }}</span>
     </mat-card-title>
     <mat-card-subtitle>
-      <span>{{ post.category }}</span> ·
+      <a class="category" (click)="navigate()">{{ post.category }}</a> ·
       <span [matTooltip]="post.tooltipDate">{{ post.date | timeAgo }}</span>
     </mat-card-subtitle>
   </mat-card-header>

@@ -9,8 +9,9 @@
       <a [routerLink]="[userProfileRoute, comment.authorId]">
         {{ comment.authorUsername }}
       </a>
-      <span class="time" [matTooltip]="comment.tooltipDate"> · {{ comment.date | timeAgo }}</span>
-      </mat-card-title>
+      <span class="role role-red" *ngIf="comment.userRole">{{ comment.userRole | titlecase }}</span>
+      <span class="time" [matTooltip]="comment.tooltipDate">· {{ comment.date | timeAgo }}</span>
+    </mat-card-title>
 
     <mat-card-subtitle>
       <markdown [data]="comment.content" ngPreserveWhitespaces></markdown>

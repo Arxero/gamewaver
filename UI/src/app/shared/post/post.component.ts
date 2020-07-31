@@ -6,6 +6,7 @@ import { HomeState } from '../../store/home/home.reducer';
 import { UserRole, User } from '../../users/models/dto/user';
 import { PostViewModel } from '../../home/models/view/post-view-model';
 import { PostContext } from '../../home/models/view/home-view-model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post',
@@ -17,9 +18,9 @@ export class PostComponent implements OnInit {
   @Input() postContext: PostContext;
   @Input() user: User;
   @Output() editPost: EventEmitter<void> = new EventEmitter();
-  postRoute: {[key: number]: string} = {
-    [PostContext.PostsPage] : `post`,
-    [PostContext.ProfilePage]: '../../../../post'
+  postRoute: { [key: number]: string } = {
+    [PostContext.PostsPage]: `post`,
+    [PostContext.ProfilePage]: '../../../../post',
   };
 
   userActionOnPost: string;
@@ -34,8 +35,7 @@ export class PostComponent implements OnInit {
       : `../${usersProfileFullRoute()}`;
   }
 
-
-  constructor(private store: Store<HomeState>) {}
+  constructor(private store: Store<HomeState>, private router: Router) {}
 
   ngOnInit(): void {
     if (!this.user) {
@@ -54,5 +54,11 @@ export class PostComponent implements OnInit {
 
   onDelete() {
     this.store.dispatch(new DeletePostAction({ id: this.post.id }));
+  }
+
+  navigate() {
+    this.router.navigateByUrl(
+      `search?filters=category!eq!${this.post.categoryEnum}`,
+    );
   }
 }
