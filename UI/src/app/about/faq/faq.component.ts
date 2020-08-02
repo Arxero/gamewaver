@@ -28,11 +28,6 @@ export class FaqComponent implements OnInit {
     },
     {
       title: 'How this website makes money?',
-      text:
-        'Gamewaver is a project started by two fellow gamers with the idea to bring the joy of playing together and sharing their gaming experience with their communities.',
-    },
-    {
-      title: 'What is Gamewaver?',
       text: `Currently, Gamewaver does not generate any money and will be like that until its popular enough
       for advertisement.`,
     },

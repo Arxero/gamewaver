@@ -21,6 +21,8 @@ h2 {
 
   .months {
     margin-bottom: 10px;
+    width: 100%;
+    word-break: break-word;
   }
 
   .title {
@@ -28,7 +30,7 @@ h2 {
   }
 
   .year, .month {
-    padding-right: 10px;
+    padding-right: 12px;
   }
   .year:hover,  .month:hover {
     cursor: pointer;

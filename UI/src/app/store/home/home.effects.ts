@@ -56,6 +56,7 @@ import {
   CommentViewModel,
 } from '../../home/models/view/comment-view-model';
 import { UserActionOnPost } from '../../home/models/view/home-view-model';
+import { LoadingService } from '../../services/loading.service';
 
 @Injectable()
 export class HomeEffects {
@@ -67,6 +68,7 @@ export class HomeEffects {
     private postsService: PostsService,
     private usersService: UsersService,
     private commentsService: CommentsService,
+    private loadingService: LoadingService,
     private router: Router,
   ) {}
 
@@ -78,6 +80,7 @@ export class HomeEffects {
     tap(async a => {
       try {
         const user = a[1];
+        this.loadingService.setUILoading();
         const { result } = await this.postsService.create(a[0].payload.cmd);
         const data = mapPostViewModel(result, user);
         this.store.dispatch(new CreatePostActionSuccess({ data }));
@@ -91,6 +94,7 @@ export class HomeEffects {
   createPostSuccess$ = this.actions$.pipe(
     ofType<CreatePostActionSuccess>(HomeActionTypes.CreatePostActionSuccess),
     tap(() => {
+      this.loadingService.setUILoading(false);
       this.snackbarService.showInfo('Post Added Successfully');
     }),
   );
@@ -107,6 +111,7 @@ export class HomeEffects {
     ofType<EditPostAction>(HomeActionTypes.EditPostAction),
     tap(async a => {
       try {
+        this.loadingService.setUILoading();
         const { result } = await this.postsService.update(
           a.payload.id,
           a.payload.cmd,
@@ -122,6 +127,7 @@ export class HomeEffects {
   editPostSuccess$ = this.actions$.pipe(
     ofType<EditPostActionSuccess>(HomeActionTypes.EditPostActionSuccess),
     tap(a => {
+      this.loadingService.setUILoading(false);
       this.snackbarService.showInfo('Post Edited Successfully');
       this.store.dispatch(new GetPostAction({ id: a.payload.id }));
     }),
@@ -143,6 +149,7 @@ export class HomeEffects {
           propertyName: 'createdAt',
           sort: SortDirection.DESC,
         };
+        this.loadingService.setUILoading();
         const { result } = await this.postsService.findAll(
           a.payload.paging,
           a.payload.filters,
@@ -163,7 +170,11 @@ export class HomeEffects {
           const userInPosts = resultUsers.result.items.find(
             user => post.authorId === user.id,
           );
-          return mapPostViewModel(post, userInPosts, a.payload.userActionOnPost);
+          return mapPostViewModel(
+            post,
+            userInPosts,
+            a.payload.userActionOnPost,
+          );
         });
         this.store.dispatch(new GetPostsActionSuccess({ data: posts }));
       } catch (error) {
@@ -175,7 +186,9 @@ export class HomeEffects {
   @Effect({ dispatch: false })
   getPostsSuccess$ = this.actions$.pipe(
     ofType<GetPostsActionSuccess>(HomeActionTypes.GetPostsActionSuccess),
-    tap(() => {}),
+    tap(() => {
+      this.loadingService.setUILoading(false);
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -190,6 +203,7 @@ export class HomeEffects {
     ofType<DeletePostAction>(HomeActionTypes.DeletePostAction),
     tap(async a => {
       try {
+        this.loadingService.setUILoading();
         const { result } = await this.postsService.delete(a.payload.id);
         this.store.dispatch(new DeletePostActionSuccess({ id: a.payload.id }));
       } catch (error) {
@@ -203,6 +217,7 @@ export class HomeEffects {
   deletePostSuccess$ = this.actions$.pipe(
     ofType<DeletePostActionSuccess>(HomeActionTypes.DeletePostActionSuccess),
     tap(() => {
+      this.loadingService.setUILoading(false);
       this.snackbarService.showInfo('Post Deleted Successfully');
     }),
   );
@@ -221,6 +236,7 @@ export class HomeEffects {
     ofType<GetPostAction>(HomeActionTypes.GetPostAction),
     tap(async a => {
       try {
+        this.loadingService.setUILoading();
         const { result } = await this.postsService.findOne(a.payload.id);
         const userResult = await this.usersService.findOne(result.authorId);
         const data = mapPostViewModel(result, userResult.result);
@@ -235,7 +251,9 @@ export class HomeEffects {
   @Effect({ dispatch: false })
   getPostSuccess$ = this.actions$.pipe(
     ofType<GetPostActionSuccess>(HomeActionTypes.GetPostActionSuccess),
-    tap(() => {}),
+    tap(() => {
+      this.loadingService.setUILoading(false);
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -254,6 +272,7 @@ export class HomeEffects {
     ofType<CreateCommentAction>(HomeActionTypes.CreateCommentAction),
     tap(async a => {
       try {
+        this.loadingService.setUILoading();
         const { result } = await this.commentsService.create(
           a.payload.cmd,
           a.payload.postId,
@@ -274,6 +293,7 @@ export class HomeEffects {
       HomeActionTypes.CreateCommentActionSuccess,
     ),
     tap(() => {
+      this.loadingService.setUILoading(false);
       this.snackbarService.showInfo('Comment Added Successfully');
     }),
   );
@@ -299,6 +319,7 @@ export class HomeEffects {
           sort: SortDirection.DESC,
         };
 
+        this.loadingService.setUILoading();
         const { result } = await this.commentsService.findAll(
           a.payload.paging,
           a.payload.filters,
@@ -333,7 +354,9 @@ export class HomeEffects {
   @Effect({ dispatch: false })
   getCommentSuccess$ = this.actions$.pipe(
     ofType<GetCommentsActionSuccess>(HomeActionTypes.GetCommentsActionSuccess),
-    tap(() => {}),
+    tap(() => {
+      this.loadingService.setUILoading(false);
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -350,6 +373,7 @@ export class HomeEffects {
     ofType<DeleteCommentAction>(HomeActionTypes.DeleteCommentAction),
     tap(async a => {
       try {
+        this.loadingService.setUILoading();
         const { result } = await this.commentsService.delete(a.payload.id);
         this.store.dispatch(
           new DeleteCommentActionSuccess({ id: a.payload.id }),
@@ -367,6 +391,7 @@ export class HomeEffects {
       HomeActionTypes.DeleteCommentActionSuccess,
     ),
     tap(() => {
+      this.loadingService.setUILoading(false);
       this.snackbarService.showInfo('Comment Deleted Successfully');
     }),
   );
@@ -387,6 +412,7 @@ export class HomeEffects {
     ofType<EditCommentAction>(HomeActionTypes.EditCommentAction),
     tap(async a => {
       try {
+        this.loadingService.setUILoading();
         const { result } = await this.commentsService.update(
           a.payload.id,
           a.payload.cmd,
@@ -406,6 +432,7 @@ export class HomeEffects {
   editCommentSuccess$ = this.actions$.pipe(
     ofType<EditCommentActionSuccess>(HomeActionTypes.EditCommentActionSuccess),
     tap(a => {
+      this.loadingService.setUILoading(false);
       this.snackbarService.showInfo('Comment Edited Successfully');
     }),
   );

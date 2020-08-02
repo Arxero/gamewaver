@@ -250,9 +250,9 @@ main {
   margin: 0 auto;
   // background: #232323;
   max-width: 1012px;
-  padding: 20px 16px;
+  padding: 16px 16px;
   font-size: 16px;
-  // height: calc(100% - 90px);
+  height: calc(100% - 90px);
 
   p a:hover {
     text-decoration: underline;
@@ -291,4 +291,16 @@ main {
 
 .role-red {
   border-color: #AA0000;
+}
+
+.mat-progress-bar {
+  height: 3px !important;
+}
+
+.mat-progress-bar-buffer {
+  background: #dadada;
+}
+
+.mat-progress-bar-fill::after {
+  background: linear-gradient(to right, #171a21 0%,#194971 80%,#1e5799 100%,#2989d8 100%);
 }

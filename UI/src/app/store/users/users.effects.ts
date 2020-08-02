@@ -18,6 +18,7 @@ import { UsersService } from '../../services/users.service';
 import { GetUserInfoAction } from '../auth/auth.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { usersProfileFullRoute } from '../../users/users.routing';
+import { LoadingService } from '../../services/loading.service';
 
 @Injectable()
 export class UsersEffects {
@@ -27,6 +28,7 @@ export class UsersEffects {
     private router: Router,
     private snackbarService: SnackbarService,
     private store: Store<UsersState>,
+    private loadingService: LoadingService,
   ) {}
 
   // EDIT USER
@@ -35,6 +37,7 @@ export class UsersEffects {
     ofType<EditUserAction>(UsersActionTypes.EditUserAction),
     tap(async a => {
       try {
+        this.loadingService.setUILoading();
         const { result } = await this.usersService.update(
           a.payload.id,
           a.payload.updateUserCmd,
@@ -50,6 +53,7 @@ export class UsersEffects {
   editUserSuccess$ = this.actions$.pipe(
     ofType<EditUserActionSuccess>(UsersActionTypes.EditUserActionSuccess),
     tap(a => {
+      this.loadingService.setUILoading(false);
       this.store.dispatch(new GetUserInfoAction());
       this.router.navigate([usersProfileFullRoute() + `/${a.payload.user.id}`]);
       this.snackbarService.showInfo('Edit Profile Successfull');
@@ -68,6 +72,7 @@ export class UsersEffects {
     ofType<GetUserAction>(UsersActionTypes.GetUserAction),
     tap(async a => {
       try {
+        this.loadingService.setUILoading();
         const { result } = await this.usersService.findOne(a.payload.id);
         this.store.dispatch(new GetUserActionSuccess({ user: result }));
       } catch (error) {
@@ -79,7 +84,9 @@ export class UsersEffects {
   @Effect({ dispatch: false })
   getUserSuccess$ = this.actions$.pipe(
     ofType<GetUserActionSuccess>(UsersActionTypes.GetUserActionSuccess),
-    tap(a => {}),
+    tap(a => {
+      this.loadingService.setUILoading(false);
+    }),
   );
 
   @Effect({ dispatch: false })
