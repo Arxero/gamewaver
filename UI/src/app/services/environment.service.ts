@@ -15,5 +15,13 @@ export class EnvironmentService implements IEnvironment {
     return environment.apiUrl;
   }
 
+  get uploadApiUrl() {
+    return environment.uploadApiUrl;
+  }
+
+  get uploadApiClientId() {
+    return environment.uploadApiClientId;
+  }
+
   constructor() {}
 }

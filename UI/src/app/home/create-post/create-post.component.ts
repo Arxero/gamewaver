@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { User } from '../../users/models/dto/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -14,6 +21,7 @@ import { UpdatePostCmd } from '../models/cmd/update-post.cmd';
 import { MatDialog } from '@angular/material/dialog';
 import { FormattingHelpComponent } from '../../shared/formatting-help/formatting-help.component';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { UploadComponent } from '../../shared/upload/upload.component';
 
 @Component({
   selector: 'app-create-post',
@@ -87,7 +95,13 @@ export class CreatePostComponent implements OnInit {
   onAddedEmoji(emoji: EmojiData) {
     this.isAddEmoji = !this.isAddEmoji;
     this.postForm.patchValue({
-      content: this.content.value + emoji.native
+      content: this.content.value + emoji.native,
+    });
+  }
+
+  onUpload(imageLink: string) {
+    this.postForm.patchValue({
+      content: this.content.value + `\n![](${imageLink})\n`,
     });
   }
 }

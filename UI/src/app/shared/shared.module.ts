@@ -14,6 +14,7 @@ import { CommentComponent } from './comment/comment.component';
 import { FormattingHelpComponent } from './formatting-help/formatting-help.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { EmojiComponent } from './emoji/emoji.component';
+import { UploadComponent } from './upload/upload.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { EmojiComponent } from './emoji/emoji.component';
     TimeAgoPipe,
     FormattingHelpComponent,
     EmojiComponent,
+    UploadComponent,
   ],
   imports: [
     CommonModule,
@@ -51,6 +53,7 @@ import { EmojiComponent } from './emoji/emoji.component';
     TimeAgoPipe,
     PickerModule,
     EmojiComponent,
+    UploadComponent,
   ],
 
 })

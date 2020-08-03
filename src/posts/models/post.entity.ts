@@ -43,7 +43,7 @@ export class Post extends DataEntity implements IPost {
 
   @OneToMany(
     () => Comment,
-    comment => comment.post,
+    comment => comment.post
   )
   comments: Comment[];
 }

@@ -59,7 +59,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
       .pipe(
         takeUntil(this.destroyed$),
         select(homeStatePosts),
-        filter(x => !!x),
+        filter(x => !!x && x.length > 0),
       )
       .subscribe(x => {
         this.post = x.find(p => p.id === this.postId);

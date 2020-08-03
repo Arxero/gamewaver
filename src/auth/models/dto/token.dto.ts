@@ -1,5 +1,10 @@
+export interface ITokenDto {
+  expiresIn: number;
+  accessToken: string 
+}
+
 export class TokenDto {
-  constructor(data: { expiresIn?: number; accessToken?: string }) {
+  constructor(data: ITokenDto) {
     this.expiresIn = data.expiresIn;
     this.accessToken = data.accessToken;
   }

@@ -107,6 +107,7 @@ export class ResetPasswordActionFailure implements Action {
   constructor(public payload: { error: ResponseError }) {}
 }
 
+
 export type AuthActions =
   | RegisterAction
   | RegisterActionSuccess

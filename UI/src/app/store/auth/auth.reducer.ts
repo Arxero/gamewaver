@@ -21,7 +21,7 @@ export function authReducer(
         ...state,
         isAuthenticated: true,
       } as AuthState;
- 
+
     case AuthActionTypes.GetUserInfoActionSuccess:
       return {
         ...state,
@@ -29,7 +29,7 @@ export function authReducer(
         profile: action.payload.userProfile,
       } as AuthState;
 
-      case AuthActionTypes.LogoutAction:
+    case AuthActionTypes.LogoutAction:
       return {
         ...state,
         isAuthenticated: initialAuthState.isAuthenticated,

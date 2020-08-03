@@ -25,6 +25,6 @@ export class Comment extends DataEntity implements IComment {
   @ManyToOne(() => User, author => author.posts)
   author: User;
 
-  @ManyToOne(() => Post, post => post.comments)
+  @ManyToOne(() => Post, post => post.comments, { onDelete: 'CASCADE' })
   post: Post;
 }

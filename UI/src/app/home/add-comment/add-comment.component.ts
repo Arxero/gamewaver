@@ -100,4 +100,10 @@ export class AddCommentComponent implements OnInit {
       content: this.content.value + emoji.native
     });
   }
+
+  onUpload(imageLink: string) {
+    this.commentForm.patchValue({
+      content: this.content.value + `\n![](${imageLink})\n`,
+    });
+  }
 }

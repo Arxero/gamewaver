@@ -6,7 +6,9 @@ import { IEnvironment } from '../app/shared/models/ienvironment';
 
 export const environment: IEnvironment = {
   production: false,
-  apiUrl: 'http://localhost:81/'
+  apiUrl: 'http://localhost:81/',
+  uploadApiUrl: 'https://api.imgur.com/3/image',
+  uploadApiClientId: '7cb4e66dbbd970c'
 };
 
 /*

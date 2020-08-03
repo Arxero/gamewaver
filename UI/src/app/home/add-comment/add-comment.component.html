@@ -19,6 +19,7 @@
           <button mat-icon-button color="primary" class="format-text-button" (click)="onFormatHelp()">
             <mat-icon>text_format</mat-icon>
           </button>
+          <app-upload (imageLink)="onUpload($event)"></app-upload>
           <button mat-icon-button color="primary" class="format-text-button" (click)="onAddEmoji()">
             <mat-icon>insert_emoticon</mat-icon>
           </button>

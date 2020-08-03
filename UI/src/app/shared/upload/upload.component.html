@@ -1,0 +1,10 @@
+<button mat-icon-button color="primary" (click)="file.click()">
+  <mat-icon>add_circle</mat-icon>
+</button>
+<input
+  #file
+  hidden
+  type="file"
+  [accept]="acceptedFiles"
+  (change)="upload(file.files)"
+/>
