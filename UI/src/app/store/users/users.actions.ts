@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { UpdateUserCmd } from '../../users/models/cmd/update-user.cmd';
 import { User } from '../../users/models/dto/user';
+import { UserViewModel } from '../../users/models/view/user-view-model';
 
 export enum UsersActionTypes {
   EditUserAction = '[EditUser] Action',
@@ -10,6 +11,8 @@ export enum UsersActionTypes {
   GetUserAction = '[GetUser] Action',
   GetUserActionSuccess = '[GetUserSuccess] Action',
   GetUserActionFailure = '[GetUserFailure] Action',
+
+  ClearProfileUserAction = '[ClearProfileUser] Action'
 }
 
 // EDIT USER
@@ -35,13 +38,16 @@ export class GetUserAction implements Action {
 
 export class GetUserActionSuccess implements Action {
   readonly type = UsersActionTypes.GetUserActionSuccess;
-  constructor(public payload: { user: User }) {}
+  constructor(public payload: { user: UserViewModel }) {}
 }
 
 export class GetUserActionFailure implements Action {
   readonly type = UsersActionTypes.GetUserActionFailure;
 }
 
+export class ClearProfileUserAction implements Action {
+  readonly type = UsersActionTypes.ClearProfileUserAction;
+}
 
 export type UsersActions =
   | EditUserAction
@@ -49,5 +55,6 @@ export type UsersActions =
   | EditUserActionFailure
   | GetUserAction
   | GetUserActionSuccess
-  | GetUserActionFailure;
+  | GetUserActionFailure
+  | ClearProfileUserAction;
 

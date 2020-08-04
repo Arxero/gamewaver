@@ -19,6 +19,7 @@ import { GetUserInfoAction } from '../auth/auth.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { usersProfileFullRoute } from '../../users/users.routing';
 import { LoadingService } from '../../services/loading.service';
+import { mapUserViewModel } from '../../users/models/view/user-view-model';
 
 @Injectable()
 export class UsersEffects {
@@ -74,7 +75,8 @@ export class UsersEffects {
       try {
         this.loadingService.setUILoading();
         const { result } = await this.usersService.findOne(a.payload.id);
-        this.store.dispatch(new GetUserActionSuccess({ user: result }));
+        const mappedUser = mapUserViewModel(result);
+        this.store.dispatch(new GetUserActionSuccess({ user: mappedUser }));
       } catch (error) {
         console.log(error);
       }

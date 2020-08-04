@@ -1,8 +1,9 @@
 import { AuthActions, AuthActionTypes } from './auth.actions';
 import { User } from '../../users/models/dto/user';
+import { UserViewModel } from '../../users/models/view/user-view-model';
 
 export interface AuthState {
-  profile: User;
+  profile: UserViewModel;
   isAuthenticated: boolean;
 }
 

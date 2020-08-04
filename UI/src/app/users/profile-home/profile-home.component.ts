@@ -88,6 +88,7 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new ClearPostsAction());
     this.getPosts(UserActionOnPost.Posted);
     this.getComments();
   }

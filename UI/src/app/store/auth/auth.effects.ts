@@ -29,6 +29,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RegisterConfirmDialogComponent } from '../../auth/register/register-confirm-dialog';
 import { loginFullRoute } from '../../auth/auth.routing';
 import { SnackbarService } from '../../services/snackbar.service';
+import { mapUserViewModel } from '../../users/models/view/user-view-model';
 
 @Injectable()
 export class AuthEffects {
@@ -120,9 +121,10 @@ export class AuthEffects {
     ofType<GetUserInfoAction>(AuthActionTypes.GetUserInfoAction),
     switchMap(async () => {
       try {
-        const response = await this.authservice.getUser();
+        const { result } = await this.authservice.getUser();
+        const mappedUser = mapUserViewModel(result);
         this.store.dispatch(
-          new GetUserInfoSuccessAction({ userProfile: response.result }),
+          new GetUserInfoSuccessAction({ userProfile: mappedUser }),
         );
       } catch (error) {
         console.log(error.toString());

@@ -260,6 +260,19 @@ main {
 
 }
 
+
+@media screen and (max-width: 500px) {
+  main {
+    padding: 16px 0px;
+  }
+  .mat-card {
+    padding: 4px !important;
+  }
+  app-sidebar .mat-card {
+    padding: 16px !important;
+  }
+}
+
 .warn-snackbar {
   color: #f44336 !important;
 }
@@ -291,6 +304,10 @@ main {
 
 .role-red {
   border-color: #AA0000;
+}
+
+.role-green {
+  border-color: #00AA00;
 }
 
 .mat-progress-bar {

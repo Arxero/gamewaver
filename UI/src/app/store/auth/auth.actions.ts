@@ -7,6 +7,7 @@ import { SentEmailDto } from '../../auth/models/dto/sent-email.dto';
 import { ForgotPasswordCmd } from '../../auth/models/cmd/forgot-password.cmd';
 import { ResponseError } from '../../shared/models/response';
 import { ResetPasswordCmd } from '../../auth/models/cmd/reset-password.cmd';
+import { UserViewModel } from '../../users/models/view/user-view-model';
 
 export enum AuthActionTypes {
   RegisterAction = '[Register] Action',
@@ -70,7 +71,7 @@ export class GetUserInfoAction implements Action {
 
 export class GetUserInfoSuccessAction implements Action {
   readonly type = AuthActionTypes.GetUserInfoActionSuccess;
-  constructor(public payload: { userProfile: User }) {}
+  constructor(public payload: { userProfile: UserViewModel }) {}
 }
 
 export class GetUserInfoErrorAction implements Action {

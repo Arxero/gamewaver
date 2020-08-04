@@ -7,11 +7,21 @@ import { authState, userProfile } from '../../store/auth/auth.selectors';
 import { User, UserRole } from '../models/dto/user';
 import { cloneDeep } from 'lodash';
 import { MarkdownComponent } from 'ngx-markdown';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  NavigationStart,
+  RouterEvent,
+} from '@angular/router';
 import { usersProfileEditFullRoute } from '../users.routing';
-import { GetUserAction } from '../../store/users/users.actions';
+import {
+  GetUserAction,
+  ClearProfileUserAction,
+} from '../../store/users/users.actions';
 import { usersStateProfileUser } from '../../store/users/users.selectors';
 import { NavLink } from '../models/view/nav-link';
+import { UserViewModel } from '../models/view/user-view-model';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -20,9 +30,8 @@ import { NavLink } from '../models/view/nav-link';
   encapsulation: ViewEncapsulation.None,
 })
 export class ProfileComponent extends BaseComponent implements OnInit {
-  user: User;
-  canEditProfile: boolean;
-  userRole: string;
+  user: UserViewModel;
+  canEditProfile = true;
   navLinks: NavLink[] = [
     {
       label: 'Home',
@@ -43,6 +52,7 @@ export class ProfileComponent extends BaseComponent implements OnInit {
     private store: Store<AuthState>,
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
   ) {
     super();
     const userId = this.route.snapshot.params.id;
@@ -53,7 +63,7 @@ export class ProfileComponent extends BaseComponent implements OnInit {
       this.activeLink = this.navLinks[1];
     }
 
-    let loggedUser: User;
+    let loggedInUser: UserViewModel;
     // load user from profile page
     store
       .pipe(
@@ -62,35 +72,41 @@ export class ProfileComponent extends BaseComponent implements OnInit {
         filter(x => !!x),
       )
       .subscribe(x => {
-        this.user = userId ? null : cloneDeep(x);
-        this.canEditProfile = true;
-        loggedUser = x;
+        this.user = cloneDeep(x);
+        loggedInUser = x;
       });
 
     // when visiting user profile
-    if (userId) {
-      this.store.dispatch(new GetUserAction({ id: userId }));
-
-      store
-        .pipe(
-          takeUntil(this.destroyed$),
-          select(usersStateProfileUser),
-          filter(x => !!x),
-        )
-        .subscribe(x => {
-          this.user = cloneDeep(x);
-          this.canEditProfile =
-            loggedUser.role === UserRole.ADMIN ||
-            loggedUser.id === userId ||
-            !userId
-              ? true
-              : false;
-
-          this.userRole =
-            this.user.role !== UserRole.USER ? this.user.role : null;
-        });
+    if (userId === this.user.id) {
+      return;
     }
+
+    this.store.dispatch(new GetUserAction({ id: userId }));
+
+    store
+      .pipe(
+        takeUntil(this.destroyed$),
+        select(usersStateProfileUser),
+        filter(x => !!x),
+      )
+      .subscribe(requestedUser => {
+        this.user = cloneDeep(requestedUser);
+        this.canEditProfile = loggedInUser.role === UserRole.ADMIN;
+      });
+
+    this.router.events
+      .pipe(filter((event: RouterEvent) => event instanceof NavigationStart))
+      .subscribe((event: NavigationStart) => {
+        if (event.url.includes('/users/profile/') && !event.url.includes('/edit')) {
+          location.go(event.url);
+          window.location.reload();
+        }
+      });
   }
 
   ngOnInit(): void {}
+
+  onDestroy() {
+    this.store.dispatch(new ClearProfileUserAction());
+  }
 }

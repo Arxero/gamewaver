@@ -1,9 +1,10 @@
 import { User } from '../../users/models/dto/user';
 import { UsersActionTypes, UsersActions } from './users.actions';
+import { UserViewModel } from '../../users/models/view/user-view-model';
 
 export interface UsersState {
   users: User[];
-  profileUser: User;
+  profileUser: UserViewModel;
 }
 
 export const initialUsersState: UsersState = {
@@ -30,6 +31,12 @@ export function usersReducer(
       return {
         ...state,
         profileUser: action.payload.user,
+      } as UsersState;
+
+    case UsersActionTypes.ClearProfileUserAction:
+      return {
+        ...state,
+        profileUser: null,
       } as UsersState;
 
     default:

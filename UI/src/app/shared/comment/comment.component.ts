@@ -7,6 +7,7 @@ import { User, UserRole } from '../../users/models/dto/user';
 import { DeleteCommentAction } from '../../store/home/home.actions';
 import { CommentViewModel } from '../../home/models/view/comment-view-model';
 import { PostContext } from '../../home/models/view/home-view-model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-comment',
@@ -23,6 +24,7 @@ export class CommentComponent extends BaseComponent implements OnInit {
   };
 
   canEditOrDelete: boolean;
+  @Input() postAuthorId: string;
   @Output() editComment: EventEmitter<string> = new EventEmitter();
   get postContexts() {
     return PostContext;
@@ -34,7 +36,8 @@ export class CommentComponent extends BaseComponent implements OnInit {
       : `../${usersProfileFullRoute()}`;
   }
 
-  constructor(private store: Store<HomeState>) {
+  constructor(
+    private store: Store<HomeState>) {
     super();
   }
 

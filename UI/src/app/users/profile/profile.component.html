@@ -3,8 +3,9 @@
     <img [src]="user.avatar || './assets/images/common/no_avatar.jpg'" alt="{{ user.username }}'s avatar" />
   </div>
   <div class="info">
-    <div class="name">{{ user.username }}
-      <span class="role role-red" *ngIf="userRole">{{ userRole | titlecase }}</span>
+    <div class="name">
+      <span [matTooltip]="user.joinedAt">{{ user.username }}</span>
+      <span class="role role-red" *ngIf="user.userRole">{{ user.userRole | titlecase }}</span>
     </div>
     <div class="location">{{ user.location }}</div>
     <div class="gender">{{ user.gender | titlecase }}</div>

@@ -7,10 +7,15 @@ import { userProfile } from '../../store/auth/auth.selectors';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { cloneDeep } from 'lodash';
 import { UpdateUserCmd } from '../models/cmd/update-user.cmd';
-import { EditUserAction, GetUserAction } from '../../store/users/users.actions';
+import {
+  EditUserAction,
+  GetUserAction,
+  ClearProfileUserAction,
+} from '../../store/users/users.actions';
 import { UsersState } from '../../store/users/users.reducer';
 import { ActivatedRoute } from '@angular/router';
 import { usersStateProfileUser } from '../../store/users/users.selectors';
+import { UserViewModel } from '../models/view/user-view-model';
 
 @Component({
   selector: 'app-edit',
@@ -18,39 +23,50 @@ import { usersStateProfileUser } from '../../store/users/users.selectors';
   styleUrls: ['./profile-edit.component.scss'],
 })
 export class ProfileEditComponent extends BaseComponent implements OnInit {
-  user: User;
+  user: UserViewModel;
   editProfileForm: FormGroup;
 
   constructor(private store: Store<UsersState>, private route: ActivatedRoute) {
     super();
     const userId = this.route.snapshot.params.id;
 
+    // when own profile
     store
       .pipe(
         takeUntil(this.destroyed$),
         select(userProfile),
         filter(x => !!x),
       )
-      .subscribe(x => {
-        this.user = cloneDeep(x);
+      .subscribe(loggedInUser => {
+        this.user = userId === loggedInUser.id ? cloneDeep(loggedInUser) : null;
       });
 
-    if (userId) {
-      this.store.dispatch(new GetUserAction({ id: userId }));
-
-      store
-        .pipe(
-          takeUntil(this.destroyed$),
-          select(usersStateProfileUser),
-          filter(x => !!x),
-        )
-        .subscribe(x => {
-          this.user = cloneDeep(x);
-        });
+    // when some random user profile and current user is admin
+    if (userId === this.user?.id) {
+      return;
     }
+
+    this.store.dispatch(new GetUserAction({ id: userId }));
+    store
+      .pipe(
+        takeUntil(this.destroyed$),
+        select(usersStateProfileUser),
+        filter(x => !!x),
+      )
+      .subscribe(x => {
+        this.user = cloneDeep(x);
+        this.initializeData();
+      });
   }
 
   ngOnInit(): void {
+    this.initializeData();
+    this.avatar.valueChanges.subscribe(x => {
+      this.user.avatar = x;
+    });
+  }
+
+  initializeData() {
     this.editProfileForm = new FormGroup({
       email: new FormControl(this.user?.email, [
         Validators.required,
@@ -63,10 +79,6 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
       summary: new FormControl(this.user?.summary),
       location: new FormControl(this.user?.location),
       gender: new FormControl(this.user?.gender),
-    });
-
-    this.avatar.valueChanges.subscribe(x => {
-      this.user.avatar = x;
     });
   }
 
@@ -100,5 +112,9 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
     this.store.dispatch(
       new EditUserAction({ id: this.user.id, updateUserCmd }),
     );
+  }
+
+  onDestroy() {
+    this.store.dispatch(new ClearProfileUserAction());
   }
 }

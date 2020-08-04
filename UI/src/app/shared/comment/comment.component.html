@@ -10,6 +10,7 @@
         {{ comment.authorUsername }}
       </a>
       <span class="role role-red" *ngIf="comment.userRole">{{ comment.userRole | titlecase }}</span>
+      <span class="role role-green" *ngIf="comment.authorId === postAuthorId">OP</span>
       <span class="time" [matTooltip]="comment.tooltipDate">· {{ comment.date | timeAgo }}</span>
     </mat-card-title>
 
