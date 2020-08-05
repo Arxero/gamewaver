@@ -82,8 +82,4 @@ export class PostsComponent extends BaseComponent implements OnInit {
       }),
     );
   }
-
-  onDestroy() {
-    // this.store.dispatch(new ClearPostsAction());
-  }
 }

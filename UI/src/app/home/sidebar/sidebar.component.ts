@@ -26,12 +26,12 @@ export class SidebarComponent implements OnInit {
   }
 
   navigate(category: string) {
-    this.router.navigateByUrl(`search?filters=category!eq!${category}`);
+    this.router.navigateByUrl(`?filters=category!eq!${category}`);
   }
 
   onSubmit() {
     this.router.navigateByUrl(
-      `search?filters=content!like!${this.searchTerm.value}`,
+      `?filters=content!like!${this.searchTerm.value}`,
     );
   }
 
@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit {
 
   navigateToYear(year: string) {
     this.router.navigateByUrl(
-      `search?filters=createdAt!between!${year}-01-01,${year}-12-31,date`,
+      `?filters=createdAt!between!${year}-01-01,${year}-12-31,date`,
     );
   }
 
@@ -51,7 +51,7 @@ export class SidebarComponent implements OnInit {
     const monthTemp = moment().month(month).format('MM');
     const daysInMonth = moment(`${year}-${monthTemp}`).daysInMonth();
     this.router.navigateByUrl(
-      `search?filters=createdAt!between!${year}-${monthTemp}-01,${year}-${monthTemp}-${daysInMonth},date`,
+      `?filters=createdAt!between!${year}-${monthTemp}-01,${year}-${monthTemp}-${daysInMonth},date`,
     );
   }
 

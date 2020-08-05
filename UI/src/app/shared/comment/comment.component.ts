@@ -42,6 +42,10 @@ export class CommentComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (!this.user) {
+      return;
+    }
+
     this.canEditOrDelete =
       this.user.id === this.comment?.authorId ||
       this.user.role === UserRole.ADMIN

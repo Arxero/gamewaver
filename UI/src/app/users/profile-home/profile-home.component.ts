@@ -50,7 +50,6 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
     private router: Router,
   ) {
     super();
-    this.userId = this.route.parent.snapshot.params.id;
 
     store
       .pipe(
@@ -85,13 +84,16 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
       );
       this.homeItems = lodash.orderBy(this.homeItems, ['date'], 'desc');
     });
+
+    this.route.parent.params.subscribe(p => {
+      this.userId = p.id;
+      this.store.dispatch(new ClearPostsAction());
+      this.getPosts(UserActionOnPost.Posted);
+      this.getComments();
+    });
   }
 
-  ngOnInit(): void {
-    this.store.dispatch(new ClearPostsAction());
-    this.getPosts(UserActionOnPost.Posted);
-    this.getComments();
-  }
+  ngOnInit(): void {}
 
   onScrollDown() {
     this.getPosts(UserActionOnPost.Posted);

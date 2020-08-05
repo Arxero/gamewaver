@@ -15,6 +15,7 @@ import { FormattingHelpComponent } from './formatting-help/formatting-help.compo
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { EmojiComponent } from './emoji/emoji.component';
 import { UploadComponent } from './upload/upload.component';
+import { GotoTopComponent } from './goto-top/goto-top.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { UploadComponent } from './upload/upload.component';
     FormattingHelpComponent,
     EmojiComponent,
     UploadComponent,
+    GotoTopComponent,
   ],
   imports: [
     CommonModule,
@@ -54,6 +56,7 @@ import { UploadComponent } from './upload/upload.component';
     PickerModule,
     EmojiComponent,
     UploadComponent,
+    GotoTopComponent,
   ],
 
 })

@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, HostListener } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MenuItems } from './shared/menu/menu-items';
 import { AuthService } from './services/auth.service';
@@ -9,15 +9,18 @@ import { GetUserInfoAction } from './store/auth/auth.actions';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
-  get menuItems() { return MenuItems; }
+  get menuItems() {
+    return MenuItems;
+  }
 
   constructor(
     private authService: AuthService,
-    private store: Store<AuthState>) {}
+    private store: Store<AuthState>,
+  ) {}
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
@@ -27,17 +30,5 @@ export class AppComponent implements OnInit {
 
   close() {
     this.sidenav.close();
-  }
-
-  onLogout() {
-
-  }
-
-  onScrollDown() {
-    console.log('scrolled down!!');
-  }
-
-  onUp() {
-    console.log('scrolled up!');
   }
 }

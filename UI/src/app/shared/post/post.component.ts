@@ -58,7 +58,7 @@ export class PostComponent implements OnInit {
 
   navigate() {
     this.router.navigateByUrl(
-      `search?filters=category!eq!${this.post.categoryEnum}`,
+      `?filters=category!eq!${this.post.categoryEnum}`,
     );
   }
 }
