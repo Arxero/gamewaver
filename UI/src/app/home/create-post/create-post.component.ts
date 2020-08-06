@@ -34,6 +34,7 @@ export class CreatePostComponent implements OnInit {
   @Input() user: User;
   @Output() cancelEditPost: EventEmitter<void> = new EventEmitter();
   isAddEmoji: boolean;
+  caretPos = 0;
 
   postForm: FormGroup;
   get categories() {
@@ -94,8 +95,10 @@ export class CreatePostComponent implements OnInit {
 
   onAddedEmoji(emoji: EmojiData) {
     this.isAddEmoji = !this.isAddEmoji;
+    const temp = (this.content.value as string).split('');
+    temp.splice(this.caretPos, 0, emoji.native);
     this.postForm.patchValue({
-      content: this.content.value + emoji.native,
+      content: temp.join(''),
     });
   }
 
@@ -103,5 +106,11 @@ export class CreatePostComponent implements OnInit {
     this.postForm.patchValue({
       content: this.content.value + `\n![](${imageLink})\n`,
     });
+  }
+
+  getCaretPos(oField) {
+    if (oField.selectionStart || oField.selectionStart === 0) {
+      this.caretPos = oField.selectionStart;
+    }
   }
 }

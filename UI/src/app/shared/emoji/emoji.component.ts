@@ -8,7 +8,6 @@ import { EmojiEvent, EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 })
 export class EmojiComponent implements OnInit {
   @Output() emoji: EventEmitter<EmojiData> = new EventEmitter();
-  @Input() class: any;
 
   constructor() { }
 

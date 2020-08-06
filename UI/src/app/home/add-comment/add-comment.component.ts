@@ -44,7 +44,7 @@ export class AddCommentComponent implements OnInit {
   @Output() cancelEditComment: EventEmitter<void> = new EventEmitter();
   isAddEmoji: boolean;
   commentForm: FormGroup;
-  emojiStyle: { left: '350px', bottom: '10px', position: 'fixed' };
+  caretPos = 0;
 
   constructor(public dialog: MatDialog, private store: Store<HomeState>) {}
 
@@ -96,8 +96,10 @@ export class AddCommentComponent implements OnInit {
 
   onAddedEmoji(emoji: EmojiData) {
     this.isAddEmoji = !this.isAddEmoji;
+    const temp = (this.content.value as string).split('');
+    temp.splice(this.caretPos, 0, emoji.native);
     this.commentForm.patchValue({
-      content: this.content.value + emoji.native
+      content: temp.join('')
     });
   }
 
@@ -105,5 +107,11 @@ export class AddCommentComponent implements OnInit {
     this.commentForm.patchValue({
       content: this.content.value + `\n![](${imageLink})\n`,
     });
+  }
+
+  getCaretPos(oField) {
+    if (oField.selectionStart || oField.selectionStart === 0) {
+      this.caretPos = oField.selectionStart;
+    }
   }
 }

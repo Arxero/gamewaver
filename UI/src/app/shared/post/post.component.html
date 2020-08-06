@@ -38,6 +38,11 @@
     </button>
 
     <mat-menu #menuActions="matMenu">
+      <button mat-menu-item (click)="onCopyLink()">
+        <mat-icon>content_copy</mat-icon>
+        <span class="menu-item-name">Copy link</span>
+      </button>
+
       <button mat-menu-item (click)="onEdit()" *ngIf="canEditOrDelete && postContext === postContexts.PostPage">
         <mat-icon>edit</mat-icon>
         <span class="menu-item-name">Edit</span>

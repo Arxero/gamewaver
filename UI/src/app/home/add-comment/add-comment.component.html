@@ -9,7 +9,14 @@
           </div>
 
           <mat-form-field class="form-field">
-            <textarea cdkTextareaAutosize [cdkAutosizeMinRows]='2' matInput placeholder="Add a comment..." formControlName="content"></textarea>
+            <textarea
+              cdkTextareaAutosize
+              [cdkAutosizeMinRows]='2'
+              matInput placeholder="Add a comment..."
+              formControlName="content"
+              #myTextArea (click)="getCaretPos(myTextArea)"
+              (keyup)="getCaretPos(myTextArea)">
+            </textarea>
             <mat-error *ngIf="content.errors?.minlength || content.errors?.maxlength">Comment must be between 3 and 1000 characters long</mat-error>
           </mat-form-field>
         </div>
@@ -39,7 +46,7 @@
 
 <div style="position: relative;">
   <div class="emoji-comment">
-    <app-emoji *ngIf="isAddEmoji" (emoji)="onAddedEmoji($event)" [class]="emojiStyle"></app-emoji>
+    <app-emoji *ngIf="isAddEmoji" (emoji)="onAddedEmoji($event)"></app-emoji>
   </div>
 </div>
 

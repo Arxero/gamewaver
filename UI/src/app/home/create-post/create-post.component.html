@@ -9,7 +9,14 @@
           </div>
 
           <mat-form-field class="form-field">
-            <textarea cdkTextareaAutosize [cdkAutosizeMinRows]='2' matInput placeholder="Add a post..." formControlName="content"></textarea>
+            <textarea
+              cdkTextareaAutosize
+              [cdkAutosizeMinRows]='2'
+              matInput placeholder="Add a post..."
+              formControlName="content"
+              #myTextArea (click)="getCaretPos(myTextArea)"
+              (keyup)="getCaretPos(myTextArea)">
+          </textarea>
             <mat-error *ngIf="content.errors?.minlength || content.errors?.maxlength">Post must be between 3 and 5000 characters long</mat-error>
           </mat-form-field>
         </div>

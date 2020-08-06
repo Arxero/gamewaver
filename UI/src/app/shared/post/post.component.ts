@@ -7,6 +7,10 @@ import { UserRole, User } from '../../users/models/dto/user';
 import { PostViewModel } from '../../home/models/view/post-view-model';
 import { PostContext } from '../../home/models/view/home-view-model';
 import { Router } from '@angular/router';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+
+
 
 @Component({
   selector: 'app-post',
@@ -35,7 +39,11 @@ export class PostComponent implements OnInit {
       : `../${usersProfileFullRoute()}`;
   }
 
-  constructor(private store: Store<HomeState>, private router: Router) {}
+  constructor(
+    private store: Store<HomeState>,
+    private router: Router,
+    private clipboard: Clipboard,
+    private snackbarService: SnackbarService) {}
 
   ngOnInit(): void {
     if (!this.user) {
@@ -60,5 +68,10 @@ export class PostComponent implements OnInit {
     this.router.navigateByUrl(
       `?filters=category!eq!${this.post.categoryEnum}`,
     );
+  }
+
+  onCopyLink() {
+    this.clipboard.copy(window.location.origin + '/post/' + this.post.id);
+    this.snackbarService.showInfo('Link Copied.');
   }
 }
