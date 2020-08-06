@@ -85,8 +85,10 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
       this.homeItems = lodash.orderBy(this.homeItems, ['date'], 'desc');
     });
 
-    this.route.parent.params.subscribe(p => {
+    this.route.params.subscribe(p => {
       this.userId = p.id;
+      this.posts = [];
+      this.comments = [];
       this.store.dispatch(new ClearPostsAction());
       this.getPosts(UserActionOnPost.Posted);
       this.getComments();

@@ -7,7 +7,11 @@ import { PostViewModel } from '../../home/models/view/post-view-model';
 import { User } from '../models/dto/user';
 import { PostContext } from '../../home/models/view/home-view-model';
 import { SearchType } from '../../shared/models/common';
-import { GetCommentsAction, ClearPostsAction, ClearPostAction } from '../../store/home/home.actions';
+import {
+  GetCommentsAction,
+  ClearPostsAction,
+  ClearPostAction,
+} from '../../store/home/home.actions';
 import { CommentViewModel } from '../../home/models/view/comment-view-model';
 import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../../store/auth/auth.selectors';
@@ -16,7 +20,7 @@ import { homeStatePostComments } from '../../store/home/home.selectors';
 @Component({
   selector: 'app-profile-comments',
   templateUrl: './profile-comments.component.html',
-  styleUrls: ['./profile-comments.component.scss']
+  styleUrls: ['./profile-comments.component.scss'],
 })
 export class ProfileCommentsComponent extends BaseComponent implements OnInit {
   comments: CommentViewModel[] = [];
@@ -37,24 +41,24 @@ export class ProfileCommentsComponent extends BaseComponent implements OnInit {
     this.userId = this.route.parent.snapshot.params.id;
 
     store
-    .pipe(
-      takeUntil(this.destroyed$),
-      select(userProfile),
-      filter(x => !!x),
-    )
-    .subscribe(x => {
-      this.user = x;
-    });
+      .pipe(
+        takeUntil(this.destroyed$),
+        select(userProfile),
+        filter(x => !!x),
+      )
+      .subscribe(x => {
+        this.user = x;
+      });
 
     store
-    .pipe(
-      takeUntil(this.destroyed$),
-      select(homeStatePostComments),
-      filter(x => !!x),
-    )
-    .subscribe(x => {
-      this.comments = x;
-    });
+      .pipe(
+        takeUntil(this.destroyed$),
+        select(homeStatePostComments),
+        filter(x => !!x),
+      )
+      .subscribe(x => {
+        this.comments = x;
+      });
   }
 
   ngOnInit(): void {
@@ -84,5 +88,4 @@ export class ProfileCommentsComponent extends BaseComponent implements OnInit {
       }),
     );
   }
-
 }

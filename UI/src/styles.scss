@@ -223,6 +223,11 @@ pre {
 video {
   width: 100% !important;
   height: auto !important;
+  outline: none;
+}
+
+audio {
+  outline: none;
 }
 
 .embed-container {
