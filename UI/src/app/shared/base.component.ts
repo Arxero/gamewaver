@@ -1,6 +1,9 @@
-import { OnDestroy } from '@angular/core';
+import { OnDestroy, Directive } from '@angular/core';
 import { Subject } from 'rxjs';
 
+// TODO: Add Angular decorator.
+@Directive()
+// tslint:disable-next-line: directive-class-suffix
 export class BaseComponent implements OnDestroy {
 
   protected destroyed$ = new Subject<any>();
