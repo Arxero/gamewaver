@@ -8,7 +8,7 @@ import { PostViewModel } from '../../home/models/view/post-view-model';
 import { PostContext } from '../../home/models/view/home-view-model';
 import { Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { SnackbarService } from 'src/app/services/snackbar.service';
+import { SnackbarService } from '../../services/snackbar.service';
 
 
 
