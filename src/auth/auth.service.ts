@@ -36,10 +36,15 @@ export class AuthService {
       const webUrl = `${this.configService.get<string>('web.url')}:${this.configService.get<string>('web.port')}`;
       const url  = typeEmail === TypeEmail.CONRIM_EMAIL ? hostUrl : webUrl;
       emailBody = new SendEmailCmd(typeEmail, user, token, url);
+      console.log('token ' + token);
+      console.log('hostUrl ' + hostUrl);
+      console.log('webUrl ' + webUrl);
+      console.log('url ' + url);
+      console.log('emailBody ' + emailBody);
     } catch (error) {
       throw new BadRequestException(
         error.toString(),
-        `Error createing email token.`,
+        `Error creating email token.`,
       );
     }
     try {
