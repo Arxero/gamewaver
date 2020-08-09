@@ -40,7 +40,7 @@ export class AuthService {
       console.log('hostUrl ' + hostUrl);
       console.log('webUrl ' + webUrl);
       console.log('url ' + url);
-      console.log('emailBody ' + emailBody);
+      console.log('emailBody ' + JSON.stringify(emailBody));
     } catch (error) {
       throw new BadRequestException(
         error.toString(),
