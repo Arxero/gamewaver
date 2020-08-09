@@ -29,11 +29,19 @@ export class AuthService {
   }
 
   async sendEmail(user: User, typeEmail: TypeEmail): Promise<SentEmailDto> {
-    const token = this.authJwtService.createEmailToken(user);
-    const hostUrl = `${this.configService.get<string>('host.url')}:${this.configService.get<string>('host.port')}`;
-    const webUrl = `${this.configService.get<string>('web.url')}:${this.configService.get<string>('web.port')}`;
-    const url  = typeEmail === TypeEmail.CONRIM_EMAIL ? hostUrl : webUrl;
-    const emailBody = new SendEmailCmd(typeEmail, user, token, url);
+    let emailBody;
+    try {
+      const token = this.authJwtService.createEmailToken(user);
+      const hostUrl = `${this.configService.get<string>('host.url')}:${this.configService.get<string>('host.port')}`;
+      const webUrl = `${this.configService.get<string>('web.url')}:${this.configService.get<string>('web.port')}`;
+      const url  = typeEmail === TypeEmail.CONRIM_EMAIL ? hostUrl : webUrl;
+      emailBody = new SendEmailCmd(typeEmail, user, token, url);
+    } catch (error) {
+      throw new BadRequestException(
+        error.toString(),
+        `Error createing email token.`,
+      );
+    }
     try {
       await this.createTransporter().sendMail(emailBody);
       return new SentEmailDto({
