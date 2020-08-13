@@ -69,6 +69,9 @@ export class AuthService {
         user: this.configService.get<string>('mail.user'),
         pass: this.configService.get<string>('mail.pass'),
       },
+      tls: {
+        rejectUnauthorized: false
+      }
     });
   }
 }
