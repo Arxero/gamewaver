@@ -10,7 +10,11 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get<number>('host.port');
   app.useGlobalPipes(new ValidationPipe());
-  app.enableCors({ origin: ['http://gamewaver.com','https://gamewaver.com', 'http://localhost:4200'] });
+  app.enableCors({ 
+    origin: ['http://gamewaver.com','https://gamewaver.com', 'http://localhost:4200'],
+    exposedHeaders: ['Content-Length', 'Access-Control-Allow-Origin'],
+    credentials: true,
+  });
 
   const options = new DocumentBuilder()
     .setTitle('Gamewaver API')
