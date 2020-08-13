@@ -22,7 +22,7 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('', app, document);
 
   await app.listen(port);
   Logger.log(`Server running on http://localhost:${port}`, 'Bootstrap');
