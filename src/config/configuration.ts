@@ -11,7 +11,7 @@ export default () => ({
 
   web: {
     url: process.env.WEB_URL,
-    port: parseInt(process.env.WEB_PORT, 10) || 8080,
+    port: parseInt(process.env.WEB_PORT, 10),
   },
 
   db: {
