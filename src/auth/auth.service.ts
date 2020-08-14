@@ -30,7 +30,8 @@ export class AuthService {
 
   async sendEmail(user: User, typeEmail: TypeEmail): Promise<SentEmailDto> {
     const token = this.authJwtService.createEmailToken(user);
-    let hostUrlPort, webUrlPort = '';
+    let hostUrlPort = '';
+    let webUrlPort = '';
     if (this.configService.get<boolean>('host.develop')) {
       hostUrlPort = `:${this.configService.get<string>('host.port')}`;
       webUrlPort = `:${this.configService.get<string>('web.port')}`;
