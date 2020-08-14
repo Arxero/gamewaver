@@ -46,9 +46,8 @@ export class AuthController {
     private authJwtService: AuthJwtService,
   ) {}
 
-  private webLink = `${this.configService.get<string>(
-    'web.url',
-  )}:${this.configService.get<string>('web.port')}/`;
+  private webLinkPort = this.configService.get<boolean>('host.develop') ? `:${this.configService.get<string>('web.port')}` : '';
+  private webLink = `${this.configService.get<string>('web.url')}${this.webLinkPort}/`;
 
   @Post('signup')
   async signUp(@Body() user: SignUpCmd): Promise<SentEmailDto> {
