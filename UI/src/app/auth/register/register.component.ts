@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -9,6 +9,8 @@ import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/auth/auth.reducer';
 import { RegisterAction } from '../../store/auth/auth.actions';
 import { SignUpCmd } from '../models/cmd/sign-up.cmd';
+import { EnvironmentService } from '../../services/environment.service';
+import { RecaptchaComponent } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-register',
@@ -17,8 +19,16 @@ import { SignUpCmd } from '../models/cmd/sign-up.cmd';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
+  @ViewChild('captchaRef') captchaRef: RecaptchaComponent;
 
-  constructor(private store: Store<AuthState>) {}
+  get siteKey() {
+    return this.environmentService.reCaptchaSiteKey;
+  }
+
+  constructor(
+    private store: Store<AuthState>,
+    private environmentService: EnvironmentService,
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -75,10 +85,15 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegister() {
+    this.captchaRef.execute();
+  }
+
+  resolved(captchaResponse: string) {
     const signUpCmd: SignUpCmd = {
       username: this.username.value,
       email: this.email.value,
       password: this.password.value,
+      reCaptchaaToken: captchaResponse,
     };
     this.store.dispatch(new RegisterAction({ signUpCmd }));
   }

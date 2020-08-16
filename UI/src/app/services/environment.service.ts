@@ -23,5 +23,9 @@ export class EnvironmentService implements IEnvironment {
     return environment.uploadApiClientId;
   }
 
+  get reCaptchaSiteKey() {
+    return environment.reCaptchaSiteKey;
+  }
+
   constructor() {}
 }

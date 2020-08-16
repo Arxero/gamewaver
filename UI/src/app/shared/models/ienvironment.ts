@@ -3,4 +3,5 @@ export interface IEnvironment {
   apiUrl: string;
   uploadApiUrl: string;
   uploadApiClientId: string;
+  reCaptchaSiteKey: string;
 }

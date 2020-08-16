@@ -326,3 +326,7 @@ main {
 .mat-progress-bar-fill::after {
   background: linear-gradient(to right, #171a21 0%,#194971 80%,#1e5799 100%,#2989d8 100%);
 }
+
+.grecaptcha-badge {
+  visibility: hidden;
+}

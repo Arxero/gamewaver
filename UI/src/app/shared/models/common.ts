@@ -53,3 +53,7 @@ export interface DataFilterDef {
 export interface SortingDef {
   sorting: Sorting[];
 }
+
+export interface BaseCmd {
+  reCaptchaaToken: string;
+}

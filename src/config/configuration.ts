@@ -4,6 +4,7 @@ export default () => ({
     port: parseInt(process.env.HOST_PORT, 10) || parseInt(process.env.PORT, 10),
     develop: process.env.HOST_DEVELOP,
   },
+
   jwt: {
     secret: process.env.JWT_SECRET,
     expiration: parseInt(process.env.JWT_EXPIRATION),
@@ -28,5 +29,9 @@ export default () => ({
     secure: process.env.MAIL_SECURE,
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS,
+  },
+
+  secrets: {
+    recaptcha: process.env.SECRET_RECAPTCHA,
   },
 });

@@ -16,6 +16,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { EmojiComponent } from './emoji/emoji.component';
 import { UploadComponent } from './upload/upload.component';
 import { GotoTopComponent } from './goto-top/goto-top.component';
+import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 
 
 
@@ -41,6 +42,8 @@ import { GotoTopComponent } from './goto-top/goto-top.component';
     InfiniteScrollModule,
     MarkdownModule.forChild(),
     PickerModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
   ],
 
   exports: [
@@ -58,6 +61,8 @@ import { GotoTopComponent } from './goto-top/goto-top.component';
     EmojiComponent,
     UploadComponent,
     GotoTopComponent,
+    RecaptchaModule,
+    RecaptchaFormsModule,
   ],
 
 })

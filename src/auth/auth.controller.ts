@@ -34,6 +34,7 @@ import { LoginCmd } from './models/cmd/login.cmd';
 import { ApiBody, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { GetUserDto } from 'src/users/models/dto/get-user.dto';
 import { ForgotPasswordCmd } from './models/cmd/forgot-password.cmd';
+import { RecaptchaService } from 'src/common/shared/recaptcha.service';
 
 @ApiTags('Auth')
 @ApiBearerAuth()
@@ -44,6 +45,7 @@ export class AuthController {
     private usersService: UsersService,
     private configService: ConfigService,
     private authJwtService: AuthJwtService,
+    private recaptchaService: RecaptchaService,
   ) {}
 
   private webLinkPort = this.configService.get<boolean>('host.develop') ? `:${this.configService.get<string>('web.port')}` : '';
@@ -51,7 +53,10 @@ export class AuthController {
 
   @Post('signup')
   async signUp(@Body() user: SignUpCmd): Promise<SentEmailDto> {
-    return await this.authService.signUp(new User(user));
+    const validCaptcha = await this.recaptchaService.validateRecaptcha(user.reCaptchaaToken);
+    if (validCaptcha.success) {
+      return await this.authService.signUp(new User(user));
+    }
   }
 
   @UseGuards(LocalAuthGuard)

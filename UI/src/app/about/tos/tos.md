@@ -39,3 +39,4 @@ Gamewaver will not share, rent, or sell your personally identifiable information
 
 ## Legal disclamer
 We may disclose personal information when required by law or in the good-faith belief that such action is necessary in order to conform to the edicts of the law or comply with a legal process served on our site.
+

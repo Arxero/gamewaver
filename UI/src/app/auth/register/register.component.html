@@ -32,7 +32,7 @@
       By creating an account you agree to our <a [routerLink]="'../../about/tos'" target="_blank">Terms & Privacy</a>.
     </mat-checkbox>
 
-
+    <re-captcha #captchaRef (resolved)="resolved($event)" [siteKey]="siteKey" size="invisible"></re-captcha>
     <button mat-raised-button color="primary" class="form-button" [disabled]="registerForm.invalid" (click)="onRegister()">REGISTER</button>
   </form>
 
