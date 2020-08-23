@@ -1,28 +1,32 @@
 .team {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  // grid-template-rows: 1fr 1fr;
+  display: grid;
   grid-gap: 32px;
-  justify-items: center;
 }
 
 .team-card {
-  max-width: 150px;
+  background: #2B2B2B;
+  width: 100%;
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+  border-radius: 4px;;
 
-  .card-header {
-    margin-bottom: 8px;
+  img {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    width: 100%;
   }
 
-  .card-title {
+  .name {
     font-size: 20px;
     font-weight: 500;
-    display: flex;
-
-    span {
-      margin-right: 5px;
-    }
   }
 
-  .card-subtitle {
+  .info {
+    padding: 10px;
+  }
+
+  .role {
+    margin: 5px 0 10px 0;
   }
 }

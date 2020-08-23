@@ -1,19 +1,19 @@
 <div class="team">
-  <mat-card class="team-card" *ngFor="let item of teamItems">
-    <img mat-card-image src="{{ item.image }}" alt="{{ item.name }}'s image" />
+  <div class="team-card" *ngFor="let item of teamItems">
+    <div class="image">
+      <img src="{{ item.image }}" alt="{{ item.name }}'s image" />
+    </div>
 
-    <div class="card-header">
-      <div class="card-title">
-        <span>{{ item.name }}</span>
+    <div class="info">
+      <div class="name">
+        {{ item.name }}
         <a href="{{ item.link }}" target="_blank">
           <mat-icon>open_in_new</mat-icon>
         </a>
       </div>
-      <div class="card-subtitle">{{ item.role }}</div>
-    </div>
 
-    <mat-card-content>
-      <p>{{ item.description }}</p>
-    </mat-card-content>
-  </mat-card>
+      <div class="role role-red">{{ item.role }}</div>
+      <div class="description">{{ item.description }}</div>
+    </div>
+  </div>
 </div>
