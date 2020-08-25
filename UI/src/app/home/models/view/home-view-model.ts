@@ -23,4 +23,11 @@ export enum UserActionOnPost {
   Commented = 'commented'
 }
 
+export enum PostPageState {
+  Unknown,
+  EditPost,
+  EditComment,
+  Default,
+}
+
 

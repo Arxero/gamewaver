@@ -77,6 +77,12 @@ export function homeReducer(
         isEditSuccessful: true,
       } as HomeState;
 
+    case HomeActionTypes.SetPostPagePost:
+      return {
+        ...state,
+        post: action.payload.data,
+      } as HomeState;
+
     // COMMENTS ////////////////////////////////////////
     case HomeActionTypes.CreateCommentActionSuccess:
       commentsClone.unshift(action.payload.data);

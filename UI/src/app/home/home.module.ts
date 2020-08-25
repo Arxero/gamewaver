@@ -2,22 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { MarkdownModule } from 'ngx-markdown';
-import { CreatePostComponent } from './create-post/create-post.component';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home.routing';
 import { PostPageComponent } from './post-page/post-page.component';
 import { PostsComponent } from './posts/posts.component';
-import { AddCommentComponent } from './add-comment/add-comment.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { AddItemComponent } from './add-item/add-item.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
-    CreatePostComponent,
     PostPageComponent,
     PostsComponent,
-    AddCommentComponent,
     SidebarComponent,
+    AddItemComponent,
   ],
   imports: [
     CommonModule,

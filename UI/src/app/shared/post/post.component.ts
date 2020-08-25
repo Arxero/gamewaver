@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { usersProfileFullRoute } from '../../users/users.routing';
-import { DeletePostAction } from '../../store/home/home.actions';
+import { DeletePostAction, SetPostPagePost } from '../../store/home/home.actions';
 import { Store } from '@ngrx/store';
 import { HomeState } from '../../store/home/home.reducer';
 import { UserRole, User } from '../../users/models/dto/user';
@@ -73,5 +73,9 @@ export class PostComponent implements OnInit {
   onCopyLink() {
     this.clipboard.copy(window.location.origin + '/post/' + this.post.id);
     this.snackbarService.showInfo('Link Copied.');
+  }
+
+  onPostLink() {
+    this.store.dispatch(new SetPostPagePost({data: this.post }));
   }
 }

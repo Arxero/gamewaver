@@ -29,6 +29,7 @@ export enum HomeActionTypes {
   GetPostAction = '[GetPost] Action',
   GetPostActionSuccess = '[GetPostSuccess] Action',
   GetPostActionFailure = '[GetPostFailure] Action',
+  SetPostPagePost = '[SetPostPagePost] Action',
 
   DeletePostAction = '[DeletePost] Action',
   DeletePostActionSuccess = '[DeletePostSuccess] Action',
@@ -126,6 +127,11 @@ export class GetPostActionSuccess implements Action {
 
 export class GetPostActionFailure implements Action {
   readonly type = HomeActionTypes.GetPostActionFailure;
+}
+
+export class SetPostPagePost implements Action {
+  readonly type = HomeActionTypes.SetPostPagePost;
+  constructor(public payload: { data: PostViewModel }) {}
 }
 
 // DELETE POST
@@ -233,6 +239,7 @@ export type HomeActions =
   | GetPostAction
   | GetPostActionSuccess
   | GetPostActionFailure
+  | SetPostPagePost
   | CreateCommentAction
   | CreateCommentActionSuccess
   | CreateCommentActionFailure

@@ -21,6 +21,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DataFilter, SearchType } from '../../shared/models/common';
 import { QueryRequest, QueryParams } from '../../shared/models/query-request';
 import { PostContext } from '../models/view/home-view-model';
+import { AddItem } from '../models/view/add-item';
 
 @Component({
   selector: 'app-posts',
@@ -35,6 +36,7 @@ export class PostsComponent extends BaseComponent implements OnInit {
   get postContext() {
     return PostContext;
   }
+  addItem: AddItem;
 
   constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
     super();
@@ -72,7 +74,14 @@ export class PostsComponent extends BaseComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.addItem = {
+      isPost: true,
+      minLength: 3,
+      maxLength: 5000,
+      userAvatar: this.user.avatar
+    };
+  }
 
   onScrollDown() {
     this.store.dispatch(

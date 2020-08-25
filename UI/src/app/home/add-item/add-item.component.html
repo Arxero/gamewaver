@@ -1,29 +1,29 @@
 <mat-tab-group>
   <mat-tab label="Write">
     <mat-card>
-      <form [formGroup]="postForm" class="post-form">
+      <form [formGroup]="itemForm" class="post-form">
 
         <div class="content-container">
           <div class="image">
-            <img [src]="user.avatar || './assets/images/common/no_avatar.jpg'" alt="{{ user.username }}'s avatar" />
+            <img [src]="addItem.userAvatar || './assets/images/common/no_avatar.jpg'"/>
           </div>
 
           <mat-form-field class="form-field">
             <textarea
               cdkTextareaAutosize
               [cdkAutosizeMinRows]='2'
-              matInput placeholder="Add a post..."
+              matInput placeholder="{{ addItem.isPost ? 'Add a post...' : 'Write a comment...'}}"
               formControlName="content"
               #myTextArea (click)="getCaretPos(myTextArea)"
               (keyup)="getCaretPos(myTextArea)">
           </textarea>
-            <mat-error *ngIf="content.errors?.minlength || content.errors?.maxlength">Post must be between 3 and 5000 characters long</mat-error>
+            <mat-error *ngIf="content.errors?.minlength || content.errors?.maxlength">Content must be between {{ addItem.minLength }} and {{ addItem.maxLength }} characters long</mat-error>
           </mat-form-field>
         </div>
 
 
         <div class="actions" *ngIf="content.value">
-          <mat-form-field class="category">
+          <mat-form-field class="category" *ngIf="addItem.isPost">
             <mat-label>Category</mat-label>
             <mat-select formControlName="category">
               <mat-option *ngFor="let item of categories" [value]="item.value">{{ item.label }}</mat-option>
@@ -37,8 +37,8 @@
           <button mat-icon-button color="primary" class="format-text-button" (click)="onAddEmoji()">
             <mat-icon>insert_emoticon</mat-icon>
           </button>
-          <button mat-stroked-button color="accent" class="form-button cancel" *ngIf="post" (click)="onCancel()">Cancel</button>
-          <button mat-raised-button color="primary" class="form-button" [disabled]="postForm.invalid" (click)="onSubmit()">{{ post ? 'SAVE' : 'POST' }}</button>
+          <button mat-stroked-button color="accent" class="form-button cancel" *ngIf="addItem.content" (click)="onCancel()">Cancel</button>
+          <button mat-raised-button color="primary" class="form-button" [disabled]="itemForm.invalid" (click)="onSubmit()">{{ addItem.content ? 'SAVE' : 'SUBMIT' }}</button>
         </div>
       </form>
 
