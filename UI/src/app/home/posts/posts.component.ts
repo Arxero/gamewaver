@@ -79,7 +79,7 @@ export class PostsComponent extends BaseComponent implements OnInit {
       isPost: true,
       minLength: 3,
       maxLength: 5000,
-      userAvatar: this.user.avatar
+      userAvatar: this.user?.avatar
     };
   }
 
