@@ -8,7 +8,7 @@ import { CommentViewModel } from '../../home/models/view/comment-view-model';
 import { ResponseError } from '../../shared/models/response';
 import { UpdateCommentCmd } from '../../home/models/cmd/update-comment.cmd';
 import { Paging, DataFilter } from '../../shared/models/common';
-import { UserActionOnPost } from '../../home/models/view/home-view-model';
+import { UserActionOnPost, PostContext } from '../../home/models/view/home-view-model';
 
 export enum HomeActionTypes {
   // POSTS
@@ -137,12 +137,12 @@ export class SetPostPagePost implements Action {
 // DELETE POST
 export class DeletePostAction implements Action {
   readonly type = HomeActionTypes.DeletePostAction;
-  constructor(public payload: { id: string }) {}
+  constructor(public payload: { id: string, postContext?: PostContext }) {}
 }
 
 export class DeletePostActionSuccess implements Action {
   readonly type = HomeActionTypes.DeletePostActionSuccess;
-  constructor(public payload: { id: string }) {}
+  constructor(public payload: { id: string,  postContext?: PostContext }) {}
 }
 
 export class DeletePostActionFailure implements Action {

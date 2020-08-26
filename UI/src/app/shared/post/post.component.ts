@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { usersProfileFullRoute } from '../../users/users.routing';
-import { DeletePostAction, SetPostPagePost } from '../../store/home/home.actions';
+import {
+  DeletePostAction,
+  SetPostPagePost,
+} from '../../store/home/home.actions';
 import { Store } from '@ngrx/store';
 import { HomeState } from '../../store/home/home.reducer';
 import { UserRole, User } from '../../users/models/dto/user';
@@ -9,8 +12,6 @@ import { PostContext } from '../../home/models/view/home-view-model';
 import { Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { SnackbarService } from '../../services/snackbar.service';
-
-
 
 @Component({
   selector: 'app-post',
@@ -43,7 +44,8 @@ export class PostComponent implements OnInit {
     private store: Store<HomeState>,
     private router: Router,
     private clipboard: Clipboard,
-    private snackbarService: SnackbarService) {}
+    private snackbarService: SnackbarService,
+  ) {}
 
   ngOnInit(): void {
     if (!this.user) {
@@ -61,13 +63,13 @@ export class PostComponent implements OnInit {
   }
 
   onDelete() {
-    this.store.dispatch(new DeletePostAction({ id: this.post.id }));
+    this.store.dispatch(
+      new DeletePostAction({ id: this.post.id, postContext: this.postContext }),
+    );
   }
 
   navigate() {
-    this.router.navigateByUrl(
-      `?filters=category!eq!${this.post.categoryEnum}`,
-    );
+    this.router.navigateByUrl(`?filters=category!eq!${this.post.categoryEnum}`);
   }
 
   onCopyLink() {
@@ -76,6 +78,6 @@ export class PostComponent implements OnInit {
   }
 
   onPostLink() {
-    this.store.dispatch(new SetPostPagePost({data: this.post }));
+    this.store.dispatch(new SetPostPagePost({ data: this.post }));
   }
 }

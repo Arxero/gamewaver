@@ -55,7 +55,7 @@ import {
   mapCommmentViewModel,
   CommentViewModel,
 } from '../../home/models/view/comment-view-model';
-import { UserActionOnPost } from '../../home/models/view/home-view-model';
+import { UserActionOnPost, PostContext } from '../../home/models/view/home-view-model';
 import { LoadingService } from '../../services/loading.service';
 
 @Injectable()
@@ -205,7 +205,12 @@ export class HomeEffects {
       try {
         this.loadingService.setUILoading();
         const { result } = await this.postsService.delete(a.payload.id);
-        this.store.dispatch(new DeletePostActionSuccess({ id: a.payload.id }));
+        this.store.dispatch(
+          new DeletePostActionSuccess({
+            id: a.payload.id,
+            postContext: a.payload.postContext,
+          }),
+        );
       } catch (error) {
         this.store.dispatch(new DeletePostActionFailure());
         console.log(error);
@@ -216,9 +221,12 @@ export class HomeEffects {
   @Effect({ dispatch: false })
   deletePostSuccess$ = this.actions$.pipe(
     ofType<DeletePostActionSuccess>(HomeActionTypes.DeletePostActionSuccess),
-    tap(() => {
+    tap(a => {
       this.loadingService.setUILoading(false);
       this.snackbarService.showInfo('Post Deleted Successfully');
+      if (a.payload.postContext === PostContext.PostPage) {
+        this.router.navigateByUrl('/');
+      }
     }),
   );
 
