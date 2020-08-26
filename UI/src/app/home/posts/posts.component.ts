@@ -36,7 +36,11 @@ export class PostsComponent extends BaseComponent implements OnInit {
   get postContext() {
     return PostContext;
   }
-  addItem: AddItem;
+  addItem: AddItem = {
+    isPost: true,
+    minLength: 3,
+    maxLength: 5000,
+  };
 
   constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
     super();
@@ -48,7 +52,7 @@ export class PostsComponent extends BaseComponent implements OnInit {
       this.store.dispatch(
         new GetPostsAction({
           paging: { skip: this.posts.length, take: this.take },
-          filters: this.queryRequest?.filters
+          filters: this.queryRequest?.filters,
         }),
       );
     });
@@ -61,6 +65,7 @@ export class PostsComponent extends BaseComponent implements OnInit {
       )
       .subscribe(x => {
         this.user = x;
+        this.addItem.userAvatar = this.user?.avatar;
       });
 
     store
@@ -74,20 +79,13 @@ export class PostsComponent extends BaseComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {
-    this.addItem = {
-      isPost: true,
-      minLength: 3,
-      maxLength: 5000,
-      userAvatar: this.user?.avatar
-    };
-  }
+  ngOnInit(): void {}
 
   onScrollDown() {
     this.store.dispatch(
       new GetPostsAction({
         paging: { skip: this.posts.length, take: this.take },
-        filters: this.queryRequest.filters
+        filters: this.queryRequest.filters,
       }),
     );
   }
