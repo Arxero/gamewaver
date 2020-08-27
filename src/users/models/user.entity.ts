@@ -2,6 +2,7 @@ import { Entity, Column, OneToMany } from 'typeorm';
 import { DataEntity, IDataEntity } from 'src/common/models/data-entity';
 import { Post } from 'src/posts/models/post.entity';
 import { Comment } from 'src/comments/models/comment.entity';
+import { PostVote } from 'src/votes/models/postVote.entity';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -88,4 +89,10 @@ export class User extends DataEntity implements IUser {
     comment => comment.author,
   )
   comments: Comment[];
+
+  @OneToMany(
+    () => PostVote,
+    vote => vote.user,
+  )
+  votes: PostVote[];
 }

@@ -8,7 +8,9 @@ import { User } from './users/models/user.entity';
 import { Post } from './posts/models/post.entity';
 import { Comment } from './comments/models/comment.entity';
 import { CommentsModule } from './comments/comments.module';
+import { VotesModule } from './votes/votes.module';
 import configuration from './config/configuration';
+import { PostVote } from './votes/models/postVote.entity';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import configuration from './config/configuration';
         username: configService.get<string>('db.username'),
         password: configService.get<string>('db.password'),
         database: configService.get<string>('db.database'),
-        entities: [Post, User, Comment],
+        entities: [Post, User, Comment, PostVote],
         synchronize: true,
         charset: 'utf8mb4',
       }),
@@ -32,6 +34,7 @@ import configuration from './config/configuration';
     UsersModule,
     PostsModule,
     CommentsModule,
+    VotesModule,
   ],
 })
 export class AppModule {}

@@ -2,6 +2,7 @@ import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 import { Comment } from 'src/comments/models/comment.entity';
 import { DataEntity, IDataEntity } from 'src/common/models/data-entity';
 import { User } from 'src/users/models/user.entity';
+import { PostVote } from 'src/votes/models/postVote.entity';
 
 export enum PostCategory {
   IMAGE = 'image',
@@ -46,4 +47,10 @@ export class Post extends DataEntity implements IPost {
     comment => comment.post
   )
   comments: Comment[];
+
+  @OneToMany(
+    () => PostVote,
+    vote => vote.post,
+  )
+  votes: PostVote[];
 }
