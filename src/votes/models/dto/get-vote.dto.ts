@@ -6,14 +6,14 @@ export class GetVoteDto implements IVote {
       this.type = data.type;
       this.id = data.id;
       this.createdAt = data.createdAt;
-      this.updatedAt = data.updatedAt;
-      this.postId = data.postId;
+      this.postId = data.post.id;
+      this.userId = data.user.id;
     }
   }
 
   type: VoteType;
   id?: string;
   createdAt?: Date;
-  updatedAt?: Date;
   postId: string;
+  userId: string;
 }

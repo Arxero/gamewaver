@@ -1,6 +1,7 @@
 {
   "files.exclude": {
     "**/UI": true,
+    "**/dist": true,
     "**/node_modules": true,
   }
 }

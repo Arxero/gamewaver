@@ -33,12 +33,15 @@ import {
   ApiBearerAuth,
   ApiQuery,
 } from '@nestjs/swagger';
+import { VotesService } from 'src/votes/votes.service';
 
 @ApiTags('Posts')
 @ApiBearerAuth()
 @Controller('posts')
 export class PostsController {
-  constructor(private postsService: PostsService) {}
+  constructor(
+    private postsService: PostsService,
+    private votesService: VotesService) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -68,7 +71,9 @@ export class PostsController {
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<IResponse<GetPostDto>> {
-    const result = new GetPostDto(await this.postsService.findOne({ id }));
+    const post = await this.postsService.findOne({ id });
+    const postVotes = await this.votesService.findCountByPostId(id);
+    const result = new GetPostDto(post, postVotes);
     return new ResponseSuccess<GetPostDto>({ result });
   }
 

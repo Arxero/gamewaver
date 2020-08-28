@@ -1,5 +1,5 @@
 import { IDataEntity, DataEntity } from "src/common/models/data-entity";
-import { Entity, Column, ManyToOne } from "typeorm";
+import { Entity, Column, ManyToOne, Unique } from "typeorm";
 import { User } from "src/users/models/user.entity";
 import { Post } from "src/posts/models/post.entity";
 
@@ -10,11 +10,13 @@ export enum VoteType {
 
 export interface IVote extends IDataEntity {
   type: VoteType;
-  postId?: string;
+
+  user?: User;
+  post?: Post;
 }
 
-
 @Entity({ name: 'postVotes' })
+@Unique(["user", "post"])
 export class PostVote extends DataEntity implements IVote {
   constructor(data: IVote) {
     super();
