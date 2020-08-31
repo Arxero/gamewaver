@@ -10,12 +10,14 @@ export enum PostCategory {
   BLOG_POST = 'blog_post',
   MEME = 'meme',
   NSFW = 'nsfw',
-  OTHE = 'other'
+  OTHE = 'other',
 }
 
 export interface IPost extends IDataEntity {
   content: string;
   category: PostCategory;
+  upvotes?: number;
+  downvotes?: number;
   author?: User;
 }
 
@@ -27,14 +29,27 @@ export class Post extends DataEntity implements IPost {
       this.id = data.id;
       this.content = data.content;
       this.category = data.category;
+      this.upvotes = data.upvotes;
+      this.downvotes = data.downvotes;
     }
   }
 
-  @Column({ type: 'varchar', length: 5000, charset: 'utf8mb4', collation: 'utf8mb4_general_ci' })
+  @Column({
+    type: 'varchar',
+    length: 5000,
+    charset: 'utf8mb4',
+    collation: 'utf8mb4_general_ci',
+  })
   content: string;
 
   @Column()
   category: PostCategory;
+
+  @Column()
+  upvotes: number;
+
+  @Column()
+  downvotes: number;
 
   @ManyToOne(
     () => User,
@@ -44,7 +59,7 @@ export class Post extends DataEntity implements IPost {
 
   @OneToMany(
     () => Comment,
-    comment => comment.post
+    comment => comment.post,
   )
   comments: Comment[];
 

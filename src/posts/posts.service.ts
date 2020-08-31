@@ -1,3 +1,4 @@
+import { VoteType } from './../votes/models/postVote.entity';
 import {
   Injectable,
   BadRequestException,
@@ -74,6 +75,24 @@ export class PostsService {
     this.authorize(post);
     post.content = model.content;
     post.category = model.category;
+    try {
+      return await this.postsRepository.save(post);
+    } catch (error) {
+      throw new InternalServerErrorException(error.toString());
+    }
+  }
+
+  async updateVotes(id: string, type: VoteType, isAdd: boolean): Promise<Post> {
+    const post = await this.findOne({ id });
+    switch (type) {
+      case VoteType.Upvote:
+        post.upvotes = isAdd ? post.upvotes + 1 : (post.upvotes > 0 ? post.upvotes - 1 : post.upvotes);
+        break;
+      case VoteType.DownVote:
+        post.downvotes = isAdd ? post.downvotes + 1 : (post.downvotes > 0 ? post.downvotes - 1 : post.downvotes);
+        break;
+    }
+
     try {
       return await this.postsRepository.save(post);
     } catch (error) {

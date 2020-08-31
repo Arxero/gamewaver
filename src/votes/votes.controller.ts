@@ -13,7 +13,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { AddPostVoteCmd } from './models/cmd/add-postVote.cmd';
 import { IResponse, ResponseSuccess } from 'src/common/models/response';
 import { GetVoteDto } from './models/dto/get-vote.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiQuery } from '@nestjs/swagger';
 import { GetVotesCountDto } from './models/dto/get-votes-count.dto';
 
 @ApiTags('Votes')
@@ -33,7 +33,6 @@ export class VotesController {
     return new ResponseSuccess<GetVoteDto>({ result: new GetVoteDto(result) });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get(':userId/:postId')
   async findOne(
     @Param('userId') userId: string,
@@ -48,13 +47,14 @@ export class VotesController {
     return new ResponseSuccess<GetVoteDto>({ result });
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get(':postId')
+  @ApiQuery({ name: 'postIds', required: true, description: `id1,id2` })
+  @Get(':postIds')
   async findCountByPostId(
-    @Param('postId') postId: string,
-  ): Promise<IResponse<GetVotesCountDto>> {
-    const result = await this.votesService.findCountByPostId(postId);
-    return new ResponseSuccess<GetVotesCountDto>({ result });
+    @Param('postIds') postIds: string,
+  ): Promise<IResponse<GetVotesCountDto[]>> {
+    const ids = postIds.split(',');
+    const result = await this.votesService.findCountByPostIds(ids);
+    return new ResponseSuccess<GetVotesCountDto[]>({ result });
   }
 
   @UseGuards(JwtAuthGuard)
