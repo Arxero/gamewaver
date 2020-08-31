@@ -64,6 +64,20 @@ export class VotesService {
     }
   }
 
+  async findMany(postIds: string[]): Promise<PostVote[]> {
+    const conditions = postIds.map(id => {
+      return { post: { id }, user: { id: (this.request.user as User).id } };
+    });
+    try {
+      return await this.postVoteRepository.find({
+        where: conditions,
+        relations: ['user', 'post'],
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error.toString());
+    }
+  }
+
   async findOne(params: DeepPartial<PostVote>): Promise<PostVote> {
     let post: PostVote;
     try {

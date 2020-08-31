@@ -1,6 +1,4 @@
 import { IPost, PostCategory } from '../post.entity';
-import { GetVotesCountDto } from 'src/votes/models/dto/get-votes-count.dto';
-import { User } from 'src/users/models/user.entity';
 
 export class GetPostDto implements IPost {
   constructor(data: IPost) {

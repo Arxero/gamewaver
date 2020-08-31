@@ -1,5 +1,3 @@
-import { runInThisContext } from 'vm';
-
 export class GetVotesCountDto {
   constructor(data: { upvotes: number; downvotes: number; postId: string }) {
     if (data) {

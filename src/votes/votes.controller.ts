@@ -47,14 +47,15 @@ export class VotesController {
     return new ResponseSuccess<GetVoteDto>({ result });
   }
 
+  @UseGuards(JwtAuthGuard)
   @ApiQuery({ name: 'postIds', required: true, description: `id1,id2` })
   @Get(':postIds')
   async findCountByPostId(
     @Param('postIds') postIds: string,
-  ): Promise<IResponse<GetVotesCountDto[]>> {
+  ): Promise<IResponse<GetVoteDto[]>> {
     const ids = postIds.split(',');
-    const result = await this.votesService.findCountByPostIds(ids);
-    return new ResponseSuccess<GetVotesCountDto[]>({ result });
+    const result = await (await this.votesService.findMany(ids)).map(x => new GetVoteDto(x));
+    return new ResponseSuccess<GetVoteDto[]>({ result });
   }
 
   @UseGuards(JwtAuthGuard)
