@@ -10,6 +10,7 @@ import {
   Put,
   SetMetadata,
   Delete,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -23,6 +24,8 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { CommentUpdateCmd } from './models/cmd/comment-update.cmd';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { CommentsCountQuery } from './models/cmd/comments-count.query';
+import { GetCommentsCountDto } from './models/dto/get-comments-count.dto';
 
 @ApiTags('Comments')
 @ApiBearerAuth()
@@ -55,6 +58,15 @@ export class CommentsController {
     return new ResponseSuccess<PagedData<GetCommentDto>>({ result });
   }
 
+  @ApiQuery({ name: 'postIds', required: true, description: `id1,id2` })
+  @Get('count')
+  async findCountByPostIds(
+    @Query(new ValidationPipe({ transform: true })) commentsCountQuery: CommentsCountQuery,
+  ): Promise<IResponse<GetCommentsCountDto[]>> {
+    const result = await this.commentsService.findCountByPostIds(commentsCountQuery.postIds);
+    return new ResponseSuccess<GetCommentsCountDto[]>({ result });
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<IResponseBase> {
     const result = new GetCommentDto(
@@ -62,6 +74,7 @@ export class CommentsController {
     );
     return new ResponseSuccess<GetCommentDto>({ result });
   }
+
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')

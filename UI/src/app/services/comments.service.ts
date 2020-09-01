@@ -1,3 +1,4 @@
+import { GetCommentsCountDto } from './../home/models/dto/get-comments-count.dto';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
 import { GetCommentDto } from '../home/models/dto/get-comment.dto';
@@ -40,6 +41,10 @@ export class CommentsService {
     return this.httpClient.get<IResponse<PagedData<GetCommentDto>>>(
       `${this.BASE_URL}`,
     );
+  }
+
+  findCountByPostIds(ids: string[]): Promise<IResponse<GetCommentsCountDto[]>> {
+    return this.httpClient.get<IResponse<GetCommentsCountDto[]>>(`${this.BASE_URL}/count?postIds=${ids.join(',')}`);
   }
 
   delete(id: string): Promise<IResponse<GetCommentDto>> {

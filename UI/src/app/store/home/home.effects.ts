@@ -166,6 +166,8 @@ export class HomeEffects {
         };
 
         const resultUsers = await this.usersService.findAll([filter]);
+        const postIds = result.items.map(x => x.id);
+        const resultCommentsCount = await this.commentsService.findCountByPostIds(postIds);
         const posts: PostViewModel[] = result.items.map(post => {
           const userInPosts = resultUsers.result.items.find(
             user => post.authorId === user.id,
@@ -174,6 +176,7 @@ export class HomeEffects {
             post,
             userInPosts,
             a.payload.userActionOnPost,
+            resultCommentsCount.result
           );
         });
         this.store.dispatch(new GetPostsActionSuccess({ data: posts }));

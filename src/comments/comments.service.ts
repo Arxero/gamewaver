@@ -20,6 +20,7 @@ import { TokenUserPayloadDto } from 'src/auth/models/dto/token-user-payload.dto'
 import { UserRole } from 'src/users/models/user.entity';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
+import { GetCommentsCountDto } from './models/dto/get-comments-count.dto';
 
 @Injectable()
 export class CommentsService {
@@ -56,6 +57,21 @@ export class CommentsService {
       items.map(x => new GetCommentDto(x)),
       total,
     );
+  }
+
+  async findCountByPostIds(ids: string[]): Promise<GetCommentsCountDto[]> {
+    try {
+      const result: GetCommentsCountDto[] = [];
+      for (const id of ids) {
+        const count = await this.commentsRepository.count({
+          where: [{post: { id }}]
+        })
+        result.push(new GetCommentsCountDto({ postid: id, count }));
+      }
+      return result;
+    } catch (error) {
+      throw new InternalServerErrorException(error.toString());
+    }
   }
 
   async findOne(params: DeepPartial<Comment>): Promise<Comment> {

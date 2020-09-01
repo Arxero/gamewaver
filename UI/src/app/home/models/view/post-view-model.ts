@@ -4,18 +4,22 @@ import { postCategories, PostCategory } from './post-category';
 import * as moment from 'moment';
 import { User, UserRole } from '../../../users/models/dto/user';
 import { HomeViewModel, UserActionOnPost } from './home-view-model';
+import { GetCommentsCountDto } from '../dto/get-comments-count.dto';
 
 export interface PostViewModel extends HomeViewModel {
   category: string;
   categoryEnum: PostCategory;
   userActionOnPost?: UserActionOnPost;
+  commentsCount?: number;
 }
 
 export function mapPostViewModel(
   post: GetPostDto,
   userInPosts: User,
   userActionOnPost?: UserActionOnPost,
+  commentsCount?: GetCommentsCountDto[],
 ): PostViewModel {
+  const foundCommentCount = commentsCount?.find(x => x.postId === post.id);
   return {
     ...post,
     authorAvatar: userInPosts.avatar,
@@ -26,5 +30,6 @@ export function mapPostViewModel(
     categoryEnum: post.category,
     userActionOnPost,
     userRole: userInPosts.role !== UserRole.USER ? userInPosts.role : null,
+    commentsCount: foundCommentCount ? foundCommentCount.count : null
   } as PostViewModel;
 }

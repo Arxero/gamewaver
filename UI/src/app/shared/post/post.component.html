@@ -30,7 +30,7 @@
 
   <mat-card-actions>
     <a mat-button [routerLink]="[postRoute[postContext], post.id]" *ngIf="postContext === postContexts.PostsPage || postContext ===  postContexts.ProfilePage" (click)="onPostLink()">
-      <mat-icon>comment</mat-icon>
+      <mat-icon [matBadge]="post.commentsCount" matBadgeColor="primary">comment</mat-icon>
     </a>
 
     <button mat-button [matMenuTriggerFor]="menuActions">
