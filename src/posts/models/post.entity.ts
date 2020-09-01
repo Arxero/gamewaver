@@ -45,10 +45,10 @@ export class Post extends DataEntity implements IPost {
   @Column()
   category: PostCategory;
 
-  @Column()
+  @Column({ default: 0 })
   upvotes: number;
 
-  @Column()
+  @Column({ default: 0 })
   downvotes: number;
 
   @ManyToOne(
