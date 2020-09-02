@@ -1,3 +1,4 @@
+import { CreatePostVoteCmd } from './../../home/models/cmd/create-vote.cmd';
 import { CreatePostCmd } from '../../home/models/cmd/create-post.cmd';
 import { Action } from '@ngrx/store';
 import { PostViewModel } from '../../home/models/view/post-view-model';
@@ -53,6 +54,15 @@ export enum HomeActionTypes {
   EditCommentAction = '[EditComment] Action',
   EditCommentActionSuccess = '[EditCommentSuccess] Action',
   EditCommentActionFailure = '[EditCommentFailure] Action',
+
+  // VOTES
+  CreatePostUpvoteAction = '[CreatePostUpvote] Action',
+  CreatePostUpvoteActionSuccess = '[CreatePostUpvoteSuccess] Action',
+  CreatePostUpvoteActionFailure = '[CreatePostUpvoteFailure] Action',
+
+  DeletePostUpvoteAction = '[DeletePostUpvote] Action',
+  DeletePostUpvoteActionSuccess = '[DeletePostUpvoteSuccess] Action',
+  DeletePostUpvoteActionFailure = '[DeletePostUpvoteFailure] Action',
 }
 
 // CREATE POST
@@ -221,6 +231,38 @@ export class EditCommentActionFailure implements Action {
   constructor(public payload: { error: ResponseError }) {}
 }
 
+// CREATE POSTVOTE
+export class CreatePostUpvoteAction implements Action {
+  readonly type = HomeActionTypes.CreatePostUpvoteAction;
+  constructor(public payload: { cmd: CreatePostVoteCmd }) {}
+}
+
+export class CreatePostUpvoteActionSuccess implements Action {
+  readonly type = HomeActionTypes.CreatePostUpvoteActionSuccess;
+}
+
+export class CreatePostUpvoteActionFailure implements Action {
+  readonly type = HomeActionTypes.CreatePostUpvoteActionFailure;
+  constructor(public payload: { error: ResponseError }) {}
+}
+
+// DELETE POSTVOTE
+export class DeletePostUpvoteAction implements Action {
+  readonly type = HomeActionTypes.DeletePostUpvoteAction;
+  constructor(public payload: { id: string }) {}
+}
+
+export class DeletePostUpvoteActionSuccess implements Action {
+  readonly type = HomeActionTypes.DeletePostUpvoteAction;
+}
+
+export class DeletePostUpvoteActionFailure implements Action {
+  readonly type = HomeActionTypes.DeletePostUpvoteAction;
+  constructor(public payload: { error: ResponseError }) {}
+}
+
+
+
 export type HomeActions =
   | CreatePostAction
   | CreatePostActionSuccess
@@ -253,4 +295,10 @@ export type HomeActions =
   | EditCommentCancelAction
   | EditCommentAction
   | EditCommentActionSuccess
-  | EditCommentActionFailure;
+  | EditCommentActionFailure
+  | CreatePostUpvoteAction
+  | CreatePostUpvoteActionSuccess
+  | CreatePostUpvoteActionFailure
+  | DeletePostUpvoteAction
+  | DeletePostUpvoteActionSuccess
+  | DeletePostUpvoteActionFailure;

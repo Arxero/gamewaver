@@ -30,4 +30,9 @@ export enum PostPageState {
   Default,
 }
 
+export enum VoteType {
+  Upvote = 'upvote',
+  DownVote = 'downvote'
+}
+
 

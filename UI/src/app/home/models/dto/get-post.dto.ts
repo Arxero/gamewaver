@@ -6,4 +6,7 @@ export interface GetPostDto extends DataEntity {
   title: string;
   category: PostCategory;
   authorId: string;
+
+  upvotes: number;
+  downvotes: number;
 }

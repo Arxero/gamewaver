@@ -1,3 +1,4 @@
+import { VotesService } from './../../services/votes.service';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { tap, map, withLatestFrom } from 'rxjs/operators';
@@ -33,6 +34,12 @@ import {
   EditCommentActionFailure,
   EditCommentAction,
   EditCommentActionSuccess,
+  CreatePostUpvoteAction,
+  CreatePostUpvoteActionSuccess,
+  CreatePostUpvoteActionFailure,
+  DeletePostUpvoteAction,
+  DeletePostUpvoteActionSuccess,
+  DeletePostUpvoteActionFailure,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UsersService } from '../../services/users.service';
@@ -55,7 +62,10 @@ import {
   mapCommmentViewModel,
   CommentViewModel,
 } from '../../home/models/view/comment-view-model';
-import { UserActionOnPost, PostContext } from '../../home/models/view/home-view-model';
+import {
+  UserActionOnPost,
+  PostContext,
+} from '../../home/models/view/home-view-model';
 import { LoadingService } from '../../services/loading.service';
 
 @Injectable()
@@ -69,6 +79,7 @@ export class HomeEffects {
     private usersService: UsersService,
     private commentsService: CommentsService,
     private loadingService: LoadingService,
+    private votesService: VotesService,
     private router: Router,
   ) {}
 
@@ -167,7 +178,9 @@ export class HomeEffects {
 
         const resultUsers = await this.usersService.findAll([filter]);
         const postIds = result.items.map(x => x.id);
-        const resultCommentsCount = await this.commentsService.findCountByPostIds(postIds);
+        const resultCommentsCount = await this.commentsService.findCountByPostIds(
+          postIds,
+        );
         const posts: PostViewModel[] = result.items.map(post => {
           const userInPosts = resultUsers.result.items.find(
             user => post.authorId === user.id,
@@ -176,7 +189,7 @@ export class HomeEffects {
             post,
             userInPosts,
             a.payload.userActionOnPost,
-            resultCommentsCount.result
+            resultCommentsCount.result,
           );
         });
         this.store.dispatch(new GetPostsActionSuccess({ data: posts }));
@@ -451,6 +464,78 @@ export class HomeEffects {
   @Effect({ dispatch: false })
   editCommentFailure$ = this.actions$.pipe(
     ofType<EditCommentActionFailure>(HomeActionTypes.EditCommentActionFailure),
+    map(a => {
+      this.snackbarService.showWarn(a.payload.error.message);
+    }),
+  );
+
+  ////////////////////// VOTES ////////////////////////////////////
+  @Effect({ dispatch: false })
+  createPostVote$ = this.actions$.pipe(
+    ofType<CreatePostUpvoteAction>(HomeActionTypes.CreatePostUpvoteAction),
+    tap(async a => {
+      try {
+        this.loadingService.setUILoading();
+        const { result } = await this.votesService.create(a.payload.cmd);
+        this.store.dispatch(new CreatePostUpvoteActionSuccess());
+      } catch ({ error }) {
+        this.store.dispatch(new CreatePostUpvoteActionFailure({ error }));
+        console.log(error);
+      }
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  createPostVoteSuccess$ = this.actions$.pipe(
+    ofType<CreatePostUpvoteActionSuccess>(
+      HomeActionTypes.CreatePostUpvoteActionSuccess,
+    ),
+    tap(a => {
+      this.loadingService.setUILoading(false);
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  createPostVoteFailure$ = this.actions$.pipe(
+    ofType<CreatePostUpvoteActionFailure>(
+      HomeActionTypes.CreatePostUpvoteActionFailure,
+    ),
+    map(a => {
+      this.snackbarService.showWarn(a.payload.error.message);
+    }),
+  );
+
+  // DELETE POSTVOTE
+  @Effect({ dispatch: false })
+  deletePostVote$ = this.actions$.pipe(
+    ofType<DeletePostUpvoteAction>(HomeActionTypes.DeletePostUpvoteAction),
+    tap(async a => {
+      try {
+        this.loadingService.setUILoading();
+        const { result } = await this.votesService.delete(a.payload.id);
+        this.store.dispatch(new DeletePostUpvoteActionSuccess());
+      } catch ({ error }) {
+        this.store.dispatch(new DeletePostUpvoteActionFailure({ error }));
+        console.log(error);
+      }
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  deletePostVoteSuccess$ = this.actions$.pipe(
+    ofType<DeletePostUpvoteActionSuccess>(
+      HomeActionTypes.DeletePostUpvoteActionSuccess,
+    ),
+    tap(a => {
+      this.loadingService.setUILoading(false);
+    }),
+  );
+
+  @Effect({ dispatch: false })
+  deletePostVoteFailure$ = this.actions$.pipe(
+    ofType<DeletePostUpvoteActionFailure>(
+      HomeActionTypes.DeletePostUpvoteActionFailure,
+    ),
     map(a => {
       this.snackbarService.showWarn(a.payload.error.message);
     }),

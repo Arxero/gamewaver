@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { VotesService } from './votes.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { AddPostVoteCmd } from './models/cmd/add-postVote.cmd';
+import { CreatePostVoteCmd } from './models/cmd/create-vote.cmd';
 import { IResponse, ResponseSuccess } from 'src/common/models/response';
 import { GetVoteDto } from './models/dto/get-vote.dto';
 import { ApiTags, ApiQuery } from '@nestjs/swagger';
@@ -27,7 +27,7 @@ export class VotesController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(
-    @Body() createModel: AddPostVoteCmd,
+    @Body() createModel: CreatePostVoteCmd,
   ): Promise<IResponse<GetVoteDto>> {
     const result = await this.votesService.create(
       new PostVote(createModel),
