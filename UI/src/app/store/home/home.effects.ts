@@ -181,6 +181,7 @@ export class HomeEffects {
         const resultCommentsCount = await this.commentsService.findCountByPostIds(
           postIds,
         );
+        const userVotesPerPosts = await this.votesService.findManyByPostId(postIds);
         const posts: PostViewModel[] = result.items.map(post => {
           const userInPosts = resultUsers.result.items.find(
             user => post.authorId === user.id,
@@ -188,6 +189,7 @@ export class HomeEffects {
           return mapPostViewModel(
             post,
             userInPosts,
+            userVotesPerPosts.result,
             a.payload.userActionOnPost,
             resultCommentsCount.result,
           );
@@ -263,7 +265,8 @@ export class HomeEffects {
         this.loadingService.setUILoading();
         const { result } = await this.postsService.findOne(a.payload.id);
         const userResult = await this.usersService.findOne(result.authorId);
-        const data = mapPostViewModel(result, userResult.result);
+        const userVotesPerPosts = await this.votesService.findManyByPostId([result.id]);
+        const data = mapPostViewModel(result, userResult.result, userVotesPerPosts.result);
         this.store.dispatch(new GetPostActionSuccess({ data }));
       } catch (error) {
         this.store.dispatch(new GetPostActionFailure());

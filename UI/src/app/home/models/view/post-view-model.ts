@@ -1,9 +1,10 @@
+import { GetVoteDto } from './../dto/get-vote.dto';
 import { DataEntity } from '../../../shared/models/common';
 import { GetPostDto } from '../dto/get-post.dto';
 import { postCategories, PostCategory } from './post-category';
 import * as moment from 'moment';
 import { User, UserRole } from '../../../users/models/dto/user';
-import { HomeViewModel, UserActionOnPost } from './home-view-model';
+import { HomeViewModel, UserActionOnPost, VoteType } from './home-view-model';
 import { GetCommentsCountDto } from '../dto/get-comments-count.dto';
 
 export interface PostViewModel extends HomeViewModel {
@@ -11,15 +12,22 @@ export interface PostViewModel extends HomeViewModel {
   categoryEnum: PostCategory;
   userActionOnPost?: UserActionOnPost;
   commentsCount?: number;
+
+  upvotes: number;
+  downvotes: number;
+  voteType: VoteType;
+  upvoteColor: string;
+  downvoteColor: string;
 }
 
 export function mapPostViewModel(
   post: GetPostDto,
   userInPosts: User,
+  votesDto?: GetVoteDto[],
   userActionOnPost?: UserActionOnPost,
   commentsCount?: GetCommentsCountDto[],
 ): PostViewModel {
-  const foundCommentCount = commentsCount?.find(x => x.postId === post.id);
+  const foundType = votesDto?.find(x => x.postId === post.id)?.type;
   return {
     ...post,
     authorAvatar: userInPosts.avatar,
@@ -30,6 +38,9 @@ export function mapPostViewModel(
     categoryEnum: post.category,
     userActionOnPost,
     userRole: userInPosts.role !== UserRole.USER ? userInPosts.role : null,
-    commentsCount: foundCommentCount ? foundCommentCount.count : null
+    commentsCount: commentsCount?.find(x => x.postId === post.id).count,
+    voteType: foundType,
+    upvoteColor: foundType === VoteType.Upvote ? 'primary' : '',
+    downvoteColor: foundType === VoteType.DownVote ? 'primary' : '',
   } as PostViewModel;
 }

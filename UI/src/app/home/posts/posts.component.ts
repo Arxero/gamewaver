@@ -31,7 +31,7 @@ import { AddItem } from '../models/view/add-item';
 export class PostsComponent extends BaseComponent implements OnInit {
   posts: PostViewModel[] = [];
   user: User;
-  take = 3;
+  take = 5;
   queryRequest: QueryRequest;
   get postContext() {
     return PostContext;

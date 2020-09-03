@@ -29,29 +29,42 @@
   </mat-card-content>
 
   <mat-card-actions>
-    <a mat-button [routerLink]="[postRoute[postContext], post.id]" *ngIf="postContext === postContexts.PostsPage || postContext ===  postContexts.ProfilePage" (click)="onPostLink()">
-      <mat-icon [matBadge]="post.commentsCount" matBadgeColor="primary">comment</mat-icon>
-    </a>
-
-    <button mat-button [matMenuTriggerFor]="menuActions">
-      <mat-icon>more_horiz</mat-icon>
-    </button>
-
-    <mat-menu #menuActions="matMenu">
-      <button mat-menu-item (click)="onCopyLink()">
-        <mat-icon>content_copy</mat-icon>
-        <span class="menu-item-name">Copy link</span>
+    <span class="left">
+      <button mat-button>
+        <mat-icon [matBadge]="post.upvotes" matBadgeColor="primary" [color]="post.upvoteColor">arrow_upward</mat-icon>
       </button>
 
-      <button mat-menu-item (click)="onEdit()" *ngIf="canEditOrDelete && postContext === postContexts.PostPage">
-        <mat-icon>edit</mat-icon>
-        <span class="menu-item-name">Edit</span>
+      <button mat-button>
+        <mat-icon [matBadge]="post.downvotes" matBadgeColor="primary" [color]="post.downvoteColor">arrow_downward</mat-icon>
+      </button>
+    </span>
+
+    <span class="right">
+      <a mat-button [routerLink]="[postRoute[postContext], post.id]" *ngIf="postContext === postContexts.PostsPage || postContext ===  postContexts.ProfilePage" (click)="onPostLink()">
+        <mat-icon [matBadge]="post.commentsCount" matBadgeColor="primary">comment</mat-icon>
+      </a>
+
+      <button mat-button [matMenuTriggerFor]="menuActions">
+        <mat-icon>more_horiz</mat-icon>
       </button>
 
-      <button mat-menu-item (click)="onDelete()" *ngIf="canEditOrDelete">
-        <mat-icon>delete</mat-icon>
-        <span class="menu-item-name">Delete</span>
-      </button>
-    </mat-menu>
+      <mat-menu #menuActions="matMenu">
+        <button mat-menu-item (click)="onCopyLink()">
+          <mat-icon>content_copy</mat-icon>
+          <span class="menu-item-name">Copy link</span>
+        </button>
+
+        <button mat-menu-item (click)="onEdit()" *ngIf="canEditOrDelete && postContext === postContexts.PostPage">
+          <mat-icon>edit</mat-icon>
+          <span class="menu-item-name">Edit</span>
+        </button>
+
+        <button mat-menu-item (click)="onDelete()" *ngIf="canEditOrDelete">
+          <mat-icon>delete</mat-icon>
+          <span class="menu-item-name">Delete</span>
+        </button>
+      </mat-menu>
+    </span>
+
   </mat-card-actions>
 </mat-card>
