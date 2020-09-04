@@ -1,3 +1,4 @@
+import { GetVoteDto } from './../../home/models/dto/get-vote.dto';
 import { CreatePostVoteCmd } from './../../home/models/cmd/create-vote.cmd';
 import { CreatePostCmd } from '../../home/models/cmd/create-post.cmd';
 import { Action } from '@ngrx/store';
@@ -239,6 +240,7 @@ export class CreatePostUpvoteAction implements Action {
 
 export class CreatePostUpvoteActionSuccess implements Action {
   readonly type = HomeActionTypes.CreatePostUpvoteActionSuccess;
+  constructor(public payload: { data: GetVoteDto }) {}
 }
 
 export class CreatePostUpvoteActionFailure implements Action {
@@ -253,11 +255,12 @@ export class DeletePostUpvoteAction implements Action {
 }
 
 export class DeletePostUpvoteActionSuccess implements Action {
-  readonly type = HomeActionTypes.DeletePostUpvoteAction;
+  readonly type = HomeActionTypes.DeletePostUpvoteActionSuccess;
+  constructor(public payload: { data: GetVoteDto }) {}
 }
 
 export class DeletePostUpvoteActionFailure implements Action {
-  readonly type = HomeActionTypes.DeletePostUpvoteAction;
+  readonly type = HomeActionTypes.DeletePostUpvoteActionFailure;
   constructor(public payload: { error: ResponseError }) {}
 }
 

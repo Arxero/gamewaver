@@ -189,9 +189,9 @@ export class HomeEffects {
           return mapPostViewModel(
             post,
             userInPosts,
-            userVotesPerPosts.result,
+            userVotesPerPosts.result.find(x => x.postId === post.id),
             a.payload.userActionOnPost,
-            resultCommentsCount.result,
+            resultCommentsCount.result.find(x => x.postId === post.id).count
           );
         });
         this.store.dispatch(new GetPostsActionSuccess({ data: posts }));
@@ -266,7 +266,7 @@ export class HomeEffects {
         const { result } = await this.postsService.findOne(a.payload.id);
         const userResult = await this.usersService.findOne(result.authorId);
         const userVotesPerPosts = await this.votesService.findManyByPostId([result.id]);
-        const data = mapPostViewModel(result, userResult.result, userVotesPerPosts.result);
+        const data = mapPostViewModel(result, userResult.result, userVotesPerPosts.result[0]);
         this.store.dispatch(new GetPostActionSuccess({ data }));
       } catch (error) {
         this.store.dispatch(new GetPostActionFailure());
@@ -480,7 +480,7 @@ export class HomeEffects {
       try {
         this.loadingService.setUILoading();
         const { result } = await this.votesService.create(a.payload.cmd);
-        this.store.dispatch(new CreatePostUpvoteActionSuccess());
+        this.store.dispatch(new CreatePostUpvoteActionSuccess({ data: result }));
       } catch ({ error }) {
         this.store.dispatch(new CreatePostUpvoteActionFailure({ error }));
         console.log(error);
@@ -516,7 +516,7 @@ export class HomeEffects {
       try {
         this.loadingService.setUILoading();
         const { result } = await this.votesService.delete(a.payload.id);
-        this.store.dispatch(new DeletePostUpvoteActionSuccess());
+        this.store.dispatch(new DeletePostUpvoteActionSuccess({ data: result }));
       } catch ({ error }) {
         this.store.dispatch(new DeletePostUpvoteActionFailure({ error }));
         console.log(error);

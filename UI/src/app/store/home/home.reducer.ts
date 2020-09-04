@@ -1,3 +1,5 @@
+import { VoteType } from './../../home/models/view/home-view-model';
+import { GetVoteDto } from './../../home/models/dto/get-vote.dto';
 import { HomeActions, HomeActionTypes } from './home.actions';
 import { PostViewModel } from '../../home/models/view/post-view-model';
 import * as lodash from 'lodash';
@@ -128,6 +130,26 @@ export function homeReducer(
         comments: commentsClone,
         indexOfEditedComment: null,
         isEditCommentSuccessful: true,
+      } as HomeState;
+
+    case HomeActionTypes.CreatePostUpvoteActionSuccess:
+      const postToUpvote = postsClone.find(x => x.id === action.payload.data.postId);
+      postToUpvote.upvotes = action.payload.data.type === VoteType.Upvote ? postToUpvote.upvotes + 1 : postToUpvote.upvotes;
+      postToUpvote.downvotes = action.payload.data.type === VoteType.DownVote ? postToUpvote.downvotes + 1 : postToUpvote.downvotes;
+      postToUpvote.vote = action.payload.data;
+      return {
+        ...state,
+        posts: postsClone
+      } as HomeState;
+
+    case HomeActionTypes.DeletePostUpvoteActionSuccess:
+      const postToUnvote = postsClone.find(x => x.id === action.payload.data.postId);
+      postToUnvote.upvotes = action.payload.data.type === VoteType.Upvote ? postToUnvote.upvotes - 1 : postToUnvote.upvotes;
+      postToUnvote.downvotes = action.payload.data.type === VoteType.DownVote ? postToUnvote.downvotes - 1 : postToUnvote.downvotes;
+      postToUnvote.vote = { type: VoteType.Unknown, postId: null, userId: null };
+      return {
+        ...state,
+        posts: postsClone
       } as HomeState;
 
     default:

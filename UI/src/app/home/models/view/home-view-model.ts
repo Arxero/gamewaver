@@ -31,6 +31,7 @@ export enum PostPageState {
 }
 
 export enum VoteType {
+  Unknown = 'unknown',
   Upvote = 'upvote',
   DownVote = 'downvote'
 }

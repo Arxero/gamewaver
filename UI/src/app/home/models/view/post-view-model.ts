@@ -11,23 +11,20 @@ export interface PostViewModel extends HomeViewModel {
   category: string;
   categoryEnum: PostCategory;
   userActionOnPost?: UserActionOnPost;
-  commentsCount?: number;
+  commentsCount: number;
 
   upvotes: number;
   downvotes: number;
-  voteType: VoteType;
-  upvoteColor: string;
-  downvoteColor: string;
+  vote: GetVoteDto;
 }
 
 export function mapPostViewModel(
   post: GetPostDto,
   userInPosts: User,
-  votesDto?: GetVoteDto[],
+  votesDto: GetVoteDto = { type: VoteType.Unknown, postId: null, userId: null },
   userActionOnPost?: UserActionOnPost,
-  commentsCount?: GetCommentsCountDto[],
+  commentsCount: number = 0,
 ): PostViewModel {
-  const foundType = votesDto?.find(x => x.postId === post.id)?.type;
   return {
     ...post,
     authorAvatar: userInPosts.avatar,
@@ -38,9 +35,7 @@ export function mapPostViewModel(
     categoryEnum: post.category,
     userActionOnPost,
     userRole: userInPosts.role !== UserRole.USER ? userInPosts.role : null,
-    commentsCount: commentsCount?.find(x => x.postId === post.id).count,
-    voteType: foundType,
-    upvoteColor: foundType === VoteType.Upvote ? 'primary' : '',
-    downvoteColor: foundType === VoteType.DownVote ? 'primary' : '',
+    commentsCount,
+    vote: votesDto,
   } as PostViewModel;
 }
