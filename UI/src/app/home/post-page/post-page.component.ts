@@ -8,7 +8,6 @@ import { PostViewModel } from '../models/view/post-view-model';
 import { takeUntil, filter } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import {
-  homeStatePosts,
   homeStatePost,
   homeStateisEditSuccessful,
   homeStatePostComments,

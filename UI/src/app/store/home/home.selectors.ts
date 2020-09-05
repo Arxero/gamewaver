@@ -11,7 +11,12 @@ export const homeState = createSelector(
 
 export const homeStatePosts = createSelector(
   selectHomeState,
-  homeState => homeState.posts
+  homeState => homeState.posts,
+);
+
+export const homeStatePostsTotal = createSelector(
+  selectHomeState,
+  homeState => homeState.postsTotal,
 );
 
 export const homeStatePost = createSelector(

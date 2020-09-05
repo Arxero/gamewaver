@@ -194,7 +194,7 @@ export class HomeEffects {
             resultCommentsCount.result.find(x => x.postId === post.id).count
           );
         });
-        this.store.dispatch(new GetPostsActionSuccess({ data: posts }));
+        this.store.dispatch(new GetPostsActionSuccess({ data: posts, total: result.total }));
       } catch (error) {
         console.log(error);
       }

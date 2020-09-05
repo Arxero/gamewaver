@@ -110,7 +110,7 @@ export class GetPostsAction implements Action {
 
 export class GetPostsActionSuccess implements Action {
   readonly type = HomeActionTypes.GetPostsActionSuccess;
-  constructor(public payload: { data: PostViewModel[] }) {}
+  constructor(public payload: { data: PostViewModel[], total: number }) {}
 }
 
 export class GetPostsActionFailure implements Action {

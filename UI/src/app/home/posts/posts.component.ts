@@ -1,3 +1,4 @@
+import { homeStatePostsTotal } from './../../store/home/home.selectors';
 import {
   Component,
   OnInit,
@@ -30,6 +31,7 @@ import { AddItem } from '../models/view/add-item';
 })
 export class PostsComponent extends BaseComponent implements OnInit {
   posts: PostViewModel[] = [];
+  total: number;
   user: User;
   take = 5;
   queryRequest: QueryRequest;
@@ -77,11 +79,24 @@ export class PostsComponent extends BaseComponent implements OnInit {
       .subscribe(x => {
         this.posts = x;
       });
+
+    store
+      .pipe(
+        takeUntil(this.destroyed$),
+        select(homeStatePostsTotal),
+        filter(x => !!x),
+      )
+      .subscribe(x => {
+        this.total = x;
+      });
   }
 
   ngOnInit(): void {}
 
   onScrollDown() {
+    if (this.total === this.posts.length) {
+      return;
+    }
     this.store.dispatch(
       new GetPostsAction({
         paging: { skip: this.posts.length, take: this.take },
