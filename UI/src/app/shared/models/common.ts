@@ -57,3 +57,8 @@ export interface SortingDef {
 export interface BaseCmd {
   reCaptchaaToken: string;
 }
+
+export const dateSort: Sorting = {
+  propertyName: 'createdAt',
+  sort: SortDirection.DESC,
+};

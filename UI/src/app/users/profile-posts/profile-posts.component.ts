@@ -1,3 +1,4 @@
+import { Sorting, SortDirection, dateSort } from './../../shared/models/common';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../shared/base.component';
 import { PostViewModel } from '../../home/models/view/post-view-model';
@@ -91,6 +92,7 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
         paging: { skip: this.posts.length, take: this.take },
         filters: [postsFilter],
         userActionOnPost,
+        sorting: [dateSort]
       }),
     );
   }

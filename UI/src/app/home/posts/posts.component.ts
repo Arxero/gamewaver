@@ -1,3 +1,4 @@
+import { Sorting, SortDirection, dateSort } from './../../shared/models/common';
 import { homeStatePostsTotal } from './../../store/home/home.selectors';
 import {
   Component,
@@ -44,17 +45,20 @@ export class PostsComponent extends BaseComponent implements OnInit {
     maxLength: 5000,
   };
 
+
   constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
     super();
 
     this.route.queryParams.subscribe(params => {
       this.queryRequest = new QueryRequest(params as QueryParams);
+      this.queryRequest.sorting.push(dateSort);
       this.store.dispatch(new ClearPostsAction());
       this.posts = [];
       this.store.dispatch(
         new GetPostsAction({
           paging: { skip: this.posts.length, take: this.take },
           filters: this.queryRequest?.filters,
+          sorting: this.queryRequest.sorting,
         }),
       );
     });
@@ -101,6 +105,7 @@ export class PostsComponent extends BaseComponent implements OnInit {
       new GetPostsAction({
         paging: { skip: this.posts.length, take: this.take },
         filters: this.queryRequest.filters,
+        sorting: [dateSort],
       }),
     );
   }

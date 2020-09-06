@@ -1,3 +1,4 @@
+import { postSorts } from './../models/view/post-sort';
 import { Component, OnInit } from '@angular/core';
 import { postCategories } from '../models/view/post-category';
 import { Router } from '@angular/router';
@@ -13,6 +14,10 @@ export class SidebarComponent implements OnInit {
   get categories() {
     return postCategories;
   }
+
+  get sorts() {
+    return postSorts;
+  }
   searchTerm: FormControl;
   years: string[];
   months: string[];
@@ -25,7 +30,7 @@ export class SidebarComponent implements OnInit {
     this.months = this.getMonthsFromCurrentYear();
   }
 
-  navigate(category: string) {
+  navigateByCategory(category: string) {
     this.router.navigateByUrl(`?filters=category!eq!${category}`);
   }
 
@@ -73,5 +78,9 @@ export class SidebarComponent implements OnInit {
       months.push(month);
     }
     return months;
+  }
+
+  navigateBySort(url: string) {
+    this.router.navigateByUrl(url);
   }
 }

@@ -1,3 +1,4 @@
+import { Sorting } from './../../shared/models/common';
 import { GetVoteDto } from './../../home/models/dto/get-vote.dto';
 import { CreatePostVoteCmd } from './../../home/models/cmd/create-vote.cmd';
 import { CreatePostCmd } from '../../home/models/cmd/create-post.cmd';
@@ -104,6 +105,7 @@ export class GetPostsAction implements Action {
       paging: Paging;
       filters?: DataFilter[];
       userActionOnPost?: UserActionOnPost;
+      sorting: Sorting[];
     },
   ) {}
 }

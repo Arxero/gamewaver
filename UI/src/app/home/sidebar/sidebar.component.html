@@ -20,16 +20,26 @@
 </mat-card>
 
 <mat-card>
-  <h2>Category</h2>
+  <h3>{{ 'Sort by' | uppercase }}</h3>
+  <ng-container *ngFor="let item of sorts">
+    <a mat-menu-item (click)="navigateBySort(item.url)">
+      <mat-icon>{{ item.icon }}</mat-icon>
+      <span [matTooltip]="item.description">{{ item.label }}</span>
+    </a>
+  </ng-container>
+</mat-card>
+
+<mat-card>
+  <h3>{{ 'Category' | uppercase }}</h3>
   <ng-container *ngFor="let item of categories">
-    <a mat-menu-item (click)="navigate(item.value)">
+    <a mat-menu-item (click)="navigateByCategory(item.value)">
       <span>{{ item.label }}</span>
     </a>
   </ng-container>
 </mat-card>
 
 <mat-card class="archive">
-  <h2>Archive</h2>
+  <h3>{{ 'Archive' | uppercase }}</h3>
   <div class="title">{{ getCurrentYear() }}</div>
 
   <div class="months">

@@ -16,7 +16,7 @@ export class QueryRequest {
         propertyName,
         sort: sortDirection
       } as Sorting;
-    });
+    }) || [];
 
     if (!data.filters) {
       return;

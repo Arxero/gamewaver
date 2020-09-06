@@ -156,15 +156,11 @@ export class HomeEffects {
     ofType<GetPostsAction>(HomeActionTypes.GetPostsAction),
     tap(async a => {
       try {
-        const dateSort: Sorting = {
-          propertyName: 'createdAt',
-          sort: SortDirection.DESC,
-        };
         this.loadingService.setUILoading();
         const { result } = await this.postsService.findAll(
           a.payload.paging,
           a.payload.filters,
-          [dateSort],
+          a.payload.sorting
         );
         const searchValueStr = result.items
           .map(x => x.authorId)

@@ -1,3 +1,4 @@
+import { Sorting, SortDirection, dateSort } from './../../shared/models/common';
 import { Component, OnInit } from '@angular/core';
 import { ProfileHomeItem } from '../models/view/profile-home-item';
 import { User } from '../models/dto/user';
@@ -118,6 +119,7 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
         paging: { skip: this.posts.length, take: this.take },
         filters: [postsFilter],
         userActionOnPost,
+        sorting: [dateSort]
       }),
     );
   }
