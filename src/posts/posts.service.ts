@@ -9,7 +9,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { Post } from './models/post.entity';
-import { Repository, DeepPartial } from 'typeorm';
+import { Repository, DeepPartial, getRepository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/users.service';
 import { ResponseError } from 'src/common/models/response';
@@ -42,6 +42,10 @@ export class PostsService {
   }
 
   async findAll(queryRequest: QueryRequest): Promise<PagedData<GetPostDto>> {
+    if (Object.keys(queryRequest.sorting.order).includes('comments')) {
+      return await this.sortByComments(queryRequest);
+    }
+
     const [items, total] = await this.postsRepository.findAndCount({
       order: queryRequest.sorting.order,
       where: queryRequest.filter,
@@ -49,6 +53,24 @@ export class PostsService {
       take: queryRequest.paging.take,
       relations: ['author'],
     });
+
+    return new PagedData<GetPostDto>(
+      items.map(x => new GetPostDto(x)),
+      total,
+    );
+  }
+
+  async sortByComments(
+    queryRequest: QueryRequest,
+  ): Promise<PagedData<GetPostDto>> {
+    const total = await this.postsRepository.count();
+    const items = (await getRepository(Post).query(`SELECT *
+      FROM posts x
+      LEFT JOIN (SELECT postId, COUNT(*) total FROM comments GROUP BY postId) y ON y.postId = x.id
+      ORDER 
+        BY total DESC
+        LIMIT ${queryRequest.paging.take}
+        OFFSET ${queryRequest.paging.skip}`)) as Post[];
 
     return new PagedData<GetPostDto>(
       items.map(x => new GetPostDto(x)),
@@ -86,10 +108,18 @@ export class PostsService {
     const post = await this.findOne({ id });
     switch (type) {
       case VoteType.Upvote:
-        post.upvotes = isAdd ? post.upvotes + 1 : (post.upvotes > 0 ? post.upvotes - 1 : post.upvotes);
+        post.upvotes = isAdd
+          ? post.upvotes + 1
+          : post.upvotes > 0
+          ? post.upvotes - 1
+          : post.upvotes;
         break;
       case VoteType.DownVote:
-        post.downvotes = isAdd ? post.downvotes + 1 : (post.downvotes > 0 ? post.downvotes - 1 : post.downvotes);
+        post.downvotes = isAdd
+          ? post.downvotes + 1
+          : post.downvotes > 0
+          ? post.downvotes - 1
+          : post.downvotes;
         break;
     }
 

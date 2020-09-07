@@ -66,6 +66,16 @@ export class PostsController {
     return new ResponseSuccess<PagedData<GetPostDto>>({ result });
   }
 
+
+  @Get('sort-by-comments')
+  async sortByComments(
+    @Query() queryParams: QueryParams,
+  ): Promise<IResponse<PagedData<GetPostDto>>> {
+    const queryRequest = new QueryRequest(queryParams);
+    const result = await this.postsService.sortByComments(queryRequest);
+    return new ResponseSuccess<PagedData<GetPostDto>>({ result });
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<IResponse<GetPostDto>> {
     const post = await this.postsService.findOne({ id });

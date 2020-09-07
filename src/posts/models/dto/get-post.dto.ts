@@ -6,7 +6,7 @@ export class GetPostDto implements IPost {
     this.id = data.id;
     this.createdAt = data.createdAt;
     this.updatedAt = data.updatedAt;
-    this.authorId = data.author?.id;
+    this.authorId = data.author?.id || data.authorId;
     this.category = data.category;
     this.upvotes = data.upvotes;
     this.downvotes = data.downvotes;

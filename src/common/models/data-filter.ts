@@ -55,8 +55,9 @@ export class DataFilter {
         return Like(`%${searchValue}%`);
       case SearchType.Between:
         const [from, to, type] = searchValue.split(',');
+        const toPlusDay = new Date(to).setDate(new Date(to).getDate() + 1);
         if (type === 'date') {
-          return Between(new Date(from), new Date(to));
+          return Between(new Date(from), new Date(toPlusDay));
         }
         return Between(+from, +to);
       case SearchType.In:

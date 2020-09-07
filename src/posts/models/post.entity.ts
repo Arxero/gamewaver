@@ -19,6 +19,7 @@ export interface IPost extends IDataEntity {
   upvotes?: number;
   downvotes?: number;
   author?: User;
+  authorId?: string;
 }
 
 @Entity({ name: 'posts' })

@@ -105,7 +105,7 @@ export class PostsComponent extends BaseComponent implements OnInit {
       new GetPostsAction({
         paging: { skip: this.posts.length, take: this.take },
         filters: this.queryRequest.filters,
-        sorting: [dateSort],
+        sorting: this.queryRequest.sorting,
       }),
     );
   }

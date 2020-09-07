@@ -34,6 +34,6 @@ export const postSorts: PostSortViewModel[] = [
     value: PostSort.Commented,
     description: 'Sort posts by comments',
     icon: 'question_answer',
-    url: '',
+    url: '?sort=comments:desc',
   },
 ];
