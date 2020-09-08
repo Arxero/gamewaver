@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { PostPageComponent } from './post-page/post-page.component';
 import { PostsComponent } from './posts/posts.component';
+import { SortUrl } from './models/view/post-sort';
 
 const routes: Routes = [
   {

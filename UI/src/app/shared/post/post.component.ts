@@ -1,3 +1,4 @@
+import { loginFullRoute } from './../../auth/auth.routing';
 import { CreatePostVoteCmd } from './../../home/models/cmd/create-vote.cmd';
 import { switchMap } from 'rxjs/operators';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
@@ -90,6 +91,10 @@ export class PostComponent implements OnInit {
   }
 
   onVote(voteType: VoteType) {
+    if (!this.user) {
+      return this.router.navigateByUrl(loginFullRoute());
+    }
+
     const cmd: CreatePostVoteCmd = {
       postId: this.post.id,
       type: voteType,

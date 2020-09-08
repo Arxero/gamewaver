@@ -1,9 +1,21 @@
-import { postSorts } from './../models/view/post-sort';
+import {
+  postSorts,
+  SortUrl,
+  postSortTimes,
+  SortTime,
+  PostSortViewModel,
+} from './../models/view/post-sort';
 import { Component, OnInit } from '@angular/core';
 import { postCategories } from '../models/view/post-category';
-import { Router } from '@angular/router';
+import {
+  Router,
+  NavigationStart,
+  ActivatedRoute,
+  RouterEvent,
+} from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,14 +30,38 @@ export class SidebarComponent implements OnInit {
   get sorts() {
     return postSorts;
   }
-  searchTerm: FormControl;
+  searchTerm = new FormControl('');
   years: string[];
   months: string[];
+  sortUrl: SortUrl;
+  get postSortTimes() {
+    return postSortTimes;
+  }
 
-  constructor(private router: Router) {}
+  sortTimeMap: { [key: number]: string } = {
+    [SortTime.Days1]: `?sort=upvotes:desc&filters=createdAt!between!${moment()
+      .subtract(1, 'days')
+      .format('YYYY-MM-DD')},${moment().format('YYYY-MM-DD')},date`,
+    [SortTime.Days7]: `?sort=upvotes:desc&filters=createdAt!between!${moment()
+      .subtract(1, 'weeks')
+      .format('YYYY-MM-DD')},${moment().format('YYYY-MM-DD')},date`,
+    [SortTime.Days30]: `?sort=upvotes:desc&filters=createdAt!between!${moment()
+      .subtract(1, 'months')
+      .format('YYYY-MM-DD')},${moment().format('YYYY-MM-DD')},date`,
+    [SortTime.All]: `?sort=upvotes:desc`,
+  };
+
+  selectedTime = new FormControl(SortTime.All);
+
+  constructor(private router: Router) {
+    // this.router.events
+    //   .pipe(filter((event: RouterEvent) => event instanceof NavigationStart))
+    //   .subscribe(e => {
+    //     console.log(e);
+    //   });
+  }
 
   ngOnInit(): void {
-    this.searchTerm = new FormControl('');
     this.years = this.getYearsFromStart();
     this.months = this.getMonthsFromCurrentYear();
   }
@@ -35,9 +71,7 @@ export class SidebarComponent implements OnInit {
   }
 
   onSubmit() {
-    this.router.navigateByUrl(
-      `?filters=content!like!${this.searchTerm.value}`,
-    );
+    this.router.navigateByUrl(`?filters=content!like!${this.searchTerm.value}`);
   }
 
   getCurrentYear() {
@@ -50,10 +84,11 @@ export class SidebarComponent implements OnInit {
     );
   }
 
-
   navigateToMonth(month: string) {
     const year = moment().year();
-    const monthTemp = moment().month(month).format('MM');
+    const monthTemp = moment()
+      .month(month)
+      .format('MM');
     const daysInMonth = moment(`${year}-${monthTemp}`).daysInMonth();
     this.router.navigateByUrl(
       `?filters=createdAt!between!${year}-${monthTemp}-01,${year}-${monthTemp}-${daysInMonth},date`,
@@ -70,7 +105,8 @@ export class SidebarComponent implements OnInit {
   }
 
   getMonthsFromCurrentYear() {
-    const monthsFromYear = moment().diff(`${moment().year()}-01-01`, 'months') + 1;
+    const monthsFromYear =
+      moment().diff(`${moment().year()}-01-01`, 'months') + 1;
     const months: string[] = [];
     for (let i = 1; i <= monthsFromYear; i++) {
       const temp = i <= 9 ? `0` : '';
@@ -80,7 +116,27 @@ export class SidebarComponent implements OnInit {
     return months;
   }
 
-  navigateBySort(url: string) {
-    this.router.navigateByUrl(url);
+  navigateBySort(sort: PostSortViewModel) {
+    this.sortUrl = sort.url;
+    this.sorts.forEach(x => (x.iconColor = null));
+    sort.iconColor = 'primary';
+
+    switch (sort.url) {
+      case SortUrl.Popular:
+        this.router.navigateByUrl(this.sortTimeMap[this.selectedTime.value]);
+        break;
+      case SortUrl.Commented:
+        this.router.navigateByUrl(`?sort=comments:desc`);
+        break;
+      case SortUrl.Fresh:
+        this.router.navigateByUrl('/');
+        break;
+    }
+  }
+
+  onSelectedTimeSort(value: SortTime) {
+    if (this.sortUrl === SortUrl.Popular) {
+      this.router.navigateByUrl(this.sortTimeMap[this.selectedTime.value]);
+    }
   }
 }

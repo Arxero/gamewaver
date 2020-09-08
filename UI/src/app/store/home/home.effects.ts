@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { VotesService } from './../../services/votes.service';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -80,6 +81,7 @@ export class HomeEffects {
     private commentsService: CommentsService,
     private loadingService: LoadingService,
     private votesService: VotesService,
+    private authService: AuthService,
     private router: Router,
   ) {}
 
@@ -160,7 +162,7 @@ export class HomeEffects {
         const { result } = await this.postsService.findAll(
           a.payload.paging,
           a.payload.filters,
-          a.payload.sorting
+          a.payload.sorting,
         );
         const searchValueStr = result.items
           .map(x => x.authorId)
@@ -177,7 +179,11 @@ export class HomeEffects {
         const resultCommentsCount = await this.commentsService.findCountByPostIds(
           postIds,
         );
-        const userVotesPerPosts = await this.votesService.findManyByPostId(postIds);
+
+        const userVotesPerPosts = this.authService.isLoggedIn()
+          ? await this.votesService.findManyByPostId(postIds)
+          : null;
+
         const posts: PostViewModel[] = result.items.map(post => {
           const userInPosts = resultUsers.result.items.find(
             user => post.authorId === user.id,
@@ -185,12 +191,14 @@ export class HomeEffects {
           return mapPostViewModel(
             post,
             userInPosts,
-            userVotesPerPosts.result.find(x => x.postId === post.id),
+            userVotesPerPosts?.result.find(x => x.postId === post.id),
             a.payload.userActionOnPost,
-            resultCommentsCount.result.find(x => x.postId === post.id).count
+            resultCommentsCount.result.find(x => x.postId === post.id).count,
           );
         });
-        this.store.dispatch(new GetPostsActionSuccess({ data: posts, total: result.total }));
+        this.store.dispatch(
+          new GetPostsActionSuccess({ data: posts, total: result.total }),
+        );
       } catch (error) {
         console.log(error);
       }
@@ -261,8 +269,15 @@ export class HomeEffects {
         this.loadingService.setUILoading();
         const { result } = await this.postsService.findOne(a.payload.id);
         const userResult = await this.usersService.findOne(result.authorId);
-        const userVotesPerPosts = await this.votesService.findManyByPostId([result.id]);
-        const data = mapPostViewModel(result, userResult.result, userVotesPerPosts.result[0]);
+        const userVotesPerPosts = this.authService.isLoggedIn()
+          ? await this.votesService.findManyByPostId([result.id])
+          : null;
+
+        const data = mapPostViewModel(
+          result,
+          userResult.result,
+          userVotesPerPosts?.result[0],
+        );
         this.store.dispatch(new GetPostActionSuccess({ data }));
       } catch (error) {
         this.store.dispatch(new GetPostActionFailure());
@@ -476,7 +491,9 @@ export class HomeEffects {
       try {
         this.loadingService.setUILoading();
         const { result } = await this.votesService.create(a.payload.cmd);
-        this.store.dispatch(new CreatePostUpvoteActionSuccess({ data: result }));
+        this.store.dispatch(
+          new CreatePostUpvoteActionSuccess({ data: result }),
+        );
       } catch ({ error }) {
         this.store.dispatch(new CreatePostUpvoteActionFailure({ error }));
         console.log(error);
@@ -512,7 +529,9 @@ export class HomeEffects {
       try {
         this.loadingService.setUILoading();
         const { result } = await this.votesService.delete(a.payload.id);
-        this.store.dispatch(new DeletePostUpvoteActionSuccess({ data: result }));
+        this.store.dispatch(
+          new DeletePostUpvoteActionSuccess({ data: result }),
+        );
       } catch ({ error }) {
         this.store.dispatch(new DeletePostUpvoteActionFailure({ error }));
         console.log(error);
