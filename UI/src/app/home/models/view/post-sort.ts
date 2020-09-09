@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 export enum PostSort {
   Unknown,
   Fresh,
@@ -81,3 +83,11 @@ export const postSorts: PostSortViewModel[] = [
     iconColor: '',
   },
 ];
+
+export const dateFilterSort = (
+  amount: moment.DurationInputArg1,
+  unit: moment.DurationInputArg2,
+) =>
+  `&filters=createdAt!between!${moment()
+    .subtract(amount, unit)
+    .format('YYYY-MM-DD')},${moment().format('YYYY-MM-DD')},date`;

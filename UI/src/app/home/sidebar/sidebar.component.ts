@@ -4,6 +4,7 @@ import {
   postSortTimes,
   SortTime,
   PostSortViewModel,
+  dateFilterSort,
 } from './../models/view/post-sort';
 import { Component, OnInit } from '@angular/core';
 import { postCategories } from '../models/view/post-category';
@@ -33,22 +34,16 @@ export class SidebarComponent implements OnInit {
   searchTerm = new FormControl('');
   years: string[];
   months: string[];
-  sortUrl: SortUrl;
+  sortUrl: SortUrl = SortUrl.Fresh;
   get postSortTimes() {
     return postSortTimes;
   }
 
   sortTimeMap: { [key: number]: string } = {
-    [SortTime.Days1]: `?sort=upvotes:desc&filters=createdAt!between!${moment()
-      .subtract(1, 'days')
-      .format('YYYY-MM-DD')},${moment().format('YYYY-MM-DD')},date`,
-    [SortTime.Days7]: `?sort=upvotes:desc&filters=createdAt!between!${moment()
-      .subtract(1, 'weeks')
-      .format('YYYY-MM-DD')},${moment().format('YYYY-MM-DD')},date`,
-    [SortTime.Days30]: `?sort=upvotes:desc&filters=createdAt!between!${moment()
-      .subtract(1, 'months')
-      .format('YYYY-MM-DD')},${moment().format('YYYY-MM-DD')},date`,
-    [SortTime.All]: `?sort=upvotes:desc`,
+    [SortTime.Days1]: dateFilterSort(1, 'days'),
+    [SortTime.Days7]: dateFilterSort(1, 'weeks'),
+    [SortTime.Days30]: dateFilterSort(1, 'month'),
+    [SortTime.All]: ``,
   };
 
   selectedTime = new FormControl(SortTime.All);
@@ -57,7 +52,7 @@ export class SidebarComponent implements OnInit {
     // this.router.events
     //   .pipe(filter((event: RouterEvent) => event instanceof NavigationStart))
     //   .subscribe(e => {
-    //     console.log(e);
+    //     console.log(e.url);
     //   });
   }
 
@@ -120,23 +115,24 @@ export class SidebarComponent implements OnInit {
     this.sortUrl = sort.url;
     this.sorts.forEach(x => (x.iconColor = null));
     sort.iconColor = 'primary';
-
-    switch (sort.url) {
-      case SortUrl.Popular:
-        this.router.navigateByUrl(this.sortTimeMap[this.selectedTime.value]);
-        break;
-      case SortUrl.Commented:
-        this.router.navigateByUrl(`?sort=comments:desc`);
-        break;
-      case SortUrl.Fresh:
-        this.router.navigateByUrl('/');
-        break;
-    }
+    this.navigateSorting(this.sortUrl);
   }
 
   onSelectedTimeSort(value: SortTime) {
-    if (this.sortUrl === SortUrl.Popular) {
-      this.router.navigateByUrl(this.sortTimeMap[this.selectedTime.value]);
+    this.navigateSorting(this.sortUrl);
+  }
+
+  navigateSorting(value: SortUrl) {
+    switch (value) {
+      case SortUrl.Popular:
+        this.router.navigateByUrl(`?sort=upvotes:desc${this.sortTimeMap[this.selectedTime.value]}`);
+        break;
+      case SortUrl.Commented:
+        this.router.navigateByUrl(`?sort=comments:desc${this.sortTimeMap[this.selectedTime.value]}`);
+        break;
+      case SortUrl.Fresh:
+        this.router.navigateByUrl(`?${this.sortTimeMap[this.selectedTime.value]}`);
+        break;
     }
   }
 }

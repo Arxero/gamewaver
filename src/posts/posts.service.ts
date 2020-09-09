@@ -63,10 +63,13 @@ export class PostsService {
   async sortByComments(
     queryRequest: QueryRequest,
   ): Promise<PagedData<GetPostDto>> {
+    const fromTo = queryRequest.filters ? queryRequest.filters[0].searchValue.split(',') : [];
+    const where = queryRequest.filters ? `WHERE (createdAt BETWEEN '${fromTo[0]}' AND '${fromTo[1]}')` : '';
     const total = await this.postsRepository.count();
     const items = (await getRepository(Post).query(`SELECT *
       FROM posts x
-      LEFT JOIN (SELECT postId, COUNT(*) total FROM comments GROUP BY postId) y ON y.postId = x.id
+      INNER JOIN (SELECT postId, COUNT(*) total FROM comments GROUP BY postId) y ON y.postId = x.id
+      ${where}
       ORDER 
         BY total DESC
         LIMIT ${queryRequest.paging.take}
