@@ -9,7 +9,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { Post } from './models/post.entity';
-import { Repository, DeepPartial, getRepository } from 'typeorm';
+import { Repository, DeepPartial, getRepository, getConnection } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/users.service';
 import { ResponseError } from 'src/common/models/response';
@@ -19,7 +19,7 @@ import { GetPostDto } from './models/dto/get-post.dto';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { TokenUserPayloadDto } from 'src/auth/models/dto/token-user-payload.dto';
-import { UserRole } from 'src/users/models/user.entity';
+import { UserRole, User } from 'src/users/models/user.entity';
 
 @Injectable()
 export class PostsService {
@@ -63,21 +63,22 @@ export class PostsService {
   async sortByComments(
     queryRequest: QueryRequest,
   ): Promise<PagedData<GetPostDto>> {
-    const fromTo = queryRequest.filters ? queryRequest.filters[0].searchValue.split(',') : [];
-    const where = queryRequest.filters ? `WHERE (createdAt BETWEEN '${fromTo[0]}' AND '${fromTo[1]}')` : '';
-    const total = await this.postsRepository.count();
-    const items = (await getRepository(Post).query(`SELECT *
-      FROM posts x
-      INNER JOIN (SELECT postId, COUNT(*) total FROM comments GROUP BY postId) y ON y.postId = x.id
-      ${where}
-      ORDER 
-        BY total DESC
-        LIMIT ${queryRequest.paging.take}
-        OFFSET ${queryRequest.paging.skip}`)) as Post[];
+    const fromTo = queryRequest.filters
+      ? queryRequest.filters[0].searchValue.split(',')
+      : [];
+
+    const sqlQuery = (select, limitOffset) => `SELECT ${select} FROM posts x
+    INNER JOIN (SELECT postId, COUNT(*) total FROM comments GROUP BY postId) y ON y.postId = x.id
+    ${queryRequest.filters ? `WHERE (createdAt BETWEEN '${fromTo[0]}' AND '${fromTo[1]}')` : ''}
+    ORDER
+      BY total DESC
+      ${limitOffset}`;
+    const items = (await this.postsRepository.query(sqlQuery('*', `LIMIT ${queryRequest.paging.take} OFFSET ${queryRequest.paging.skip}`))) as Post[];
+    const [{total}] = await this.postsRepository.query(sqlQuery('COUNT(*) as total', ''));
 
     return new PagedData<GetPostDto>(
       items.map(x => new GetPostDto(x)),
-      total,
+      Number(total),
     );
   }
 
