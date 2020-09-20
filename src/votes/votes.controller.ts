@@ -37,6 +37,7 @@ export class VotesController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiQuery({ name: 'userId', required: true, description: 'finds single vote'})
   @Get(':userId/:postId')
   async findOne(
     @Param('userId') userId: string,
