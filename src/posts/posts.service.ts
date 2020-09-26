@@ -44,6 +44,8 @@ export class PostsService {
   async findAll(queryRequest: QueryRequest): Promise<PagedData<GetPostDto>> {
     if (Object.keys(queryRequest.sorting.order).includes('comments')) {
       return await this.sortByComments(queryRequest);
+    } else if (queryRequest.filters.some(x => x.fieldName === 'votes')) {
+      return await this.findByPostVote(queryRequest);
     }
 
     const [items, total] = await this.postsRepository.findAndCount({
@@ -59,6 +61,25 @@ export class PostsService {
       total,
     );
   }
+
+  async findByPostVote(
+    queryRequest: QueryRequest,
+  ): Promise<PagedData<GetPostDto>> {
+    const sqlQuery = (select, limitOffset) => `SELECT ${select} FROM posts x
+    INNER JOIN (SELECT postId, createdAt as voteCreated FROM postVotes GROUP BY postId) y ON y.postId = x.id
+    WHERE authorId = '${queryRequest.filters.find(x => x.fieldName === 'votes').searchValue}'
+    ORDER
+      BY voteCreated DESC
+      ${limitOffset}`;
+    const items = (await this.postsRepository.query(sqlQuery('*', `LIMIT ${queryRequest.paging.take} OFFSET ${queryRequest.paging.skip}`))) as Post[];
+    const [{total}] = await this.postsRepository.query(sqlQuery('COUNT(*) as total', ''));
+
+    return new PagedData<GetPostDto>(
+      items.map(x => new GetPostDto(x)),
+      Number(total),
+    );
+  }
+
 
   async sortByComments(
     queryRequest: QueryRequest,

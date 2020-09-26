@@ -55,6 +55,7 @@ export class PostsController {
     description: 'filters[createdAt][between]=2020-05-09,2020-05-10,date',
     required: false,
   })
+  @ApiQuery({ name: 'votes', description: 'get posts by user voted: filters[votes][in]=${userId}', required: false })
   @ApiQuery({ name: 'take', required: false })
   @ApiQuery({ name: 'skip', required: false })
   @Get()
