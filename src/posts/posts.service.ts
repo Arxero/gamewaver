@@ -44,7 +44,7 @@ export class PostsService {
   async findAll(queryRequest: QueryRequest): Promise<PagedData<GetPostDto>> {
     if (Object.keys(queryRequest.sorting.order).includes('comments')) {
       return await this.sortByComments(queryRequest);
-    } else if (queryRequest.filters.some(x => x.fieldName === 'votes')) {
+    } else if (queryRequest.filters?.some(x => x.fieldName === 'votes')) {
       return await this.findByPostVote(queryRequest);
     }
 
