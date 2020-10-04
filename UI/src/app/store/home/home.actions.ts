@@ -105,7 +105,7 @@ export class GetPostsAction implements Action {
       paging: Paging;
       filters?: DataFilter[];
       userActionOnPost?: UserActionOnPost;
-      sorting: Sorting[];
+      sorting?: Sorting[];
     },
   ) {}
 }

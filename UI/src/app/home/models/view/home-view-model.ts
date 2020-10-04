@@ -20,7 +20,8 @@ export enum PostContext {
 export enum UserActionOnPost {
   Unknown = 'unknown',
   Posted = 'posted',
-  Commented = 'commented'
+  Commented = 'commented',
+  Voted = 'voted'
 }
 
 export enum PostPageState {

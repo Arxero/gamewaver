@@ -8,6 +8,7 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { ProfilePostsComponent } from './profile-posts/profile-posts.component';
 import { ProfileCommentsComponent } from './profile-comments/profile-comments.component';
 import { ProfileHomeComponent } from './profile-home/profile-home.component';
+import { ProfileVotesComponent } from './profile-votes/profile-votes.component';
 
 
 
@@ -18,6 +19,7 @@ import { ProfileHomeComponent } from './profile-home/profile-home.component';
     ProfilePostsComponent,
     ProfileCommentsComponent,
     ProfileHomeComponent,
+    ProfileVotesComponent,
   ],
   imports: [
     CommonModule,

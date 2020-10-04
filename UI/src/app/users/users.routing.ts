@@ -7,6 +7,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { ProfilePostsComponent } from './profile-posts/profile-posts.component';
 import { ProfileCommentsComponent } from './profile-comments/profile-comments.component';
 import { ProfileHomeComponent } from './profile-home/profile-home.component';
+import { ProfileVotesComponent } from './profile-votes/profile-votes.component';
 
 export const usersRoute = 'users';
 export const usersProfileRoute = 'profile';
@@ -32,6 +33,10 @@ const routes: Routes = [
         path: `comments`,
         component: ProfileCommentsComponent,
       },
+      {
+        path: `votes`,
+        component: ProfileVotesComponent,
+      }
     ],
   },
   {

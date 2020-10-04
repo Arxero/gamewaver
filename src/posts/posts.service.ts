@@ -66,8 +66,8 @@ export class PostsService {
     queryRequest: QueryRequest,
   ): Promise<PagedData<GetPostDto>> {
     const sqlQuery = (select, limitOffset) => `SELECT ${select} FROM posts x
-    INNER JOIN (SELECT postId, createdAt as voteCreated FROM postVotes GROUP BY postId) y ON y.postId = x.id
-    WHERE authorId = '${queryRequest.filters.find(x => x.fieldName === 'votes').searchValue}'
+    INNER JOIN (SELECT postId, userId, createdAt as voteCreated FROM postVotes) y ON y.postId = x.id
+    WHERE userId = '${queryRequest.filters.find(x => x.fieldName === 'votes').searchValue}'
     ORDER
       BY voteCreated DESC
       ${limitOffset}`;

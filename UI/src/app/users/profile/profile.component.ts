@@ -45,6 +45,10 @@ export class ProfileComponent extends BaseComponent implements OnInit {
       label: 'Comments',
       link: 'comments',
     },
+    {
+      label: 'Votes',
+      link: 'votes',
+    },
   ];
 
   constructor(
