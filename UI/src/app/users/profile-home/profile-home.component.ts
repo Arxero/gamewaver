@@ -77,9 +77,10 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
       this.posts = items[0];
       this.comments = items[1];
       this.homeItems = [];
-      items[0].forEach(x =>
-        this.homeItems.push({ post: x, date: x.createdAt }),
-      );
+      items[0].forEach(x => {
+        const foundImtem = this.homeItems.find(j => j.post.id === x.id);
+        this.homeItems.push({ post: x, date: foundImtem ? x.voteCreated : x.createdAt });
+      });
       items[1].forEach(x =>
         this.homeItems.push({ comment: x, date: x.createdAt }),
       );
@@ -92,6 +93,8 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
       this.comments = [];
       this.store.dispatch(new ClearPostsAction());
       this.getPosts(UserActionOnPost.Posted);
+      this.getPosts(UserActionOnPost.Voted);
+
       this.getComments();
     });
   }
@@ -100,6 +103,7 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
 
   onScrollDown() {
     this.getPosts(UserActionOnPost.Posted);
+    this.getPosts(UserActionOnPost.Voted);
     this.getComments();
   }
 
@@ -109,7 +113,7 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
 
   private getPosts(userActionOnPost?: UserActionOnPost) {
     const postsFilter = {
-      fieldName: 'author',
+      fieldName: userActionOnPost ===  UserActionOnPost.Posted ? 'author' : 'votes',
       searchOperator: SearchType.In,
       searchValue: this.userId,
     };

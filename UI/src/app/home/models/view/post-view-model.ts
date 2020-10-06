@@ -16,6 +16,7 @@ export interface PostViewModel extends HomeViewModel {
   upvotes: number;
   downvotes: number;
   vote: GetVoteDto;
+  voteCreated: Date;
 }
 
 export function mapPostViewModel(
@@ -37,5 +38,6 @@ export function mapPostViewModel(
     userRole: userInPosts.role !== UserRole.USER ? userInPosts.role : null,
     commentsCount,
     vote: votesDto,
+    voteCreated: post.voteCreated,
   } as PostViewModel;
 }

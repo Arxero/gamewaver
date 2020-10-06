@@ -9,4 +9,5 @@ export interface GetPostDto extends DataEntity {
 
   upvotes: number;
   downvotes: number;
+  voteCreated: Date;
 }
