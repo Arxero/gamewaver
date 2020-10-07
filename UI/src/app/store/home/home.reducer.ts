@@ -8,6 +8,7 @@ import { CommentViewModel } from '../../home/models/view/comment-view-model';
 
 export interface HomeState {
   posts: PostViewModel[];
+  votedPosts: PostViewModel[];
   post: PostViewModel;
   isEditSuccessful: boolean;
   isEditCommentSuccessful: boolean;
@@ -40,6 +41,7 @@ export function homeReducer(
       return {
         ...state,
         posts: postsClone.concat(action.payload.data),
+        votedPosts: action.payload.data.every(x => x.voteCreated !== undefined) ? action.payload.data : [],
         post: null,
         postsTotal: action.payload.total
       } as HomeState;

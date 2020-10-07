@@ -15,6 +15,7 @@ import { userProfile } from '../../store/auth/auth.selectors';
 import {
   homeStatePosts,
   homeStatePostComments,
+  homeStateVotedPosts,
 } from '../../store/home/home.selectors';
 import { SearchType } from '../../shared/models/common';
 import {
@@ -73,14 +74,29 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
         select(homeStatePostComments),
         filter(x => !!x && x.length > 0),
       ),
+      store.pipe(
+        takeUntil(this.destroyed$),
+        select(homeStateVotedPosts),
+        filter(x => !!x && x.length > 0),
+      ),
     ]).subscribe(items => {
       this.posts = items[0];
       this.comments = items[1];
+      const votedPosts = items[2];
       this.homeItems = [];
+      // items[0].forEach(x => {
+      //   const foundImtem = this.homeItems.find(j => j.post.id === x.id);
+      //   this.homeItems.push({ post: x, date: foundImtem ? x.voteCreated : x.createdAt });
+      // });
+
       items[0].forEach(x => {
-        const foundImtem = this.homeItems.find(j => j.post.id === x.id);
-        this.homeItems.push({ post: x, date: foundImtem ? x.voteCreated : x.createdAt });
+        this.homeItems.push({ post: x, date: x.createdAt });
       });
+
+      items[2].forEach(x => {
+        this.homeItems.push({ post: x, date: x.voteCreated });
+      });
+
       items[1].forEach(x =>
         this.homeItems.push({ comment: x, date: x.createdAt }),
       );

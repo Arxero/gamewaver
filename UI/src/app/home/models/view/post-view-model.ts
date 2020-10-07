@@ -23,16 +23,22 @@ export function mapPostViewModel(
   post: GetPostDto,
   userInPosts: User,
   votesDto: GetVoteDto = { type: VoteType.Unknown, postId: null, userId: null },
-  userActionOnPost?: UserActionOnPost,
+  userActionOnPost: UserActionOnPost = UserActionOnPost.Unknown,
   commentsCount: number = 0,
 ): PostViewModel {
+  const getTooltipDate: {[key: string]: Date} = {
+    [UserActionOnPost.Unknown]: post.createdAt,
+    [UserActionOnPost.Posted]: post.createdAt,
+    [UserActionOnPost.Voted]: post.voteCreated,
+  };
+
   return {
     ...post,
     authorAvatar: userInPosts.avatar,
     authorUsername: userInPosts.username,
     category: postCategories.find(j => j.value === post.category).label,
-    date: post.createdAt.toString(),
-    tooltipDate: moment(post.createdAt).format('MMMM DD, YYYY [at] hh:mm A'),
+    date: getTooltipDate[userActionOnPost].toString(),
+    tooltipDate: moment(getTooltipDate[userActionOnPost]).format('MMMM DD, YYYY [at] hh:mm A'),
     categoryEnum: post.category,
     userActionOnPost,
     userRole: userInPosts.role !== UserRole.USER ? userInPosts.role : null,
@@ -41,3 +47,4 @@ export function mapPostViewModel(
     voteCreated: post.voteCreated,
   } as PostViewModel;
 }
+
