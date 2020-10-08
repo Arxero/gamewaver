@@ -41,6 +41,7 @@ import {
   DeletePostUpvoteAction,
   DeletePostUpvoteActionSuccess,
   DeletePostUpvoteActionFailure,
+  GetVotedPostsActionSuccess,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UsersService } from '../../services/users.service';
@@ -196,9 +197,17 @@ export class HomeEffects {
             resultCommentsCount.result.find(x => x.postId === post.id).count,
           );
         });
+
+        if (a.payload.userActionOnPost === UserActionOnPost.Voted) {
+          this.store.dispatch(
+            new GetVotedPostsActionSuccess({ data: posts }),
+          );
+          return;
+        }
         this.store.dispatch(
           new GetPostsActionSuccess({ data: posts, total: result.total }),
         );
+
       } catch (error) {
         console.log(error);
       }

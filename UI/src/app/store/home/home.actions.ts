@@ -28,6 +28,7 @@ export enum HomeActionTypes {
   GetPostsActionFailure = '[GetPostsFailure] Action',
   ClearPostsAction = '[ClearPosts] Action',
   ClearPostAction = '[ClearPost] Action',
+  GetVotedPostsActionSuccess = '[GetVotedPostsAction] Action',
 
   GetPostAction = '[GetPost] Action',
   GetPostActionSuccess = '[GetPostSuccess] Action',
@@ -126,6 +127,12 @@ export class ClearPostsAction implements Action {
 export class ClearPostAction implements Action {
   readonly type = HomeActionTypes.ClearPostAction;
 }
+
+export class GetVotedPostsActionSuccess implements Action {
+  readonly type = HomeActionTypes.GetVotedPostsActionSuccess;
+  constructor(public payload: { data: PostViewModel[] }) {}
+}
+
 
 // GET POST
 export class GetPostAction implements Action {
@@ -277,6 +284,7 @@ export type HomeActions =
   | EditPostActionFailure
   | GetPostsAction
   | GetPostsActionSuccess
+  | GetVotedPostsActionSuccess
   | GetPostsActionFailure
   | ClearPostsAction
   | ClearPostAction

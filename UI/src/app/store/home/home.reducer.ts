@@ -41,9 +41,14 @@ export function homeReducer(
       return {
         ...state,
         posts: postsClone.concat(action.payload.data),
-        votedPosts: action.payload.data.every(x => x.voteCreated !== undefined) ? action.payload.data : [],
         post: null,
-        postsTotal: action.payload.total
+        postsTotal: action.payload.total,
+      } as HomeState;
+
+    case HomeActionTypes.GetVotedPostsActionSuccess:
+      return {
+        ...state,
+        votedPosts: action.payload.data,
       } as HomeState;
 
     case HomeActionTypes.ClearPostsAction:
@@ -137,7 +142,9 @@ export function homeReducer(
       } as HomeState;
 
     case HomeActionTypes.CreatePostUpvoteActionSuccess:
-      const postToUpvote = postsClone.find(x => x.id === action.payload.data.postId);
+      const postToUpvote = postsClone.find(
+        x => x.id === action.payload.data.postId,
+      );
       postToUpvote.vote = action.payload.data;
 
       if (action.payload.data.type === VoteType.Upvote) {
@@ -148,12 +155,20 @@ export function homeReducer(
 
       return {
         ...state,
-        posts: state.posts.map(p => mapPostVote(p, action.payload.data.postId, postToUpvote)),
+        posts: state.posts.map(p =>
+          mapPostVote(p, action.payload.data.postId, postToUpvote),
+        ),
       } as HomeState;
 
     case HomeActionTypes.DeletePostUpvoteActionSuccess:
-      const postToUnvote = postsClone.find(x => x.id === action.payload.data.postId);
-      postToUnvote.vote = { type: VoteType.Unknown, postId: null, userId: null };
+      const postToUnvote = postsClone.find(
+        x => x.id === action.payload.data.postId,
+      );
+      postToUnvote.vote = {
+        type: VoteType.Unknown,
+        postId: null,
+        userId: null,
+      };
 
       if (action.payload.data.type === VoteType.Upvote) {
         postToUnvote.upvotes--;
@@ -163,7 +178,9 @@ export function homeReducer(
 
       return {
         ...state,
-        posts: state.posts.map(p => mapPostVote(p, action.payload.data.postId, postToUnvote)),
+        posts: state.posts.map(p =>
+          mapPostVote(p, action.payload.data.postId, postToUnvote),
+        ),
       } as HomeState;
 
     default:
@@ -171,7 +188,11 @@ export function homeReducer(
   }
 }
 
-export function mapPostVote(post: PostViewModel, id: string, newVote: PostViewModel): PostViewModel {
+export function mapPostVote(
+  post: PostViewModel,
+  id: string,
+  newVote: PostViewModel,
+): PostViewModel {
   if (post.id === id) {
     post = newVote;
   }
