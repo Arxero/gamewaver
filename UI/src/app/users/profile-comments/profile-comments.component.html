@@ -8,7 +8,7 @@
   <ng-container *ngFor="let item of comments">
     <app-comment
       [comment]="item"
-      [user]="user"
+      [user]="user$ | async"
       [postContext]="postContext.ProfilePage"
     ></app-comment>
   </ng-container>

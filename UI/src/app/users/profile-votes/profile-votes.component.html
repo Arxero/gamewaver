@@ -9,7 +9,7 @@
     <app-post
       *ngIf="item"
       [post]="item"
-      [user]="user"
+      [user]="user$ | async"
       [postContext]="postContext.ProfilePage"
     ></app-post>
   </ng-container>

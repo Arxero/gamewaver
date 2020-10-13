@@ -16,6 +16,8 @@ import { CommentViewModel } from '../../home/models/view/comment-view-model';
 import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../../store/auth/auth.selectors';
 import { homeStatePostComments } from '../../store/home/home.selectors';
+import { Observable } from 'rxjs';
+import { UserViewModel } from '../models/view/user-view-model';
 
 @Component({
   selector: 'app-profile-comments',
@@ -24,7 +26,8 @@ import { homeStatePostComments } from '../../store/home/home.selectors';
 })
 export class ProfileCommentsComponent extends BaseComponent implements OnInit {
   comments: CommentViewModel[] = [];
-  user: User;
+  // comments$: Observable<CommentViewModel[]>;
+  user$: Observable<UserViewModel>;
   take = 5;
   get postContext() {
     return PostContext;
@@ -39,17 +42,7 @@ export class ProfileCommentsComponent extends BaseComponent implements OnInit {
   ) {
     super();
     this.userId = this.route.parent.snapshot.params.id;
-
-    store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(userProfile),
-        filter(x => !!x),
-      )
-      .subscribe(x => {
-        this.user = x;
-      });
-
+    this.user$ = store.pipe(select(userProfile));
     store
       .pipe(
         takeUntil(this.destroyed$),
@@ -59,6 +52,8 @@ export class ProfileCommentsComponent extends BaseComponent implements OnInit {
       .subscribe(x => {
         this.comments = x;
       });
+
+
   }
 
   ngOnInit(): void {

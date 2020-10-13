@@ -73,7 +73,6 @@ export class PostsService {
       ${limitOffset}`;
     const items = (await this.postsRepository.query(sqlQuery('*', `LIMIT ${queryRequest.paging.take} OFFSET ${queryRequest.paging.skip}`))) as Post[];
     const [{total}] = await this.postsRepository.query(sqlQuery('COUNT(*) as total', ''));
-    console.log(items);
 
     return new PagedData<GetPostDto>(
       items.map(x => new GetPostDto(x)),

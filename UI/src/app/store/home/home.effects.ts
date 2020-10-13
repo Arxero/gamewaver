@@ -202,6 +202,7 @@ export class HomeEffects {
           this.store.dispatch(
             new GetVotedPostsActionSuccess({ data: posts }),
           );
+          this.loadingService.setUILoading(false);
           return;
         }
         this.store.dispatch(

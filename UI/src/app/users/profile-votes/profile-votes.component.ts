@@ -1,4 +1,4 @@
-import { homeStatePosts } from './../../store/home/home.selectors';
+import { homeStatePosts, homeStateVotedPosts } from './../../store/home/home.selectors';
 import { userProfile } from './../../store/auth/auth.selectors';
 import { takeUntil, filter } from 'rxjs/operators';
 import { GetPostsAction, ClearPostsAction } from './../../store/home/home.actions';
@@ -11,6 +11,8 @@ import { Store, select } from '@ngrx/store';
 import { HomeState } from './../../store/home/home.reducer';
 import { BaseComponent } from './../../shared/base.component';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { UserViewModel } from '../models/view/user-view-model';
 
 @Component({
   selector: 'app-profile-votes',
@@ -19,7 +21,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileVotesComponent extends BaseComponent implements OnInit {
   posts: PostViewModel[] = [];
-  user: User;
+  user$: Observable<UserViewModel>;
   take = 5;
   get postContext() {
     return PostContext;
@@ -33,18 +35,11 @@ export class ProfileVotesComponent extends BaseComponent implements OnInit {
   ) {
     super();
     this.userId = this.route.parent.snapshot.params.id;
-
-    store
-    .pipe(
-      takeUntil(this.destroyed$),
-      select(userProfile),
-      filter(x => !!x),
-    )
-    .subscribe(x => this.user = x);
+    this.user$ = store.pipe(select(userProfile));
 
     store.pipe(
       takeUntil(this.destroyed$),
-      select(homeStatePosts),
+      select(homeStateVotedPosts),
       filter(x => !!x && x.length > 0),
     )
     .subscribe(x => this.posts = x);
