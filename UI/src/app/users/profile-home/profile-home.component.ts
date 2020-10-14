@@ -1,3 +1,4 @@
+import { EnvironmentService } from './../../services/environment.service';
 import { Sorting, SortDirection, dateSort } from './../../shared/models/common';
 import { Component, OnInit } from '@angular/core';
 import { ProfileHomeItem } from '../models/view/profile-home-item';
@@ -26,7 +27,7 @@ import {
 } from '../../store/home/home.actions';
 import { PostViewModel } from '../../home/models/view/post-view-model';
 import { CommentViewModel } from '../../home/models/view/comment-view-model';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import * as lodash from 'lodash';
 
 @Component({
@@ -36,8 +37,7 @@ import * as lodash from 'lodash';
 })
 export class ProfileHomeComponent extends BaseComponent implements OnInit {
   homeItems: ProfileHomeItem[] = [];
-  user: User;
-  take = 3;
+  user$: Observable<User>;
   userId: string;
   get postContext() {
     return PostContext;
@@ -50,18 +50,10 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
     private store: Store<HomeState>,
     private route: ActivatedRoute,
     private router: Router,
+    private environmentService: EnvironmentService,
   ) {
     super();
-
-    store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(userProfile),
-        filter(x => !!x),
-      )
-      .subscribe(x => {
-        this.user = x;
-      });
+    this.user$ = store.pipe(select(userProfile));
 
     combineLatest([
       store.pipe(
@@ -84,10 +76,6 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
       this.comments = items[1];
       const votedPosts = items[2];
       this.homeItems = [];
-      // items[0].forEach(x => {
-      //   const foundImtem = this.homeItems.find(j => j.post.id === x.id);
-      //   this.homeItems.push({ post: x, date: foundImtem ? x.voteCreated : x.createdAt });
-      // });
 
       items[0].forEach(x => {
         this.homeItems.push({ post: x, date: x.createdAt });
@@ -110,7 +98,6 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
       this.store.dispatch(new ClearPostsAction());
       this.getPosts(UserActionOnPost.Posted);
       this.getPosts(UserActionOnPost.Voted);
-
       this.getComments();
     });
   }
@@ -129,17 +116,18 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
 
   private getPosts(userActionOnPost?: UserActionOnPost) {
     const postsFilter = {
-      fieldName: userActionOnPost ===  UserActionOnPost.Posted ? 'author' : 'votes',
+      fieldName:
+        userActionOnPost === UserActionOnPost.Posted ? 'author' : 'votes',
       searchOperator: SearchType.In,
       searchValue: this.userId,
     };
 
     this.store.dispatch(
       new GetPostsAction({
-        paging: { skip: this.posts.length, take: this.take },
+        paging: { skip: this.posts.length, take: this.environmentService.take },
         filters: [postsFilter],
         userActionOnPost,
-        sorting: [dateSort]
+        sorting: [dateSort],
       }),
     );
   }
@@ -153,7 +141,10 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
 
     this.store.dispatch(
       new GetCommentsAction({
-        paging: { skip: this.comments.length, take: this.take },
+        paging: {
+          skip: this.comments.length,
+          take: this.environmentService.take,
+        },
         filters: [commentsFilter],
       }),
     );

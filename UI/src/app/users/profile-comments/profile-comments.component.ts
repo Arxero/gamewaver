@@ -1,3 +1,4 @@
+import { EnvironmentService } from './../../services/environment.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../shared/base.component';
 import { Store, select } from '@ngrx/store';
@@ -26,9 +27,7 @@ import { UserViewModel } from '../models/view/user-view-model';
 })
 export class ProfileCommentsComponent extends BaseComponent implements OnInit {
   comments: CommentViewModel[] = [];
-  // comments$: Observable<CommentViewModel[]>;
   user$: Observable<UserViewModel>;
-  take = 5;
   get postContext() {
     return PostContext;
   }
@@ -39,6 +38,7 @@ export class ProfileCommentsComponent extends BaseComponent implements OnInit {
     private store: Store<HomeState>,
     private route: ActivatedRoute,
     private router: Router,
+    private environmentService: EnvironmentService,
   ) {
     super();
     this.userId = this.route.parent.snapshot.params.id;
@@ -52,8 +52,6 @@ export class ProfileCommentsComponent extends BaseComponent implements OnInit {
       .subscribe(x => {
         this.comments = x;
       });
-
-
   }
 
   ngOnInit(): void {
@@ -78,7 +76,10 @@ export class ProfileCommentsComponent extends BaseComponent implements OnInit {
 
     this.store.dispatch(
       new GetCommentsAction({
-        paging: { skip: this.comments.length, take: this.take },
+        paging: {
+          skip: this.comments.length,
+          take: this.environmentService.take,
+        },
         filters: [commentsFilter],
       }),
     );

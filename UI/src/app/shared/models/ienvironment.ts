@@ -4,4 +4,5 @@ export interface IEnvironment {
   uploadApiUrl: string;
   uploadApiClientId: string;
   reCaptchaSiteKey: string;
+  take: number;
 }

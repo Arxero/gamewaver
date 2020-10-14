@@ -1,3 +1,4 @@
+import { EnvironmentService } from './../../services/environment.service';
 import { Sorting, SortDirection, dateSort } from './../../shared/models/common';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../shared/base.component';
@@ -22,6 +23,7 @@ import {
   PostContext,
   UserActionOnPost,
 } from '../../home/models/view/home-view-model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile-posts',
@@ -30,8 +32,7 @@ import {
 })
 export class ProfilePostsComponent extends BaseComponent implements OnInit {
   posts: PostViewModel[] = [];
-  user: User;
-  take = 3;
+  user$: Observable<User>;
   get postContext() {
     return PostContext;
   }
@@ -43,19 +44,11 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
     private store: Store<HomeState>,
     private route: ActivatedRoute,
     private router: Router,
+    private environmentService: EnvironmentService,
   ) {
     super();
     this.userId = this.route.parent.snapshot.params.id;
-
-    store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(userProfile),
-        filter(x => !!x),
-      )
-      .subscribe(x => {
-        this.user = x;
-      });
+    this.user$ = store.pipe(select(userProfile));
 
     store
       .pipe(
@@ -89,10 +82,10 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
 
     this.store.dispatch(
       new GetPostsAction({
-        paging: { skip: this.posts.length, take: this.take },
+        paging: { skip: this.posts.length, take: this.environmentService.take },
         filters: [postsFilter],
         userActionOnPost,
-        sorting: [dateSort]
+        sorting: [dateSort],
       }),
     );
   }

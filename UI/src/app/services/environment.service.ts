@@ -27,5 +27,9 @@ export class EnvironmentService implements IEnvironment {
     return environment.reCaptchaSiteKey;
   }
 
+  get take() {
+    return environment.take;
+  }
+
   constructor() {}
 }

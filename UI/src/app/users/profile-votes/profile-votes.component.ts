@@ -1,9 +1,19 @@
-import { homeStatePosts, homeStateVotedPosts } from './../../store/home/home.selectors';
+import { EnvironmentService } from './../../services/environment.service';
+import {
+  homeStatePosts,
+  homeStateVotedPosts,
+} from './../../store/home/home.selectors';
 import { userProfile } from './../../store/auth/auth.selectors';
 import { takeUntil, filter } from 'rxjs/operators';
-import { GetPostsAction, ClearPostsAction } from './../../store/home/home.actions';
+import {
+  GetPostsAction,
+  ClearPostsAction,
+} from './../../store/home/home.actions';
 import { SearchType } from './../../shared/models/common';
-import { PostContext, UserActionOnPost } from './../../home/models/view/home-view-model';
+import {
+  PostContext,
+  UserActionOnPost,
+} from './../../home/models/view/home-view-model';
 import { User } from './../models/dto/user';
 import { PostViewModel } from './../../home/models/view/post-view-model';
 import { ActivatedRoute } from '@angular/router';
@@ -17,12 +27,11 @@ import { UserViewModel } from '../models/view/user-view-model';
 @Component({
   selector: 'app-profile-votes',
   templateUrl: './profile-votes.component.html',
-  styleUrls: ['./profile-votes.component.scss']
+  styleUrls: ['./profile-votes.component.scss'],
 })
 export class ProfileVotesComponent extends BaseComponent implements OnInit {
   posts: PostViewModel[] = [];
   user$: Observable<UserViewModel>;
-  take = 5;
   get postContext() {
     return PostContext;
   }
@@ -32,18 +41,20 @@ export class ProfileVotesComponent extends BaseComponent implements OnInit {
   constructor(
     private store: Store<HomeState>,
     private route: ActivatedRoute,
+    private environmentService: EnvironmentService,
   ) {
     super();
     this.userId = this.route.parent.snapshot.params.id;
     this.user$ = store.pipe(select(userProfile));
 
-    store.pipe(
-      takeUntil(this.destroyed$),
-      select(homeStateVotedPosts),
-      filter(x => !!x && x.length > 0),
-    )
-    .subscribe(x => this.posts = x);
-   }
+    store
+      .pipe(
+        takeUntil(this.destroyed$),
+        select(homeStateVotedPosts),
+        filter(x => !!x && x.length > 0),
+      )
+      .subscribe(x => (this.posts = x));
+  }
 
   ngOnInit(): void {
     this.getPosts(UserActionOnPost.Voted);
@@ -66,11 +77,10 @@ export class ProfileVotesComponent extends BaseComponent implements OnInit {
 
     this.store.dispatch(
       new GetPostsAction({
-        paging: { skip: this.posts.length, take: this.take },
+        paging: { skip: this.posts.length, take: this.environmentService.take },
         filters: [postsFilter],
         userActionOnPost,
       }),
     );
   }
-
 }

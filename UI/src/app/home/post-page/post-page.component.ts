@@ -1,3 +1,4 @@
+import { EnvironmentService } from './../../services/environment.service';
 import { AddItem } from './../models/view/add-item';
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
@@ -40,7 +41,6 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   pageState: PostPageState = PostPageState.Default;
   comments: CommentViewModel[] = [];
   commentToEdit: CommentViewModel;
-  take = 5;
 
   get postContext() {
     return PostContext;
@@ -54,7 +54,11 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   editItemPost: AddItem;
   editItemComment: AddItem;
 
-  constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
+  constructor(
+    private store: Store<HomeState>,
+    private route: ActivatedRoute,
+    private environmentService: EnvironmentService,
+  ) {
     super();
     this.postId = this.route.snapshot.params.id;
     this.editItemComment = this.mapEditItemComment();
@@ -118,7 +122,10 @@ export class PostPageComponent extends BaseComponent implements OnInit {
 
     this.store.dispatch(
       new GetCommentsAction({
-        paging: { skip: this.comments.length, take: this.take },
+        paging: {
+          skip: this.comments.length,
+          take: this.environmentService.take,
+        },
         filters: this.commentsFilters,
       }),
     );
@@ -152,7 +159,10 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   onScrollDown() {
     this.store.dispatch(
       new GetCommentsAction({
-        paging: { skip: this.comments.length, take: this.take },
+        paging: {
+          skip: this.comments.length,
+          take: this.environmentService.take,
+        },
         filters: this.commentsFilters,
       }),
     );

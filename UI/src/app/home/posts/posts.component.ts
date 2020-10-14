@@ -1,3 +1,4 @@
+import { EnvironmentService } from './../../services/environment.service';
 import { Sorting, SortDirection, dateSort } from './../../shared/models/common';
 import { homeStatePostsTotal } from './../../store/home/home.selectors';
 import {
@@ -34,7 +35,6 @@ export class PostsComponent extends BaseComponent implements OnInit {
   posts: PostViewModel[] = [];
   total: number;
   user: User;
-  take = 5;
   queryRequest: QueryRequest;
   get postContext() {
     return PostContext;
@@ -45,8 +45,11 @@ export class PostsComponent extends BaseComponent implements OnInit {
     maxLength: 5000,
   };
 
-
-  constructor(private store: Store<HomeState>, private route: ActivatedRoute) {
+  constructor(
+    private store: Store<HomeState>,
+    private route: ActivatedRoute,
+    private environmentService: EnvironmentService,
+  ) {
     super();
 
     this.route.queryParams.subscribe(params => {
@@ -56,7 +59,10 @@ export class PostsComponent extends BaseComponent implements OnInit {
       this.posts = [];
       this.store.dispatch(
         new GetPostsAction({
-          paging: { skip: this.posts.length, take: this.take },
+          paging: {
+            skip: this.posts.length,
+            take: this.environmentService.take,
+          },
           filters: this.queryRequest?.filters,
           sorting: this.queryRequest.sorting,
         }),
@@ -103,7 +109,7 @@ export class PostsComponent extends BaseComponent implements OnInit {
     }
     this.store.dispatch(
       new GetPostsAction({
-        paging: { skip: this.posts.length, take: this.take },
+        paging: { skip: this.posts.length, take: this.environmentService.take },
         filters: this.queryRequest.filters,
         sorting: this.queryRequest.sorting,
       }),
