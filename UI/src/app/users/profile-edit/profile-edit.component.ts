@@ -55,14 +55,20 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
       )
       .subscribe(x => {
         this.user = cloneDeep(x);
-        this.initializeData();
+        this.editProfileForm.patchValue({
+          email: x.email,
+          avatar: x.avatar,
+          summary: x.summary,
+          location: x.location,
+          gender: x.gender
+        });
       });
   }
 
   ngOnInit(): void {
     this.initializeData();
     this.avatar.valueChanges.subscribe(x => {
-      this.user.avatar = x;
+      this.user.avatar = x || window.location.origin + this.user.defaultAvatar;
     });
   }
 
@@ -104,14 +110,14 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
   onSave() {
     const updateUserCmd: UpdateUserCmd = {
       email: this.email.value,
-      avatar: this.avatar.value,
+      avatar: this.user.avatar,
       gender: this.gender.value,
       location: this.location.value,
       summary: this.summary.value,
     };
     this.store.dispatch(
       new EditUserAction({ id: this.user.id, updateUserCmd }),
-    );
+      );
   }
 
   onDestroy() {
