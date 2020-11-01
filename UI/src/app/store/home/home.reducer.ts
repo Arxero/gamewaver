@@ -19,7 +19,6 @@ export interface HomeState {
 
 export const initialHomeState: HomeState = {
   posts: [],
-  comments: [],
 } as HomeState;
 
 export function homeReducer(
@@ -105,7 +104,9 @@ export function homeReducer(
     case HomeActionTypes.GetCommentsActionSuccess:
       return {
         ...state,
-        comments: commentsClone.concat(action.payload.data),
+        comments: commentsClone
+          ? commentsClone.concat(action.payload.data)
+          : action.payload.data,
       } as HomeState;
 
     case HomeActionTypes.DeleteCommentActionSuccess:

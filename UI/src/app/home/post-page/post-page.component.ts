@@ -1,3 +1,4 @@
+import { PostPageResolver, IPostPage } from './post-page.resolver';
 import { EnvironmentService } from './../../services/environment.service';
 import { AddItem } from './../models/view/add-item';
 import { Component, OnInit } from '@angular/core';
@@ -6,7 +7,7 @@ import { HomeState } from '../../store/home/home.reducer';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '../../shared/base.component';
 import { PostViewModel } from '../models/view/post-view-model';
-import { takeUntil, filter } from 'rxjs/operators';
+import { takeUntil, filter, tap, take } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import {
   homeStatePost,
@@ -28,6 +29,7 @@ import { userProfile } from '../../store/auth/auth.selectors';
 import { CommentViewModel } from '../models/view/comment-view-model';
 import { PostContext, PostPageState } from '../models/view/home-view-model';
 import { SearchType, DataFilter } from '../../shared/models/common';
+import { UserViewModel } from 'src/app/users/models/view/user-view-model';
 
 @Component({
   selector: 'app-post-page',
@@ -36,7 +38,7 @@ import { SearchType, DataFilter } from '../../shared/models/common';
 })
 export class PostPageComponent extends BaseComponent implements OnInit {
   post: PostViewModel;
-  user: User;
+  user: UserViewModel;
   postId: string;
   pageState: PostPageState = PostPageState.Default;
   comments: CommentViewModel[] = [];
@@ -50,7 +52,6 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     return PostPageState;
   }
 
-  commentsFilters: DataFilter[] = [];
   editItemPost: AddItem;
   editItemComment: AddItem;
 
@@ -61,14 +62,9 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   ) {
     super();
     this.postId = this.route.snapshot.params.id;
-    this.editItemComment = this.mapEditItemComment();
+    this.user = this.route.snapshot.data.userData;
     this.editItemPost = this.mapEditItemPost();
-
-    this.commentsFilters.push({
-      fieldName: 'post',
-      searchOperator: SearchType.In,
-      searchValue: this.postId,
-    });
+    this.editItemComment = this.mapEditItemComment();
 
     store
       .pipe(
@@ -79,18 +75,6 @@ export class PostPageComponent extends BaseComponent implements OnInit {
       .subscribe(x => {
         this.post = x;
         this.editItemPost = this.mapEditItemPost(this.post);
-      });
-
-    store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(userProfile),
-        filter(x => !!x),
-      )
-      .subscribe(x => {
-        this.user = x;
-        this.editItemPost.userAvatar = this.user.avatar;
-        this.editItemComment.userAvatar = this.user.avatar;
       });
 
     store
@@ -116,19 +100,8 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.post) {
-      this.store.dispatch(new GetPostAction({ id: this.postId }));
-    }
-
-    this.store.dispatch(
-      new GetCommentsAction({
-        paging: {
-          skip: this.comments.length,
-          take: this.environmentService.take,
-        },
-        filters: this.commentsFilters,
-      }),
-    );
+    this.store.dispatch(new GetPostAction({ id: this.postId }));
+    this.loadComments();
   }
 
   onEditPost() {
@@ -157,23 +130,35 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   }
 
   onScrollDown() {
+    this.loadComments();
+  }
+
+  private loadComments() {
+    const filters: DataFilter[] = [
+      {
+        fieldName: 'post',
+        searchOperator: SearchType.In,
+        searchValue: this.postId,
+      },
+    ];
+
     this.store.dispatch(
       new GetCommentsAction({
         paging: {
-          skip: this.comments.length,
+          skip: this.comments ? this.comments.length : 0,
           take: this.environmentService.take,
         },
-        filters: this.commentsFilters,
+        filters,
       }),
     );
   }
 
   onDestroy() {
-    this.store.dispatch(new ClearPostsAction());
     this.store.dispatch(new ClearPostAction());
+    this.store.dispatch(new ClearPostsAction());
   }
 
-  mapEditItemPost(x?: PostViewModel): AddItem {
+  private mapEditItemPost(x?: PostViewModel): AddItem {
     return {
       isPost: true,
       minLength: 3,
@@ -185,7 +170,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     } as AddItem;
   }
 
-  mapEditItemComment(x?: CommentViewModel): AddItem {
+  private mapEditItemComment(x?: CommentViewModel): AddItem {
     return {
       isPost: false,
       minLength: 3,
@@ -197,7 +182,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     } as AddItem;
   }
 
-  cancelCommentEdit() {
+  private cancelCommentEdit() {
     this.store.dispatch(
       new EditCommentCancelAction({ data: this.commentToEdit }),
     );

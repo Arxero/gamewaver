@@ -1,3 +1,4 @@
+import { PostPageResolver } from './post-page/post-page.resolver';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
@@ -11,9 +12,13 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       { path: '', component: PostsComponent },
-      { path: 'post/:id', component: PostPageComponent },
+      {
+        path: 'post/:id',
+        component: PostPageComponent,
+        resolve: { userData: PostPageResolver }
+      },
     ],
-  }
+  },
 ];
 
 @NgModule({
