@@ -63,8 +63,8 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     super();
     this.postId = this.route.snapshot.params.id;
     this.user = this.route.snapshot.data.userData;
-    this.editItemPost = this.mapEditItemPost();
-    this.editItemComment = this.mapEditItemComment();
+    this.editItemPost = this.mapEditItem(true);
+    this.editItemComment = this.mapEditItem();
 
     store
       .pipe(
@@ -74,7 +74,9 @@ export class PostPageComponent extends BaseComponent implements OnInit {
       )
       .subscribe(x => {
         this.post = x;
-        this.editItemPost = this.mapEditItemPost(this.post);
+        this.editItemPost.id = x.id;
+        this.editItemPost.content = x.content;
+        this.editItemPost.category = x.categoryEnum;
       });
 
     store
@@ -95,7 +97,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
       )
       .subscribe(x => {
         this.pageState = PostPageState.Default;
-        this.editItemComment = this.mapEditItemComment();
+        this.editItemComment = this.mapEditItem();
       });
   }
 
@@ -114,18 +116,22 @@ export class PostPageComponent extends BaseComponent implements OnInit {
 
   onCancelPostEdit() {
     this.pageState = PostPageState.Default;
-    this.editItemComment = this.mapEditItemComment();
+    this.editItemComment = this.mapEditItem();
   }
 
   onCancelCommentEdit() {
-    this.editItemComment = this.mapEditItemComment();
+    this.editItemComment = this.mapEditItem();
     this.cancelCommentEdit();
   }
 
   onEditComment(id: string) {
     this.pageState = PostPageState.Default;
     this.commentToEdit = this.comments.find(x => x.id === id);
-    this.editItemComment = this.mapEditItemComment(this.commentToEdit);
+    this.editItemComment = {
+      ...this.editItemComment,
+      id: this.commentToEdit.id,
+      content: this.commentToEdit.content,
+    };
     this.store.dispatch(new EditCommentInitiateAction({ id }));
   }
 
@@ -158,28 +164,14 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     this.store.dispatch(new ClearPostsAction());
   }
 
-  private mapEditItemPost(x?: PostViewModel): AddItem {
+  private mapEditItem(isPost: boolean = false): AddItem {
     return {
-      isPost: true,
+      isPost,
       minLength: 3,
-      maxLength: 5000,
-      id: x?.id,
-      content: x?.content,
-      category: x?.categoryEnum,
+      maxLength: isPost ? 5000 : 1000,
       userAvatar: this.user?.avatar,
-    } as AddItem;
-  }
-
-  private mapEditItemComment(x?: CommentViewModel): AddItem {
-    return {
-      isPost: false,
-      minLength: 3,
-      maxLength: 1000,
       postId: this.postId,
-      id: x?.id,
-      content: x?.content,
-      userAvatar: this.user?.avatar,
-    } as AddItem;
+    };
   }
 
   private cancelCommentEdit() {
