@@ -10,37 +10,27 @@ import {
   HomeActionTypes,
   CreatePostAction,
   CreatePostActionSuccess,
-  CreatePostActionFailure,
   GetPostsAction,
-  GetPostsActionFailure,
   GetPostsActionSuccess,
   DeletePostAction,
   DeletePostActionSuccess,
-  DeletePostActionFailure,
   GetPostAction,
   GetPostActionSuccess,
-  GetPostActionFailure,
   EditPostAction,
   EditPostActionSuccess,
-  EditPostActionFailure,
   CreateCommentAction,
   CreateCommentActionSuccess,
-  CreateCommentActionFailure,
-  GetCommentsActionFailure,
   GetCommentsAction,
   GetCommentsActionSuccess,
   DeleteCommentAction,
   DeleteCommentActionSuccess,
   DeleteCommentActionFailure,
-  EditCommentActionFailure,
   EditCommentAction,
   EditCommentActionSuccess,
   CreatePostUpvoteAction,
   CreatePostUpvoteActionSuccess,
-  CreatePostUpvoteActionFailure,
   DeletePostUpvoteAction,
   DeletePostUpvoteActionSuccess,
-  DeletePostUpvoteActionFailure,
   GetVotedPostsActionSuccess,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
@@ -113,12 +103,6 @@ export class HomeEffects {
     }),
   );
 
-  @Effect({ dispatch: false })
-  createPostFailure$ = this.actions$.pipe(
-    ofType<CreatePostActionFailure>(HomeActionTypes.CreatePostActionFailure),
-    map(() => {}),
-  );
-
   // EDIT POST
   @Effect({ dispatch: false })
   editPost$ = this.actions$.pipe(
@@ -145,12 +129,6 @@ export class HomeEffects {
       this.snackbarService.showInfo('Post Edited Successfully');
       this.store.dispatch(new GetPostAction({ id: a.payload.id }));
     }),
-  );
-
-  @Effect({ dispatch: false })
-  editPostFailure$ = this.actions$.pipe(
-    ofType<EditPostActionFailure>(HomeActionTypes.EditPostActionFailure),
-    map(() => {}),
   );
 
   // GET POSTS
@@ -223,12 +201,6 @@ export class HomeEffects {
     }),
   );
 
-  @Effect({ dispatch: false })
-  getPostsFailure$ = this.actions$.pipe(
-    ofType<GetPostsActionFailure>(HomeActionTypes.GetPostsActionFailure),
-    map(() => {}),
-  );
-
   // DELETE POST
   @Effect({ dispatch: false })
   deletePost$ = this.actions$.pipe(
@@ -244,7 +216,7 @@ export class HomeEffects {
           }),
         );
       } catch (error) {
-        this.store.dispatch(new DeletePostActionFailure());
+        this.snackbarService.showWarn('Post Deletion Failed');
         console.log(error);
       }
     }),
@@ -259,14 +231,6 @@ export class HomeEffects {
       if (a.payload.postContext === PostContext.PostPage) {
         this.router.navigateByUrl('/');
       }
-    }),
-  );
-
-  @Effect({ dispatch: false })
-  deletePostFailure$ = this.actions$.pipe(
-    ofType<DeletePostActionFailure>(HomeActionTypes.DeletePostActionFailure),
-    map(() => {
-      this.snackbarService.showWarn('Post Deletion Failed');
     }),
   );
 
@@ -290,7 +254,7 @@ export class HomeEffects {
         );
         this.store.dispatch(new GetPostActionSuccess({ data }));
       } catch (error) {
-        this.store.dispatch(new GetPostActionFailure());
+        this.snackbarService.showWarn('Load Post Failed');
         console.log(error);
       }
     }),
@@ -301,14 +265,6 @@ export class HomeEffects {
     ofType<GetPostActionSuccess>(HomeActionTypes.GetPostActionSuccess),
     tap(() => {
       this.loadingService.setUILoading(false);
-    }),
-  );
-
-  @Effect({ dispatch: false })
-  getPostFailure$ = this.actions$.pipe(
-    ofType<GetPostActionFailure>(HomeActionTypes.GetPostActionFailure),
-    map(() => {
-      this.snackbarService.showWarn('Load Post Failed');
     }),
   );
 
@@ -329,7 +285,7 @@ export class HomeEffects {
         const data = mapCommmentViewModel(result, userResult.result);
         this.store.dispatch(new CreateCommentActionSuccess({ data }));
       } catch (error) {
-        this.store.dispatch(new CreateCommentActionFailure());
+        this.snackbarService.showWarn('Create Comment Failed');
         console.log(error);
       }
     }),
@@ -343,16 +299,6 @@ export class HomeEffects {
     tap(() => {
       this.loadingService.setUILoading(false);
       this.snackbarService.showInfo('Comment Added Successfully');
-    }),
-  );
-
-  @Effect({ dispatch: false })
-  createCommentFailure$ = this.actions$.pipe(
-    ofType<CreateCommentActionFailure>(
-      HomeActionTypes.CreateCommentActionFailure,
-    ),
-    map(() => {
-      this.snackbarService.showWarn('Create Comment Failed');
     }),
   );
 
@@ -393,7 +339,7 @@ export class HomeEffects {
         });
         this.store.dispatch(new GetCommentsActionSuccess({ data: comments }));
       } catch (error) {
-        this.store.dispatch(new GetCommentsActionFailure());
+        this.snackbarService.showWarn('Get Comments Failed');
         console.log(error);
       }
     }),
@@ -404,14 +350,6 @@ export class HomeEffects {
     ofType<GetCommentsActionSuccess>(HomeActionTypes.GetCommentsActionSuccess),
     tap(() => {
       this.loadingService.setUILoading(false);
-    }),
-  );
-
-  @Effect({ dispatch: false })
-  getCommentFailure$ = this.actions$.pipe(
-    ofType<GetCommentsActionFailure>(HomeActionTypes.GetCommentsActionFailure),
-    map(() => {
-      this.snackbarService.showWarn('Get Comments Failed');
     }),
   );
 
@@ -470,7 +408,7 @@ export class HomeEffects {
         const data = mapCommmentViewModel(result, resultUser.result);
         this.store.dispatch(new EditCommentActionSuccess({ data }));
       } catch ({ error }) {
-        this.store.dispatch(new EditCommentActionFailure({ error }));
+        this.snackbarService.showWarn(error.message);
         console.log(error);
       }
     }),
@@ -482,14 +420,6 @@ export class HomeEffects {
     tap(a => {
       this.loadingService.setUILoading(false);
       this.snackbarService.showInfo('Comment Edited Successfully');
-    }),
-  );
-
-  @Effect({ dispatch: false })
-  editCommentFailure$ = this.actions$.pipe(
-    ofType<EditCommentActionFailure>(HomeActionTypes.EditCommentActionFailure),
-    map(a => {
-      this.snackbarService.showWarn(a.payload.error.message);
     }),
   );
 
@@ -505,7 +435,7 @@ export class HomeEffects {
           new CreatePostUpvoteActionSuccess({ data: result }),
         );
       } catch ({ error }) {
-        this.store.dispatch(new CreatePostUpvoteActionFailure({ error }));
+        this.snackbarService.showWarn(error.message);
         console.log(error);
       }
     }),
@@ -521,16 +451,6 @@ export class HomeEffects {
     }),
   );
 
-  @Effect({ dispatch: false })
-  createPostVoteFailure$ = this.actions$.pipe(
-    ofType<CreatePostUpvoteActionFailure>(
-      HomeActionTypes.CreatePostUpvoteActionFailure,
-    ),
-    map(a => {
-      this.snackbarService.showWarn(a.payload.error.message);
-    }),
-  );
-
   // DELETE POSTVOTE
   @Effect({ dispatch: false })
   deletePostVote$ = this.actions$.pipe(
@@ -543,7 +463,7 @@ export class HomeEffects {
           new DeletePostUpvoteActionSuccess({ data: result }),
         );
       } catch ({ error }) {
-        this.store.dispatch(new DeletePostUpvoteActionFailure({ error }));
+        this.snackbarService.showWarn(error.message);
         console.log(error);
       }
     }),
@@ -556,16 +476,6 @@ export class HomeEffects {
     ),
     tap(a => {
       this.loadingService.setUILoading(false);
-    }),
-  );
-
-  @Effect({ dispatch: false })
-  deletePostVoteFailure$ = this.actions$.pipe(
-    ofType<DeletePostUpvoteActionFailure>(
-      HomeActionTypes.DeletePostUpvoteActionFailure,
-    ),
-    map(a => {
-      this.snackbarService.showWarn(a.payload.error.message);
     }),
   );
 }

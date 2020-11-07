@@ -17,36 +17,29 @@ export enum HomeActionTypes {
   // POSTS
   CreatePostAction = '[CreatePost] Action',
   CreatePostActionSuccess = '[CreatePostSuccess] Action',
-  CreatePostActionFailure = '[CreatePostFailure] Action',
 
   EditPostAction = '[EditPost] Action',
   EditPostActionSuccess = '[EditPostSuccess] Action',
-  EditPostActionFailure = '[EditPostFailure] Action',
 
   GetPostsAction = '[GetPostsPost] Action',
   GetPostsActionSuccess = '[GetPostsSuccess] Action',
-  GetPostsActionFailure = '[GetPostsFailure] Action',
   ClearPostsAction = '[ClearPosts] Action',
   ClearPostAction = '[ClearPost] Action',
   GetVotedPostsActionSuccess = '[GetVotedPostsAction] Action',
 
   GetPostAction = '[GetPost] Action',
   GetPostActionSuccess = '[GetPostSuccess] Action',
-  GetPostActionFailure = '[GetPostFailure] Action',
   SetPostPagePost = '[SetPostPagePost] Action',
 
   DeletePostAction = '[DeletePost] Action',
   DeletePostActionSuccess = '[DeletePostSuccess] Action',
-  DeletePostActionFailure = '[DeletePostFailure] Action',
 
   // COMMENTS
   CreateCommentAction = '[CreateComment] Action',
   CreateCommentActionSuccess = '[CreateCommentSuccess] Action',
-  CreateCommentActionFailure = '[CreateCommentFailure] Action',
 
   GetCommentsAction = '[GetCommentsPost] Action',
   GetCommentsActionSuccess = '[GetCommentsSuccess] Action',
-  GetCommentsActionFailure = '[GetCommentsFailure] Action',
 
   DeleteCommentAction = '[DeleteComment] Action',
   DeleteCommentActionSuccess = '[DeleteCommentSuccess] Action',
@@ -56,16 +49,13 @@ export enum HomeActionTypes {
   EditCommentCancelAction = '[EditCommentCancel] Action',
   EditCommentAction = '[EditComment] Action',
   EditCommentActionSuccess = '[EditCommentSuccess] Action',
-  EditCommentActionFailure = '[EditCommentFailure] Action',
 
   // VOTES
   CreatePostUpvoteAction = '[CreatePostUpvote] Action',
   CreatePostUpvoteActionSuccess = '[CreatePostUpvoteSuccess] Action',
-  CreatePostUpvoteActionFailure = '[CreatePostUpvoteFailure] Action',
 
   DeletePostUpvoteAction = '[DeletePostUpvote] Action',
   DeletePostUpvoteActionSuccess = '[DeletePostUpvoteSuccess] Action',
-  DeletePostUpvoteActionFailure = '[DeletePostUpvoteFailure] Action',
 }
 
 // CREATE POST
@@ -79,10 +69,6 @@ export class CreatePostActionSuccess implements Action {
   constructor(public payload: { data: PostViewModel }) {}
 }
 
-export class CreatePostActionFailure implements Action {
-  readonly type = HomeActionTypes.CreatePostActionFailure;
-}
-
 // EDIT POST
 export class EditPostAction implements Action {
   readonly type = HomeActionTypes.EditPostAction;
@@ -92,10 +78,6 @@ export class EditPostAction implements Action {
 export class EditPostActionSuccess implements Action {
   readonly type = HomeActionTypes.EditPostActionSuccess;
   constructor(public payload: { id: string }) {}
-}
-
-export class EditPostActionFailure implements Action {
-  readonly type = HomeActionTypes.EditPostActionFailure;
 }
 
 // GET POSTS
@@ -114,10 +96,6 @@ export class GetPostsAction implements Action {
 export class GetPostsActionSuccess implements Action {
   readonly type = HomeActionTypes.GetPostsActionSuccess;
   constructor(public payload: { data: PostViewModel[], total: number }) {}
-}
-
-export class GetPostsActionFailure implements Action {
-  readonly type = HomeActionTypes.GetPostsActionFailure;
 }
 
 export class ClearPostsAction implements Action {
@@ -145,10 +123,6 @@ export class GetPostActionSuccess implements Action {
   constructor(public payload: { data: PostViewModel }) {}
 }
 
-export class GetPostActionFailure implements Action {
-  readonly type = HomeActionTypes.GetPostActionFailure;
-}
-
 export class SetPostPagePost implements Action {
   readonly type = HomeActionTypes.SetPostPagePost;
   constructor(public payload: { data: PostViewModel }) {}
@@ -165,10 +139,6 @@ export class DeletePostActionSuccess implements Action {
   constructor(public payload: { id: string,  postContext?: PostContext }) {}
 }
 
-export class DeletePostActionFailure implements Action {
-  readonly type = HomeActionTypes.DeletePostActionFailure;
-}
-
 // CREATE COMMENT
 export class CreateCommentAction implements Action {
   readonly type = HomeActionTypes.CreateCommentAction;
@@ -180,10 +150,6 @@ export class CreateCommentActionSuccess implements Action {
   constructor(public payload: { data: CommentViewModel }) {}
 }
 
-export class CreateCommentActionFailure implements Action {
-  readonly type = HomeActionTypes.CreateCommentActionFailure;
-}
-
 // GET COMMENTS
 export class GetCommentsAction implements Action {
   readonly type = HomeActionTypes.GetCommentsAction;
@@ -193,10 +159,6 @@ export class GetCommentsAction implements Action {
 export class GetCommentsActionSuccess implements Action {
   readonly type = HomeActionTypes.GetCommentsActionSuccess;
   constructor(public payload: { data: CommentViewModel[] }) {}
-}
-
-export class GetCommentsActionFailure implements Action {
-  readonly type = HomeActionTypes.GetCommentsActionFailure;
 }
 
 // DELETE COMMENT
@@ -236,11 +198,6 @@ export class EditCommentActionSuccess implements Action {
   constructor(public payload: { data: CommentViewModel }) {}
 }
 
-export class EditCommentActionFailure implements Action {
-  readonly type = HomeActionTypes.EditCommentActionFailure;
-  constructor(public payload: { error: ResponseError }) {}
-}
-
 // CREATE POSTVOTE
 export class CreatePostUpvoteAction implements Action {
   readonly type = HomeActionTypes.CreatePostUpvoteAction;
@@ -250,11 +207,6 @@ export class CreatePostUpvoteAction implements Action {
 export class CreatePostUpvoteActionSuccess implements Action {
   readonly type = HomeActionTypes.CreatePostUpvoteActionSuccess;
   constructor(public payload: { data: GetVoteDto }) {}
-}
-
-export class CreatePostUpvoteActionFailure implements Action {
-  readonly type = HomeActionTypes.CreatePostUpvoteActionFailure;
-  constructor(public payload: { error: ResponseError }) {}
 }
 
 // DELETE POSTVOTE
@@ -268,39 +220,25 @@ export class DeletePostUpvoteActionSuccess implements Action {
   constructor(public payload: { data: GetVoteDto }) {}
 }
 
-export class DeletePostUpvoteActionFailure implements Action {
-  readonly type = HomeActionTypes.DeletePostUpvoteActionFailure;
-  constructor(public payload: { error: ResponseError }) {}
-}
-
-
-
 export type HomeActions =
   | CreatePostAction
   | CreatePostActionSuccess
-  | CreatePostActionFailure
   | EditPostAction
   | EditPostActionSuccess
-  | EditPostActionFailure
   | GetPostsAction
   | GetPostsActionSuccess
   | GetVotedPostsActionSuccess
-  | GetPostsActionFailure
   | ClearPostsAction
   | ClearPostAction
   | DeletePostAction
   | DeletePostActionSuccess
-  | DeletePostActionFailure
   | GetPostAction
   | GetPostActionSuccess
-  | GetPostActionFailure
   | SetPostPagePost
   | CreateCommentAction
   | CreateCommentActionSuccess
-  | CreateCommentActionFailure
   | GetCommentsAction
   | GetCommentsActionSuccess
-  | GetCommentsActionFailure
   | DeleteCommentAction
   | DeleteCommentActionSuccess
   | DeleteCommentActionFailure
@@ -308,10 +246,7 @@ export type HomeActions =
   | EditCommentCancelAction
   | EditCommentAction
   | EditCommentActionSuccess
-  | EditCommentActionFailure
   | CreatePostUpvoteAction
   | CreatePostUpvoteActionSuccess
-  | CreatePostUpvoteActionFailure
   | DeletePostUpvoteAction
-  | DeletePostUpvoteActionSuccess
-  | DeletePostUpvoteActionFailure;
+  | DeletePostUpvoteActionSuccess;
