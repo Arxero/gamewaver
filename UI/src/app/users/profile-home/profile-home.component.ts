@@ -24,6 +24,7 @@ import {
   ClearPostsAction,
   GetCommentsAction,
   ClearPostAction,
+  ClearCommentsAction,
 } from '../../store/home/home.actions';
 import { PostViewModel } from '../../home/models/view/post-view-model';
 import { CommentViewModel } from '../../home/models/view/comment-view-model';
@@ -59,12 +60,12 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
       store.pipe(
         takeUntil(this.destroyed$),
         select(homeStatePosts),
-        filter(x => !!x && x.length > 0),
+        filter(x => !!x),
       ),
       store.pipe(
         takeUntil(this.destroyed$),
         select(homeStatePostComments),
-        filter(x => !!x && x.length > 0),
+        filter(x => !!x),
       ),
       store.pipe(
         takeUntil(this.destroyed$),
@@ -72,12 +73,12 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
         filter(x => !!x && x.length > 0),
       ),
     ]).subscribe(items => {
-      this.posts = items[0];
-      this.comments = items[1];
+      this.posts = items[0].items;
+      this.comments = items[1].items;
       const votedPosts = items[2];
       this.homeItems = [];
 
-      items[0].forEach(x => {
+      items[0].items.forEach(x => {
         this.homeItems.push({ post: x, date: x.createdAt });
       });
 
@@ -85,7 +86,7 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
         this.homeItems.push({ post: x, date: x.voteCreated });
       });
 
-      items[1].forEach(x =>
+      items[1].items.forEach(x =>
         this.homeItems.push({ comment: x, date: x.createdAt }),
       );
       this.homeItems = lodash.orderBy(this.homeItems, ['date'], 'desc');
@@ -112,6 +113,7 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
 
   onDestroy() {
     this.store.dispatch(new ClearPostsAction());
+    this.store.dispatch(new ClearCommentsAction());
   }
 
   private getPosts(userActionOnPost?: UserActionOnPost) {

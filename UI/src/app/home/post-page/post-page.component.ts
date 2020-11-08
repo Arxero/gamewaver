@@ -23,12 +23,13 @@ import {
   ClearPostsAction,
   ClearPostAction,
   EditCommentCancelAction,
+  ClearCommentsAction,
 } from '../../store/home/home.actions';
 import { User } from '../../users/models/dto/user';
 import { userProfile } from '../../store/auth/auth.selectors';
 import { CommentViewModel } from '../models/view/comment-view-model';
 import { PostContext, PostPageState } from '../models/view/home-view-model';
-import { SearchType, DataFilter } from '../../shared/models/common';
+import { SearchType, DataFilter, PagedData } from '../../shared/models/common';
 import { UserViewModel } from 'src/app/users/models/view/user-view-model';
 
 @Component({
@@ -41,7 +42,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   user: UserViewModel;
   postId: string;
   pageState: PostPageState = PostPageState.Default;
-  comments: CommentViewModel[] = [];
+  comments: PagedData<CommentViewModel>;
   commentToEdit: CommentViewModel;
 
   get postContext() {
@@ -126,7 +127,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
 
   onEditComment(id: string) {
     this.pageState = PostPageState.Default;
-    this.commentToEdit = this.comments.find(x => x.id === id);
+    this.commentToEdit = this.comments.items.find(x => x.id === id);
     this.editItemComment = {
       ...this.editItemComment,
       id: this.commentToEdit.id,
@@ -136,6 +137,9 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   }
 
   onScrollDown() {
+    if (this.comments.total === this.comments.items.length) {
+      return;
+    }
     this.loadComments();
   }
 
@@ -151,7 +155,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     this.store.dispatch(
       new GetCommentsAction({
         paging: {
-          skip: this.comments ? this.comments.length : 0,
+          skip: this.comments ? this.comments.items.length : 0,
           take: this.environmentService.take,
         },
         filters,
@@ -161,7 +165,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
 
   onDestroy() {
     this.store.dispatch(new ClearPostAction());
-    this.store.dispatch(new ClearPostsAction());
+    this.store.dispatch(new ClearCommentsAction());
   }
 
   private mapEditItem(isPost: boolean = false): AddItem {

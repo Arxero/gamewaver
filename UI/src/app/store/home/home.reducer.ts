@@ -1,3 +1,4 @@
+import { PagedData } from './../../shared/models/common';
 import { VoteType } from './../../home/models/view/home-view-model';
 import { GetVoteDto } from './../../home/models/dto/get-vote.dto';
 import { HomeActions, HomeActionTypes } from './home.actions';
@@ -7,18 +8,23 @@ import { User } from '../../users/models/dto/user';
 import { CommentViewModel } from '../../home/models/view/comment-view-model';
 
 export interface HomeState {
-  posts: PostViewModel[];
+  posts: PagedData<PostViewModel>;
   votedPosts: PostViewModel[];
   post: PostViewModel;
   isEditSuccessful: boolean;
   isEditCommentSuccessful: boolean;
-  comments: CommentViewModel[];
+  comments: PagedData<CommentViewModel>;
   indexOfEditedComment: number;
-  postsTotal: number;
 }
 
 export const initialHomeState: HomeState = {
-  posts: [],
+  posts: null,
+  votedPosts: null,
+  post: null,
+  isEditSuccessful: null,
+  isEditCommentSuccessful: null,
+  comments: null,
+  indexOfEditedComment: null,
 } as HomeState;
 
 export function homeReducer(
@@ -30,7 +36,7 @@ export function homeReducer(
 
   switch (action.type) {
     case HomeActionTypes.CreatePostActionSuccess:
-      postsClone.unshift(action.payload.data);
+      postsClone.items.unshift(action.payload.data);
       return {
         ...state,
         posts: postsClone,
@@ -39,9 +45,12 @@ export function homeReducer(
     case HomeActionTypes.GetPostsActionSuccess:
       return {
         ...state,
-        posts: postsClone.concat(action.payload.data),
-        post: null,
-        postsTotal: action.payload.total,
+        posts: !state.posts
+          ? action.payload.data
+          : {
+              items: state.posts.items.concat(action.payload.data.items),
+              total: action.payload.data.total,
+            },
       } as HomeState;
 
     case HomeActionTypes.GetVotedPostsActionSuccess:
@@ -54,19 +63,29 @@ export function homeReducer(
       return {
         ...state,
         posts: initialHomeState.posts,
-        comments: initialHomeState.comments,
       } as HomeState;
+
+    case HomeActionTypes.ClearCommentsAction:
+      return {
+        ...state,
+        comments: initialHomeState.comments,
+      };
 
     case HomeActionTypes.ClearPostAction:
       return {
         ...state,
-        post: null,
+        post: initialHomeState.post,
       } as HomeState;
 
     case HomeActionTypes.DeletePostActionSuccess:
       return {
         ...state,
-        posts: state.posts.filter(post => post.id !== action.payload.id),
+        posts: {
+          items: state.posts.items.filter(
+            post => post.id !== action.payload.id,
+          ),
+          total: state.posts.total,
+        },
       } as HomeState;
 
     case HomeActionTypes.GetPostActionSuccess:
@@ -95,7 +114,7 @@ export function homeReducer(
 
     // COMMENTS ////////////////////////////////////////
     case HomeActionTypes.CreateCommentActionSuccess:
-      commentsClone.unshift(action.payload.data);
+      commentsClone.items.unshift(action.payload.data);
       return {
         ...state,
         comments: commentsClone,
@@ -104,29 +123,42 @@ export function homeReducer(
     case HomeActionTypes.GetCommentsActionSuccess:
       return {
         ...state,
-        comments: commentsClone
-          ? commentsClone.concat(action.payload.data)
-          : action.payload.data,
+        comments: !state.comments
+          ? action.payload.data
+          : {
+              items: state.comments.items.concat(action.payload.data.items),
+              total: action.payload.data.total,
+            },
       } as HomeState;
 
     case HomeActionTypes.DeleteCommentActionSuccess:
       return {
         ...state,
-        comments: state.comments.filter(c => c.id !== action.payload.id),
+        comments: {
+          items: state.comments.items.filter(c => c.id !== action.payload.id),
+          total: state.comments.total,
+        },
       } as HomeState;
 
     case HomeActionTypes.EditCommentInitiateAction:
       return {
         ...state,
-        indexOfEditedComment: state.comments.findIndex(
+        indexOfEditedComment: state.comments.items.findIndex(
           x => x.id === action.payload.id,
         ),
-        comments: state.comments.filter(c => c.id !== action.payload.id),
+        comments: {
+          items: state.comments.items.filter(c => c.id !== action.payload.id),
+          total: state.comments.total,
+        },
         isEditCommentSuccessful: false,
       } as HomeState;
 
     case HomeActionTypes.EditCommentCancelAction:
-      commentsClone.splice(state.indexOfEditedComment, 0, action.payload.data);
+      commentsClone.items.splice(
+        state.indexOfEditedComment,
+        0,
+        action.payload.data,
+      );
       return {
         ...state,
         comments: commentsClone,
@@ -134,16 +166,20 @@ export function homeReducer(
       } as HomeState;
 
     case HomeActionTypes.EditCommentActionSuccess:
-      commentsClone.splice(state.indexOfEditedComment, 0, action.payload.data);
+      commentsClone.items.splice(
+        state.indexOfEditedComment,
+        0,
+        action.payload.data,
+      );
       return {
         ...state,
         comments: commentsClone,
-        indexOfEditedComment: null,
+        indexOfEditedComment: initialHomeState.indexOfEditedComment,
         isEditCommentSuccessful: true,
       } as HomeState;
 
     case HomeActionTypes.CreatePostUpvoteActionSuccess:
-      const postToUpvote = postsClone.find(
+      const postToUpvote = postsClone.items.find(
         x => x.id === action.payload.data.postId,
       );
       postToUpvote.vote = action.payload.data;
@@ -154,15 +190,16 @@ export function homeReducer(
         postToUpvote.downvotes++;
       }
 
+      state.posts.items.map(p =>
+        mapPostVote(p, action.payload.data.postId, postToUpvote),
+      );
       return {
         ...state,
-        posts: state.posts.map(p =>
-          mapPostVote(p, action.payload.data.postId, postToUpvote),
-        ),
+        posts: state.posts,
       } as HomeState;
 
     case HomeActionTypes.DeletePostUpvoteActionSuccess:
-      const postToUnvote = postsClone.find(
+      const postToUnvote = postsClone.items.find(
         x => x.id === action.payload.data.postId,
       );
       postToUnvote.vote = {
@@ -177,11 +214,12 @@ export function homeReducer(
         postToUnvote.downvotes--;
       }
 
+      state.posts.items.map(p =>
+        mapPostVote(p, action.payload.data.postId, postToUnvote),
+      );
       return {
         ...state,
-        posts: state.posts.map(p =>
-          mapPostVote(p, action.payload.data.postId, postToUnvote),
-        ),
+        posts: state.posts,
       } as HomeState;
 
     default:

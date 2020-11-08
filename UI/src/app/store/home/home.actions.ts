@@ -1,4 +1,4 @@
-import { Sorting } from './../../shared/models/common';
+import { Sorting, PagedData } from './../../shared/models/common';
 import { GetVoteDto } from './../../home/models/dto/get-vote.dto';
 import { CreatePostVoteCmd } from './../../home/models/cmd/create-vote.cmd';
 import { CreatePostCmd } from '../../home/models/cmd/create-post.cmd';
@@ -50,6 +50,8 @@ export enum HomeActionTypes {
   EditCommentAction = '[EditComment] Action',
   EditCommentActionSuccess = '[EditCommentSuccess] Action',
 
+  ClearCommentsAction = '[ClearComments] Action',
+
   // VOTES
   CreatePostUpvoteAction = '[CreatePostUpvote] Action',
   CreatePostUpvoteActionSuccess = '[CreatePostUpvoteSuccess] Action',
@@ -95,7 +97,7 @@ export class GetPostsAction implements Action {
 
 export class GetPostsActionSuccess implements Action {
   readonly type = HomeActionTypes.GetPostsActionSuccess;
-  constructor(public payload: { data: PostViewModel[], total: number }) {}
+  constructor(public payload: { data: PagedData<PostViewModel> }) {}
 }
 
 export class ClearPostsAction implements Action {
@@ -158,7 +160,7 @@ export class GetCommentsAction implements Action {
 
 export class GetCommentsActionSuccess implements Action {
   readonly type = HomeActionTypes.GetCommentsActionSuccess;
-  constructor(public payload: { data: CommentViewModel[] }) {}
+  constructor(public payload: { data: PagedData<CommentViewModel> }) {}
 }
 
 // DELETE COMMENT
@@ -196,6 +198,10 @@ export class EditCommentAction implements Action {
 export class EditCommentActionSuccess implements Action {
   readonly type = HomeActionTypes.EditCommentActionSuccess;
   constructor(public payload: { data: CommentViewModel }) {}
+}
+
+export class ClearCommentsAction implements Action {
+  readonly type = HomeActionTypes.ClearCommentsAction;
 }
 
 // CREATE POSTVOTE
@@ -246,6 +252,7 @@ export type HomeActions =
   | EditCommentCancelAction
   | EditCommentAction
   | EditCommentActionSuccess
+  | ClearCommentsAction
   | CreatePostUpvoteAction
   | CreatePostUpvoteActionSuccess
   | DeletePostUpvoteAction

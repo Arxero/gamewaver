@@ -24,8 +24,9 @@
   [scrollWindow]="false"
   infiniteScrollContainer=".infinite-scroll"
   [fromRoot]="true"
+  *ngIf="comments"
 >
-  <ng-container *ngFor="let item of comments">
+  <ng-container *ngFor="let item of comments.items">
     <app-comment
       *ngIf="post"
       [comment]="item"

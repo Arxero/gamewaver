@@ -1,6 +1,10 @@
 import { EnvironmentService } from './../../services/environment.service';
-import { Sorting, SortDirection, dateSort } from './../../shared/models/common';
-import { homeStatePostsTotal } from './../../store/home/home.selectors';
+import {
+  Sorting,
+  SortDirection,
+  dateSort,
+  PagedData,
+} from './../../shared/models/common';
 import {
   Component,
   OnInit,
@@ -32,8 +36,7 @@ import { AddItem } from '../models/view/add-item';
   styleUrls: ['./posts.component.scss'],
 })
 export class PostsComponent extends BaseComponent implements OnInit {
-  posts: PostViewModel[] = [];
-  total: number;
+  posts: PagedData<PostViewModel>;
   user: User;
   queryRequest: QueryRequest;
   get postContext() {
@@ -55,62 +58,40 @@ export class PostsComponent extends BaseComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.queryRequest = new QueryRequest(params as QueryParams);
       this.queryRequest.sorting.push(dateSort);
-      this.store.dispatch(new ClearPostsAction());
-      this.posts = [];
-      this.store.dispatch(
-        new GetPostsAction({
-          paging: {
-            skip: this.posts.length,
-            take: this.environmentService.take,
-          },
-          filters: this.queryRequest?.filters,
-          sorting: this.queryRequest.sorting,
-        }),
-      );
+    });
+
+    store.pipe(takeUntil(this.destroyed$), select(userProfile)).subscribe(x => {
+      this.user = x;
+      this.addItem.userAvatar = this.user?.avatar;
     });
 
     store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(userProfile),
-        // filter(x => !!x),
-      )
-      .subscribe(x => {
-        this.user = x;
-        this.addItem.userAvatar = this.user?.avatar;
-      });
-
-    store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(homeStatePosts),
-        filter(x => !!x && x.length > 0),
-      )
+      .pipe(takeUntil(this.destroyed$), select(homeStatePosts))
       .subscribe(x => {
         this.posts = x;
-      });
-
-    store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(homeStatePostsTotal),
-        filter(x => !!x),
-      )
-      .subscribe(x => {
-        this.total = x;
+        if (!this.posts) {
+          this.loadPosts();
+        }
       });
   }
 
   ngOnInit(): void {}
 
   onScrollDown() {
-    if (this.total === this.posts.length) {
+    if (this.posts.total === this.posts.items.length) {
       return;
     }
+    this.loadPosts();
+  }
+
+  private loadPosts() {
     this.store.dispatch(
       new GetPostsAction({
-        paging: { skip: this.posts.length, take: this.environmentService.take },
-        filters: this.queryRequest.filters,
+        paging: {
+          skip: this.posts ? this.posts.items.length : 0,
+          take: this.environmentService.take,
+        },
+        filters: this.queryRequest?.filters,
         sorting: this.queryRequest.sorting,
       }),
     );

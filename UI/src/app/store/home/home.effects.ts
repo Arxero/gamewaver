@@ -1,3 +1,4 @@
+import { homeStatePosts } from './home.selectors';
 import { AuthService } from './../../services/auth.service';
 import { VotesService } from './../../services/votes.service';
 import { Injectable } from '@angular/core';
@@ -177,16 +178,15 @@ export class HomeEffects {
         });
 
         if (a.payload.userActionOnPost === UserActionOnPost.Voted) {
-          this.store.dispatch(
-            new GetVotedPostsActionSuccess({ data: posts }),
-          );
+          this.store.dispatch(new GetVotedPostsActionSuccess({ data: posts }));
           this.loadingService.setUILoading(false);
           return;
         }
         this.store.dispatch(
-          new GetPostsActionSuccess({ data: posts, total: result.total }),
+          new GetPostsActionSuccess({
+            data: { items: posts, total: result.total },
+          }),
         );
-
       } catch (error) {
         console.log(error);
       }
@@ -238,8 +238,15 @@ export class HomeEffects {
   @Effect({ dispatch: false })
   getPost$ = this.actions$.pipe(
     ofType<GetPostAction>(HomeActionTypes.GetPostAction),
-    tap(async a => {
+    withLatestFrom(this.storeAuth.pipe(select(homeStatePosts))),
+    tap(async ([a, posts]) => {
       try {
+        const foundPost = posts?.items.find(x => x.id === a.payload.id);
+        if (foundPost) {
+          this.store.dispatch(new GetPostActionSuccess({ data: foundPost }));
+          return;
+        }
+
         this.loadingService.setUILoading();
         const { result } = await this.postsService.findOne(a.payload.id);
         const userResult = await this.usersService.findOne(result.authorId);
@@ -337,7 +344,11 @@ export class HomeEffects {
           );
           return mapCommmentViewModel(comment, userInComments);
         });
-        this.store.dispatch(new GetCommentsActionSuccess({ data: comments }));
+        this.store.dispatch(
+          new GetCommentsActionSuccess({
+            data: { items: comments, total: result.total },
+          }),
+        );
       } catch (error) {
         this.snackbarService.showWarn('Get Comments Failed');
         console.log(error);

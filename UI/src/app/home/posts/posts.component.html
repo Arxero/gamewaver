@@ -6,8 +6,9 @@
   [scrollWindow]="false"
   infiniteScrollContainer=".infinite-scroll"
   [fromRoot]="true"
+  *ngIf="posts"
 >
-  <ng-container *ngFor="let item of posts">
+  <ng-container *ngFor="let item of posts.items">
     <app-post [post]="item" [user]="user" [postContext]="postContext.PostsPage"></app-post>
   </ng-container>
 </div>

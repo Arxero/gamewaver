@@ -50,7 +50,7 @@ export class ProfileCommentsComponent extends BaseComponent implements OnInit {
         filter(x => !!x),
       )
       .subscribe(x => {
-        this.comments = x;
+        this.comments = x.items;
       });
   }
 

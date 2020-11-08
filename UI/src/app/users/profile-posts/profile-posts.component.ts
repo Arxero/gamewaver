@@ -54,10 +54,10 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
       .pipe(
         takeUntil(this.destroyed$),
         select(homeStatePosts),
-        filter(x => !!x && x.length > 0),
+        filter(x => !!x),
       )
       .subscribe(x => {
-        this.posts = x;
+        this.posts = x.items;
       });
   }
 
