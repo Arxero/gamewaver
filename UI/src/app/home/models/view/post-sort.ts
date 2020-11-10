@@ -22,6 +22,14 @@ export enum SortUrl {
   Commented = 'commented',
 }
 
+export enum SidebarNavigationType {
+  Unknown,
+  Search,
+  Sort,
+  Category,
+  Archive,
+}
+
 export enum SortTime {
   Unknown,
   Days1,

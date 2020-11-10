@@ -1,3 +1,6 @@
+import { SidebarNavigation } from './../../store/home/home.actions';
+import { HomeState } from './../../store/home/home.reducer';
+import { Store } from '@ngrx/store';
 import {
   postSorts,
   SortUrl,
@@ -5,6 +8,7 @@ import {
   SortTime,
   PostSortViewModel,
   dateFilterSort,
+  SidebarNavigationType,
 } from './../models/view/post-sort';
 import { Component, OnInit } from '@angular/core';
 import { postCategories } from '../models/view/post-category';
@@ -48,7 +52,7 @@ export class SidebarComponent implements OnInit {
 
   selectedTime = new FormControl(SortTime.All);
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private store: Store<HomeState>) {
     // this.router.events
     //   .pipe(filter((event: RouterEvent) => event instanceof NavigationStart))
     //   .subscribe(e => {
@@ -62,10 +66,12 @@ export class SidebarComponent implements OnInit {
   }
 
   navigateByCategory(category: string) {
+    this.store.dispatch(new SidebarNavigation({ sidebarNavigation: SidebarNavigationType.Category }));
     this.router.navigateByUrl(`?filters=category!eq!${category}`);
   }
 
   onSubmit() {
+    this.store.dispatch(new SidebarNavigation({ sidebarNavigation: SidebarNavigationType.Search }));
     this.router.navigateByUrl(`?filters=content!like!${this.searchTerm.value}`);
   }
 
@@ -74,6 +80,7 @@ export class SidebarComponent implements OnInit {
   }
 
   navigateToYear(year: string) {
+    this.store.dispatch(new SidebarNavigation({ sidebarNavigation: SidebarNavigationType.Archive }));
     this.router.navigateByUrl(
       `?filters=createdAt!between!${year}-01-01,${year}-12-31,date`,
     );
@@ -123,15 +130,23 @@ export class SidebarComponent implements OnInit {
   }
 
   navigateSorting(value: SortUrl) {
+    this.store.dispatch(new SidebarNavigation({ sidebarNavigation: SidebarNavigationType.Sort }));
+
     switch (value) {
       case SortUrl.Popular:
-        this.router.navigateByUrl(`?sort=upvotes:desc${this.sortTimeMap[this.selectedTime.value]}`);
+        this.router.navigateByUrl(
+          `?sort=upvotes:desc${this.sortTimeMap[this.selectedTime.value]}`,
+        );
         break;
       case SortUrl.Commented:
-        this.router.navigateByUrl(`?sort=comments:desc${this.sortTimeMap[this.selectedTime.value]}`);
+        this.router.navigateByUrl(
+          `?sort=comments:desc${this.sortTimeMap[this.selectedTime.value]}`,
+        );
         break;
       case SortUrl.Fresh:
-        this.router.navigateByUrl(`?${this.sortTimeMap[this.selectedTime.value]}`);
+        this.router.navigateByUrl(
+          `${this.sortTimeMap[this.selectedTime.value]}`,
+        );
         break;
     }
   }

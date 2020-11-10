@@ -1,3 +1,4 @@
+import { SortUrl, SidebarNavigationType } from './../../home/models/view/post-sort';
 import { Sorting, PagedData } from './../../shared/models/common';
 import { GetVoteDto } from './../../home/models/dto/get-vote.dto';
 import { CreatePostVoteCmd } from './../../home/models/cmd/create-vote.cmd';
@@ -33,6 +34,8 @@ export enum HomeActionTypes {
 
   DeletePostAction = '[DeletePost] Action',
   DeletePostActionSuccess = '[DeletePostSuccess] Action',
+
+  SidebarNavigation = '[SidebarNavigation] Action',
 
   // COMMENTS
   CreateCommentAction = '[CreateComment] Action',
@@ -141,6 +144,11 @@ export class DeletePostActionSuccess implements Action {
   constructor(public payload: { id: string,  postContext?: PostContext }) {}
 }
 
+export class SidebarNavigation implements Action {
+  readonly type = HomeActionTypes.SidebarNavigation;
+  constructor(public payload: { sidebarNavigation: SidebarNavigationType }) {}
+}
+
 // CREATE COMMENT
 export class CreateCommentAction implements Action {
   readonly type = HomeActionTypes.CreateCommentAction;
@@ -234,6 +242,7 @@ export type HomeActions =
   | GetPostsAction
   | GetPostsActionSuccess
   | GetVotedPostsActionSuccess
+  | SidebarNavigation
   | ClearPostsAction
   | ClearPostAction
   | DeletePostAction

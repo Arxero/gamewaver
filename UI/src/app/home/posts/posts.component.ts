@@ -1,3 +1,5 @@
+import { SidebarNavigationType } from './../models/view/post-sort';
+import { homeStateSidebarNavigation } from './../../store/home/home.selectors';
 import { EnvironmentService } from './../../services/environment.service';
 import {
   Sorting,
@@ -29,6 +31,7 @@ import { DataFilter, SearchType } from '../../shared/models/common';
 import { QueryRequest, QueryParams } from '../../shared/models/query-request';
 import { PostContext } from '../models/view/home-view-model';
 import { AddItem } from '../models/view/add-item';
+import { SortUrl } from '../models/view/post-sort';
 
 @Component({
   selector: 'app-posts',
@@ -48,6 +51,8 @@ export class PostsComponent extends BaseComponent implements OnInit {
     maxLength: 5000,
   };
 
+  sidebarNavigationType: SidebarNavigationType;
+
   constructor(
     private store: Store<HomeState>,
     private route: ActivatedRoute,
@@ -58,6 +63,11 @@ export class PostsComponent extends BaseComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.queryRequest = new QueryRequest(params as QueryParams);
       this.queryRequest.sorting.push(dateSort);
+
+      if (this.sidebarNavigationType) {
+        this.store.dispatch(new ClearPostsAction());
+        this.loadPosts();
+      }
     });
 
     store.pipe(takeUntil(this.destroyed$), select(userProfile)).subscribe(x => {
@@ -72,6 +82,12 @@ export class PostsComponent extends BaseComponent implements OnInit {
         if (!this.posts) {
           this.loadPosts();
         }
+      });
+
+    store
+      .pipe(takeUntil(this.destroyed$), select(homeStateSidebarNavigation))
+      .subscribe(x => {
+        this.sidebarNavigationType = x;
       });
   }
 

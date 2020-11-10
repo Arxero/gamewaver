@@ -1,7 +1,8 @@
+import { SortUrl, SidebarNavigationType } from './../../home/models/view/post-sort';
 import { PagedData } from './../../shared/models/common';
 import { VoteType } from './../../home/models/view/home-view-model';
 import { GetVoteDto } from './../../home/models/dto/get-vote.dto';
-import { HomeActions, HomeActionTypes } from './home.actions';
+import { HomeActions, HomeActionTypes, SidebarNavigation } from './home.actions';
 import { PostViewModel } from '../../home/models/view/post-view-model';
 import * as lodash from 'lodash';
 import { User } from '../../users/models/dto/user';
@@ -15,6 +16,7 @@ export interface HomeState {
   isEditCommentSuccessful: boolean;
   comments: PagedData<CommentViewModel>;
   indexOfEditedComment: number;
+  sidebarNavigation: SidebarNavigationType;
 }
 
 export const initialHomeState: HomeState = {
@@ -25,6 +27,7 @@ export const initialHomeState: HomeState = {
   isEditCommentSuccessful: null,
   comments: null,
   indexOfEditedComment: null,
+  sidebarNavigation: null,
 } as HomeState;
 
 export function homeReducer(
@@ -221,6 +224,12 @@ export function homeReducer(
         ...state,
         posts: state.posts,
       } as HomeState;
+
+      case HomeActionTypes.SidebarNavigation:
+        return {
+          ...state,
+          sidebarNavigation: action.payload.sidebarNavigation
+        };
 
     default:
       return state;

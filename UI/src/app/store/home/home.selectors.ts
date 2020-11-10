@@ -38,3 +38,9 @@ export const homeStateisEditCommentSuccessful = createSelector(
   selectHomeState,
   homeState => homeState.isEditCommentSuccessful
 );
+
+export const homeStateSidebarNavigation = createSelector(
+  selectHomeState,
+  homeState => homeState.sidebarNavigation
+);
+
