@@ -3,12 +3,10 @@ import { UsersActionTypes, UsersActions } from './users.actions';
 import { UserViewModel } from '../../users/models/view/user-view-model';
 
 export interface UsersState {
-  users: User[];
   profileUser: UserViewModel;
 }
 
 export const initialUsersState: UsersState = {
-  users: null,
   profileUser: null,
 } as UsersState;
 

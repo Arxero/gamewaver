@@ -79,7 +79,7 @@ export class PostsComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$), select(homeStatePosts))
       .subscribe(x => {
         this.posts = x;
-        if (!this.posts) {
+        if (!this.posts && !this.sidebarNavigationType) {
           this.loadPosts();
         }
       });
