@@ -21,13 +21,14 @@ import { UpdatePostCmd } from '../models/cmd/update-post.cmd';
 import {
   EditPostAction,
   CreatePostAction,
-  EditCommentAction,
-  CreateCommentAction,
-  EditCommentCancelAction,
 } from '../../store/home/home.actions';
 import { CreateCommentCmd } from '../models/cmd/create-comment.cmd';
 import { UpdateCommentCmd } from '../models/cmd/update-comment.cmd';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import {
+  EditCommentAction,
+  CreateCommentAction,
+} from '../../store/comments/comments.actions';
 
 @Component({
   selector: 'app-add-item',

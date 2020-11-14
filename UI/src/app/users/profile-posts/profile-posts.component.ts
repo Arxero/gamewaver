@@ -9,14 +9,10 @@ import { HomeState } from '../../store/home/home.reducer';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../../store/auth/auth.selectors';
-import {
-  homeStatePosts,
-  homeStatePostComments,
-} from '../../store/home/home.selectors';
+import { homeStatePosts } from '../../store/home/home.selectors';
 import {
   GetPostsAction,
   ClearPostsAction,
-  GetCommentsAction,
 } from '../../store/home/home.actions';
 import { DataFilter, SearchType } from '../../shared/models/common';
 import {

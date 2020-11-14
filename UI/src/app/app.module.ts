@@ -1,3 +1,4 @@
+import { CommentsEffects } from './store/comments/comments.effects';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, SecurityContext } from '@angular/core';
 
@@ -50,6 +51,7 @@ import { HomeEffects } from './store/home/home.effects';
       AuthEffects,
       UsersEffects,
       HomeEffects,
+      CommentsEffects,
     ]),
   ],
   providers: [

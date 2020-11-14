@@ -37,24 +37,6 @@ export enum HomeActionTypes {
 
   SidebarNavigation = '[SidebarNavigation] Action',
 
-  // COMMENTS
-  CreateCommentAction = '[CreateComment] Action',
-  CreateCommentActionSuccess = '[CreateCommentSuccess] Action',
-
-  GetCommentsAction = '[GetCommentsPost] Action',
-  GetCommentsActionSuccess = '[GetCommentsSuccess] Action',
-
-  DeleteCommentAction = '[DeleteComment] Action',
-  DeleteCommentActionSuccess = '[DeleteCommentSuccess] Action',
-  DeleteCommentActionFailure = '[DeleteCommentFailure] Action',
-
-  EditCommentInitiateAction = '[EditCommentInitiate] Action',
-  EditCommentCancelAction = '[EditCommentCancel] Action',
-  EditCommentAction = '[EditComment] Action',
-  EditCommentActionSuccess = '[EditCommentSuccess] Action',
-
-  ClearCommentsAction = '[ClearComments] Action',
-
   // VOTES
   CreatePostUpvoteAction = '[CreatePostUpvote] Action',
   CreatePostUpvoteActionSuccess = '[CreatePostUpvoteSuccess] Action',
@@ -149,69 +131,6 @@ export class SidebarNavigation implements Action {
   constructor(public payload: { sidebarNavigation: SidebarNavigationType }) {}
 }
 
-// CREATE COMMENT
-export class CreateCommentAction implements Action {
-  readonly type = HomeActionTypes.CreateCommentAction;
-  constructor(public payload: { cmd: CreateCommentCmd; postId: string }) {}
-}
-
-export class CreateCommentActionSuccess implements Action {
-  readonly type = HomeActionTypes.CreateCommentActionSuccess;
-  constructor(public payload: { data: CommentViewModel }) {}
-}
-
-// GET COMMENTS
-export class GetCommentsAction implements Action {
-  readonly type = HomeActionTypes.GetCommentsAction;
-  constructor(public payload: { paging: Paging; filters?: DataFilter[] }) {}
-}
-
-export class GetCommentsActionSuccess implements Action {
-  readonly type = HomeActionTypes.GetCommentsActionSuccess;
-  constructor(public payload: { data: PagedData<CommentViewModel> }) {}
-}
-
-// DELETE COMMENT
-export class DeleteCommentAction implements Action {
-  readonly type = HomeActionTypes.DeleteCommentAction;
-  constructor(public payload: { id: string }) {}
-}
-
-export class DeleteCommentActionSuccess implements Action {
-  readonly type = HomeActionTypes.DeleteCommentActionSuccess;
-  constructor(public payload: { id: string }) {}
-}
-
-export class DeleteCommentActionFailure implements Action {
-  readonly type = HomeActionTypes.DeleteCommentActionFailure;
-  constructor(public payload: { error: ResponseError }) {}
-}
-
-// EDIT POST
-export class EditCommentInitiateAction implements Action {
-  readonly type = HomeActionTypes.EditCommentInitiateAction;
-  constructor(public payload: { id: string }) {}
-}
-
-export class EditCommentCancelAction implements Action {
-  readonly type = HomeActionTypes.EditCommentCancelAction;
-  constructor(public payload: { data: CommentViewModel }) {}
-}
-
-export class EditCommentAction implements Action {
-  readonly type = HomeActionTypes.EditCommentAction;
-  constructor(public payload: { cmd: UpdateCommentCmd; id: string }) {}
-}
-
-export class EditCommentActionSuccess implements Action {
-  readonly type = HomeActionTypes.EditCommentActionSuccess;
-  constructor(public payload: { data: CommentViewModel }) {}
-}
-
-export class ClearCommentsAction implements Action {
-  readonly type = HomeActionTypes.ClearCommentsAction;
-}
-
 // CREATE POSTVOTE
 export class CreatePostUpvoteAction implements Action {
   readonly type = HomeActionTypes.CreatePostUpvoteAction;
@@ -250,18 +169,6 @@ export type HomeActions =
   | GetPostAction
   | GetPostActionSuccess
   | SetPostPagePost
-  | CreateCommentAction
-  | CreateCommentActionSuccess
-  | GetCommentsAction
-  | GetCommentsActionSuccess
-  | DeleteCommentAction
-  | DeleteCommentActionSuccess
-  | DeleteCommentActionFailure
-  | EditCommentInitiateAction
-  | EditCommentCancelAction
-  | EditCommentAction
-  | EditCommentActionSuccess
-  | ClearCommentsAction
   | CreatePostUpvoteAction
   | CreatePostUpvoteActionSuccess
   | DeletePostUpvoteAction

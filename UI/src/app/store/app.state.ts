@@ -1,3 +1,4 @@
+import { CommentsState, commentsReducer } from './comments/comments.reducer';
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import { storeFreeze } from 'ngrx-store-freeze';
@@ -9,12 +10,14 @@ export interface AppState {
   auth: AuthState;
   users: UsersState;
   home: HomeState;
+  comments: CommentsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   auth: authReducer,
   users: usersReducer,
   home: homeReducer,
+  comments: commentsReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production

@@ -4,10 +4,10 @@ import { Store } from '@ngrx/store';
 import { HomeState } from '../../store/home/home.reducer';
 import { usersProfileFullRoute } from '../../users/users.routing';
 import { User, UserRole } from '../../users/models/dto/user';
-import { DeleteCommentAction } from '../../store/home/home.actions';
 import { CommentViewModel } from '../../home/models/view/comment-view-model';
 import { PostContext } from '../../home/models/view/home-view-model';
 import { ActivatedRoute } from '@angular/router';
+import { DeleteCommentAction } from '../../store/comments/comments.actions';
 
 @Component({
   selector: 'app-comment',

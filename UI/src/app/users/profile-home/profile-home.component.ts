@@ -1,3 +1,4 @@
+import { commentsStatePostComments } from './../../store/comments/comments.selectors';
 import { EnvironmentService } from './../../services/environment.service';
 import { Sorting, SortDirection, dateSort } from './../../shared/models/common';
 import { Component, OnInit } from '@angular/core';
@@ -15,21 +16,19 @@ import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../../store/auth/auth.selectors';
 import {
   homeStatePosts,
-  homeStatePostComments,
   homeStateVotedPosts,
 } from '../../store/home/home.selectors';
 import { SearchType } from '../../shared/models/common';
 import {
   GetPostsAction,
   ClearPostsAction,
-  GetCommentsAction,
   ClearPostAction,
-  ClearCommentsAction,
 } from '../../store/home/home.actions';
 import { PostViewModel } from '../../home/models/view/post-view-model';
 import { CommentViewModel } from '../../home/models/view/comment-view-model';
 import { combineLatest, Observable } from 'rxjs';
 import * as lodash from 'lodash';
+import { ClearCommentsAction, GetCommentsAction } from '../../store/comments/comments.actions';
 
 @Component({
   selector: 'app-profile-home',
@@ -64,7 +63,7 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
       ),
       store.pipe(
         takeUntil(this.destroyed$),
-        select(homeStatePostComments),
+        select(commentsStatePostComments),
         filter(x => !!x),
       ),
       store.pipe(

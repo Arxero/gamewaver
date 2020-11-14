@@ -29,16 +29,6 @@ export const homeStateisEditSuccessful = createSelector(
   homeState => homeState.isEditSuccessful
 );
 
-export const homeStatePostComments = createSelector(
-  selectHomeState,
-  homeState => homeState.comments
-);
-
-export const homeStateisEditCommentSuccessful = createSelector(
-  selectHomeState,
-  homeState => homeState.isEditCommentSuccessful
-);
-
 export const homeStateSidebarNavigation = createSelector(
   selectHomeState,
   homeState => homeState.sidebarNavigation

@@ -1,3 +1,5 @@
+import { CommentsState } from './../../store/comments/comments.reducer';
+import { commentsStatePostComments } from './../../store/comments/comments.selectors';
 import { PostPageResolver, IPostPage } from './post-page.resolver';
 import { EnvironmentService } from './../../services/environment.service';
 import { AddItem } from './../models/view/add-item';
@@ -12,25 +14,24 @@ import { combineLatest } from 'rxjs';
 import {
   homeStatePost,
   homeStateisEditSuccessful,
-  homeStatePostComments,
-  homeStateisEditCommentSuccessful,
 } from '../../store/home/home.selectors';
 import {
   GetPostAction,
-  GetCommentsAction,
-  EditCommentAction,
-  EditCommentInitiateAction,
   ClearPostsAction,
   ClearPostAction,
-  EditCommentCancelAction,
-  ClearCommentsAction,
 } from '../../store/home/home.actions';
 import { User } from '../../users/models/dto/user';
 import { userProfile } from '../../store/auth/auth.selectors';
 import { CommentViewModel } from '../models/view/comment-view-model';
 import { PostContext, PostPageState } from '../models/view/home-view-model';
 import { SearchType, DataFilter, PagedData } from '../../shared/models/common';
-import { UserViewModel } from 'src/app/users/models/view/user-view-model';
+import { UserViewModel } from '../../users/models/view/user-view-model';
+import {
+  GetCommentsAction,
+  EditCommentInitiateAction,
+  ClearCommentsAction,
+  EditCommentCancelAction,
+} from '../../store/comments/comments.actions';
 
 @Component({
   selector: 'app-post-page',
@@ -83,7 +84,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     store
       .pipe(
         takeUntil(this.destroyed$),
-        select(homeStatePostComments),
+        select(commentsStatePostComments),
         filter(x => !!x),
       )
       .subscribe(x => {

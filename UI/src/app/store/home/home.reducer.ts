@@ -1,8 +1,15 @@
-import { SortUrl, SidebarNavigationType } from './../../home/models/view/post-sort';
+import {
+  SortUrl,
+  SidebarNavigationType,
+} from './../../home/models/view/post-sort';
 import { PagedData } from './../../shared/models/common';
 import { VoteType } from './../../home/models/view/home-view-model';
 import { GetVoteDto } from './../../home/models/dto/get-vote.dto';
-import { HomeActions, HomeActionTypes, SidebarNavigation } from './home.actions';
+import {
+  HomeActions,
+  HomeActionTypes,
+  SidebarNavigation,
+} from './home.actions';
 import { PostViewModel } from '../../home/models/view/post-view-model';
 import * as lodash from 'lodash';
 import { User } from '../../users/models/dto/user';
@@ -13,9 +20,6 @@ export interface HomeState {
   votedPosts: PostViewModel[];
   post: PostViewModel;
   isEditSuccessful: boolean;
-  isEditCommentSuccessful: boolean;
-  comments: PagedData<CommentViewModel>;
-  indexOfEditedComment: number;
   sidebarNavigation: SidebarNavigationType;
 }
 
@@ -24,9 +28,6 @@ export const initialHomeState: HomeState = {
   votedPosts: null,
   post: null,
   isEditSuccessful: null,
-  isEditCommentSuccessful: null,
-  comments: null,
-  indexOfEditedComment: null,
   sidebarNavigation: null,
 } as HomeState;
 
@@ -34,7 +35,6 @@ export function homeReducer(
   state = initialHomeState,
   action: HomeActions,
 ): HomeState {
-  const commentsClone = lodash.cloneDeep(state.comments);
   const postsClone = lodash.cloneDeep(state.posts);
 
   switch (action.type) {
@@ -67,12 +67,6 @@ export function homeReducer(
         ...state,
         posts: initialHomeState.posts,
       } as HomeState;
-
-    case HomeActionTypes.ClearCommentsAction:
-      return {
-        ...state,
-        comments: initialHomeState.comments,
-      };
 
     case HomeActionTypes.ClearPostAction:
       return {
@@ -113,72 +107,6 @@ export function homeReducer(
       return {
         ...state,
         post: action.payload.data,
-      } as HomeState;
-
-    // COMMENTS ////////////////////////////////////////
-    case HomeActionTypes.CreateCommentActionSuccess:
-      commentsClone.items.unshift(action.payload.data);
-      return {
-        ...state,
-        comments: commentsClone,
-      } as HomeState;
-
-    case HomeActionTypes.GetCommentsActionSuccess:
-      return {
-        ...state,
-        comments: !state.comments
-          ? action.payload.data
-          : {
-              items: state.comments.items.concat(action.payload.data.items),
-              total: action.payload.data.total,
-            },
-      } as HomeState;
-
-    case HomeActionTypes.DeleteCommentActionSuccess:
-      return {
-        ...state,
-        comments: {
-          items: state.comments.items.filter(c => c.id !== action.payload.id),
-          total: state.comments.total,
-        },
-      } as HomeState;
-
-    case HomeActionTypes.EditCommentInitiateAction:
-      return {
-        ...state,
-        indexOfEditedComment: state.comments.items.findIndex(
-          x => x.id === action.payload.id,
-        ),
-        comments: {
-          items: state.comments.items.filter(c => c.id !== action.payload.id),
-          total: state.comments.total,
-        },
-        isEditCommentSuccessful: false,
-      } as HomeState;
-
-    case HomeActionTypes.EditCommentCancelAction:
-      commentsClone.items.splice(
-        state.indexOfEditedComment,
-        0,
-        action.payload.data,
-      );
-      return {
-        ...state,
-        comments: commentsClone,
-        indexOfEditedComment: null,
-      } as HomeState;
-
-    case HomeActionTypes.EditCommentActionSuccess:
-      commentsClone.items.splice(
-        state.indexOfEditedComment,
-        0,
-        action.payload.data,
-      );
-      return {
-        ...state,
-        comments: commentsClone,
-        indexOfEditedComment: initialHomeState.indexOfEditedComment,
-        isEditCommentSuccessful: true,
       } as HomeState;
 
     case HomeActionTypes.CreatePostUpvoteActionSuccess:
@@ -225,11 +153,11 @@ export function homeReducer(
         posts: state.posts,
       } as HomeState;
 
-      case HomeActionTypes.SidebarNavigation:
-        return {
-          ...state,
-          sidebarNavigation: action.payload.sidebarNavigation
-        };
+    case HomeActionTypes.SidebarNavigation:
+      return {
+        ...state,
+        sidebarNavigation: action.payload.sidebarNavigation,
+      };
 
     default:
       return state;

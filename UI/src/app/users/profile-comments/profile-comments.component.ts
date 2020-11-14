@@ -1,3 +1,4 @@
+import { commentsStatePostComments } from './../../store/comments/comments.selectors';
 import { EnvironmentService } from './../../services/environment.service';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../shared/base.component';
@@ -9,16 +10,15 @@ import { User } from '../models/dto/user';
 import { PostContext } from '../../home/models/view/home-view-model';
 import { SearchType } from '../../shared/models/common';
 import {
-  GetCommentsAction,
   ClearPostsAction,
   ClearPostAction,
 } from '../../store/home/home.actions';
 import { CommentViewModel } from '../../home/models/view/comment-view-model';
 import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../../store/auth/auth.selectors';
-import { homeStatePostComments } from '../../store/home/home.selectors';
 import { Observable } from 'rxjs';
 import { UserViewModel } from '../models/view/user-view-model';
+import { GetCommentsAction } from '../../store/comments/comments.actions';
 
 @Component({
   selector: 'app-profile-comments',
@@ -46,7 +46,7 @@ export class ProfileCommentsComponent extends BaseComponent implements OnInit {
     store
       .pipe(
         takeUntil(this.destroyed$),
-        select(homeStatePostComments),
+        select(commentsStatePostComments),
         filter(x => !!x),
       )
       .subscribe(x => {

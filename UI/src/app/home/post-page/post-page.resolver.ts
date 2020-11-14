@@ -1,7 +1,5 @@
 import { AuthService } from './../../services/auth.service';
 import { userProfile } from './../../store/auth/auth.selectors';
-import { homeStatePostComments } from './../../store/home/home.selectors';
-import { GetCommentsAction } from './../../store/home/home.actions';
 import { CommentViewModel } from './../models/view/comment-view-model';
 import { DataFilter, SearchType } from './../../shared/models/common';
 import { EnvironmentService } from './../../services/environment.service';
