@@ -2,7 +2,7 @@
   [post]="post"
   [postContext]="postContext.PostPage"
   [user]="user"
-  *ngIf="post && pageState === postPageState.Default"
+  *ngIf="post && isDefaultOrEditComment"
   (editPost)="onEditPost()"
 ></app-post>
 
@@ -14,7 +14,7 @@
 
 <app-add-item
   (cancelEditItem)="onCancelCommentEdit()"
-  *ngIf="pageState === postPageState.Default && user"
+  *ngIf="isDefaultOrEditComment && user"
   [addItem]="editItemComment"
 ></app-add-item>
 

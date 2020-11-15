@@ -54,6 +54,13 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     return PostPageState;
   }
 
+  get isDefaultOrEditComment(): boolean {
+    return (
+      this.pageState === this.postPageState.Default ||
+      this.pageState === this.postPageState.EditComment
+    );
+  }
+
   editItemPost: AddItem;
   editItemComment: AddItem;
 
@@ -127,7 +134,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   }
 
   onEditComment(id: string) {
-    this.pageState = PostPageState.Default;
+    this.pageState = PostPageState.EditComment;
     this.commentToEdit = this.comments.items.find(x => x.id === id);
     this.editItemComment = {
       ...this.editItemComment,
@@ -138,7 +145,10 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   }
 
   onScrollDown() {
-    if (this.comments.total === this.comments.items.length) {
+    if (
+      this.comments.total === this.comments.items.length ||
+      this.pageState === this.postPageState.EditComment
+    ) {
       return;
     }
     this.loadComments();
