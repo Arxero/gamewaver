@@ -84,7 +84,7 @@ export class SidebarHelperService {
     return postCategories.map(x => ({
       category: x,
       label: x.label,
-      url: `category!eq!${x.value}`,
+      url: `?filters=category!eq!${x.value}`,
       class: '',
     }));
   }
