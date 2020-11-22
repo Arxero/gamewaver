@@ -47,6 +47,5 @@ export class CategoryComponent extends BaseComponent implements OnInit {
         sidebarNavigation: SidebarNavigationType.Category,
       }),
     );
-    this.router.navigateByUrl(category.url);
   }
 }

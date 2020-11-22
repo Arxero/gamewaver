@@ -59,7 +59,7 @@ export class SidebarHelperService {
         description: 'Sort posts by new',
         sortType: SortType.Fresh,
         class: '',
-        url: '?sort=createdAt:desc',
+        url: 'createdAt:desc',
       },
       {
         label: SortType.Popular,
@@ -67,7 +67,7 @@ export class SidebarHelperService {
         description: 'Sort posts by upvotes',
         sortType: SortType.Popular,
         class: '',
-        url: '?sort=upvotes:desc',
+        url: 'upvotes:desc',
       },
       {
         label: SortType.Commented,
@@ -75,7 +75,7 @@ export class SidebarHelperService {
         description: 'Sort posts by comments',
         sortType: SortType.Commented,
         class: '',
-        url: '?sort=comments:desc',
+        url: 'comments:desc',
       },
     ];
   }
@@ -84,7 +84,7 @@ export class SidebarHelperService {
     return postCategories.map(x => ({
       category: x,
       label: x.label,
-      url: `?filters=category!eq!${x.value}`,
+      url: `category!eq!${x.value}`,
       class: '',
     }));
   }
@@ -99,7 +99,7 @@ export class SidebarHelperService {
 
       return {
         label: month,
-        url: `?filters=createdAt!between!${year}-${monthTemp}-01,${year}-${monthTemp}-${daysInMonth},date`,
+        url: `createdAt!between!${year}-${monthTemp}-01,${year}-${monthTemp}-${daysInMonth},date`,
         class: 'month',
       };
     });
@@ -108,7 +108,7 @@ export class SidebarHelperService {
   private getArchiveYears(): SidebarItem[] {
     return this.getYearsFromStart().map(year => ({
       label: year,
-      url: `?filters=createdAt!between!${year}-01-01,${year}-12-31,date`,
+      url: `createdAt!between!${year}-01-01,${year}-12-31,date`,
       class: 'year',
     }));
   }

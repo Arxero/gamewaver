@@ -55,6 +55,5 @@ export class ArchiveComponent extends BaseComponent implements OnInit {
         sidebarNavigation: SidebarNavigationType.Archive,
       }),
     );
-    this.router.navigateByUrl(item.url);
   }
 }

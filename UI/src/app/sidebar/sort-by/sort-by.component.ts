@@ -54,23 +54,27 @@ export class SortByComponent extends BaseComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSortSelected(sort: SortSidebarItem) {
     this.items.map(x => (x.class = ''));
     sort.class = 'selected';
     this.sort = sort;
+    this.selectedTime.setValue(SortTime.All);
     this.navigateSorting();
   }
 
-  navigateSorting() {
+  navigateSorting(isTime?: boolean) {
     this.store.dispatch(
       new SidebarNavigation({ sidebarNavigation: SidebarNavigationType.Sort }),
     );
 
+    if (!isTime) {
+      return;
+    }
+
     this.router.navigateByUrl(
-      `${this.sort.url}${
+      `?sort=${this.sort.url}${
         this.sidebarHelper.sortTimeMap[this.selectedTime.value]
       }`,
     );
