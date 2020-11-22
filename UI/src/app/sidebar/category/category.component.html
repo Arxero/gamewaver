@@ -1,0 +1,8 @@
+<mat-card>
+  <h3>CATEGORY</h3>
+  <ng-container *ngFor="let item of items">
+    <a [routerLink]="item.url" mat-menu-item (click)="onNavigate(item)" [class]="item.class">
+      <span>{{ item.label }}</span>
+    </a>
+  </ng-container>
+</mat-card>

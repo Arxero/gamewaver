@@ -1,0 +1,26 @@
+<mat-card>
+  <form class="search-form">
+    <mat-form-field class="form-field">
+      <input matInput placeholder="Search..." [formControl]="searchTerm" />
+      <mat-icon
+        class="search-icon"
+        color="primary"
+        matSuffix
+        (click)="onSubmit()"
+        >search</mat-icon
+      >
+    </mat-form-field>
+
+    <div class="submit-wrapper">
+      <button
+        mat-raised-button
+        color="primary"
+        class="form-button"
+        [disabled]="!searchTerm.value"
+        (click)="onSubmit()"
+      >
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+  </form>
+</mat-card>

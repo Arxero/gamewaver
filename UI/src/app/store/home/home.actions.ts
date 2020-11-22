@@ -1,4 +1,4 @@
-import { SortUrl, SidebarNavigationType } from './../../home/models/view/post-sort';
+import { SortUrl, SidebarNavigationType } from '../../sidebar/models/sidebar-view-model';
 import { Sorting, PagedData } from './../../shared/models/common';
 import { GetVoteDto } from './../../home/models/dto/get-vote.dto';
 import { CreatePostVoteCmd } from './../../home/models/cmd/create-vote.cmd';

@@ -1,0 +1,9 @@
+.mat-menu-item {
+  &:hover:not([disabled]), &.selected {
+    border-radius: 3px;
+  }
+
+  &.selected {
+    background: #232323;
+  }
+}

@@ -1,4 +1,4 @@
-import { SidebarNavigationType } from './../models/view/post-sort';
+import { SidebarNavigationType } from '../../sidebar/models/sidebar-view-model';
 import { homeStateSidebarNavigation } from './../../store/home/home.selectors';
 import { EnvironmentService } from './../../services/environment.service';
 import {
@@ -31,7 +31,7 @@ import { DataFilter, SearchType } from '../../shared/models/common';
 import { QueryRequest, QueryParams } from '../../shared/models/query-request';
 import { PostContext } from '../models/view/home-view-model';
 import { AddItem } from '../models/view/add-item';
-import { SortUrl } from '../models/view/post-sort';
+import { SortUrl } from '../../sidebar/models/sidebar-view-model';
 
 @Component({
   selector: 'app-posts',

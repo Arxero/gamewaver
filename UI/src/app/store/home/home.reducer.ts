@@ -1,7 +1,7 @@
 import {
   SortUrl,
   SidebarNavigationType,
-} from './../../home/models/view/post-sort';
+} from '../../sidebar/models/sidebar-view-model';
 import { PagedData } from './../../shared/models/common';
 import { VoteType } from './../../home/models/view/home-view-model';
 import { GetVoteDto } from './../../home/models/dto/get-vote.dto';

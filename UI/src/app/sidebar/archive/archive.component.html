@@ -1,0 +1,15 @@
+<mat-card class="archive">
+  <h3>ARCHIVE</h3>
+  <div class="title">{{ year }}</div>
+
+  <div class="months">
+    <ng-container *ngFor="let item of months">
+      <a [routerLink]="item.url" [class]="item.class" (click)="onNavigate(item)">{{ item.label }}</a>
+    </ng-container>
+  </div>
+
+  <div class="title">ARCHIVES BY YEAR</div>
+  <div class="years" *ngFor="let item of years">
+    <a [routerLink]="item.url" [class]="item.class" (click)="onNavigate(item)">{{ item.label }}</a>
+  </div>
+</mat-card>
