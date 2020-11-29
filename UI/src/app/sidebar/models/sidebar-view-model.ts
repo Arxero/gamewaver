@@ -1,4 +1,4 @@
-import { PostCategoryViewModel } from './../../home/models/view/post-category';
+import { PostCategoryViewModel, PostCategory } from './../../home/models/view/post-category';
 import * as moment from 'moment';
 
 export enum SortType {
@@ -23,6 +23,14 @@ export interface SortSidebarItem extends SidebarItem {
   sortType: SortType;
 }
 
+export interface SidebarSelectedItem {
+  sort: SortType;
+  time: SortTime;
+  category: PostCategory;
+  year: string;
+  month: string;
+}
+
 export enum SortUrl {
   Fresh = '/',
   Popular = 'popular',
@@ -44,4 +52,3 @@ export enum SortTime {
   Days30 = '30 Days',
   All = 'All',
 }
-

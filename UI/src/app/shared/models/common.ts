@@ -1,3 +1,5 @@
+import { SimpleChange } from '@angular/core';
+
 export interface PagedData<T> {
   total: number;
   items: T[];
@@ -62,3 +64,8 @@ export const dateSort: Sorting = {
   propertyName: 'createdAt',
   sort: SortDirection.DESC,
 };
+
+export interface TypedChange<T> extends SimpleChange {
+  previousValue: T;
+  currentValue: T;
+}

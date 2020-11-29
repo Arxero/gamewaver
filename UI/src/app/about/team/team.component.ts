@@ -22,13 +22,13 @@ export class TeamComponent implements OnInit {
       role: 'Founder',
       description: 'He is a cat.'
     },
-    {
-      image: 'assets/images/team/Xinored.jpg',
-      name: 'Deronix',
-      link: 'http://steamcommunity.com/profiles/76561198069703964',
-      role: 'Co-Founder',
-      description: 'just a regular everyday normal motherfucker'
-    },
+    // {
+    //   image: 'assets/images/team/Xinored.jpg',
+    //   name: 'Deronix',
+    //   link: 'http://steamcommunity.com/profiles/76561198069703964',
+    //   role: 'Co-Founder',
+    //   description: 'just a regular everyday normal motherfucker'
+    // },
   ];
 
   constructor() { }

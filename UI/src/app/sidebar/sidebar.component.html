@@ -1,6 +1,10 @@
 <app-search></app-search>
-<app-sort-by></app-sort-by>
-<app-category></app-category>
-<app-archive></app-archive>
-
-
+<app-sort-by
+  [sortType]="selectedItem.sort"
+  [time]="selectedItem.time"
+></app-sort-by>
+<app-category [category]="selectedItem.category"></app-category>
+<app-archive
+  [year]="selectedItem.year"
+  [month]="selectedItem.month"
+></app-archive>
