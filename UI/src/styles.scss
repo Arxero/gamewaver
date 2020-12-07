@@ -135,7 +135,6 @@ $gw-angular-theme: (
 
 html {
   box-sizing: border-box;
-  height: 100%;
 }
 
 
@@ -149,7 +148,6 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   color: #dadada;
-  height: 100%;
 }
 
 h1,
@@ -248,21 +246,16 @@ audio {
 }
 
 
-
-
-
 main {
   margin: 0 auto;
-  // background: #232323;
   max-width: 1012px;
   padding: 16px 16px;
   font-size: 16px;
-  height: calc(100% - 90px);
+  min-height: 100vh;
 
   p a:hover {
     text-decoration: underline;
   }
-
 }
 
 

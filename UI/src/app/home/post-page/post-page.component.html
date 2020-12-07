@@ -21,9 +21,7 @@
 <div
   infiniteScroll
   (scrolled)="onScrollDown()"
-  [scrollWindow]="false"
-  infiniteScrollContainer=".infinite-scroll"
-  [fromRoot]="true"
+  [infiniteScrollDistance]="1"
   *ngIf="comments"
 >
   <ng-container *ngFor="let item of comments.items">

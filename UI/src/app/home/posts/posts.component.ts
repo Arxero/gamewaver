@@ -38,7 +38,7 @@ import { SortUrl } from '../../sidebar/models/sidebar-view-model';
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss'],
 })
-export class PostsComponent extends BaseComponent implements OnInit {
+export class PostsComponent extends BaseComponent {
   posts: PagedData<PostViewModel>;
   user: User;
   queryRequest: QueryRequest;
@@ -90,8 +90,6 @@ export class PostsComponent extends BaseComponent implements OnInit {
         this.sidebarNavigationType = x;
       });
   }
-
-  ngOnInit(): void {}
 
   onScrollDown() {
     if (this.posts.total === this.posts.items.length) {
