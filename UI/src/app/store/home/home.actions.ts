@@ -1,4 +1,7 @@
-import { SortUrl, SidebarNavigationType } from '../../sidebar/models/sidebar-view-model';
+import {
+  SortUrl,
+  SidebarNavigationType,
+} from '../../sidebar/models/sidebar-view-model';
 import { Sorting, PagedData } from './../../shared/models/common';
 import { GetVoteDto } from './../../home/models/dto/get-vote.dto';
 import { CreatePostVoteCmd } from './../../home/models/cmd/create-vote.cmd';
@@ -12,7 +15,10 @@ import { CommentViewModel } from '../../home/models/view/comment-view-model';
 import { ResponseError } from '../../shared/models/response';
 import { UpdateCommentCmd } from '../../home/models/cmd/update-comment.cmd';
 import { Paging, DataFilter } from '../../shared/models/common';
-import { UserActionOnPost, PostContext } from '../../home/models/view/home-view-model';
+import {
+  UserActionOnPost,
+  PostContext,
+} from '../../home/models/view/home-view-model';
 
 export enum HomeActionTypes {
   // POSTS
@@ -43,6 +49,8 @@ export enum HomeActionTypes {
 
   DeletePostUpvoteAction = '[DeletePostUpvote] Action',
   DeletePostUpvoteActionSuccess = '[DeletePostUpvoteSuccess] Action',
+
+  SaveScrollPositionAction = '[SaveScrollPosition] Action',
 }
 
 // CREATE POST
@@ -98,7 +106,6 @@ export class GetVotedPostsActionSuccess implements Action {
   constructor(public payload: { data: PostViewModel[] }) {}
 }
 
-
 // GET POST
 export class GetPostAction implements Action {
   readonly type = HomeActionTypes.GetPostAction;
@@ -118,12 +125,12 @@ export class SetPostPagePost implements Action {
 // DELETE POST
 export class DeletePostAction implements Action {
   readonly type = HomeActionTypes.DeletePostAction;
-  constructor(public payload: { id: string, postContext?: PostContext }) {}
+  constructor(public payload: { id: string; postContext?: PostContext }) {}
 }
 
 export class DeletePostActionSuccess implements Action {
   readonly type = HomeActionTypes.DeletePostActionSuccess;
-  constructor(public payload: { id: string,  postContext?: PostContext }) {}
+  constructor(public payload: { id: string; postContext?: PostContext }) {}
 }
 
 export class SidebarNavigation implements Action {
@@ -153,6 +160,11 @@ export class DeletePostUpvoteActionSuccess implements Action {
   constructor(public payload: { data: GetVoteDto }) {}
 }
 
+export class SaveScrollPositionAction implements Action {
+  readonly type = HomeActionTypes.SaveScrollPositionAction;
+  constructor(public payload: { data: [number, number] }) {}
+}
+
 export type HomeActions =
   | CreatePostAction
   | CreatePostActionSuccess
@@ -172,4 +184,5 @@ export type HomeActions =
   | CreatePostUpvoteAction
   | CreatePostUpvoteActionSuccess
   | DeletePostUpvoteAction
-  | DeletePostUpvoteActionSuccess;
+  | DeletePostUpvoteActionSuccess
+  | SaveScrollPositionAction;

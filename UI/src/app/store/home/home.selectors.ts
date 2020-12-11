@@ -34,3 +34,8 @@ export const homeStateSidebarNavigation = createSelector(
   homeState => homeState.sidebarNavigation
 );
 
+export const homeScrollPosition = createSelector(
+  selectHomeState,
+  homeState => homeState.scrollPosition
+);
+

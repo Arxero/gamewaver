@@ -8,6 +8,7 @@ import {
   SetPostPagePost,
   DeletePostUpvoteAction,
   CreatePostUpvoteAction,
+  SaveScrollPositionAction,
 } from '../../store/home/home.actions';
 import { Store } from '@ngrx/store';
 import { HomeState } from '../../store/home/home.reducer';
@@ -17,6 +18,7 @@ import { PostContext, VoteType } from '../../home/models/view/home-view-model';
 import { Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { SnackbarService } from '../../services/snackbar.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-post',
@@ -54,6 +56,7 @@ export class PostComponent implements OnInit {
     private router: Router,
     private clipboard: Clipboard,
     private snackbarService: SnackbarService,
+    private viewportScroller: ViewportScroller,
   ) {}
 
   ngOnInit(): void {
@@ -87,6 +90,7 @@ export class PostComponent implements OnInit {
   }
 
   onPostLink() {
+    this.store.dispatch(new SaveScrollPositionAction({ data: this.viewportScroller.getScrollPosition()}));
     this.store.dispatch(new SetPostPagePost({ data: this.post }));
   }
 

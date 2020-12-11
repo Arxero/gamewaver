@@ -1,5 +1,8 @@
 import { SidebarNavigationType } from '../../sidebar/models/sidebar-view-model';
-import { homeStateSidebarNavigation } from './../../store/home/home.selectors';
+import {
+  homeStateSidebarNavigation,
+  homeScrollPosition,
+} from './../../store/home/home.selectors';
 import { EnvironmentService } from './../../services/environment.service';
 import {
   Sorting,
@@ -32,13 +35,14 @@ import { QueryRequest, QueryParams } from '../../shared/models/query-request';
 import { PostContext } from '../models/view/home-view-model';
 import { AddItem } from '../models/view/add-item';
 import { SortUrl } from '../../sidebar/models/sidebar-view-model';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss'],
 })
-export class PostsComponent extends BaseComponent {
+export class PostsComponent extends BaseComponent implements AfterViewInit {
   posts: PagedData<PostViewModel>;
   user: User;
   queryRequest: QueryRequest;
@@ -57,9 +61,9 @@ export class PostsComponent extends BaseComponent {
     private store: Store<HomeState>,
     private route: ActivatedRoute,
     private environmentService: EnvironmentService,
+    private viewportScroller: ViewportScroller,
   ) {
     super();
-
     this.route.queryParams.subscribe(params => {
       this.queryRequest = new QueryRequest(params as QueryParams);
       this.queryRequest.sorting.push(dateSort);
@@ -88,6 +92,18 @@ export class PostsComponent extends BaseComponent {
       .pipe(takeUntil(this.destroyed$), select(homeStateSidebarNavigation))
       .subscribe(x => {
         this.sidebarNavigationType = x;
+      });
+  }
+
+  ngAfterViewInit(): void {
+    this.store
+      .pipe(
+        takeUntil(this.destroyed$),
+        select(homeScrollPosition),
+        filter(x => !!x),
+      )
+      .subscribe(x => {
+        this.viewportScroller.scrollToPosition(x);
       });
   }
 

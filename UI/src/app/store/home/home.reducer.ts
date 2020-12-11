@@ -21,6 +21,7 @@ export interface HomeState {
   post: PostViewModel;
   isEditSuccessful: boolean;
   sidebarNavigation: SidebarNavigationType;
+  scrollPosition: [number, number];
 }
 
 export const initialHomeState: HomeState = {
@@ -29,6 +30,7 @@ export const initialHomeState: HomeState = {
   post: null,
   isEditSuccessful: null,
   sidebarNavigation: null,
+  scrollPosition: null,
 } as HomeState;
 
 export function homeReducer(
@@ -157,6 +159,12 @@ export function homeReducer(
       return {
         ...state,
         sidebarNavigation: action.payload.sidebarNavigation,
+      };
+
+    case HomeActionTypes.SaveScrollPositionAction:
+      return {
+        ...state,
+        scrollPosition: action.payload.data
       };
 
     default:

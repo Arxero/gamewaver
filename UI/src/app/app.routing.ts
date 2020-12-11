@@ -8,29 +8,27 @@ import { usersRoute } from './users/users.routing';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () =>
-      import('./home/home.module').then(m => m.HomeModule),
+    loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
   },
   {
     path: aboutRoute,
-    loadChildren: () =>
-      import('./about/about.module').then(m => m.AboutModule),
+    loadChildren: () => import('./about/about.module').then(m => m.AboutModule),
   },
   {
     path: authRoute,
-    loadChildren: () =>
-      import('./auth/auth.module').then(m => m.AuthModule),
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
   },
   {
     path: usersRoute,
-    loadChildren: () =>
-      import('./users/users.module').then(m => m.UsersModule),
+    loadChildren: () => import('./users/users.module').then(m => m.UsersModule),
   },
   { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
