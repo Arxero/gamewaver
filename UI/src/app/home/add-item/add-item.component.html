@@ -21,7 +21,6 @@
           </mat-form-field>
         </div>
 
-
         <div class="actions" *ngIf="content.value">
           <mat-form-field class="category" *ngIf="addItem.isPost">
             <mat-label>Category</mat-label>
@@ -34,9 +33,7 @@
             <mat-icon>text_format</mat-icon>
           </button>
           <app-upload (imageLink)="onUpload($event)"></app-upload>
-          <button mat-icon-button color="primary" class="format-text-button" (click)="onAddEmoji()">
-            <mat-icon>insert_emoticon</mat-icon>
-          </button>
+          <app-emoji (emoji)="onAddedEmoji($event)" #emoji></app-emoji>
           <button mat-stroked-button color="accent" class="form-button cancel" *ngIf="addItem.content" (click)="onCancel()">Cancel</button>
           <button mat-raised-button color="primary" class="form-button" [disabled]="itemForm.invalid" (click)="onSubmit()">{{ addItem.content ? 'SAVE' : 'SUBMIT' }}</button>
         </div>
@@ -50,10 +47,6 @@
     </mat-card>
   </mat-tab>
 </mat-tab-group>
-
-<div class="emoji-post">
-  <app-emoji *ngIf="isAddEmoji" (emoji)="onAddedEmoji($event)"></app-emoji>
-</div>
 
 
 

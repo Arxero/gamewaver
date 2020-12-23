@@ -1,10 +1,25 @@
-<emoji-mart
-  (emojiClick)="addEmoji($event)"
-  title="Pick your emoji…"
-  emoji="point_up"
-  showSingleCategory="true"
-  isNative="true"
-></emoji-mart>
+<button
+  mat-icon-button
+  color="primary"
+  class="format-text-button"
+  (click)="openEmojiOverlay(trigger)"
+  cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin"
+>
+  <mat-icon>insert_emoticon</mat-icon>
+</button>
+
+<ng-template cdkPortal #overlayTemplate="cdkPortal">
+  <emoji-mart
+    (emojiClick)="addEmoji($event)"
+    title="Pick your emoji…"
+    emoji="point_up"
+    isNative="true"
+    class="emoji"
+    showSingleCategory="true"
+    cdkDrag
+  ></emoji-mart>
+</ng-template>
 
 <!-- emojiTooltip="true"
 isNative="true"

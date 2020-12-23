@@ -1,3 +1,4 @@
+import { EmojiComponent } from './../../shared/emoji/emoji.component';
 import { FormattingHelpComponent } from './../../shared/formatting-help/formatting-help.component';
 import { AddItem } from './../models/view/add-item';
 import { User } from './../../users/models/dto/user';
@@ -9,6 +10,7 @@ import {
   Output,
   EventEmitter,
   ViewEncapsulation,
+  ViewChild,
 } from '@angular/core';
 import { PostViewModel } from '../models/view/post-view-model';
 import { CommentViewModel } from '../models/view/comment-view-model';
@@ -49,7 +51,6 @@ export class AddItemComponent implements OnInit {
 
   @Output() cancelEditItem: EventEmitter<void> = new EventEmitter();
   itemForm: FormGroup;
-  isAddEmoji: boolean;
   caretPos = 0;
 
   get categories() {
@@ -130,13 +131,8 @@ export class AddItemComponent implements OnInit {
     this.dialog.open(FormattingHelpComponent);
   }
 
-  onAddEmoji() {
-    this.isAddEmoji = !this.isAddEmoji;
-  }
-
   onAddedEmoji(emoji: EmojiData) {
-    this.isAddEmoji = !this.isAddEmoji;
-    const temp = (this.content.value as string).split('');
+    const temp = ((this.content.value as string) || '').split('');
     temp.splice(this.caretPos, 0, emoji.native);
     this.itemForm.patchValue({
       content: temp.join(''),
