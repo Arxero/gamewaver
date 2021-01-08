@@ -1,15 +1,23 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-goto-top',
-  templateUrl: './goto-top.component.html',
-  styleUrls: ['./goto-top.component.scss'],
+  template: `
+    <button
+      *ngIf="isShow"
+      mat-mini-fab
+      color="primary"
+      class="goto-top"
+      (click)="gotoTop()"
+    >
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+  `,
+  styleUrls: ['./app.component.scss'],
 })
-export class GotoTopComponent implements OnInit {
+export class GotoTopComponent {
   isShow: boolean;
-  topPosToStartShowing = 100;
-
-  constructor() {}
+  topPosToStartShowing = 1000;
 
   @HostListener('window:scroll')
   checkScroll() {
@@ -19,16 +27,12 @@ export class GotoTopComponent implements OnInit {
       document.body.scrollTop ||
       0;
 
-    console.log('[scroll]', scrollPosition);
-
     if (scrollPosition >= this.topPosToStartShowing) {
       this.isShow = true;
     } else {
       this.isShow = false;
     }
   }
-
-  ngOnInit(): void {}
 
   gotoTop() {
     window.scroll({

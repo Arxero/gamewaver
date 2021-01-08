@@ -1,15 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UploadService } from '../../services/upload.service';
 import { LoadingService } from '../../services/loading.service';
-import { ImgurReponse, ImgurError } from '../models/imgur-response';
 import { SnackbarService } from '../../services/snackbar.service';
+import { ImgurReponse, ImgurError } from '../models/dto/imgur-response';
 
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.scss'],
 })
-export class UploadComponent implements OnInit {
+export class UploadComponent {
   @Output() imageLink: EventEmitter<string> = new EventEmitter();
 
   acceptedFiles: string[] = [
@@ -39,8 +38,6 @@ export class UploadComponent implements OnInit {
     private loadingService: LoadingService,
     private snackbarService: SnackbarService,
   ) {}
-
-  ngOnInit(): void {}
 
   async upload(files: FileList) {
     if (files.length === 0) {

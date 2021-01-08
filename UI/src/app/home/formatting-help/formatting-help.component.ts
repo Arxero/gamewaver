@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 export interface FormatHelpItem {
   syntax: string;
@@ -10,7 +10,7 @@ export interface FormatHelpItem {
   templateUrl: './formatting-help.component.html',
   styleUrls: ['./formatting-help.component.scss'],
 })
-export class FormattingHelpComponent implements OnInit {
+export class FormattingHelpComponent {
   displayedColumns: string[] = ['syntax', 'example'];
   dataSource: FormatHelpItem[] = [
     { syntax: '# Header text', example: '# Header text' },
@@ -55,8 +55,4 @@ export class FormattingHelpComponent implements OnInit {
       example: `<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>`,
     },
   ];
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

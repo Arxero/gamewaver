@@ -1,3 +1,4 @@
+import { GotoTopComponent } from './goto-top.component';
 import { CommentsEffects } from './store/comments/comments.effects';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, SecurityContext } from '@angular/core';
@@ -20,11 +21,14 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { UsersEffects } from './store/users/users.effects';
 import { HomeEffects } from './store/home/home.effects';
+import { NotFoundComponent } from './not-found.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    NotFoundComponent,
+    GotoTopComponent,
   ],
   imports: [
     BrowserModule,

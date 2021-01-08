@@ -1,3 +1,4 @@
+import { HomeModule } from './../home/home.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsersRoutingModule } from './users.routing';
@@ -26,6 +27,7 @@ import { ProfileVotesComponent } from './profile-votes/profile-votes.component';
     UsersRoutingModule,
     SharedModule,
     MarkdownModule.forChild(),
+    HomeModule
   ]
 })
 export class UsersModule { }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentService } from './environment.service';
-import { ImgurReponse, ImgurSuccess } from '../shared/models/imgur-response';
+import { ImgurReponse, ImgurSuccess } from '../home/models/dto/imgur-response';
 
 @Injectable({
   providedIn: 'root',

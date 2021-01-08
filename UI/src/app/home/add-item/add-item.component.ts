@@ -1,5 +1,3 @@
-import { EmojiComponent } from './../../shared/emoji/emoji.component';
-import { FormattingHelpComponent } from './../../shared/formatting-help/formatting-help.component';
 import { AddItem } from './../models/view/add-item';
 import { User } from './../../users/models/dto/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -31,6 +29,7 @@ import {
   EditCommentAction,
   CreateCommentAction,
 } from '../../store/comments/comments.actions';
+import { FormattingHelpComponent } from './../formatting-help/formatting-help.component';
 
 @Component({
   selector: 'app-add-item',
