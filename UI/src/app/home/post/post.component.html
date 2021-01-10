@@ -9,7 +9,7 @@
       <a [routerLink]="[userProfileRoute, post.authorId]">
         {{ post.authorUsername }}
       </a>
-      <span class="role role-red" *ngIf="post.userRole">{{ post.userRole | titlecase }}</span>
+      <span class="role red" *ngIf="post.userRole">{{ post.userRole | titlecase }}</span>
     </mat-card-title>
     <mat-card-subtitle>
       <a class="category" (click)="navigate()">{{ post.category }}</a> ·

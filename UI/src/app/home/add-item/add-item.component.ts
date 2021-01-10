@@ -7,8 +7,6 @@ import {
   Input,
   Output,
   EventEmitter,
-  ViewEncapsulation,
-  ViewChild,
 } from '@angular/core';
 import { PostViewModel } from '../models/view/post-view-model';
 import { CommentViewModel } from '../models/view/comment-view-model';
@@ -35,7 +33,6 @@ import { FormattingHelpComponent } from './../formatting-help/formatting-help.co
   selector: 'app-add-item',
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class AddItemComponent implements OnInit {
   private _addItem: AddItem;

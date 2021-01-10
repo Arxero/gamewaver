@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../shared/base.component';
 import { Store, select } from '@ngrx/store';
 import { AuthState } from '../../store/auth/auth.reducer';
@@ -6,7 +6,7 @@ import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../../store/auth/auth.selectors';
 import { UserRole } from '../models/dto/user';
 import { cloneDeep } from 'lodash';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
   GetUserAction,
   ClearProfileUserAction,
@@ -19,7 +19,6 @@ import { UserViewModel } from '../models/view/user-view-model';
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class ProfileComponent extends BaseComponent implements OnInit {
   user: UserViewModel;

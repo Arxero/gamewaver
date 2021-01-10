@@ -2,6 +2,9 @@
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
 @import '~@ctrl/ngx-emoji-mart/picker';
+@import './reset';
+@import './typography';
+@import './theme-overrides';
 // Plus imports for other components in your app.
 
 $custom-typography: mat-typography-config(
@@ -12,19 +15,7 @@ $custom-typography: mat-typography-config(
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-.mat-snack-bar-container {
-  color: $light-secondary-text !important;
-  background: #323232 !important;
-}
-
-.mat-simple-snackbar-action {
-  color: #ff4081 !important;
-}
-.mat-checkbox-layout {
-  white-space: normal !important;
-}
 @include mat-core($custom-typography);
-
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
@@ -115,117 +106,16 @@ $gw-angular-theme: (
 );
 
 // Create the theme object (a Sass map containing all of the palettes).
-// $gw-angular-theme: mat-dark-theme(
-//   $gw-angular-primary,
-//   $gw-angular-accent,
-//   $gw-angular-warn
-// );
-
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($gw-angular-theme);
 
 /* You can add global styles to this file, and also import other style files */
-
-* {
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  box-sizing: border-box;
-}
-
-
-*,
-*::before,
-* ::after {
-  box-sizing: inherit;
-}
-
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   color: #dadada;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  color: #dadada;
-}
-
-a {
-  color: #49a0cc;
-  text-decoration: none;
-}
-
-p a:hover {
-  text-decoration: underline;
-}
-
-ul,
-ol {
-  padding-left: 32px;
-  padding-bottom: 16px;
-}
-
-blockquote {
-  padding: 0 1em;
-  color: #968F83;
-  border-left: .25em solid #dadada;
-}
-
-table {
-  display: block;
-  width: 100%;
-  overflow: auto;
-  margin-top: 0;
-  margin-bottom: 16px;
-  border-spacing: 0;
-  border-collapse: collapse;
-  border-color: #52595b;
-}
-
-table th, table td {
-  padding: 6px 13px;
-  border: 1px solid rgb(57, 61, 63);
-}
-
-table th {
-  font-weight: 600;
-}
-
-p code {
-  background: #111111;
-  padding: .15rem .4rem;
-  color: #aa759f;
-  border-radius: 3px;
-  box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1), 0 -1px 0 rgba(0, 0, 0, 0.5);
-}
-
-pre {
-  padding: 16px;
-  overflow: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  // background-color: rgba(205, 209, 212, 0.1);
-  box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1), 0 -1px 0 rgba(0, 0, 0, 0.5);
-  background: #111111;
-  border-radius: 6px;
-  margin-bottom: 16px;
-}
-
-video {
-  width: 100% !important;
-  height: auto !important;
-  outline: none;
-}
-
-audio {
-  outline: none;
 }
 
 .embed-container {
@@ -245,49 +135,6 @@ audio {
   height: 100%;
 }
 
-
-main {
-  margin: 0 auto;
-  max-width: 1012px;
-  padding: 16px 16px;
-  font-size: 16px;
-  min-height: 100vh;
-
-  p a:hover {
-    text-decoration: underline;
-  }
-}
-
-
-@media screen and (max-width: 500px) {
-  main {
-    padding: 16px 0px;
-  }
-  .mat-card {
-    padding: 16px 4px !important;
-  }
-  app-sidebar .mat-card {
-    padding: 16px !important;
-  }
-}
-
-.warn-snackbar {
-  color: #f44336 !important;
-}
-
-::-webkit-scrollbar {
-  background-color: #232627;
-  color: #a19a90;
-}
-
-::-webkit-scrollbar-corner {
-  background-color: #1c1e1f;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #45494c;
-}
-
 .role {
   display: inline-block;
   padding: 0 7px;
@@ -295,29 +142,17 @@ main {
   font-weight: 500;
   line-height: 18px;
   border-radius: 2em;
-  border: 1px solid rgba(255, 255, 255, 0.51);;
+  border: 1px solid rgba(255, 255, 255, 0.51);
   margin-left: 7px;
   color: rgba(255, 255, 255, 0.51);
-}
 
-.role-red {
-  border-color: #AA0000;
-}
+  &.red {
+    border-color: #aa0000;
+  }
 
-.role-green {
-  border-color: #00AA00;
-}
-
-.mat-progress-bar {
-  height: 3px !important;
-}
-
-.mat-progress-bar-buffer {
-  background: #dadada;
-}
-
-.mat-progress-bar-fill::after {
-  background: linear-gradient(to right, #171a21 0%,#194971 80%,#1e5799 100%,#2989d8 100%);
+  &.green {
+    border-color: #00aa00;
+  }
 }
 
 .grecaptcha-badge {

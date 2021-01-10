@@ -45,15 +45,12 @@
   }
 }
 
-mat-tab-header{
-  background-color: #2b2b2b;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+textarea.mat-input-element.cdk-textarea-autosize {
+  resize: vertical;
 }
 
-textarea {
-  overflow: hidden !important;
-  resize: vertical !important;
+markdown {
+  word-break: break-word;
 }
 
 

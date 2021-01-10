@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
   ViewChild,
-  ViewEncapsulation,
 } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -12,7 +11,6 @@ import { BaseComponent } from '../shared/base.component';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class HomeComponent extends BaseComponent implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav;

@@ -1,0 +1,57 @@
+.mat-snack-bar-container {
+  &.snackbar {
+    background: #323232;
+
+    &.info {
+      color: $light-secondary-text;
+    }
+
+    &.warn {
+      color: #f44336
+    }
+  }
+
+  .mat-simple-snackbar-action > button {
+    color: #ff4081;
+  }
+}
+
+.mat-checkbox-layout .mat-checkbox-label {
+  white-space: normal;
+}
+
+.mat-progress-bar-buffer {
+  background: #dadada;
+}
+
+.mat-progress-bar-fill::after {
+  background: linear-gradient(
+    to right,
+    #171a21 0%,
+    #194971 80%,
+    #1e5799 100%,
+    #2989d8 100%
+  );
+}
+
+app-add-item .mat-tab-header,  app-profile .mat-tab-header {
+  background: #2b2b2b;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+app-home {
+  mat-card {
+    margin-bottom: 16px;
+  }
+
+  .mat-drawer-backdrop.mat-drawer-shown {
+    background-color: transparent;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  app-post .mat-card, app-comment .mat-card {
+    padding: 16px 4px;
+  }
+}

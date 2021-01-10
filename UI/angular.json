@@ -29,7 +29,7 @@
               "src/_redirects"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles/styles.scss"
             ],
             "scripts": [ "node_modules/marked/lib/marked.js"],
             "allowedCommonJsDependencies": ["lodash"]
@@ -68,7 +68,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "gw-angular:build",
+            "browserTarget": "gw-angular:build"
           },
           "configurations": {
             "production": {
@@ -94,7 +94,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles/styles.scss"
             ],
             "scripts": []
           }

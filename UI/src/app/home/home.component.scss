@@ -4,17 +4,10 @@
 
 .mat-sidenav-container {
   background-color: transparent;
-  // min-height: 800px;
-}
-
-.mat-drawer-content {
-}
-
-mat-sidenav-content {
 }
 
 mat-sidenav {
-  background-color: transparent !important;
+  background-color: transparent;
   padding-left: 16px;
   width: 264px;
   border: 0;
@@ -24,18 +17,9 @@ mat-sidenav {
   border: none;
 }
 
-mat-card {
-  margin-bottom: 16px;
-}
-
-.mat-drawer-backdrop.mat-drawer-shown {
-  background-color: transparent !important;
-}
-
 @media screen and (max-width: 768px) {
   mat-sidenav {
-    background-color: #17191C !important;
-
+    background-color: #17191C;
   }
 }
 

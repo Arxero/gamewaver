@@ -10,7 +10,7 @@
 
           <mat-form-field class="form-field">
             <textarea
-              cdkTextareaAutosize
+              [cdkTextareaAutosize]='true'
               [cdkAutosizeMinRows]='2'
               matInput placeholder="{{ addItem.isPost ? 'Add a post...' : 'Write a comment...'}}"
               formControlName="content"
