@@ -5,7 +5,6 @@ import { Subject } from 'rxjs';
 @Directive()
 // tslint:disable-next-line: directive-class-suffix
 export class BaseComponent implements OnDestroy {
-
   protected destroyed$ = new Subject<any>();
 
   ngOnDestroy(): void {
@@ -14,6 +13,5 @@ export class BaseComponent implements OnDestroy {
     this.onDestroy();
   }
 
-  protected onDestroy(): void {
-  }
+  protected onDestroy(): void {}
 }

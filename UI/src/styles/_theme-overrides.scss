@@ -50,6 +50,10 @@ app-home {
   }
 }
 
+.backdrop {
+  opacity: 0;
+}
+
 @media screen and (max-width: 500px) {
   app-post .mat-card, app-comment .mat-card {
     padding: 16px 4px;

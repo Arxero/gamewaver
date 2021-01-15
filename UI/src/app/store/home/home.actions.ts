@@ -1,24 +1,15 @@
+import { CreatePostCmd, UpdatePostCmd, CreatePostVoteCmd, GetVoteDto } from './../../home/models/home.models';
 import {
-  SortUrl,
   SidebarNavigationType,
-} from '../../sidebar/models/sidebar-view-model';
+} from '../../sidebar/sidebar-view.models';
 import { Sorting, PagedData } from './../../shared/models/common';
-import { GetVoteDto } from './../../home/models/dto/get-vote.dto';
-import { CreatePostVoteCmd } from './../../home/models/cmd/create-vote.cmd';
-import { CreatePostCmd } from '../../home/models/cmd/create-post.cmd';
 import { Action } from '@ngrx/store';
-import { PostViewModel } from '../../home/models/view/post-view-model';
-import { User } from '../../users/models/dto/user';
-import { UpdatePostCmd } from '../../home/models/cmd/update-post.cmd';
-import { CreateCommentCmd } from '../../home/models/cmd/create-comment.cmd';
-import { CommentViewModel } from '../../home/models/view/comment-view-model';
-import { ResponseError } from '../../shared/models/response';
-import { UpdateCommentCmd } from '../../home/models/cmd/update-comment.cmd';
+import { PostViewModel } from '../../home/models/post-view-model';
 import { Paging, DataFilter } from '../../shared/models/common';
 import {
   UserActionOnPost,
   PostContext,
-} from '../../home/models/view/home-view-model';
+} from '../../home/models/home-view-model';
 
 export enum HomeActionTypes {
   // POSTS

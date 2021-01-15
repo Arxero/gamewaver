@@ -19,7 +19,7 @@ import { GetUserInfoAction } from '../auth/auth.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { usersProfileFullRoute } from '../../users/users.routing';
 import { LoadingService } from '../../services/loading.service';
-import { mapUserViewModel } from '../../users/models/view/user-view-model';
+import { mapUserViewModel } from '../../users/user-view-models';
 
 @Injectable()
 export class UsersEffects {

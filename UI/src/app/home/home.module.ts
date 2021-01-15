@@ -1,6 +1,6 @@
-import { CommentComponent } from './comment/comment.component';
-import { EmojiComponent } from './emoji/emoji.component';
-import { FormattingHelpComponent } from './formatting-help/formatting-help.component';
+import { CommentComponent } from './comment.component';
+import { EmojiComponent } from './emoji.component';
+import { FormattingHelpComponent } from './formatting-help.component';
 import { SidebarModule } from './../sidebar/sidebar.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -8,11 +8,11 @@ import { SharedModule } from '../shared/shared.module';
 import { MarkdownModule } from 'ngx-markdown';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home.routing';
-import { PostPageComponent } from './post-page/post-page.component';
-import { PostsComponent } from './posts/posts.component';
-import { AddItemComponent } from './add-item/add-item.component';
-import { UploadComponent } from './upload/upload.component';
-import { PostComponent } from './post/post.component';
+import { PostPageComponent } from './post-page.component';
+import { PostsComponent } from './posts.component';
+import { AddItemComponent } from './add-item.component';
+import { UploadComponent } from './upload.component';
+import { PostComponent } from './post.component';
 
 @NgModule({
   declarations: [

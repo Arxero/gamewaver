@@ -1,4 +1,4 @@
-import { CommentViewModel } from './../../home/models/view/comment-view-model';
+import { CommentViewModel } from '../../home/models/comment-view-model';
 import {
   Sorting,
   SortDirection,
@@ -27,7 +27,7 @@ import { AuthService } from './../../services/auth.service';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { CommentsState } from './comments.reducer';
-import { mapCommmentViewModel } from '../../home/models/view/comment-view-model';
+import { mapCommmentViewModel } from '../../home/models/comment-view-model';
 
 @Injectable()
 export class CommentsEffects {

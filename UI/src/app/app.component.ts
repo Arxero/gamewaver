@@ -1,7 +1,6 @@
 import { BaseComponent } from './shared/base.component';
 import { Component, ViewChild, OnInit, HostListener } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { MenuItems } from './shared/menu/menu-items';
 import { AuthService } from './services/auth.service';
 import { Store, select } from '@ngrx/store';
 import { AuthState } from './store/auth/auth.reducer';
@@ -10,6 +9,7 @@ import { Router, NavigationEnd, Scroll } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ViewportScroller } from '@angular/common';
 import { homeStatePosts } from './store/home/home.selectors';
+import { MenuItems } from './shared/menu.component';
 
 @Component({
   selector: 'app-root',

@@ -1,13 +1,15 @@
+import {
+  SignUpCmd,
+  SentEmailDto,
+  LoginCmd,
+  TokenDto,
+  ForgotPasswordCmd,
+  ResetPasswordCmd,
+} from './../../auth/auth.models';
 import { Action } from '@ngrx/store';
-import { User } from '../../users/models/dto/user';
-import { SignUpCmd } from '../../auth/models/cmd/sign-up.cmd';
-import { LoginCmd } from '../../auth/models/cmd/login.cmd';
-import { TokenDto } from '../../auth/models/dto/token.dto';
-import { SentEmailDto } from '../../auth/models/dto/sent-email.dto';
-import { ForgotPasswordCmd } from '../../auth/models/cmd/forgot-password.cmd';
+import { User } from '../../users/user';
 import { ResponseError } from '../../shared/models/response';
-import { ResetPasswordCmd } from '../../auth/models/cmd/reset-password.cmd';
-import { UserViewModel } from '../../users/models/view/user-view-model';
+import { UserViewModel } from '../../users/user-view-models';
 
 export enum AuthActionTypes {
   RegisterAction = '[Register] Action',
@@ -107,7 +109,6 @@ export class ResetPasswordActionFailure implements Action {
   readonly type = AuthActionTypes.ResetPasswordActionFailure;
   constructor(public payload: { error: ResponseError }) {}
 }
-
 
 export type AuthActions =
   | RegisterAction

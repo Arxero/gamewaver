@@ -1,5 +1,5 @@
 import { PagedData } from '../../shared/models/common';
-import { CommentViewModel } from '../../home/models/view/comment-view-model';
+import { CommentViewModel } from '../../home/models/comment-view-model';
 import { CommentsActions, CommentsActionTypes } from './comments.actions';
 import * as lodash from 'lodash';
 

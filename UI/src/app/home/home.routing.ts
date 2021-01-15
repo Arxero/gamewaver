@@ -1,10 +1,10 @@
-import { PostPageResolver } from './post-page/post-page.resolver';
+import { PostPageResolver } from './post-page.resolver';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
-import { PostPageComponent } from './post-page/post-page.component';
-import { PostsComponent } from './posts/posts.component';
-import { SortUrl } from '../sidebar/models/sidebar-view-model';
+import { PostPageComponent } from './post-page.component';
+import { PostsComponent } from './posts.component';
+import { SortUrl } from '../sidebar/sidebar-view.models';
 
 const routes: Routes = [
   {

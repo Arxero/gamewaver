@@ -1,7 +1,6 @@
+import { CreatePostVoteCmd, GetVoteDto } from './../home/models/home.models';
 import { IResponse } from './../shared/models/response';
 import { Injectable, Inject } from '@angular/core';
-import { CreatePostVoteCmd } from '../home/models/cmd/create-vote.cmd';
-import { GetVoteDto } from '../home/models/dto/get-vote.dto';
 import { HttpClientService } from './http-client.service';
 
 @Injectable({

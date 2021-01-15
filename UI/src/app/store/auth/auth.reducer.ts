@@ -1,6 +1,6 @@
 import { AuthActions, AuthActionTypes } from './auth.actions';
-import { User } from '../../users/models/dto/user';
-import { UserViewModel } from '../../users/models/view/user-view-model';
+import { User } from '../../users/user';
+import { UserViewModel } from '../../users/user-view-models';
 
 export interface AuthState {
   profile: UserViewModel;

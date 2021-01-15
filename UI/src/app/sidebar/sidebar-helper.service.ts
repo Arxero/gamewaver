@@ -1,4 +1,4 @@
-import { postCategories } from './../home/models/view/post-category';
+import { postCategories } from '../home/models/post-category';
 import { Injectable } from '@angular/core';
 import {
   SortSidebarItem,
@@ -6,7 +6,7 @@ import {
   SortTime,
   CategorySidebarItem,
   SidebarItem,
-} from './models/sidebar-view-model';
+} from './sidebar-view.models';
 import * as moment from 'moment';
 
 @Injectable({

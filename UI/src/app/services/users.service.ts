@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
-import { User } from '../users/models/dto/user';
-import { UpdateUserCmd } from '../users/models/cmd/update-user.cmd';
+import { User, UpdateUserCmd } from '../users/user';
 import { PagedData, DataFilter } from '../shared/models/common';
 import { IResponse } from '../shared/models/response';
 import { HttpParams } from '@angular/common/http';

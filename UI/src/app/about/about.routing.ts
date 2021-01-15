@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { FaqComponent } from './faq/faq.component';
-import { TeamComponent } from './team/team.component';
-import { TosComponent } from './tos/tos.component';
+import { FaqComponent } from './faq.component';
+import { TeamComponent } from './team.component';
+import { TosComponent } from './tos.component';
 
 export const aboutRoute = 'about';
 

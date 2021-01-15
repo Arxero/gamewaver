@@ -1,7 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
-import { CreatePostCmd } from '../home/models/cmd/create-post.cmd';
-import { GetPostDto } from '../home/models/dto/get-post.dto';
 import { IResponse } from '../shared/models/response';
 import {
   PagedData,
@@ -11,7 +9,7 @@ import {
   Paging,
 } from '../shared/models/common';
 import { HttpParams } from '@angular/common/http';
-import { UpdatePostCmd } from '../home/models/cmd/update-post.cmd';
+import { GetPostDto, CreatePostCmd, UpdatePostCmd } from '../home/models/home.models';
 
 @Injectable({
   providedIn: 'root',

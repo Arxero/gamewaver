@@ -1,0 +1,14 @@
+<h1>Frequently Asked Questions</h1>
+
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let item of faqItems">
+    <mat-expansion-panel-header style="font-size: 16px;">
+      <mat-panel-title>
+        {{ item.title }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <markdown ngPreserveWhitespaces>
+      {{ item.text }}
+    </markdown>
+  </mat-expansion-panel>
+</mat-accordion>

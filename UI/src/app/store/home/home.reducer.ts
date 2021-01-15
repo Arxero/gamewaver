@@ -1,19 +1,14 @@
 import {
-  SortUrl,
   SidebarNavigationType,
-} from '../../sidebar/models/sidebar-view-model';
+} from '../../sidebar/sidebar-view.models';
 import { PagedData } from './../../shared/models/common';
-import { VoteType } from './../../home/models/view/home-view-model';
-import { GetVoteDto } from './../../home/models/dto/get-vote.dto';
+import { VoteType } from './../../home/models/home-view-model';
 import {
   HomeActions,
   HomeActionTypes,
-  SidebarNavigation,
 } from './home.actions';
-import { PostViewModel } from '../../home/models/view/post-view-model';
+import { PostViewModel } from '../../home/models/post-view-model';
 import * as lodash from 'lodash';
-import { User } from '../../users/models/dto/user';
-import { CommentViewModel } from '../../home/models/view/comment-view-model';
 
 export interface HomeState {
   posts: PagedData<PostViewModel>;

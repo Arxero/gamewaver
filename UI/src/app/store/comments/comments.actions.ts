@@ -1,7 +1,6 @@
-import { UpdateCommentCmd } from './../../home/models/cmd/update-comment.cmd';
+import { CreateCommentCmd, UpdateCommentCmd } from './../../home/models/home.models';
 import { Paging, DataFilter, PagedData } from './../../shared/models/common';
-import { CommentViewModel } from './../../home/models/view/comment-view-model';
-import { CreateCommentCmd } from './../../home/models/cmd/create-comment.cmd';
+import { CommentViewModel } from '../../home/models/comment-view-model';
 import { Action } from '@ngrx/store';
 
 

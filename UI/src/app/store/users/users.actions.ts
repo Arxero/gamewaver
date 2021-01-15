@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
-import { UpdateUserCmd } from '../../users/models/cmd/update-user.cmd';
-import { User } from '../../users/models/dto/user';
-import { UserViewModel } from '../../users/models/view/user-view-model';
+import { User, UpdateUserCmd } from '../../users/user';
+import { UserViewModel } from '../../users/user-view-models';
 
 export enum UsersActionTypes {
   EditUserAction = '[EditUser] Action',

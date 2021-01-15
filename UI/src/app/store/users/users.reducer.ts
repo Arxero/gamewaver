@@ -1,6 +1,6 @@
-import { User } from '../../users/models/dto/user';
+import { User } from '../../users/user';
 import { UsersActionTypes, UsersActions } from './users.actions';
-import { UserViewModel } from '../../users/models/view/user-view-model';
+import { UserViewModel } from '../../users/user-view-models';
 
 export interface UsersState {
   profileUser: UserViewModel;

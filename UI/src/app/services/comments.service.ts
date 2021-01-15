@@ -1,12 +1,9 @@
-import { GetCommentsCountDto } from './../home/models/dto/get-comments-count.dto';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
-import { GetCommentDto } from '../home/models/dto/get-comment.dto';
-import { CreateCommentCmd } from '../home/models/cmd/create-comment.cmd';
 import { IResponse } from '../shared/models/response';
 import { DataFilter, Sorting, PagedData, Paging } from '../shared/models/common';
 import { HttpParams } from '@angular/common/http';
-import { UpdateCommentCmd } from '../home/models/cmd/update-comment.cmd';
+import { CreateCommentCmd, GetCommentDto, GetCommentsCountDto, UpdateCommentCmd } from '../home/models/home.models';
 
 @Injectable({
   providedIn: 'root'

@@ -3,7 +3,7 @@ import { AuthService } from './../../services/auth.service';
 import { VotesService } from './../../services/votes.service';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { tap, map, withLatestFrom } from 'rxjs/operators';
+import { tap, withLatestFrom } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { HomeState } from './home.reducer';
 import { PostsService } from '../../services/posts.service';
@@ -30,26 +30,19 @@ import { UsersService } from '../../services/users.service';
 import {
   DataFilter,
   SearchType,
-  Sorting,
-  SortDirection,
 } from '../../shared/models/common';
 import {
   PostViewModel,
   mapPostViewModel,
-} from '../../home/models/view/post-view-model';
+} from '../../home/models/post-view-model';
 import { AuthState } from '../auth/auth.reducer';
 import { userProfile } from '../auth/auth.selectors';
-import { uniq, templateSettings, uniqBy } from 'lodash';
 import { Router } from '@angular/router';
 import { CommentsService } from '../../services/comments.service';
 import {
-  mapCommmentViewModel,
-  CommentViewModel,
-} from '../../home/models/view/comment-view-model';
-import {
   UserActionOnPost,
   PostContext,
-} from '../../home/models/view/home-view-model';
+} from '../../home/models/home-view-model';
 import { LoadingService } from '../../services/loading.service';
 
 @Injectable()
@@ -102,10 +95,6 @@ export class HomeEffects {
     tap(async a => {
       try {
         this.loadingService.setUILoading();
-        const { result } = await this.postsService.update(
-          a.payload.id,
-          a.payload.cmd,
-        );
         this.store.dispatch(new EditPostActionSuccess({ id: a.payload.id }));
       } catch (error) {
         console.log(error);
@@ -199,7 +188,6 @@ export class HomeEffects {
     tap(async a => {
       try {
         this.loadingService.setUILoading();
-        const { result } = await this.postsService.delete(a.payload.id);
         this.store.dispatch(
           new DeletePostActionSuccess({
             id: a.payload.id,
@@ -289,7 +277,7 @@ export class HomeEffects {
     ofType<CreatePostUpvoteActionSuccess>(
       HomeActionTypes.CreatePostUpvoteActionSuccess,
     ),
-    tap(a => {
+    tap(() => {
       this.loadingService.setUILoading(false);
     }),
   );
@@ -317,7 +305,7 @@ export class HomeEffects {
     ofType<DeletePostUpvoteActionSuccess>(
       HomeActionTypes.DeletePostUpvoteActionSuccess,
     ),
-    tap(a => {
+    tap(() => {
       this.loadingService.setUILoading(false);
     }),
   );

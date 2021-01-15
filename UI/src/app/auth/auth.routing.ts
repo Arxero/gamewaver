@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RegisterComponent } from './register/register.component';
-import { LoginUrlComponent } from './login/login-url.component';
-import { ForgottenPasswordUrlComponent } from './forgotten-password/forgotten-password-url.component';
+import { RegisterComponent } from './register.component';
+import { LoginUrlComponent } from './login-url.component';
+import { ForgottenPasswordUrlComponent } from './forgotten-password-url.component';
 
 export const authRoute = 'auth';
 export const loginRoute = 'login';
