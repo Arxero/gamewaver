@@ -8,7 +8,7 @@ import {
   HomeActionTypes,
 } from './home.actions';
 import { PostViewModel } from '../../home/models/post-view-model';
-import * as lodash from 'lodash';
+import { cloneDeep } from 'lodash';
 
 export interface HomeState {
   posts: PagedData<PostViewModel>;
@@ -32,7 +32,7 @@ export function homeReducer(
   state = initialHomeState,
   action: HomeActions,
 ): HomeState {
-  const postsClone = lodash.cloneDeep(state.posts);
+  const postsClone = cloneDeep(state.posts);
 
   switch (action.type) {
     case HomeActionTypes.CreatePostActionSuccess:
@@ -123,7 +123,7 @@ export function homeReducer(
       );
       return {
         ...state,
-        posts: state.posts,
+        posts: postsClone,
       } as HomeState;
 
     case HomeActionTypes.DeletePostUpvoteActionSuccess:
@@ -147,7 +147,7 @@ export function homeReducer(
       );
       return {
         ...state,
-        posts: state.posts,
+        posts: postsClone,
       } as HomeState;
 
     case HomeActionTypes.SidebarNavigation:

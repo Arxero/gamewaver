@@ -7,7 +7,7 @@
     }
 
     &.warn {
-      color: #f44336
+      color: #f44336;
     }
   }
 
@@ -34,7 +34,8 @@
   );
 }
 
-app-add-item .mat-tab-header,  app-profile .mat-tab-header {
+app-add-item .mat-tab-header,
+app-profile .mat-tab-header {
   background: #2b2b2b;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
@@ -50,12 +51,17 @@ app-home {
   }
 }
 
+app-post .mat-badge-content {
+  transition: none;
+}
+
 .backdrop {
   opacity: 0;
 }
 
 @media screen and (max-width: 500px) {
-  app-post .mat-card, app-comment .mat-card {
+  app-post .mat-card,
+  app-comment .mat-card {
     padding: 16px 4px;
   }
 }
