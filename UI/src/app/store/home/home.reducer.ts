@@ -124,6 +124,7 @@ export function homeReducer(
       return {
         ...state,
         posts: postsClone,
+        post: postToUpvote,
       } as HomeState;
 
     case HomeActionTypes.DeletePostUpvoteActionSuccess:
@@ -148,6 +149,7 @@ export function homeReducer(
       return {
         ...state,
         posts: postsClone,
+        post: postToUnvote,
       } as HomeState;
 
     case HomeActionTypes.SidebarNavigation:
