@@ -60,7 +60,7 @@ export class PostsComponent extends BaseComponent implements AfterViewInit {
       this.queryRequest = new QueryRequest(params as QueryParams);
       this.queryRequest.sorting.push(dateSort);
 
-      if (this.sidebarNavigationType) {
+      if (this.sidebarNavigationType || params?.fromPost) {
         this.store.dispatch(new ClearPostsAction());
         this.loadPosts();
       }

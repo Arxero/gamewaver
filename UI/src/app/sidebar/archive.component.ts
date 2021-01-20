@@ -53,6 +53,14 @@ export class ArchiveComponent extends BaseComponent
       .subscribe(() => {
         this.clearSelection();
       });
+
+    this.sidebarHelper.postNavigated$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => {
+        this.currentYear = this.sidebarHelper.year;
+        this.years = this.sidebarHelper.years;
+        this.months = this.sidebarHelper.months;
+      });
   }
 
   ngOnChanges(changes: ArchiveComponentChanges): void {

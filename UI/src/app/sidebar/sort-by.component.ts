@@ -67,6 +67,12 @@ export class SortByComponent extends BaseComponent
         this.selectedTime.setValue(SortTime.All);
         this.items.map(x => (x.class = ''));
       });
+
+    this.sidebarHelper.postNavigated$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => {
+        this.items = sidebarHelper.sorts;
+      });
   }
 
   ngOnChanges(changes: SortByComponentChanges): void {

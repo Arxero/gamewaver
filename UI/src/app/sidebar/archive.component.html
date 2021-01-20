@@ -5,8 +5,8 @@
   <div class="months">
     <ng-container *ngFor="let item of months">
       <a
-        [routerLink]=""
-        [queryParams]="{ filters: item.url }"
+        [routerLink]="'./'"
+        [queryParams]="{ filters: item.url, fromPost: item.fromPost }"
         [class]="item.class"
         (click)="onNavigate(item)"
         >{{ item.label }}</a
@@ -17,8 +17,8 @@
   <div class="title">ARCHIVES BY YEAR</div>
   <span class="years" *ngFor="let item of years">
     <a
-      [routerLink]=""
-      [queryParams]="{ filters: item.url }"
+      [routerLink]="'./'"
+      [queryParams]="{ filters: item.url, fromPost: item.fromPost }"
       [class]="item.class"
       (click)="onNavigate(item)"
       >{{ item.label }}</a

@@ -22,7 +22,7 @@ export class CategoryComponent extends BaseComponent implements OnChanges {
 
   constructor(
     private store: Store<HomeState>,
-    sidebarHelper: SidebarHelperService,
+    private sidebarHelper: SidebarHelperService,
   ) {
     super();
     this.items = sidebarHelper.categories;
@@ -35,6 +35,12 @@ export class CategoryComponent extends BaseComponent implements OnChanges {
       )
       .subscribe(() => {
         this.items.map(x => (x.class = ''));
+      });
+
+    this.sidebarHelper.postNavigated$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => {
+        this.items = sidebarHelper.categories;
       });
   }
 

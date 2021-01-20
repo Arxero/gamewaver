@@ -10,6 +10,7 @@ export interface SidebarItem {
   label: string;
   url: string;
   class?: string;
+  fromPost?: boolean;
 }
 
 export interface CategorySidebarItem extends SidebarItem {

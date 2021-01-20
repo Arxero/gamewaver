@@ -2,8 +2,8 @@
   <h3>CATEGORY</h3>
   <ng-container *ngFor="let item of items">
     <a
-      [routerLink]=""
-      [queryParams]="{ filters: item.url }"
+      [routerLink]="'./'"
+      [queryParams]="{ filters: item.url, fromPost: item.fromPost }"
       mat-menu-item
       (click)="onNavigate(item)"
       [class]="item.class"

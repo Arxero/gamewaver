@@ -8,6 +8,7 @@ import {
   SidebarItem,
 } from './sidebar-view.models';
 import * as moment from 'moment';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,18 @@ export class SidebarHelperService {
 
   get years(): SidebarItem[] {
     return this.getArchiveYears();
+  }
+
+  set fromPost(value: boolean) {
+    this._fromPost = value;
+    this._postNavigated.next();
+  }
+
+  private _postNavigated = new Subject<any>();
+  private _fromPost: boolean;
+
+  get postNavigated$(): Observable<any> {
+    return this._postNavigated.asObservable();
   }
 
   sortTimeMap: { [key: string]: string } = {
@@ -60,6 +73,7 @@ export class SidebarHelperService {
         sortType: SortType.Fresh,
         class: '',
         url: 'createdAt:desc',
+        fromPost: this._fromPost,
       },
       {
         label: SortType.Popular,
@@ -68,6 +82,7 @@ export class SidebarHelperService {
         sortType: SortType.Popular,
         class: '',
         url: 'upvotes:desc',
+        fromPost: this._fromPost,
       },
       {
         label: SortType.Commented,
@@ -76,6 +91,7 @@ export class SidebarHelperService {
         sortType: SortType.Commented,
         class: '',
         url: 'comments:desc',
+        fromPost: this._fromPost,
       },
     ];
   }
@@ -86,6 +102,7 @@ export class SidebarHelperService {
       label: x.label,
       url: `category!eq!${x.value}`,
       class: '',
+      fromPost: this._fromPost,
     }));
   }
 
@@ -101,6 +118,7 @@ export class SidebarHelperService {
         label: month,
         url: `createdAt!between!${year}-${monthTemp}-01,${year}-${monthTemp}-${daysInMonth},date`,
         class: 'month',
+        fromPost: this._fromPost,
       };
     });
   }
@@ -110,6 +128,7 @@ export class SidebarHelperService {
       label: year,
       url: `createdAt!between!${year}-01-01,${year}-12-31,date`,
       class: 'year',
+      fromPost: this._fromPost,
     }));
   }
 

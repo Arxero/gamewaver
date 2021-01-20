@@ -4,8 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { PostPageComponent } from './post-page.component';
 import { PostsComponent } from './posts.component';
-import { SortUrl } from '../sidebar/sidebar-view.models';
-
 const routes: Routes = [
   {
     path: '',
@@ -13,7 +11,7 @@ const routes: Routes = [
     children: [
       { path: '', component: PostsComponent },
       {
-        path: 'post/:id',
+        path: `post/:id`,
         component: PostPageComponent,
         resolve: { userData: PostPageResolver }
       },
