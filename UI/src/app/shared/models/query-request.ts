@@ -5,18 +5,24 @@ export interface QueryParams {
   take: string;
   sort: string;
   filters: string[];
+  fromPost?: string;
 }
 
 export class QueryRequest {
   constructor(data: QueryParams) {
     this.paging = { skip: +data.skip, take: +data.take } as Paging;
-    this.sorting = data.sort?.split(',').map(sort => {
-      const [propertyName, sortDirection] = sort.split(':');
-      return {
-        propertyName,
-        sort: sortDirection
-      } as Sorting;
-    }) || [];
+    this.sorting =
+      data.sort?.split(',').map(sort => {
+        const [propertyName, sortDirection] = sort.split(':');
+        return {
+          propertyName,
+          sort: sortDirection,
+        } as Sorting;
+      }) || [];
+
+    this.fromPost = data.fromPost
+      ? JSON.parse(data.fromPost?.toLowerCase())
+      : null;
 
     if (!data.filters) {
       return;
@@ -27,7 +33,7 @@ export class QueryRequest {
       return {
         fieldName,
         searchOperator: this.searchOperatorMap[searchOperator],
-        searchValue
+        searchValue,
       } as DataFilter;
     });
   }
@@ -49,4 +55,5 @@ export class QueryRequest {
   paging: Paging;
   sorting: Sorting[];
   filters: DataFilter[];
+  fromPost?: boolean;
 }

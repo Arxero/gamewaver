@@ -60,7 +60,7 @@ export class PostsComponent extends BaseComponent implements AfterViewInit {
       this.queryRequest = new QueryRequest(params as QueryParams);
       this.queryRequest.sorting.push(dateSort);
 
-      if (this.sidebarNavigationType || params?.fromPost) {
+      if (this.sidebarNavigationType || this.queryRequest.fromPost) {
         this.store.dispatch(new ClearPostsAction());
         this.loadPosts();
       }
@@ -75,7 +75,7 @@ export class PostsComponent extends BaseComponent implements AfterViewInit {
       .pipe(takeUntil(this.destroyed$), select(homeStatePosts))
       .subscribe(x => {
         this.posts = x;
-        if (!this.posts && !this.sidebarNavigationType) {
+        if (!this.posts && !this.sidebarNavigationType && !this.queryRequest.fromPost) {
           this.loadPosts();
         }
       });
