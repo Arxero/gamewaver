@@ -1,27 +1,23 @@
-import { AddItem } from './models/add-item';
+import { FormattingHelpComponent } from './formatting-help.component';
+import { AddItem } from './add-item.models';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-} from '@angular/core';
-import { postCategories } from './models/post-category';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { HomeState } from '../store/home/home.reducer';
-import {
-  EditPostAction,
-  CreatePostAction,
-} from '../store/home/home.actions';
+import { EditPostAction, CreatePostAction } from '../store/home/home.actions';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import {
   EditCommentAction,
   CreateCommentAction,
 } from '../store/comments/comments.actions';
-import { FormattingHelpComponent } from './formatting-help.component';
-import { CreatePostCmd, UpdatePostCmd, CreateCommentCmd, UpdateCommentCmd } from './models/home.models';
+import {
+  CreatePostCmd,
+  UpdatePostCmd,
+  CreateCommentCmd,
+  UpdateCommentCmd,
+  postCategories,
+} from '../home/models';
 
 @Component({
   selector: 'app-add-item',

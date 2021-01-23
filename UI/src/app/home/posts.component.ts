@@ -27,7 +27,7 @@ import { userProfile } from '../store/auth/auth.selectors';
 import { ActivatedRoute } from '@angular/router';
 import { QueryRequest, QueryParams } from '../shared/models/query-request';
 import { PostContext } from './models/home-view-model';
-import { AddItem } from './models/add-item';
+import { AddItem } from '../add-item/add-item.models';
 import { ViewportScroller } from '@angular/common';
 
 @Component({

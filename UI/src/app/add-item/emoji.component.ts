@@ -1,9 +1,4 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  ViewChild,
-} from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
 import { EmojiEvent, EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import {
   Overlay,

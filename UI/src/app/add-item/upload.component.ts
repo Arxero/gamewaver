@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { UploadService } from '../services/upload.service';
 import { LoadingService } from '../services/loading.service';
 import { SnackbarService } from '../services/snackbar.service';
-import { ImgurReponse, ImgurError } from './models/imgur-response';
+import { ImgurReponse, ImgurError } from '../home/models/imgur-response';
 
 @Component({
   selector: 'app-upload',

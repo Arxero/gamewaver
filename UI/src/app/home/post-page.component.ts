@@ -1,6 +1,6 @@
 import { commentsStatePostComments } from '../store/comments/comments.selectors';
 import { EnvironmentService } from '../services/environment.service';
-import { AddItem } from './models/add-item';
+import { AddItem } from '../add-item/add-item.models';
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { HomeState } from '../store/home/home.reducer';

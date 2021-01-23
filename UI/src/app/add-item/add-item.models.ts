@@ -1,4 +1,4 @@
-import { PostCategory } from './post-category';
+import { PostCategory } from '../home/models/post-category';
 
 export interface AddItem {
   isPost: boolean;
