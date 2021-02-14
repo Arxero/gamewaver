@@ -10,8 +10,8 @@ export interface CommentViewModel extends HomeViewModel {
 export function mapCommmentViewModel(comment: GetCommentDto, userInPosts: User): CommentViewModel{
   return {
     ...comment,
-    authorAvatar: userInPosts.avatar,
-    authorUsername: userInPosts.username,
+    avatar: userInPosts.avatar,
+    username: userInPosts.username,
     date: comment.createdAt.toString(),
     tooltipDate: moment(comment.createdAt).format(
       'MMMM DD, YYYY [at] hh:mm A',

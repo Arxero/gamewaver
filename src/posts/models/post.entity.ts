@@ -16,9 +16,7 @@ export enum PostCategory {
 export interface IPost extends IDataEntity {
   content: string;
   category: PostCategory;
-  upvotes?: number;
-  downvotes?: number;
-  author?: User;
+  author: User;
 }
 
 @Entity({ name: 'posts' })
@@ -26,11 +24,9 @@ export class Post extends DataEntity implements IPost {
   constructor(data: IPost) {
     super();
     if (data) {
-      this.id = data.id;
       this.content = data.content;
       this.category = data.category;
-      this.upvotes = data.upvotes;
-      this.downvotes = data.downvotes;
+      this.author = data.author;
     }
   }
 
@@ -44,12 +40,6 @@ export class Post extends DataEntity implements IPost {
 
   @Column()
   category: PostCategory;
-
-  @Column({ default: 0 })
-  upvotes: number;
-
-  @Column({ default: 0 })
-  downvotes: number;
 
   @ManyToOne(
     () => User,

@@ -74,15 +74,15 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
       this.homeItems = [];
 
       items[0].items.forEach(x => {
-        this.homeItems.push({ post: x, date: x.createdAt });
+        this.homeItems.push({ post: x, date: new Date(x.date) });
       });
 
       items[2].forEach(x => {
-        this.homeItems.push({ post: x, date: x.voteCreated });
+        this.homeItems.push({ post: x, date: new Date(x.date) });
       });
 
       items[1].items.forEach(x =>
-        this.homeItems.push({ comment: x, date: x.createdAt }),
+        this.homeItems.push({ comment: x, date: new Date(x.date) }),
       );
       this.homeItems = lodash.orderBy(this.homeItems, ['date'], 'desc');
     });

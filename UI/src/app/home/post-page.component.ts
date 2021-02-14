@@ -78,7 +78,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
         this.post = x;
         this.editItemPost.id = x.id;
         this.editItemPost.content = x.content;
-        this.editItemPost.category = x.categoryEnum;
+        this.editItemPost.category = x.category;
       });
 
     store

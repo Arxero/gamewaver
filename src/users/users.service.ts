@@ -1,3 +1,4 @@
+import { BaseService } from './../common/shared/base.service';
 import {
   Injectable,
   BadRequestException,
@@ -20,14 +21,17 @@ import { QueryRequest } from 'src/common/models/query-request';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { TokenUserPayloadDto } from 'src/auth/models/dto/token-user-payload.dto';
+import { UpdateUserCmd } from './models/cmd/update-user.cmd';
 
 @Injectable()
-export class UsersService {
+export class UsersService extends BaseService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
-    //@Inject(REQUEST) private request: Request,
+    @Inject(REQUEST) private request: Request,
     )
-  {}
+  {
+    super();
+  }
 
   private hashRounds = 12;
 
@@ -66,17 +70,15 @@ export class UsersService {
     return user;
   }
 
-  async update(id: string, payload: User, request?) {
+  async update(id: string, payload: UpdateUserCmd) {
     const user = await this.findOne({ id });
-    if (request) {
-      this.authorize(user, request);
-    }
+    this.authorize(user.id, this.request);
+  
     user.email = payload.email;
     user.avatar = payload.avatar;
     user.summary = payload.summary;
     user.location = payload.location;
     user.gender = payload.gender;
-    user.status = payload.status;
     try {
       return await this.usersRepository.save(user);
     } catch (error) {
@@ -141,20 +143,13 @@ export class UsersService {
     );
   }
 
-  async delete(params: DeepPartial<User>, request): Promise<User> {
+  async delete(params: DeepPartial<User>): Promise<User> {
     const user = await this.findOne(params);
-    this.authorize(user, request);
+    this.authorize(user.id, this.request);
     try {
       return await this.usersRepository.remove(user);
     } catch (error) {
       throw new InternalServerErrorException(error.toString());
-    }
-  }
-
-  private authorize(entity: User, request) {
-    const tokenUser = new TokenUserPayloadDto(request.user);
-    if (tokenUser.id !== entity.id && tokenUser.role !== UserRole.ADMIN) {
-      throw new ForbiddenException();
     }
   }
 }

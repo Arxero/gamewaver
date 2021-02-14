@@ -2,26 +2,24 @@ import { postCategories, PostCategory } from './post-category';
 import * as moment from 'moment';
 import { User, UserRole } from '../../users/user';
 import { HomeViewModel, UserActionOnPost, VoteType } from './home-view-model';
-import { GetVoteDto, GetPostDto } from './home.models';
+import { GetVoteDto, GetPostDto, GetPostDtoEx } from './home.models';
 
 export interface PostViewModel extends HomeViewModel {
-  category: string;
-  categoryEnum: PostCategory;
+  category: PostCategory;
+  categoryLabel: string;
   userActionOnPost?: UserActionOnPost;
-  commentsCount: number;
+  comments: number;
 
   upvotes: number;
   downvotes: number;
   vote: GetVoteDto;
-  voteCreated: Date;
 }
 
 export function mapPostViewModel(
-  post: GetPostDto,
+  post: GetPostDtoEx,
   userInPosts: User,
   votesDto: GetVoteDto = { type: VoteType.Unknown, postId: null, userId: null },
   userActionOnPost: UserActionOnPost = UserActionOnPost.Unknown,
-  commentsCount: number = 0,
 ): PostViewModel {
   const getTooltipDate: {[key: string]: Date} = {
     [UserActionOnPost.Unknown]: post.createdAt,
@@ -30,18 +28,23 @@ export function mapPostViewModel(
   };
 
   return {
-    ...post,
-    authorAvatar: userInPosts.avatar,
-    authorUsername: userInPosts.username,
-    category: postCategories.find(j => j.value === post.category).label,
-    date: getTooltipDate[userActionOnPost].toString(),
+    id: post.id,
+    content: post.content,
+    authorId: post.authorId,
+    avatar: post.avatar ? post.avatar : userInPosts?.avatar,
+    username: post.username ? post.username : userInPosts.username,
+    date: getTooltipDate[userActionOnPost]?.toString(),
     tooltipDate: moment(getTooltipDate[userActionOnPost]).format('MMMM DD, YYYY [at] hh:mm A'),
-    categoryEnum: post.category,
+    userRole: post.role ? post.role : userInPosts.role,
+    category: post.category,
+    categoryLabel: postCategories.find(j => j.value === post.category).label,
     userActionOnPost,
-    userRole: userInPosts.role !== UserRole.USER ? userInPosts.role : null,
-    commentsCount,
+    upvotes: post.upvotes || 0,
+    downvotes: post.downvotes || 0,
+    comments: post.comments || 0,
     vote: votesDto,
-    voteCreated: post.voteCreated,
   } as PostViewModel;
 }
+
+
 

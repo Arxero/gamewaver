@@ -27,6 +27,7 @@ import { PostVote } from './votes/models/postVote.entity';
         entities: [Post, User, Comment, PostVote],
         synchronize: true,
         charset: 'utf8mb4',
+        timezone: 'Z',
       }),
       inject: [ConfigService],
     }),

@@ -1,3 +1,6 @@
+import { BaseService } from './../common/shared/base.service';
+import { Post } from 'src/posts/models/post.entity';
+import { IUser, User } from './../users/models/user.entity';
 import {
   Injectable,
   BadRequestException,
@@ -21,22 +24,28 @@ import { UserRole } from 'src/users/models/user.entity';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { GetCommentsCountDto } from './models/dto/get-comments-count.dto';
+import { ICommentCmd } from './models/cmd/comment-create.cmd';
 
 @Injectable()
-export class CommentsService {
+export class CommentsService extends BaseService {
   constructor(
     @InjectRepository(Comment) private commentsRepository: Repository<Comment>,
     private usersService: UsersService,
     private postsService: PostsService,
     @Inject(REQUEST) private request: Request,
-  ) {}
+  ) {
+    super();
+  }
 
-  async create(postId: string, payload: Comment): Promise<Comment> {
+  async create(postId: string, payload: ICommentCmd): Promise<Comment> {
     try {
-      const user = new TokenUserPayloadDto(this.request.user);
-      payload.author = await this.usersService.findOne({ id: user.id });
-      payload.post = await this.postsService.findOne({ id: postId });
-      return await this.commentsRepository.save(payload);
+      const user = new TokenUserPayloadDto(this.request.user as IUser);
+      const comment = new Comment({
+        content: payload.content,
+        author: { id: user.id } as User,
+        post: { id: postId } as Post,
+      });
+      return await this.commentsRepository.save(comment);
     } catch (error) {
       throw new BadRequestException(
         new ResponseError({ message: error.toString() }),
@@ -64,8 +73,8 @@ export class CommentsService {
       const result: GetCommentsCountDto[] = [];
       for (const id of ids) {
         const count = await this.commentsRepository.count({
-          where: [{post: { id }}]
-        })
+          where: [{ post: { id } }],
+        });
         result.push(new GetCommentsCountDto({ postid: id, count }));
       }
       return result;
@@ -88,9 +97,9 @@ export class CommentsService {
     return comment;
   }
 
-  async update(id: string, model: Comment): Promise<Comment> {
+  async update(id: string, model: ICommentCmd): Promise<Comment> {
     const comment = await this.findOne({ id });
-    this.authorize(comment);
+    this.authorize(comment.author.id, this.request);
     comment.content = model.content;
     try {
       return await this.commentsRepository.save(comment);
@@ -101,21 +110,11 @@ export class CommentsService {
 
   async delete(params: DeepPartial<Comment>): Promise<Comment> {
     const comment = await this.findOne(params);
-    this.authorize(comment);
+    this.authorize(comment.author.id, this.request);
     try {
       return await this.commentsRepository.remove(comment);
     } catch (error) {
       throw new InternalServerErrorException(error.toString());
-    }
-  }
-
-  private authorize(entity: Comment) {
-    const tokenUser = new TokenUserPayloadDto(this.request.user);
-    if (
-      tokenUser.id !== entity.author.id &&
-      tokenUser.role !== UserRole.ADMIN
-    ) {
-      throw new ForbiddenException();
     }
   }
 }

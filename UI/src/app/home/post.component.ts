@@ -80,7 +80,7 @@ export class PostComponent implements OnInit {
   }
 
   navigate() {
-    this.router.navigateByUrl(`?filters=category!eq!${this.post.categoryEnum}`);
+    this.router.navigateByUrl(`?filters=category!eq!${this.post.category}`);
   }
 
   onCopyLink() {

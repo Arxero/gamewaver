@@ -1,3 +1,4 @@
+import { GetPostDtoEx, GetPostDto } from './../../home/models/home.models';
 import { homeStatePosts } from './home.selectors';
 import { AuthService } from './../../services/auth.service';
 import { VotesService } from './../../services/votes.service';
@@ -27,10 +28,7 @@ import {
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UsersService } from '../../services/users.service';
-import {
-  DataFilter,
-  SearchType,
-} from '../../shared/models/common';
+import { DataFilter, SearchType } from '../../shared/models/common';
 import {
   PostViewModel,
   mapPostViewModel,
@@ -71,7 +69,7 @@ export class HomeEffects {
         const user = a[1];
         this.loadingService.setUILoading();
         const { result } = await this.postsService.create(a[0].payload.cmd);
-        const data = mapPostViewModel(result, user);
+        const data = mapPostViewModel(result as GetPostDtoEx, user);
         this.store.dispatch(new CreatePostActionSuccess({ data }));
       } catch (error) {
         console.log(error);
@@ -124,36 +122,17 @@ export class HomeEffects {
           a.payload.filters,
           a.payload.sorting,
         );
-        const searchValueStr = result.items
-          .map(x => x.authorId)
-          .filter((v, i, s) => s.indexOf(v) === i)
-          .join(',');
-        const filter: DataFilter = {
-          fieldName: 'id',
-          searchOperator: SearchType.In,
-          searchValue: searchValueStr,
-        };
 
-        const resultUsers = await this.usersService.findAll([filter]);
         const postIds = result.items.map(x => x.id);
-        const resultCommentsCount = await this.commentsService.findCountByPostIds(
-          postIds,
-        );
-
         const userVotesPerPosts = this.authService.isLoggedIn()
           ? await this.votesService.findManyByPostId(postIds)
           : null;
-
         const posts: PostViewModel[] = result.items.map(post => {
-          const userInPosts = resultUsers.result.items.find(
-            user => post.authorId === user.id,
-          );
           return mapPostViewModel(
             post,
-            userInPosts,
+            null,
             userVotesPerPosts?.result.find(x => x.postId === post.id),
             a.payload.userActionOnPost,
-            resultCommentsCount.result.find(x => x.postId === post.id).count,
           );
         });
 
@@ -234,7 +213,7 @@ export class HomeEffects {
           : null;
 
         const data = mapPostViewModel(
-          result,
+          result as GetPostDtoEx,
           userResult.result,
           userVotesPerPosts?.result[0],
         );

@@ -21,11 +21,11 @@ export enum UserGender {
 }
 
 export interface IUser extends IDataEntity {
-  username?: string;
-  email?: string;
-  password?: string;
-  role?: UserRole;
-  status?: UserStatus;
+  username: string;
+  email: string;
+  password: string;
+  role: UserRole;
+  status: UserStatus;
 
   avatar?: string;
   summary?: string;

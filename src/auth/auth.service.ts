@@ -8,6 +8,7 @@ import Mail = require('nodemailer/lib/mailer');
 import { SendEmailCmd, TypeEmail } from './models/cmd/send-email.cmd';
 import { AuthJwtService } from './auth-jwt.service';
 import { TokenDto } from './models/dto/token.dto';
+import { SignUpCmd } from './models/cmd/sign-up.cmd';
 
 @Injectable()
 export class AuthService {
@@ -17,11 +18,16 @@ export class AuthService {
     private authJwtService: AuthJwtService,
   ) {}
 
-  async signUp(user: User): Promise<SentEmailDto> {
-    user.role = UserRole.USER;
-    user.status = UserStatus.PENDING;
-    user = await this.usersService.create(user);
-    return await this.sendEmail(user, TypeEmail.CONRIM_EMAIL);
+  async signUp(cmd: SignUpCmd): Promise<SentEmailDto> {
+    const user = new User({
+      username: cmd.username,
+      password: cmd.password,
+      email: cmd.email,
+      role: UserRole.USER,
+      status: UserStatus.PENDING,
+    });
+    const dbUser = await this.usersService.create(user);
+    return await this.sendEmail(dbUser, TypeEmail.CONRIM_EMAIL);
   }
 
   async login(user: User): Promise<TokenDto> {

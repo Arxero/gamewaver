@@ -11,18 +11,19 @@ export enum VoteType {
 export interface IVote extends IDataEntity {
   type: VoteType;
 
-  user?: User;
-  post?: Post;
+  user: User;
+  post: Post;
 }
 
-@Entity({ name: 'postVotes' })
+@Entity({ name: 'post_votes' })
 @Unique(["user", "post"])
 export class PostVote extends DataEntity implements IVote {
   constructor(data: IVote) {
     super();
     if (data) {
-      this.id = data.id;
       this.type = data.type;
+      this.user = data.user;
+      this.post = data.post;
     }
   }
 

@@ -1,3 +1,4 @@
+import { IUser } from './../users/models/user.entity';
 import { VoteType } from './../votes/models/postVote.entity';
 import {
   Injectable,
@@ -15,25 +16,38 @@ import { UsersService } from 'src/users/users.service';
 import { ResponseError } from 'src/common/models/response';
 import { QueryRequest } from 'src/common/models/query-request';
 import { PagedData } from 'src/common/models/paged-data';
-import { GetPostDto } from './models/dto/get-post.dto';
+import {
+  GetPostDto,
+  IPostDtoEx,
+  GetPostDtoEx,
+} from './models/dto/get-post.dto';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { TokenUserPayloadDto } from 'src/auth/models/dto/token-user-payload.dto';
 import { UserRole, User } from 'src/users/models/user.entity';
+import { SimpleQueryBuilder } from '../common/models/simple-query.builder';
+import { IPostCmd } from './models/cmd/create-post.cmd';
+import { BaseService } from '../common/shared/base.service';
 
 @Injectable()
-export class PostsService {
+export class PostsService extends BaseService {
   constructor(
     @InjectRepository(Post) private postsRepository: Repository<Post>,
     private usersService: UsersService,
     @Inject(REQUEST) private request: Request,
-  ) {}
+  ) {
+    super();
+  }
 
-  async create(payload: Post): Promise<Post> {
+  async create(payload: IPostCmd): Promise<Post> {
     try {
-      const user = new TokenUserPayloadDto(this.request.user);
-      payload.author = await this.usersService.findOne({ id: user.id });
-      return await this.postsRepository.save(payload);
+      const user = new TokenUserPayloadDto(this.request.user as IUser);
+      const post = new Post({
+        content: payload.content,
+        category: payload.category,
+        author: { id: user.id } as User,
+      });
+      return await this.postsRepository.save(post);
     } catch (error) {
       throw new BadRequestException(
         new ResponseError({ message: error.toString() }),
@@ -42,63 +56,57 @@ export class PostsService {
   }
 
   async findAll(queryRequest: QueryRequest): Promise<PagedData<GetPostDto>> {
-    if (Object.keys(queryRequest.sorting.order).includes('comments')) {
-      return await this.sortByComments(queryRequest);
-    } else if (queryRequest.filters?.some(x => x.fieldName === 'votes')) {
-      return await this.findByPostVote(queryRequest);
-    }
+    const sqb = new SimpleQueryBuilder()
+      .select('*', 'x')
+      .from('posts')
+      .join(
+        'LEFT',
+        [
+          'postId',
+          'type',
+          'userId',
+          'createdAt AS voteCreated',
+          'COUNT(IF(type = "upvote", 1, null)) upvotes',
+          'COUNT(IF(type = "downvote", 1, null)) downvotes',
+        ],
+        'postId',
+        'post_votes',
+        'v',
+        'v.postId = x.id',
+      )
+      .join(
+        'LEFT',
+        ['postId', 'COUNT(*) comments'],
+        'postId',
+        'comments',
+        'c',
+        'c.postId = x.id',
+      )
+      .join(
+        'LEFT',
+        ['role', 'avatar', 'username', 'id AS authorId'],
+        null,
+        'users',
+        'a',
+        'a.authorId = x.authorId',
+      )
+      .where(queryRequest.filters ? queryRequest.filters[0].filterSql : '')
+      .orderBy(queryRequest.sorting.order)
+      .paging(queryRequest.paging.take, queryRequest.paging.skip);
 
-    const [items, total] = await this.postsRepository.findAndCount({
-      order: queryRequest.sorting.order,
-      where: queryRequest.filter,
-      skip: queryRequest.paging.skip,
-      take: queryRequest.paging.take,
-      relations: ['author'],
-    });
+    const items = (await this.postsRepository.query(
+      sqb.build(),
+    )) as IPostDtoEx[];
 
-    return new PagedData<GetPostDto>(
-      items.map(x => new GetPostDto(x)),
-      total,
+    const [{ total }] = await this.postsRepository.query(
+      sqb
+        .select('COUNT(*) as total', '')
+        .paging(1)
+        .build(),
     );
-  }
 
-  async findByPostVote(
-    queryRequest: QueryRequest,
-  ): Promise<PagedData<GetPostDto>> {
-    const sqlQuery = (select, limitOffset) => `SELECT ${select} FROM posts x
-    INNER JOIN (SELECT postId, userId, createdAt as voteCreated FROM postVotes) y ON y.postId = x.id
-    WHERE userId = '${queryRequest.filters.find(x => x.fieldName === 'votes').searchValue}'
-    ORDER
-      BY voteCreated DESC
-      ${limitOffset}`;
-    const items = (await this.postsRepository.query(sqlQuery('*', `LIMIT ${queryRequest.paging.take} OFFSET ${queryRequest.paging.skip}`))) as Post[];
-    const [{total}] = await this.postsRepository.query(sqlQuery('COUNT(*) as total', ''));
-
-    return new PagedData<GetPostDto>(
-      items.map(x => new GetPostDto(x)),
-      Number(total),
-    );
-  }
-
-
-  async sortByComments(
-    queryRequest: QueryRequest,
-  ): Promise<PagedData<GetPostDto>> {
-    const fromTo = queryRequest.filters
-      ? queryRequest.filters[0].searchValue.split(',')
-      : [];
-
-    const sqlQuery = (select, limitOffset) => `SELECT ${select} FROM posts x
-    INNER JOIN (SELECT postId, COUNT(*) total FROM comments GROUP BY postId) y ON y.postId = x.id
-    ${queryRequest.filters ? `WHERE (createdAt BETWEEN '${fromTo[0]}' AND '${fromTo[1]}')` : ''}
-    ORDER
-      BY total DESC
-      ${limitOffset}`;
-    const items = (await this.postsRepository.query(sqlQuery('*', `LIMIT ${queryRequest.paging.take} OFFSET ${queryRequest.paging.skip}`))) as Post[];
-    const [{total}] = await this.postsRepository.query(sqlQuery('COUNT(*) as total', ''));
-
-    return new PagedData<GetPostDto>(
-      items.map(x => new GetPostDto(x)),
+    return new PagedData<GetPostDtoEx>(
+      items.map(x => new GetPostDtoEx(x)),
       Number(total),
     );
   }
@@ -117,9 +125,9 @@ export class PostsService {
     return post;
   }
 
-  async update(id: string, model: Post): Promise<Post> {
+  async update(id: string, model: IPostCmd): Promise<Post> {
     const post = await this.findOne({ id });
-    this.authorize(post);
+    this.authorize(post.author.id, this.request);
     post.content = model.content;
     post.category = model.category;
     try {
@@ -129,49 +137,13 @@ export class PostsService {
     }
   }
 
-  async updateVotes(id: string, type: VoteType, isAdd: boolean): Promise<Post> {
-    const post = await this.findOne({ id });
-    switch (type) {
-      case VoteType.Upvote:
-        post.upvotes = isAdd
-          ? post.upvotes + 1
-          : post.upvotes > 0
-          ? post.upvotes - 1
-          : post.upvotes;
-        break;
-      case VoteType.DownVote:
-        post.downvotes = isAdd
-          ? post.downvotes + 1
-          : post.downvotes > 0
-          ? post.downvotes - 1
-          : post.downvotes;
-        break;
-    }
-
-    try {
-      return await this.postsRepository.save(post);
-    } catch (error) {
-      throw new InternalServerErrorException(error.toString());
-    }
-  }
-
   async delete(params: DeepPartial<Post>): Promise<Post> {
     const post = await this.findOne(params);
-    this.authorize(post);
+    this.authorize(post.author.id, this.request);
     try {
       return await this.postsRepository.remove(post);
     } catch (error) {
       throw new InternalServerErrorException(error.toString());
-    }
-  }
-
-  private authorize(entity: Post) {
-    const tokenUser = new TokenUserPayloadDto(this.request.user);
-    if (
-      tokenUser.id !== entity.author.id &&
-      tokenUser.role !== UserRole.ADMIN
-    ) {
-      throw new ForbiddenException();
     }
   }
 }

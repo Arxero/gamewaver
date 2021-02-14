@@ -40,12 +40,13 @@ import {
 export class PostsController {
   constructor(private postsService: PostsService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
+  @Roles('admin', 'user')
   async create(
     @Body() createModel: CreatePostCmd,
   ): Promise<IResponse<GetPostDto>> {
-    const result = await this.postsService.create(new PostModel(createModel));
+    const result = await this.postsService.create(createModel);
     return new ResponseSuccess<GetPostDto>({ result: new GetPostDto(result) });
   }
 
@@ -55,7 +56,11 @@ export class PostsController {
     description: 'filters[createdAt][between]=2020-05-09,2020-05-10,date',
     required: false,
   })
-  @ApiQuery({ name: 'votes', description: 'get posts by user voted: filters[votes][in]=${userId}', required: false })
+  @ApiQuery({
+    name: 'votes',
+    description: 'get posts by user voted: filters[votes][in]=${userId}',
+    required: false,
+  })
   @ApiQuery({ name: 'take', required: false })
   @ApiQuery({ name: 'skip', required: false })
   @Get()
@@ -74,23 +79,20 @@ export class PostsController {
     return new ResponseSuccess<GetPostDto>({ result });
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Put(':id')
-  @Roles('admin')
+  @Roles('admin', 'user')
   async update(
     @Param('id') id: string,
     @Body() updateModel: UpdatePostCmd,
   ): Promise<IResponse<GetPostDto>> {
-    const result = await this.postsService.update(
-      id,
-      new PostModel(updateModel),
-    );
+    const result = await this.postsService.update(id, updateModel);
     return new ResponseSuccess<GetPostDto>({ result: new GetPostDto(result) });
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
-  @Roles('admin')
+  @Roles('admin', 'user')
   async delete(@Param('id') id: string): Promise<IResponse<GetPostDto>> {
     const result = await this.postsService.delete({ id });
     return new ResponseSuccess<GetPostDto>({ result: new GetPostDto(result) });

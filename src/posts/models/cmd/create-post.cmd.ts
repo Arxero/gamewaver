@@ -2,8 +2,13 @@ import { IPost, PostCategory } from '../post.entity';
 import { IsBoolean, IsString, Length, IsEnum, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreatePostCmd implements IPost {
-  constructor(data: IPost) {
+export interface IPostCmd {
+  content: string;
+  category: PostCategory;
+}
+
+export class CreatePostCmd implements IPostCmd {
+  constructor(data: IPostCmd) {
     if (data) {
       this.content = data.content;
       this.category = data.category;

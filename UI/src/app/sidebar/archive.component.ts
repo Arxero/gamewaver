@@ -75,7 +75,10 @@ export class ArchiveComponent extends BaseComponent
 
     if (month) {
       const i = this.months.findIndex(x => x.label === month);
-      this.months[i].class = 'month selected';
+
+      if (i > -1) {
+        this.months[i].class = 'month selected';
+      }
     }
   }
 

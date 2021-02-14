@@ -1,18 +1,15 @@
+import { BaseDto } from './../../../common/models/base.dto';
 import { IComment } from "../comment.entity";
 
-export class GetCommentDto implements IComment {
+
+export class GetCommentDto extends BaseDto {
   constructor(data: IComment) {
-    this.id = data.id;
-    this.createdAt = data.createdAt;
-    this.updatedAt = data.updatedAt;
+    super(data);
     this.content = data.content;
     this.authorId = data.author.id;
     this.postId = data.post.id;
   }
 
-  id?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
   content: string;
   authorId: string;
   postId:string;

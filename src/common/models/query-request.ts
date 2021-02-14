@@ -2,6 +2,7 @@ import { Paging } from './paging';
 import { Sorting } from './sorting';
 import { DataFilter } from './data-filter';
 import { Defaults } from './defaults';
+import { FindOperator } from 'typeorm';
 
 export interface QueryParams {
   skip: string;
@@ -35,5 +36,5 @@ export class QueryRequest {
   paging: Paging;
   sorting: Sorting;
   filters: DataFilter[];
-  filter: { [key: string]: any } = {};
+  filter: { [key: string]: FindOperator<any> } = {};
 }

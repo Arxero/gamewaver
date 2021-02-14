@@ -15,7 +15,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { SignUpCmd } from './models/cmd/sign-up.cmd';
-import { User, UserStatus } from '../users/models/user.entity';
+import { User, UserStatus, IUser } from '../users/models/user.entity';
 import { TokenDto } from './models/dto/token.dto';
 import { UsersService } from 'src/users/users.service';
 import { ChangePasswordCmd } from './models/cmd/change-password.cmd';
@@ -52,10 +52,10 @@ export class AuthController {
   private webLink = `${this.configService.get<string>('web.url')}${this.webLinkPort}/`;
 
   @Post('signup')
-  async signUp(@Body() user: SignUpCmd): Promise<SentEmailDto> {
-    const validCaptcha = await this.recaptchaService.validateRecaptcha(user.reCaptchaaToken);
+  async signUp(@Body() cmd: SignUpCmd): Promise<SentEmailDto> {
+    const validCaptcha = await this.recaptchaService.validateRecaptcha(cmd.reCaptchaaToken);
     if (validCaptcha.success) {
-      return await this.authService.signUp(new User(user));
+      return await this.authService.signUp(cmd);
     }
   }
 
@@ -141,7 +141,7 @@ export class AuthController {
 
       await this.usersService.update(
         decoded.id,
-        new User({ status: UserStatus.CONFIRM }),
+        new User({ status: UserStatus.CONFIRM } as IUser),
       );
       return res.redirect(this.webLink + 'auth/login?emailConfirmed=true');
     } catch (error) {

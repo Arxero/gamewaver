@@ -45,26 +45,24 @@ export class UsersController {
     return new ResponseSuccess<GetUserDto>({ result });
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Put(':id')
-  @Roles('admin')
+  @Roles('admin', 'user')
   async update(
     @Param('id') id: string,
     @Body() updateModel: UpdateUserCmd,
-    @Request() req,
   ): Promise<IResponse<GetUserDto>> {
-    const user = await this.usersService.update(id, new User(updateModel), req);
+    const user = await this.usersService.update(id, updateModel);
     return new ResponseSuccess<GetUserDto>({ result: new GetUserDto(user) });
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
-  @Roles('admin')
+  @Roles('admin', 'user')
   async delete(
     @Param('id') id: string,
-    @Request() req,
   ): Promise<IResponse<GetUserDto>> {
-    const user = await this.usersService.delete({ id }, req);
+    const user = await this.usersService.delete({ id });
     return new ResponseSuccess<GetUserDto>({ result: new GetUserDto(user) });
   }
 }

@@ -9,7 +9,7 @@ import {
   Paging,
 } from '../shared/models/common';
 import { HttpParams } from '@angular/common/http';
-import { GetPostDto, CreatePostCmd, UpdatePostCmd } from '../home/models/home.models';
+import { GetPostDto, CreatePostCmd, UpdatePostCmd, GetPostDtoEx } from '../home/models/home.models';
 
 @Injectable({
   providedIn: 'root',
@@ -29,19 +29,19 @@ export class PostsService {
     paging?: Paging,
     filters?: DataFilter[],
     sorting?: Sorting[],
-  ): Promise<IResponse<PagedData<GetPostDto>>> {
+  ): Promise<IResponse<PagedData<GetPostDtoEx>>> {
     if (paging || filters || sorting) {
       let httpParams = new HttpParams();
       httpParams = this.httpClient.setPaging(paging, httpParams);
       httpParams = this.httpClient.setFilters(filters, httpParams);
       httpParams = this.httpClient.setSorting(sorting, httpParams);
 
-      return this.httpClient.get<IResponse<PagedData<GetPostDto>>>(
+      return this.httpClient.get<IResponse<PagedData<GetPostDtoEx>>>(
         `${this.BASE_URL}?${httpParams.toString()}`,
       );
     }
 
-    return this.httpClient.get<IResponse<PagedData<GetPostDto>>>(
+    return this.httpClient.get<IResponse<PagedData<GetPostDtoEx>>>(
       `${this.BASE_URL}`,
     );
   }

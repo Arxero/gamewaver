@@ -2,12 +2,12 @@
   <mat-card-header *ngIf="postContext === postContexts.PostsPage || postContext === postContexts.PostPage">
     <div mat-card-avatar class="post-header-image">
       <a [routerLink]="[userProfileRoute, post.authorId]">
-        <img [src]="post.authorAvatar  || './assets/images/common/no_avatar.jpg'" alt="{{ post.authorUsername }}'s avatar">
+        <img [src]="post.avatar  || './assets/images/common/no_avatar.jpg'" alt="{{ post.username }}'s avatar">
       </a>
     </div>
     <mat-card-title>
       <a [routerLink]="[userProfileRoute, post.authorId]">
-        {{ post.authorUsername }}
+        {{ post.username }}
       </a>
       <span class="role red" *ngIf="post.userRole">{{ post.userRole | titlecase }}</span>
     </mat-card-title>
@@ -41,7 +41,7 @@
 
     <span class="right">
       <a mat-button [routerLink]="[postRoute[postContext], post.id]" *ngIf="postContext === postContexts.PostsPage || postContext ===  postContexts.ProfilePage" (click)="onPostLink()">
-        <mat-icon [matBadge]="post.commentsCount" matBadgeColor="primary">comment</mat-icon>
+        <mat-icon [matBadge]="post.comments" matBadgeColor="primary">comment</mat-icon>
       </a>
 
       <button mat-button [matMenuTriggerFor]="menuActions">

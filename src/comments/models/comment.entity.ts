@@ -5,8 +5,8 @@ import { Post } from 'src/posts/models/post.entity';
 
 export interface IComment extends IDataEntity {
   content: string;
-  author?: User;
-  post?: Post;
+  author: User;
+  post: Post;
 }
 
 @Entity({ name: 'comments' })
@@ -14,8 +14,9 @@ export class Comment extends DataEntity implements IComment {
   constructor(data: IComment) {
     super();
     if (data) {
-      this.id = data.id;
       this.content = data.content;
+      this.author = data.author;
+      this.post = data.post;
     }
   }
 

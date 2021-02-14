@@ -1,4 +1,18 @@
-import { Equal, FindOperator, Not, MoreThan, MoreThanOrEqual, LessThan, LessThanOrEqual, Like, Between, In, Any, IsNull } from 'typeorm';
+import {
+  Equal,
+  FindOperator,
+  Not,
+  MoreThan,
+  MoreThanOrEqual,
+  LessThan,
+  LessThanOrEqual,
+  Like,
+  Between,
+  In,
+  Any,
+  IsNull,
+} from 'typeorm';
+import { filter } from 'lodash';
 
 export enum SearchType {
   Unknown = 'unknown',
@@ -37,10 +51,17 @@ export class DataFilter {
     isNull: SearchType.IsNull,
   };
 
-  private setFilter(searchOperator: SearchType, searchValue: any) {
+  private setFilter(
+    searchOperator: SearchType,
+    searchValue: any,
+  ): FindOperator<any> {
     switch (searchOperator) {
       case SearchType.Equal:
-        return Equal(searchValue);
+        const findEqual = Equal(searchValue);
+        this.filterSql = findEqual.toSql(<any>{}, this.fieldName, [
+          `"${findEqual.value}"`,
+        ]);
+        return findEqual;
       case SearchType.Not:
         return Not(searchValue);
       case SearchType.MoreThan:
@@ -52,12 +73,21 @@ export class DataFilter {
       case SearchType.LessThanOrEqual:
         return LessThanOrEqual(searchValue);
       case SearchType.Like:
-        return Like(`%${searchValue}%`);
+        const findLike = Like(`%${searchValue}%`);
+        this.filterSql = findLike.toSql(<any>{}, this.fieldName, [
+          `"${findLike.value}"`,
+        ]);
+        return findLike;
       case SearchType.Between:
         const [from, to, type] = searchValue.split(',');
         const toPlusDay = new Date(to).setDate(new Date(to).getDate() + 1);
         if (type === 'date') {
-          return Between(new Date(from), new Date(toPlusDay));
+          const findBetween = Between(new Date(from), new Date(toPlusDay));
+          this.filterSql = findBetween.toSql(null, this.fieldName, [
+            `"${new Date(from).toJSON()}"`,
+            `"${new Date(toPlusDay).toJSON()}"`,
+          ]);
+          return findBetween;
         }
         return Between(+from, +to);
       case SearchType.In:
@@ -76,4 +106,5 @@ export class DataFilter {
   searchOperator: SearchType;
   searchValue: any;
   filter: FindOperator<any>;
+  filterSql: any;
 }

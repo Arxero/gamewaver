@@ -2,15 +2,9 @@ import { EnvironmentService } from '../services/environment.service';
 import { homeStateVotedPosts } from '../store/home/home.selectors';
 import { userProfile } from '../store/auth/auth.selectors';
 import { takeUntil, filter } from 'rxjs/operators';
-import {
-  GetPostsAction,
-  ClearPostsAction,
-} from '../store/home/home.actions';
-import { SearchType } from '../shared/models/common';
-import {
-  PostContext,
-  UserActionOnPost,
-} from '../home/models/home-view-model';
+import { GetPostsAction, ClearPostsAction } from '../store/home/home.actions';
+import { SearchType, Sorting, SortDirection } from '../shared/models/common';
+import { PostContext, UserActionOnPost } from '../home/models/home-view-model';
 import { PostViewModel } from '../home/models/post-view-model';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
@@ -64,17 +58,26 @@ export class ProfileVotesComponent extends BaseComponent implements OnInit {
   }
 
   private getPosts(userActionOnPost?: UserActionOnPost) {
-    const postsFilter = {
-      fieldName: 'votes',
-      searchOperator: SearchType.In,
-      searchValue: this.userId,
-    };
+    const filters = [
+      {
+        fieldName: 'userId',
+        searchOperator: SearchType.Equal,
+        searchValue: this.userId,
+      },
+    ];
+    const sorting: Sorting[] = [
+      {
+        propertyName: 'voteCreated',
+        sort: SortDirection.DESC,
+      },
+    ];
 
     this.store.dispatch(
       new GetPostsAction({
         paging: { skip: this.posts.length, take: this.environmentService.take },
-        filters: [postsFilter],
+        filters,
         userActionOnPost,
+        sorting,
       }),
     );
   }

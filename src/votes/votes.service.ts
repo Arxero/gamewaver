@@ -1,3 +1,5 @@
+import { BaseService } from './../common/shared/base.service';
+import { IUser } from './../users/models/user.entity';
 import { PostsService } from 'src/posts/posts.service';
 import { Post } from 'src/posts/models/post.entity';
 import { PostVote, VoteType } from './models/postVote.entity';
@@ -17,25 +19,27 @@ import { Request } from 'express';
 import { TokenUserPayloadDto } from 'src/auth/models/dto/token-user-payload.dto';
 import { UserRole, User } from 'src/users/models/user.entity';
 import { GetVotesCountDto } from './models/dto/get-votes-count.dto';
+import { PostVoteCmd } from './models/cmd/create-vote.cmd';
 
 @Injectable()
-export class VotesService {
+export class VotesService extends BaseService {
   constructor(
     @InjectRepository(PostVote)
     private postVoteRepository: Repository<PostVote>,
     @Inject(REQUEST) private request: Request,
-    private postsService: PostsService
-    
-  ) {}
+  ) {
+    super();
+  }
 
-  async create(payload: PostVote, postId: string): Promise<PostVote> {
+  async create(payload: PostVoteCmd): Promise<PostVote> {
     try {
-      const user = new TokenUserPayloadDto(this.request.user);
-      payload.post = { id: postId } as Post;
-      payload.user = { id: user.id } as User;
-      const result = await this.postVoteRepository.save(payload);
-      await this.postsService.updateVotes(postId, payload.type, true);
-      return result;
+      const user = new TokenUserPayloadDto(this.request.user as IUser);
+      const postVote = new PostVote({
+        type: payload.type,
+        post: { id: payload.postId } as Post,
+        user: { id: user.id } as User,
+      });
+      return await this.postVoteRepository.save(postVote);
     } catch (error) {
       throw new BadRequestException(
         new ResponseError({ message: error.toString() }),
@@ -48,14 +52,14 @@ export class VotesService {
       const result: GetVotesCountDto[] = [];
       for (const id of ids) {
         const upvotes = await this.postVoteRepository.count({
-          where: {post: { id }, type: VoteType.Upvote },
+          where: { post: { id }, type: VoteType.Upvote },
         });
 
         const downvotes = await this.postVoteRepository.count({
-          where: {post: { id }, type: VoteType.DownVote }
+          where: { post: { id }, type: VoteType.DownVote },
         });
-        result.push(new GetVotesCountDto({upvotes, downvotes, postId: id}))
-      };
+        result.push(new GetVotesCountDto({ upvotes, downvotes, postId: id }));
+      }
       return result;
     } catch (error) {
       throw new BadRequestException(
@@ -68,6 +72,7 @@ export class VotesService {
     const conditions = postIds.map(id => {
       return { post: { id }, user: { id: (this.request.user as User).id } };
     });
+    
     try {
       return await this.postVoteRepository.find({
         where: conditions,
@@ -92,13 +97,12 @@ export class VotesService {
     return post;
   }
 
-  async update(id: string, model: PostVote): Promise<PostVote> {
+  async update(id: string, model: PostVoteCmd): Promise<PostVote> {
     const vote = await this.findOne({ id });
-    this.authorize(vote);
+    this.authorize(vote.user.id, this.request);
     vote.type = model.type;
     try {
       const result = await this.postVoteRepository.save(vote);
-      await this.postsService.updateVotes(vote.post.id, vote.type, true);
       return result;
     } catch (error) {
       throw new InternalServerErrorException(error.toString());
@@ -107,20 +111,12 @@ export class VotesService {
 
   async delete(params: DeepPartial<PostVote>): Promise<PostVote> {
     const vote = await this.findOne(params);
-    this.authorize(vote);
+    this.authorize(vote.user.id, this.request);
     try {
       const result = await this.postVoteRepository.remove(vote);
-      await this.postsService.updateVotes(vote.post.id, vote.type, false);
       return result;
     } catch (error) {
       throw new InternalServerErrorException(error.toString());
-    }
-  }
-
-  private authorize(entity: PostVote) {
-    const tokenUser = new TokenUserPayloadDto(this.request.user);
-    if (tokenUser.id !== entity.user.id && tokenUser.role !== UserRole.ADMIN) {
-      throw new ForbiddenException();
     }
   }
 }

@@ -15,7 +15,11 @@ import {
 import { CommentsService } from './comments.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CommentCreateCmd } from './models/cmd/comment-create.cmd';
-import { IResponseBase, ResponseSuccess, IResponse } from 'src/common/models/response';
+import {
+  IResponseBase,
+  ResponseSuccess,
+  IResponse,
+} from 'src/common/models/response';
 import { Comment } from './models/comment.entity';
 import { GetCommentDto } from './models/dto/get-comment.dto';
 import { QueryParams, QueryRequest } from 'src/common/models/query-request';
@@ -33,16 +37,14 @@ import { GetCommentsCountDto } from './models/dto/get-comments-count.dto';
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post(':postId')
+  @Roles('admin', 'user')
   async create(
     @Param('postId') postId: string,
     @Body() createModel: CommentCreateCmd,
   ): Promise<IResponse<GetCommentDto>> {
-    const result = await this.commentsService.create(
-      postId,
-      new Comment(createModel),
-    );
+    const result = await this.commentsService.create(postId, createModel);
     return new ResponseSuccess<GetCommentDto>({
       result: new GetCommentDto(result),
     });
@@ -52,7 +54,9 @@ export class CommentsController {
   @ApiQuery({ name: 'take', required: false })
   @ApiQuery({ name: 'skip', required: false })
   @Get()
-  async findAll(@Query() queryParams: QueryParams): Promise<IResponse<PagedData<GetCommentDto>>> {
+  async findAll(
+    @Query() queryParams: QueryParams,
+  ): Promise<IResponse<PagedData<GetCommentDto>>> {
     const queryRequest = new QueryRequest(queryParams);
     const result = await this.commentsService.findAll(queryRequest);
     return new ResponseSuccess<PagedData<GetCommentDto>>({ result });
@@ -61,9 +65,12 @@ export class CommentsController {
   @ApiQuery({ name: 'postIds', required: true, description: `id1,id2` })
   @Get('count')
   async findCountByPostIds(
-    @Query(new ValidationPipe({ transform: true })) commentsCountQuery: CommentsCountQuery,
+    @Query(new ValidationPipe({ transform: true }))
+    commentsCountQuery: CommentsCountQuery,
   ): Promise<IResponse<GetCommentsCountDto[]>> {
-    const result = await this.commentsService.findCountByPostIds(commentsCountQuery.postIds);
+    const result = await this.commentsService.findCountByPostIds(
+      commentsCountQuery.postIds,
+    );
     return new ResponseSuccess<GetCommentsCountDto[]>({ result });
   }
 
@@ -75,26 +82,22 @@ export class CommentsController {
     return new ResponseSuccess<GetCommentDto>({ result });
   }
 
-
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Put(':id')
-  @Roles('admin')
+  @Roles('admin', 'user')
   async update(
     @Param('id') id: string,
     @Body() updateModel: CommentUpdateCmd,
   ): Promise<IResponseBase> {
-    const result = await this.commentsService.update(
-      id,
-      new Comment(updateModel),
-    );
+    const result = await this.commentsService.update(id, updateModel);
     return new ResponseSuccess<GetCommentDto>({
       result: new GetCommentDto(result),
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
-  @Roles('admin')
+  @Roles('admin', 'user')
   async delete(@Param('id') id: string): Promise<IResponse<GetCommentDto>> {
     const result = await this.commentsService.delete({ id });
     return new ResponseSuccess<GetCommentDto>({

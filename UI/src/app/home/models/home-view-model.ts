@@ -1,10 +1,11 @@
 import { DataEntity } from './../../shared/models/common';
 
-export interface HomeViewModel extends DataEntity {
+export interface HomeViewModel {
+  id: string;
   content: string;
   authorId: string;
-  authorAvatar: string;
-  authorUsername: string;
+  avatar: string;
+  username: string;
   date: string;
   tooltipDate: string;
   userRole: string;
