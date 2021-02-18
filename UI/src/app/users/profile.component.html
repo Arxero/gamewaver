@@ -5,7 +5,7 @@
   <div class="info">
     <div class="name">
       <span [matTooltip]="user.joinedAt">{{ user.username }}</span>
-      <span class="role role-red" *ngIf="user.userRole">{{ user.userRole | titlecase }}</span>
+      <span class="role" [ngClass]="user.userRole" *ngIf="user.userRole">{{ user.userRole | titlecase }}</span>
     </div>
     <div class="location">{{ user.location }}</div>
     <div class="gender">{{ user.gender | titlecase }}</div>

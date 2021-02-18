@@ -9,7 +9,7 @@
       <a [routerLink]="[userProfileRoute, post.authorId]">
         {{ post.username }}
       </a>
-      <span class="role red" *ngIf="post.userRole">{{ post.userRole | titlecase }}</span>
+      <span class="role" [ngClass]="post.userRole" *ngIf="post.userRole">{{ post.userRole | titlecase }}</span>
     </mat-card-title>
     <mat-card-subtitle>
       <a class="category" (click)="navigate()">{{ post.category }}</a> ·
@@ -18,7 +18,7 @@
   </mat-card-header>
 
   <mat-card-subtitle *ngIf="postContext === postContexts.ProfilePage">
-    <span>{{ post.category }}</span> ·
+    <span>{{ post.categoryLabel }}</span> ·
     <span [matTooltip]="post.tooltipDate">{{ post.date | timeAgo }}</span> ·
     <span>{{ post.userActionOnPost }}</span>
   </mat-card-subtitle>

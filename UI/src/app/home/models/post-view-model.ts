@@ -27,6 +27,10 @@ export function mapPostViewModel(
     [UserActionOnPost.Voted]: post.voteCreated,
   };
 
+  const isUserRole = (role: UserRole): UserRole | null => {
+    return (role !== UserRole.USER ? role : null);
+  }
+
   return {
     id: post.id,
     content: post.content,
@@ -35,7 +39,7 @@ export function mapPostViewModel(
     username: post.username ? post.username : userInPosts.username,
     date: getTooltipDate[userActionOnPost]?.toString(),
     tooltipDate: moment(getTooltipDate[userActionOnPost]).format('MMMM DD, YYYY [at] hh:mm A'),
-    userRole: post.role ? post.role : userInPosts.role,
+    userRole: post.role ? isUserRole(post.role) : isUserRole(userInPosts.role),
     category: post.category,
     categoryLabel: postCategories.find(j => j.value === post.category).label,
     userActionOnPost,
@@ -45,6 +49,7 @@ export function mapPostViewModel(
     vote: votesDto,
   } as PostViewModel;
 }
+
 
 
 
