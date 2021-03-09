@@ -76,7 +76,12 @@ export class PostsService extends BaseService {
       )
       .join(
         'LEFT',
-        ['postId', 'COUNT(*) comments'],
+        [
+          'postId',
+          'authorId AS commentAuthor',
+          'createdAt AS commentCreated',
+          'COUNT(*) comments',
+        ],
         'postId',
         'comments',
         'c',

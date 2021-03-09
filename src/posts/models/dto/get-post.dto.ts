@@ -13,6 +13,8 @@ export interface IPostDtoEx extends IPost {
   username: string;
   authorId: string;
   voteCreated: Date;
+  commentAuthor: string;
+  commentCreated: Date;
 }
 
 export class GetPostDto extends BaseDto {
@@ -39,6 +41,8 @@ export class GetPostDtoEx extends GetPostDto {
     this.username = data.username;
     this.authorId = data.authorId;
     this.voteCreated = data.voteCreated;
+    this.commentAuthor = data.commentAuthor;
+    this.commentCreated = data.commentCreated;
   }
 
   upvotes: number;
@@ -48,4 +52,6 @@ export class GetPostDtoEx extends GetPostDto {
   avatar: string;
   username: string;
   voteCreated: Date;
+  commentAuthor: string;
+  commentCreated: Date;
 }
