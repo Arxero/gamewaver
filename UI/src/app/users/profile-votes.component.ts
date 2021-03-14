@@ -1,5 +1,4 @@
 import { EnvironmentService } from '../services/environment.service';
-import { homeStateVotedPosts } from '../store/home/home.selectors';
 import { userProfile } from '../store/auth/auth.selectors';
 import { takeUntil, filter } from 'rxjs/operators';
 import { GetPostsAction, ClearPostsAction } from '../store/home/home.actions';
@@ -13,6 +12,7 @@ import { BaseComponent } from '../shared/base.component';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserViewModel } from './user-view-models';
+import { homeStatePosts } from '../store/home/home.selectors';
 
 @Component({
   selector: 'app-profile-votes',
@@ -35,29 +35,28 @@ export class ProfileVotesComponent extends BaseComponent implements OnInit {
     super();
     this.userId = this.route.parent.snapshot.params.id;
     this.user$ = store.pipe(select(userProfile));
-
     store
       .pipe(
         takeUntil(this.destroyed$),
-        select(homeStateVotedPosts),
-        filter(x => !!x && x.length > 0),
+        select(homeStatePosts),
+        filter(x => !!x),
       )
-      .subscribe(x => (this.posts = x));
+      .subscribe(x => (this.posts = x.items));
   }
 
   ngOnInit(): void {
-    this.getPosts(UserActionOnPost.Voted);
+    this.getPosts();
   }
 
   onScrollDown() {
-    this.getPosts(UserActionOnPost.Voted);
+    this.getPosts();
   }
 
   onDestroy() {
     this.store.dispatch(new ClearPostsAction());
   }
 
-  private getPosts(userActionOnPost?: UserActionOnPost) {
+  private getPosts() {
     const filters = [
       {
         fieldName: 'userId',
@@ -76,7 +75,7 @@ export class ProfileVotesComponent extends BaseComponent implements OnInit {
       new GetPostsAction({
         paging: { skip: this.posts.length, take: this.environmentService.take },
         filters,
-        userActionOnPost,
+        userActionOnPost: UserActionOnPost.Voted,
         sorting,
       }),
     );

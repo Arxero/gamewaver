@@ -5,11 +5,12 @@ import { BaseComponent } from '../shared/base.component';
 import { Store, select } from '@ngrx/store';
 import { HomeState } from '../store/home/home.reducer';
 import { ActivatedRoute } from '@angular/router';
-import { PostContext } from '../home/models/home-view-model';
-import { SearchType } from '../shared/models/common';
+import { PostContext, UserActionOnPost } from '../home/models/home-view-model';
+import { SearchType, SortDirection, Sorting } from '../shared/models/common';
 import {
   ClearPostsAction,
   ClearPostAction,
+  GetPostsAction,
 } from '../store/home/home.actions';
 import { CommentViewModel } from '../home/models/comment-view-model';
 import { takeUntil, filter } from 'rxjs/operators';
@@ -17,13 +18,15 @@ import { userProfile } from '../store/auth/auth.selectors';
 import { Observable } from 'rxjs';
 import { UserViewModel } from './user-view-models';
 import { GetCommentsAction } from '../store/comments/comments.actions';
+import { PostViewModel } from '../home/models';
+import { homeStatePosts } from '../store/home/home.selectors';
 
 @Component({
   selector: 'app-profile-comments',
   templateUrl: './profile-comments.component.html',
 })
 export class ProfileCommentsComponent extends BaseComponent implements OnInit {
-  comments: CommentViewModel[] = [];
+  posts: PostViewModel[] = [];
   user$: Observable<UserViewModel>;
   get postContext() {
     return PostContext;
@@ -42,12 +45,10 @@ export class ProfileCommentsComponent extends BaseComponent implements OnInit {
     store
       .pipe(
         takeUntil(this.destroyed$),
-        select(commentsStatePostComments),
+        select(homeStatePosts),
         filter(x => !!x),
       )
-      .subscribe(x => {
-        this.comments = x.items;
-      });
+      .subscribe(x => (this.posts = x.items));
   }
 
   ngOnInit(): void {
@@ -60,23 +61,29 @@ export class ProfileCommentsComponent extends BaseComponent implements OnInit {
 
   onDestroy() {
     this.store.dispatch(new ClearPostsAction());
-    this.store.dispatch(new ClearPostAction());
   }
 
   private getComments() {
-    const commentsFilter = {
-      fieldName: 'author',
-      searchOperator: SearchType.Equal,
-      searchValue: this.userId,
-    };
+    const filters = [
+      {
+        fieldName: 'commentAuthor',
+        searchOperator: SearchType.Equal,
+        searchValue: this.userId,
+      },
+    ];
+    const sorting: Sorting[] = [
+      {
+        propertyName: 'commentCreated',
+        sort: SortDirection.DESC,
+      },
+    ];
 
     this.store.dispatch(
-      new GetCommentsAction({
-        paging: {
-          skip: this.comments.length,
-          take: this.environmentService.take,
-        },
-        filters: [commentsFilter],
+      new GetPostsAction({
+        paging: { skip: this.posts.length, take: this.environmentService.take },
+        filters,
+        userActionOnPost: UserActionOnPost.Commented,
+        sorting,
       }),
     );
   }

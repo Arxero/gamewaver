@@ -25,6 +25,7 @@ export function mapPostViewModel(
     [UserActionOnPost.Unknown]: post.createdAt,
     [UserActionOnPost.Posted]: post.createdAt,
     [UserActionOnPost.Voted]: post.voteCreated,
+    [UserActionOnPost.Commented]: post.commentCreated,
   };
 
   const isUserRole = (role: UserRole): UserRole | null => {

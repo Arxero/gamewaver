@@ -89,11 +89,11 @@ export class PostsService extends BaseService {
       )
       .join(
         'LEFT',
-        ['role', 'avatar', 'username', 'id AS authorId'],
+        ['role', 'avatar', 'username', 'id AS joinedAuthorId'],
         null,
         'users',
         'a',
-        'a.authorId = x.authorId',
+        'a.joinedAuthorId = x.authorId',
       )
       .where(queryRequest.filters ? queryRequest.filters[0].filterSql : '')
       .orderBy(queryRequest.sorting.order)

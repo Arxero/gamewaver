@@ -14,11 +14,6 @@ export const homeStatePosts = createSelector(
   homeState => homeState.posts,
 );
 
-export const homeStateVotedPosts = createSelector(
-  selectHomeState,
-  homeState => homeState.votedPosts,
-);
-
 export const homeStatePost = createSelector(
   selectHomeState,
   homeState => homeState.post

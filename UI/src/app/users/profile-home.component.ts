@@ -4,30 +4,24 @@ import { dateSort } from '../shared/models/common';
 import { Component, OnInit } from '@angular/core';
 import { ProfileHomeItem } from './user-view-models';
 import { User } from './user';
-import {
-  PostContext,
-  UserActionOnPost,
-} from '../home/models/home-view-model';
+import { PostContext, UserActionOnPost } from '../home/models/home-view-model';
 import { BaseComponent } from '../shared/base.component';
 import { Store, select } from '@ngrx/store';
 import { HomeState } from '../store/home/home.reducer';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../store/auth/auth.selectors';
-import {
-  homeStatePosts,
-  homeStateVotedPosts,
-} from '../store/home/home.selectors';
+import { homeStatePosts } from '../store/home/home.selectors';
 import { SearchType } from '../shared/models/common';
-import {
-  GetPostsAction,
-  ClearPostsAction,
-} from '../store/home/home.actions';
+import { GetPostsAction, ClearPostsAction } from '../store/home/home.actions';
 import { PostViewModel } from '../home/models/post-view-model';
 import { CommentViewModel } from '../home/models/comment-view-model';
 import { combineLatest, Observable } from 'rxjs';
 import * as lodash from 'lodash';
-import { ClearCommentsAction, GetCommentsAction } from '../store/comments/comments.actions';
+import {
+  ClearCommentsAction,
+  GetCommentsAction,
+} from '../store/comments/comments.actions';
 
 @Component({
   selector: 'app-profile-home',
@@ -63,11 +57,11 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
         select(commentsStatePostComments),
         filter(x => !!x),
       ),
-      store.pipe(
-        takeUntil(this.destroyed$),
-        select(homeStateVotedPosts),
-        filter(x => !!x && x.length > 0),
-      ),
+      // store.pipe(
+      //   takeUntil(this.destroyed$),
+      //   select(homeStateVotedPosts),
+      //   filter(x => !!x && x.length > 0),
+      // ),
     ]).subscribe(items => {
       this.posts = items[0].items;
       this.comments = items[1].items;
@@ -77,9 +71,9 @@ export class ProfileHomeComponent extends BaseComponent implements OnInit {
         this.homeItems.push({ post: x, date: new Date(x.date) });
       });
 
-      items[2].forEach(x => {
-        this.homeItems.push({ post: x, date: new Date(x.date) });
-      });
+      // items[2].forEach(x => {
+      //   this.homeItems.push({ post: x, date: new Date(x.date) });
+      // });
 
       items[1].items.forEach(x =>
         this.homeItems.push({ comment: x, date: new Date(x.date) }),

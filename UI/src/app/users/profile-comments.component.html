@@ -2,11 +2,13 @@
   infiniteScroll
   (scrolled)="onScrollDown()"
 >
-  <ng-container *ngFor="let item of comments">
-    <app-comment
-      [comment]="item"
+  <ng-container *ngFor="let item of posts">
+    <app-post
+      *ngIf="item"
+      [post]="item"
       [user]="user$ | async"
       [postContext]="postContext.ProfilePage"
-    ></app-comment>
+    ></app-post>
   </ng-container>
 </div>
+

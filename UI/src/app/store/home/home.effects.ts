@@ -24,7 +24,6 @@ import {
   CreatePostUpvoteActionSuccess,
   DeletePostUpvoteAction,
   DeletePostUpvoteActionSuccess,
-  GetVotedPostsActionSuccess,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UsersService } from '../../services/users.service';
@@ -136,11 +135,6 @@ export class HomeEffects {
           );
         });
 
-        if (a.payload.userActionOnPost === UserActionOnPost.Voted) {
-          this.store.dispatch(new GetVotedPostsActionSuccess({ data: posts }));
-          this.loadingService.setUILoading(false);
-          return;
-        }
         this.store.dispatch(
           new GetPostsActionSuccess({
             data: { items: posts, total: result.total },

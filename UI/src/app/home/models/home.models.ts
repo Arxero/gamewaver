@@ -58,6 +58,8 @@ export interface GetPostDtoEx extends GetPostDto {
   avatar: string;
   username: string;
   voteCreated: Date;
+  commentAuthor: string;
+  commentCreated: Date;
 }
 
 

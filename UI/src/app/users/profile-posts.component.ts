@@ -56,21 +56,21 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getPosts(UserActionOnPost.Posted);
+    this.getPosts();
   }
 
   onScrollDown() {
-    this.getPosts(UserActionOnPost.Posted);
+    this.getPosts();
   }
 
   onDestroy() {
     this.store.dispatch(new ClearPostsAction());
   }
 
-  private getPosts(userActionOnPost?: UserActionOnPost) {
+  private getPosts() {
     const postsFilter = {
-      fieldName: 'author',
-      searchOperator: SearchType.In,
+      fieldName: 'authorId',
+      searchOperator: SearchType.Equal,
       searchValue: this.userId,
     };
 
@@ -78,7 +78,7 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
       new GetPostsAction({
         paging: { skip: this.posts.length, take: this.environmentService.take },
         filters: [postsFilter],
-        userActionOnPost,
+        userActionOnPost: UserActionOnPost.Posted,
         sorting: [dateSort],
       }),
     );

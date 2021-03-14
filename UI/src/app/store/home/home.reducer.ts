@@ -1,18 +1,12 @@
-import {
-  SidebarNavigationType,
-} from '../../sidebar/sidebar-view.models';
+import { SidebarNavigationType } from '../../sidebar/sidebar-view.models';
 import { PagedData } from './../../shared/models/common';
 import { VoteType } from './../../home/models/home-view-model';
-import {
-  HomeActions,
-  HomeActionTypes,
-} from './home.actions';
+import { HomeActions, HomeActionTypes } from './home.actions';
 import { PostViewModel } from '../../home/models/post-view-model';
 import { cloneDeep } from 'lodash';
 
 export interface HomeState {
   posts: PagedData<PostViewModel>;
-  votedPosts: PostViewModel[];
   post: PostViewModel;
   isEditSuccessful: boolean;
   sidebarNavigation: SidebarNavigationType;
@@ -26,6 +20,7 @@ export const initialHomeState: HomeState = {
   isEditSuccessful: null,
   sidebarNavigation: null,
   scrollPosition: null,
+  commentedPosts: null,
 } as HomeState;
 
 export function homeReducer(
@@ -51,12 +46,6 @@ export function homeReducer(
               items: state.posts.items.concat(action.payload.data.items),
               total: action.payload.data.total,
             },
-      } as HomeState;
-
-    case HomeActionTypes.GetVotedPostsActionSuccess:
-      return {
-        ...state,
-        votedPosts: action.payload.data,
       } as HomeState;
 
     case HomeActionTypes.ClearPostsAction:
@@ -161,7 +150,7 @@ export function homeReducer(
     case HomeActionTypes.SaveScrollPositionAction:
       return {
         ...state,
-        scrollPosition: action.payload.data
+        scrollPosition: action.payload.data,
       };
 
     default:
