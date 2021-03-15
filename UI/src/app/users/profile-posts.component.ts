@@ -1,5 +1,5 @@
 import { EnvironmentService } from '../services/environment.service';
-import { dateSort } from '../shared/models/common';
+import { dateSort, PagedData } from '../shared/models/common';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../shared/base.component';
 import { PostViewModel } from '../home/models/post-view-model';
@@ -26,7 +26,8 @@ import { Observable } from 'rxjs';
   templateUrl: './profile-posts.component.html',
 })
 export class ProfilePostsComponent extends BaseComponent implements OnInit {
-  posts: PostViewModel[] = [];
+  posts: PagedData<PostViewModel>;
+
   user$: Observable<User>;
   get postContext() {
     return PostContext;
@@ -51,7 +52,7 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
         filter(x => !!x),
       )
       .subscribe(x => {
-        this.posts = x.items;
+        this.posts = x;
       });
   }
 
@@ -60,6 +61,9 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
   }
 
   onScrollDown() {
+    if (this.posts.total === this.posts.items.length) {
+      return;
+    }
     this.getPosts();
   }
 
@@ -76,7 +80,7 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
 
     this.store.dispatch(
       new GetPostsAction({
-        paging: { skip: this.posts.length, take: this.environmentService.take },
+        paging: { skip: this.posts?.items.length || 0, take: this.environmentService.take },
         filters: [postsFilter],
         userActionOnPost: UserActionOnPost.Posted,
         sorting: [dateSort],
