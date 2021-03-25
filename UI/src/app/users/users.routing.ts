@@ -4,10 +4,9 @@ import { ProfileComponent } from './profile.component';
 import { ProfileEditComponent } from './profile-edit.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { AuthGuard } from '../guards/auth.guard';
-import { ProfilePostsComponent } from './profile-posts.component';
-import { ProfileCommentsComponent } from './profile-comments.component';
+import { ProfilePostsComponent, UrlProfileData } from './profile-posts.component';
 import { ProfileHomeComponent } from './profile-home.component';
-import { ProfileVotesComponent } from './profile-votes.component';
+import { UserActionOnPost } from '../home/models';
 
 export const usersRoute = 'users';
 export const usersProfileRoute = 'profile';
@@ -28,15 +27,30 @@ const routes: Routes = [
       {
         path: `posts`,
         component: ProfilePostsComponent,
+        data: {
+          filterFieldName: 'authorId',
+          sortPropName: 'createdAt',
+          userActionOnPost: UserActionOnPost.Posted
+        } as UrlProfileData,
       },
       {
         path: `comments`,
-        component: ProfileCommentsComponent,
+        component: ProfilePostsComponent,
+        data: {
+          filterFieldName: 'commentAuthor',
+          sortPropName: 'commentCreated',
+          userActionOnPost: UserActionOnPost.Commented
+        } as UrlProfileData,
       },
       {
         path: `votes`,
-        component: ProfileVotesComponent,
-      }
+        component: ProfilePostsComponent,
+        data: {
+          filterFieldName: 'userId',
+          sortPropName: 'voteCreated',
+          userActionOnPost: UserActionOnPost.Voted
+        } as UrlProfileData,
+      },
     ],
   },
   {

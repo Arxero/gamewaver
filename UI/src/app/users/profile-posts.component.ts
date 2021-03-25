@@ -1,5 +1,11 @@
 import { EnvironmentService } from '../services/environment.service';
-import { dateSort, PagedData } from '../shared/models/common';
+import {
+  dateSort,
+  PagedData,
+  DataFilter,
+  Sorting,
+  SortDirection,
+} from '../shared/models/common';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../shared/base.component';
 import { PostViewModel } from '../home/models/post-view-model';
@@ -10,16 +16,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../store/auth/auth.selectors';
 import { homeStatePosts } from '../store/home/home.selectors';
-import {
-  GetPostsAction,
-  ClearPostsAction,
-} from '../store/home/home.actions';
+import { GetPostsAction, ClearPostsAction } from '../store/home/home.actions';
 import { SearchType } from '../shared/models/common';
-import {
-  PostContext,
-  UserActionOnPost,
-} from '../home/models/home-view-model';
+import { PostContext, UserActionOnPost } from '../home/models/home-view-model';
 import { Observable } from 'rxjs';
+
+export interface UrlProfileData {
+  filterFieldName: string;
+  sortPropName: string;
+  userActionOnPost: UserActionOnPost;
+}
 
 @Component({
   selector: 'app-profile-posts',
@@ -27,14 +33,11 @@ import { Observable } from 'rxjs';
 })
 export class ProfilePostsComponent extends BaseComponent implements OnInit {
   posts: PagedData<PostViewModel>;
-
   user$: Observable<User>;
-  get postContext() {
-    return PostContext;
-  }
-  postContextUrl: PostContext;
-  userId: string;
-  commentsLength = 0;
+  postContext = PostContext;
+  filter: DataFilter;
+  sort: Sorting;
+  userActionOnPost: UserActionOnPost;
 
   constructor(
     private store: Store<HomeState>,
@@ -42,8 +45,22 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
     private environmentService: EnvironmentService,
   ) {
     super();
-    this.userId = this.route.parent.snapshot.params.id;
+    const userId = this.route.parent.snapshot.params.id;
     this.user$ = store.pipe(select(userProfile));
+
+    route.data.subscribe((data: UrlProfileData) => {
+      this.filter = {
+        fieldName: data.filterFieldName,
+        searchOperator: SearchType.Equal,
+        searchValue: userId,
+      };
+
+      this.sort = {
+        propertyName: data.sortPropName,
+        sort: SortDirection.DESC,
+      };
+      this.userActionOnPost = data.userActionOnPost;
+    });
 
     store
       .pipe(
@@ -72,18 +89,15 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
   }
 
   private getPosts() {
-    const postsFilter = {
-      fieldName: 'authorId',
-      searchOperator: SearchType.Equal,
-      searchValue: this.userId,
-    };
-
     this.store.dispatch(
       new GetPostsAction({
-        paging: { skip: this.posts?.items.length || 0, take: this.environmentService.take },
-        filters: [postsFilter],
-        userActionOnPost: UserActionOnPost.Posted,
-        sorting: [dateSort],
+        paging: {
+          skip: this.posts?.items.length || 0,
+          take: this.environmentService.take,
+        },
+        filters: [this.filter],
+        userActionOnPost: this.userActionOnPost,
+        sorting: [this.sort],
       }),
     );
   }

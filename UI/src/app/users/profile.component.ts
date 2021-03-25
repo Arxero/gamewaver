@@ -35,6 +35,7 @@ export class ProfileComponent extends BaseComponent implements OnInit {
         navLinks.find(x => x.link === url[0]?.path) || navLinks[0];
     });
 
+
     this.route.params.subscribe(param => {
       const userId = param.id;
       let loggedInUser: UserViewModel;
