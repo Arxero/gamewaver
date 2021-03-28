@@ -5,7 +5,6 @@ import { ProfileEditComponent } from './profile-edit.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { AuthGuard } from '../guards/auth.guard';
 import { ProfilePostsComponent, UrlProfileData } from './profile-posts.component';
-import { ProfileHomeComponent } from './profile-home.component';
 import { UserActionOnPost } from '../home/models';
 
 export const usersRoute = 'users';
@@ -22,7 +21,8 @@ const routes: Routes = [
     children: [
       {
         path: ``,
-        component: ProfileHomeComponent,
+        redirectTo: 'posts',
+        pathMatch: 'full',
       },
       {
         path: `posts`,

@@ -7,14 +7,12 @@ import { MarkdownModule } from 'ngx-markdown';
 import { ProfileComponent } from './profile.component';
 import { ProfileEditComponent } from './profile-edit.component';
 import { ProfilePostsComponent } from './profile-posts.component';
-import { ProfileHomeComponent } from './profile-home.component';
 
 @NgModule({
   declarations: [
     ProfileComponent,
     ProfileEditComponent,
     ProfilePostsComponent,
-    ProfileHomeComponent,
   ],
   imports: [
     CommonModule,

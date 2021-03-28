@@ -18,7 +18,7 @@ import { ResponseError } from 'src/common/models/response';
 import { PagedData } from 'src/common/models/paged-data';
 import { GetUserDto } from './models/dto/get-user.dto';
 import { QueryRequest } from 'src/common/models/query-request';
-import { REQUEST } from '@nestjs/core';
+import { REQUEST, ContextIdFactory, ModuleRef } from '@nestjs/core';
 import { Request } from 'express';
 import { TokenUserPayloadDto } from 'src/auth/models/dto/token-user-payload.dto';
 import { UpdateUserCmd } from './models/cmd/update-user.cmd';
@@ -28,8 +28,7 @@ export class UsersService extends BaseService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
     @Inject(REQUEST) private request: Request,
-    )
-  {
+  ) {
     super();
   }
 
@@ -59,6 +58,7 @@ export class UsersService extends BaseService {
   }
 
   async findOne(params: DeepPartial<User>): Promise<User> {
+    console.log(params);
     let user: User;
     try {
       user = await this.usersRepository.findOne(params);
@@ -66,14 +66,16 @@ export class UsersService extends BaseService {
       throw new InternalServerErrorException(error.toString());
     }
     if (!user)
-      throw new NotFoundException(new ResponseError({ message: 'User Not Found' }));
+      throw new NotFoundException(
+        new ResponseError({ message: 'User Not Found' }),
+      );
     return user;
   }
 
   async update(id: string, payload: UpdateUserCmd) {
     const user = await this.findOne({ id });
     this.authorize(user.id, this.request);
-  
+
     user.email = payload.email;
     user.avatar = payload.avatar;
     user.summary = payload.summary;

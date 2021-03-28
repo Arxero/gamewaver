@@ -74,6 +74,10 @@ export class ProfilePostsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.posts) {
+      this.store.dispatch(new ClearPostsAction());
+      this.posts = null;
+    }
     this.getPosts();
   }
 

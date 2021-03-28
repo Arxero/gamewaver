@@ -14,14 +14,18 @@ import { AuthService } from '../auth.service';
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(
-    private authJwtService: AuthJwtService,
     private moduleRef: ModuleRef,
   ) {
-    super();
+    super({
+      passReqToCallback: true,
+    });
   }
 
-  async validate(username: string, password: string): Promise<any> {
-    const user = await this.authJwtService.validateUser(username, password);
+  async validate(request: Request, username: string, password: string): Promise<any> {
+    const contextId = ContextIdFactory.getByRequest(request);
+    const authJwtService = await this.moduleRef.resolve(AuthJwtService, contextId);
+    const user = await authJwtService.validateUser(username, password);
+
     if (!user) {
       throw new UnauthorizedException('Wrong username or password');
     }

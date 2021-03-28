@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit, Scope } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { ConfigService } from '@nestjs/config';
@@ -7,8 +7,8 @@ import * as bcrypt from 'bcrypt';
 import { TokenDto } from './models/dto/token.dto';
 import { TokenUserPayloadDto } from './models/dto/token-user-payload.dto';
 
-@Injectable()
-export class AuthJwtService {
+@Injectable({ scope: Scope.REQUEST })
+export class AuthJwtService  {
   constructor(
     private usersService: UsersService,
     private configService: ConfigService,

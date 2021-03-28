@@ -24,9 +24,7 @@ export class ProfileComponent extends BaseComponent implements OnInit {
   user: UserViewModel;
   canEditProfile: boolean;
   activeLink: NavLink;
-  get navLinks() {
-    return navLinks;
-  }
+  navLinks = navLinks;
 
   constructor(private store: Store<AuthState>, private route: ActivatedRoute) {
     super();
