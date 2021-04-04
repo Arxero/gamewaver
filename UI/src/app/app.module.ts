@@ -1,5 +1,4 @@
 import { GotoTopComponent } from './goto-top.component';
-import { CommentsEffects } from './store/comments/comments.effects';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, SecurityContext } from '@angular/core';
 
@@ -55,7 +54,6 @@ import { NotFoundComponent } from './not-found.component';
       AuthEffects,
       UsersEffects,
       HomeEffects,
-      CommentsEffects,
     ]),
   ],
   providers: [

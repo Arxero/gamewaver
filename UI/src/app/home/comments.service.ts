@@ -3,7 +3,7 @@ import { CommentsApiService } from '../services/comments.api.service';
 import { LoadingService } from '../services/loading.service';
 import { UsersService } from '../services/users.service';
 import { PagedData, Sorting, SortDirection, Paging, DataFilter, SearchType } from '../shared/models/common';
-import { CommentViewModel, GetCommentDto } from './models';
+import { CommentViewModel, GetCommentDto, CreateCommentCmd, UpdateCommentCmd } from './models';
 import { Subject, Observable } from 'rxjs';
 import { User, UserRole } from '../users/user';
 import * as moment from 'moment';
@@ -14,13 +14,13 @@ import { SnackbarService } from '../services/snackbar.service';
   providedIn: 'root',
 })
 export class CommentsService {
-  isEditCommentSuccessful: boolean;
-  indexOfEditedComment: number;
-
   private _commentsSubject = new Subject<PagedData<CommentViewModel>>();
   private _comments: CommentViewModel[] = [];
+  private _total: number;
   private _postId: string;
   private _noMoreComments: boolean;
+  private _indexOfEditedComment: number;
+  user: User;
 
   get comments$(): Observable<PagedData<CommentViewModel>> {
     return this._commentsSubject.asObservable();
@@ -65,7 +65,7 @@ export class CommentsService {
     this.paging.take = environmentService.take;
   }
 
-  async loadComments(): Promise<void> {
+  async load(): Promise<void> {
     if (this._noMoreComments) {
       return;
     }
@@ -82,10 +82,68 @@ export class CommentsService {
 
       this.paging.skip = mappedComments.length;
       this._comments = this._comments.concat(mappedComments);
-      this._noMoreComments = this._comments.length === comments.total;
-      this._commentsSubject.next({ items: this._comments, total: comments.total });
+      this._total = comments.total;
+      this._noMoreComments = this._comments.length === this._total;
+      this._commentsSubject.next({ items: this._comments, total: this._total });
     } catch ({ error }) {
       this.snackbarService.showWarn('Get Comments Failed ' + error.message);
+    } finally {
+      this.loadingService.setUILoading(false);
+    }
+  }
+
+  async create(cmd: CreateCommentCmd): Promise<void> {
+    try {
+      this.loadingService.setUILoading();
+      const comment = (await this.commentsApiService.create(cmd, this.postId)).result;
+      const mappedComment = this.mapCommmentViewModel(comment, this.user);
+      this._comments.unshift(mappedComment);
+      this._total++;
+      this._commentsSubject.next({ items: this._comments, total: this._total });
+    } catch ({ error }) {
+      this.snackbarService.showWarn('Create Comment Failed ' + error.message);
+    } finally {
+      this.loadingService.setUILoading(false);
+    }
+  }
+
+  async edit(cmd: UpdateCommentCmd, id: string): Promise<void> {
+    try {
+      this.loadingService.setUILoading();
+      const comment = (await this.commentsApiService.update(id, cmd)).result;
+      const mappedComment = this.mapCommmentViewModel(comment, this.user);
+      this._comments.splice(this._indexOfEditedComment, 0, mappedComment);
+      this._commentsSubject.next({ items: this._comments, total: this._total });
+      this.snackbarService.showInfo('Comment Edited Successfully');
+    } catch ({ error }) {
+      this.snackbarService.showWarn('Create Edit Failed ' + error.message);
+    } finally {
+      this.loadingService.setUILoading(false);
+    }
+  }
+
+  startEdit(id: string): void {
+    this._indexOfEditedComment = this._comments.findIndex(x => x.id === id);
+    this._comments.splice(this._indexOfEditedComment, 1);
+    this._commentsSubject.next({ items: this._comments, total: this._total });
+  }
+
+  cancelEdit(comment: CommentViewModel): void {
+    this._comments.splice(this._indexOfEditedComment, 0, comment)
+    this._commentsSubject.next({ items: this._comments, total: this._total });
+  }
+
+  async delete(id: string): Promise<void> {
+    try {
+      this.loadingService.setUILoading();
+      await this.commentsApiService.delete(id);
+      const deletedIndex = this._comments.findIndex(x => x.id === id);
+      this._comments.splice(deletedIndex, 1);
+      this._total--;
+      this._commentsSubject.next({ items: this._comments, total: this._total });
+      this.snackbarService.showInfo('Comment Deleted Successfully');
+    } catch ({ error }) {
+      this.snackbarService.showWarn('Delete Comment Failed ' + error.message);
     } finally {
       this.loadingService.setUILoading(false);
     }
@@ -96,6 +154,7 @@ export class CommentsService {
     this._noMoreComments = false;
     this._postId = null;
     this.paging = { skip: 0, take: 10 };
+    this._total = null;
   }
 
   private getCommentUsersFilter(comments: GetCommentDto[]): DataFilter[] {

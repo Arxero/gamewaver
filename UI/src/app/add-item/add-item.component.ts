@@ -7,17 +7,8 @@ import { Store } from '@ngrx/store';
 import { HomeState } from '../store/home/home.reducer';
 import { EditPostAction, CreatePostAction } from '../store/home/home.actions';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
-import {
-  EditCommentAction,
-  CreateCommentAction,
-} from '../store/comments/comments.actions';
-import {
-  CreatePostCmd,
-  UpdatePostCmd,
-  CreateCommentCmd,
-  UpdateCommentCmd,
-  postCategories,
-} from '../home/models';
+import { CreatePostCmd, UpdatePostCmd, CreateCommentCmd, UpdateCommentCmd, postCategories } from '../home/models';
+import { CommentsService } from '../home/comments.service';
 
 @Component({
   selector: 'app-add-item',
@@ -42,7 +33,10 @@ export class AddItemComponent implements OnInit {
   get categories() {
     return postCategories;
   }
-  constructor(public dialog: MatDialog, private store: Store<HomeState>) {}
+  constructor(
+    public dialog: MatDialog,
+    private store: Store<HomeState>,
+    private commentsService: CommentsService) {}
 
   ngOnInit(): void {
     this.createItemForm();
@@ -89,21 +83,12 @@ export class AddItemComponent implements OnInit {
 
     if (this.addItem.isPost) {
       this.addItem.id
-        ? this.store.dispatch(
-            new EditPostAction({ cmd: updateCmd, id: this.addItem.id }),
-          )
+        ? this.store.dispatch(new EditPostAction({ cmd: updateCmd, id: this.addItem.id }))
         : this.store.dispatch(new CreatePostAction({ cmd: createCmd }));
     } else {
       this.addItem.id
-        ? this.store.dispatch(
-            new EditCommentAction({ cmd: cmdUpdate, id: this.addItem.id }),
-          )
-        : this.store.dispatch(
-            new CreateCommentAction({
-              cmd: cmdCreate,
-              postId: this.addItem.postId,
-            }),
-          );
+        ? this.commentsService.edit(cmdUpdate, this.addItem.id)
+        : this.commentsService.create(cmdCreate);
     }
 
     this.itemForm.reset();

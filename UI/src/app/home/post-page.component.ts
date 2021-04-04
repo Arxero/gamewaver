@@ -1,4 +1,3 @@
-import { commentsStatePostComments } from '../store/comments/comments.selectors';
 import { EnvironmentService } from '../services/environment.service';
 import { AddItem } from '../add-item/add-item.models';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -9,16 +8,10 @@ import { BaseComponent } from '../shared/base.component';
 import { PostViewModel } from './models/post-view-model';
 import { takeUntil, filter } from 'rxjs/operators';
 import { homeStatePost, homeStateisEditSuccessful } from '../store/home/home.selectors';
-import { GetPostAction, ClearPostAction } from '../store/home/home.actions';
+import { GetPostAction } from '../store/home/home.actions';
 import { PostContext, PostPageState, CommentViewModel } from './models/home-view-model';
-import { SearchType, DataFilter, PagedData } from '../shared/models/common';
+import { DataFilter, PagedData } from '../shared/models/common';
 import { UserViewModel } from '../users/user-view-models';
-import {
-  GetCommentsAction,
-  EditCommentInitiateAction,
-  ClearCommentsAction,
-  EditCommentCancelAction,
-} from '../store/comments/comments.actions';
 import { CommentsService } from './comments.service';
 
 @Component({
@@ -61,6 +54,7 @@ export class PostPageComponent extends BaseComponent implements OnInit, OnDestro
     this.editItemComment = this.mapEditItem();
 
     this.commentsService.postId = this.postId;
+    this.commentsService.user = this.user;
 
     store
       .pipe(
@@ -93,7 +87,7 @@ export class PostPageComponent extends BaseComponent implements OnInit, OnDestro
 
   ngOnInit(): void {
     this.store.dispatch(new GetPostAction({ id: this.postId }));
-    this.commentsService.loadComments();
+    this.commentsService.load();
   }
 
   onEditPost() {
@@ -122,7 +116,7 @@ export class PostPageComponent extends BaseComponent implements OnInit, OnDestro
       id: this.commentToEdit.id,
       content: this.commentToEdit.content,
     };
-    this.store.dispatch(new EditCommentInitiateAction({ id }));
+    this.commentsService.startEdit(id);
   }
 
   onScrollDown() {
@@ -130,7 +124,7 @@ export class PostPageComponent extends BaseComponent implements OnInit, OnDestro
       return;
     }
 
-    this.commentsService.loadComments();
+    this.commentsService.load();
   }
 
   onDestroy() {
@@ -148,7 +142,7 @@ export class PostPageComponent extends BaseComponent implements OnInit, OnDestro
   }
 
   private cancelCommentEdit() {
-    this.store.dispatch(new EditCommentCancelAction({ data: this.commentToEdit }));
+    this.commentsService.cancelEdit(this.commentToEdit);
     this.commentToEdit = null;
   }
 }
