@@ -4,8 +4,7 @@ import { Store } from '@ngrx/store';
 import { HomeState } from '../store/home/home.reducer';
 import { usersProfileFullRoute } from '../users/users.routing';
 import { User, UserRole } from '../users/user';
-import { CommentViewModel } from './models/comment-view-model';
-import { PostContext } from './models/home-view-model';
+import { PostContext, CommentViewModel } from './models/home-view-model';
 import { ActivatedRoute } from '@angular/router';
 import { DeleteCommentAction } from '../store/comments/comments.actions';
 

@@ -11,6 +11,10 @@ export interface HomeViewModel {
   userRole: string;
 }
 
+export interface CommentViewModel extends HomeViewModel {
+  postId: string;
+}
+
 export enum PostContext {
   Unknown,
   PostPage,

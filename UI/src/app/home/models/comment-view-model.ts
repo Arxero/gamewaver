@@ -1,11 +1,9 @@
 import { GetCommentDto } from './home.models';
-import { HomeViewModel } from './home-view-model';
+import { HomeViewModel, CommentViewModel } from './home-view-model';
 import { User, UserRole } from '../../users/user';
 import * as moment from 'moment';
 
-export interface CommentViewModel extends HomeViewModel {
-  postId: string;
-}
+
 
 export function mapCommmentViewModel(comment: GetCommentDto, userInPosts: User): CommentViewModel{
   return {

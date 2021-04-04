@@ -8,7 +8,7 @@ import { CreateCommentCmd, GetCommentDto, GetCommentsCountDto, UpdateCommentCmd 
 @Injectable({
   providedIn: 'root'
 })
-export class CommentsService {
+export class CommentsApiService {
   BASE_URL = `comments`;
 
   constructor(

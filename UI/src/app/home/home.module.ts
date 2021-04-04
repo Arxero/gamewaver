@@ -1,3 +1,4 @@
+import { CommentsService } from './comments.service';
 import { AddItemModule } from './../add-item/add-item.module';
 import { CommentComponent } from './comment.component';
 import { EmojiComponent } from '../add-item/emoji.component';
@@ -28,8 +29,9 @@ import { PostComponent } from './post.component';
     HomeRoutingModule,
     SidebarModule,
     MarkdownModule.forChild(),
-    AddItemModule
+    AddItemModule,
   ],
   exports: [CommentComponent, PostComponent],
+  providers: [CommentsService],
 })
 export class HomeModule {}

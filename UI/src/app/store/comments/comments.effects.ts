@@ -1,4 +1,4 @@
-import { CommentViewModel } from '../../home/models/comment-view-model';
+import { CommentViewModel } from './../../home/models/home-view-model';
 import {
   Sorting,
   SortDirection,
@@ -21,7 +21,7 @@ import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { SnackbarService } from './../../services/snackbar.service';
 import { UsersService } from './../../services/users.service';
-import { CommentsService } from './../../services/comments.service';
+import { CommentsApiService } from '../../services/comments.api.service';
 import { LoadingService } from './../../services/loading.service';
 import { AuthService } from './../../services/auth.service';
 import { Router } from '@angular/router';
@@ -36,7 +36,7 @@ export class CommentsEffects {
     private store: Store<CommentsState>,
     private snackbarService: SnackbarService,
     private usersService: UsersService,
-    private commentsService: CommentsService,
+    private commentsService: CommentsApiService,
     private loadingService: LoadingService,
   ) {}
 

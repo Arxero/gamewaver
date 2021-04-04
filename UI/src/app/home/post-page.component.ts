@@ -1,23 +1,16 @@
 import { commentsStatePostComments } from '../store/comments/comments.selectors';
 import { EnvironmentService } from '../services/environment.service';
 import { AddItem } from '../add-item/add-item.models';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { HomeState } from '../store/home/home.reducer';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '../shared/base.component';
 import { PostViewModel } from './models/post-view-model';
 import { takeUntil, filter } from 'rxjs/operators';
-import {
-  homeStatePost,
-  homeStateisEditSuccessful,
-} from '../store/home/home.selectors';
-import {
-  GetPostAction,
-  ClearPostAction,
-} from '../store/home/home.actions';
-import { CommentViewModel } from './models/comment-view-model';
-import { PostContext, PostPageState } from './models/home-view-model';
+import { homeStatePost, homeStateisEditSuccessful } from '../store/home/home.selectors';
+import { GetPostAction, ClearPostAction } from '../store/home/home.actions';
+import { PostContext, PostPageState, CommentViewModel } from './models/home-view-model';
 import { SearchType, DataFilter, PagedData } from '../shared/models/common';
 import { UserViewModel } from '../users/user-view-models';
 import {
@@ -26,12 +19,13 @@ import {
   ClearCommentsAction,
   EditCommentCancelAction,
 } from '../store/comments/comments.actions';
+import { CommentsService } from './comments.service';
 
 @Component({
   selector: 'app-post-page',
   templateUrl: './post-page.component.html',
 })
-export class PostPageComponent extends BaseComponent implements OnInit {
+export class PostPageComponent extends BaseComponent implements OnInit, OnDestroy {
   post: PostViewModel;
   user: UserViewModel;
   postId: string;
@@ -48,10 +42,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   }
 
   get isDefaultOrEditComment(): boolean {
-    return (
-      this.pageState === this.postPageState.Default ||
-      this.pageState === this.postPageState.EditComment
-    );
+    return this.pageState === this.postPageState.Default || this.pageState === this.postPageState.EditComment;
   }
 
   editItemPost: AddItem;
@@ -61,12 +52,15 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     private store: Store<HomeState>,
     private route: ActivatedRoute,
     private environmentService: EnvironmentService,
+    private commentsService: CommentsService,
   ) {
     super();
     this.postId = this.route.snapshot.params.id;
     this.user = this.route.snapshot.data.userData;
     this.editItemPost = this.mapEditItem(true);
     this.editItemComment = this.mapEditItem();
+
+    this.commentsService.postId = this.postId;
 
     store
       .pipe(
@@ -84,16 +78,6 @@ export class PostPageComponent extends BaseComponent implements OnInit {
     store
       .pipe(
         takeUntil(this.destroyed$),
-        select(commentsStatePostComments),
-        filter(x => !!x),
-      )
-      .subscribe(x => {
-        this.comments = x;
-      });
-
-    store
-      .pipe(
-        takeUntil(this.destroyed$),
         select(homeStateisEditSuccessful),
         filter(x => !!x),
       )
@@ -101,11 +85,15 @@ export class PostPageComponent extends BaseComponent implements OnInit {
         this.pageState = PostPageState.Default;
         this.editItemComment = this.mapEditItem();
       });
+
+    commentsService.comments$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
+      this.comments = x;
+    });
   }
 
   ngOnInit(): void {
     this.store.dispatch(new GetPostAction({ id: this.postId }));
-    this.loadComments();
+    this.commentsService.loadComments();
   }
 
   onEditPost() {
@@ -138,38 +126,15 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   }
 
   onScrollDown() {
-    if (
-      this.comments.total === this.comments.items.length ||
-      this.pageState === this.postPageState.EditComment
-    ) {
+    if (this.pageState === this.postPageState.EditComment) {
       return;
     }
-    this.loadComments();
-  }
 
-  private loadComments() {
-    const filters: DataFilter[] = [
-      {
-        fieldName: 'post',
-        searchOperator: SearchType.In,
-        searchValue: this.postId,
-      },
-    ];
-
-    this.store.dispatch(
-      new GetCommentsAction({
-        paging: {
-          skip: this.comments ? this.comments.items.length : 0,
-          take: this.environmentService.take,
-        },
-        filters,
-      }),
-    );
+    this.commentsService.loadComments();
   }
 
   onDestroy() {
-    this.store.dispatch(new ClearPostAction());
-    this.store.dispatch(new ClearCommentsAction());
+    this.commentsService.clear();
   }
 
   private mapEditItem(isPost: boolean = false): AddItem {
@@ -183,9 +148,7 @@ export class PostPageComponent extends BaseComponent implements OnInit {
   }
 
   private cancelCommentEdit() {
-    this.store.dispatch(
-      new EditCommentCancelAction({ data: this.commentToEdit }),
-    );
+    this.store.dispatch(new EditCommentCancelAction({ data: this.commentToEdit }));
     this.commentToEdit = null;
   }
 }

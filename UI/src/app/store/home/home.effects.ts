@@ -35,7 +35,7 @@ import {
 import { AuthState } from '../auth/auth.reducer';
 import { userProfile } from '../auth/auth.selectors';
 import { Router } from '@angular/router';
-import { CommentsService } from '../../services/comments.service';
+import { CommentsApiService } from '../../services/comments.api.service';
 import {
   UserActionOnPost,
   PostContext,
@@ -51,7 +51,7 @@ export class HomeEffects {
     private snackbarService: SnackbarService,
     private postsService: PostsService,
     private usersService: UsersService,
-    private commentsService: CommentsService,
+    private commentsService: CommentsApiService,
     private loadingService: LoadingService,
     private votesService: VotesService,
     private authService: AuthService,

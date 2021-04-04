@@ -1,5 +1,5 @@
+import { CommentViewModel } from './models/home-view-model';
 import { userProfile } from '../store/auth/auth.selectors';
-import { CommentViewModel } from './models/comment-view-model';
 import { DataFilter } from '../shared/models/common';
 import { HomeState } from '../store/home/home.reducer';
 import { Injectable } from '@angular/core';
