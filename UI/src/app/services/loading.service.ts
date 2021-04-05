@@ -2,18 +2,15 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoadingService {
+  private _uiLoading = new BehaviorSubject(false);
+  uiLoading$ = this._uiLoading.asObservable();
 
-  constructor() { }
-
-  private uiLoading = new BehaviorSubject(false);
-  public uiLoading$ = this.uiLoading.asObservable();
-
-  public setUILoading(loading = true) {
-    if (this.uiLoading.getValue() !== loading) {
-      this.uiLoading.next(loading);
+  setUILoading(loading = true) {
+    if (this._uiLoading.getValue() !== loading) {
+      this._uiLoading.next(loading);
     }
   }
 }

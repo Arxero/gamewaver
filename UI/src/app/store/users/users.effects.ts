@@ -14,7 +14,7 @@ import {
   GetUserAction,
 } from './users.actions';
 import { UsersState } from './users.reducer';
-import { UsersService } from '../../services/users.service';
+import { UsersApiService } from '../../services/users.api.service';
 import { GetUserInfoAction } from '../auth/auth.actions';
 import { SnackbarService } from '../../services/snackbar.service';
 import { usersProfileFullRoute } from '../../users/users.routing';
@@ -25,7 +25,7 @@ import { mapUserViewModel } from '../../users/user-view-models';
 export class UsersEffects {
   constructor(
     private actions$: Actions,
-    private usersService: UsersService,
+    private usersService: UsersApiService,
     private router: Router,
     private snackbarService: SnackbarService,
     private store: Store<UsersState>,

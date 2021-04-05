@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CommentsApiService } from '../services/comments.api.service';
 import { LoadingService } from '../services/loading.service';
-import { UsersService } from '../services/users.service';
+import { UsersApiService } from '../services/users.api.service';
 import { PagedData, Sorting, SortDirection, Paging, DataFilter, SearchType } from '../shared/models/common';
 import { CommentViewModel, GetCommentDto, CreateCommentCmd, UpdateCommentCmd } from './models';
 import { Subject, Observable } from 'rxjs';
@@ -58,7 +58,7 @@ export class CommentsService {
   constructor(
     private commentsApiService: CommentsApiService,
     private loadingService: LoadingService,
-    private usersService: UsersService,
+    private usersApiService: UsersApiService,
     private environmentService: EnvironmentService,
     private snackbarService: SnackbarService,
   ) {
@@ -73,11 +73,11 @@ export class CommentsService {
     try {
       this.loadingService.setUILoading();
       const comments = (await this.commentsApiService.findAll(this.paging, this.filter, this.sort)).result;
-      const users = (await this.usersService.findAll(this.getCommentUsersFilter(comments.items))).result;
+      const users = (await this.usersApiService.findAll(this.getCommentUsersFilter(comments.items))).result;
 
       const mappedComments = comments.items.map(c => {
         const author = users.items.find(u => c.authorId === u.id);
-        return this.mapCommmentViewModel(c, author);
+        return this.mapCommment(c, author);
       });
 
       this.paging.skip = mappedComments.length;
@@ -96,7 +96,7 @@ export class CommentsService {
     try {
       this.loadingService.setUILoading();
       const comment = (await this.commentsApiService.create(cmd, this.postId)).result;
-      const mappedComment = this.mapCommmentViewModel(comment, this.user);
+      const mappedComment = this.mapCommment(comment, this.user);
       this._comments.unshift(mappedComment);
       this._total++;
       this._commentsSubject.next({ items: this._comments, total: this._total });
@@ -111,7 +111,7 @@ export class CommentsService {
     try {
       this.loadingService.setUILoading();
       const comment = (await this.commentsApiService.update(id, cmd)).result;
-      const mappedComment = this.mapCommmentViewModel(comment, this.user);
+      const mappedComment = this.mapCommment(comment, this.user);
       this._comments.splice(this._indexOfEditedComment, 0, mappedComment);
       this._commentsSubject.next({ items: this._comments, total: this._total });
       this.snackbarService.showInfo('Comment Edited Successfully');
@@ -172,7 +172,7 @@ export class CommentsService {
     ];
   }
 
-  private mapCommmentViewModel(comment: GetCommentDto, user: User): CommentViewModel {
+  private mapCommment(comment: GetCommentDto, user: User): CommentViewModel {
     return {
       id: comment.id,
       content: comment.content,

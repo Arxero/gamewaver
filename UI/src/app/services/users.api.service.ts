@@ -8,7 +8,7 @@ import { HttpParams } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
-export class UsersService {
+export class UsersApiService {
   BASE_URL = `users`;
 
   constructor(

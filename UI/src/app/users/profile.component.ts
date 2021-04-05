@@ -7,32 +7,28 @@ import { userProfile } from '../store/auth/auth.selectors';
 import { UserRole } from './user';
 import { cloneDeep } from 'lodash';
 import { ActivatedRoute } from '@angular/router';
-import {
-  GetUserAction,
-  ClearProfileUserAction,
-} from '../store/users/users.actions';
+import { GetUserAction, ClearProfileUserAction } from '../store/users/users.actions';
 import { usersStateProfileUser } from '../store/users/users.selectors';
 import { NavLink, navLinks } from './user-view-models';
 import { UserViewModel } from './user-view-models';
+import { UsersService } from './users.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent extends BaseComponent implements OnInit {
+export class ProfileComponent extends BaseComponent {
   user: UserViewModel;
   canEditProfile: boolean;
   activeLink: NavLink;
   navLinks = navLinks;
 
-  constructor(private store: Store<AuthState>, private route: ActivatedRoute) {
+  constructor(private store: Store<AuthState>, private route: ActivatedRoute, private usersService: UsersService) {
     super();
     this.route.children[0].url.subscribe(url => {
-      this.activeLink =
-        navLinks.find(x => x.link === url[0]?.path) || navLinks[0];
+      this.activeLink = navLinks.find(x => x.link === url[0]?.path) || navLinks[0];
     });
-
 
     this.route.params.subscribe(param => {
       const userId = param.id;
@@ -55,23 +51,11 @@ export class ProfileComponent extends BaseComponent implements OnInit {
         return;
       }
 
-      this.store.dispatch(new GetUserAction({ id: userId }));
-      this.store
-        .pipe(
-          takeUntil(this.destroyed$),
-          select(usersStateProfileUser),
-          filter(x => !!x),
-        )
-        .subscribe(requestedUser => {
-          this.user = cloneDeep(requestedUser);
-          this.canEditProfile = loggedInUser?.role === UserRole.ADMIN;
-        });
+      this.usersService.loadUser(userId);
+      this.usersService.user$.pipe(takeUntil(this.destroyed$)).subscribe(u => {
+        this.user = u;
+        this.canEditProfile = loggedInUser?.role === UserRole.ADMIN;
+      });
     });
-  }
-
-  ngOnInit(): void {}
-
-  onDestroy() {
-    this.store.dispatch(new ClearProfileUserAction());
   }
 }

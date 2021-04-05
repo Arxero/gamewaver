@@ -1,3 +1,4 @@
+import { UsersService } from './users.service';
 import { HomeModule } from './../home/home.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -20,6 +21,7 @@ import { ProfilePostsComponent } from './profile-posts.component';
     SharedModule,
     MarkdownModule.forChild(),
     HomeModule
-  ]
+  ],
+  providers: [UsersService]
 })
 export class UsersModule { }

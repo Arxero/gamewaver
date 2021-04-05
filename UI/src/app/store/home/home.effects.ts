@@ -26,7 +26,7 @@ import {
   DeletePostUpvoteActionSuccess,
 } from './home.actions';
 import { SnackbarService } from '../../services/snackbar.service';
-import { UsersService } from '../../services/users.service';
+import { UsersApiService } from '../../services/users.api.service';
 import { DataFilter, SearchType } from '../../shared/models/common';
 import {
   PostViewModel,
@@ -50,7 +50,7 @@ export class HomeEffects {
     private storeAuth: Store<AuthState>,
     private snackbarService: SnackbarService,
     private postsService: PostsService,
-    private usersService: UsersService,
+    private usersApiService: UsersApiService,
     private commentsService: CommentsApiService,
     private loadingService: LoadingService,
     private votesService: VotesService,
@@ -201,7 +201,7 @@ export class HomeEffects {
 
         this.loadingService.setUILoading();
         const { result } = await this.postsService.findOne(a.payload.id);
-        const userResult = await this.usersService.findOne(result.authorId);
+        const userResult = await this.usersApiService.findOne(result.authorId);
         const userVotesPerPosts = this.authService.isLoggedIn()
           ? await this.votesService.findManyByPostId([result.id])
           : null;
