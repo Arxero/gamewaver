@@ -22,6 +22,7 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
   user: UserViewModel;
   editProfileForm: FormGroup;
   userId: string;
+  loggedInUserId: string;
 
   constructor(private store: Store<UsersState>, private route: ActivatedRoute, private usersService: UsersService) {
     super();
@@ -35,7 +36,8 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
         filter(x => !!x),
       )
       .subscribe(loggedInUser => {
-        this.user = this.userId === loggedInUser.id ? cloneDeep(loggedInUser) : null;
+        this.user = loggedInUser;
+        this.loggedInUserId = loggedInUser.id;
       });
 
     // when some random user profile and current user is admin
@@ -105,7 +107,7 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
       location: this.location.value,
       summary: this.summary.value,
     };
-    this.usersService.editUser(this.user.id, updateUserCmd, this.isOwnProfile());
+    this.usersService.editUser(this.userId, updateUserCmd, this.isOwnProfile());
   }
 
   onDestroy() {
@@ -113,6 +115,6 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
   }
 
   private isOwnProfile(): boolean {
-    return this.userId === this.user?.id;
+    return this.userId === this.loggedInUserId;
   }
 }
