@@ -7,8 +7,6 @@ import { userProfile } from '../store/auth/auth.selectors';
 import { UserRole } from './user';
 import { cloneDeep } from 'lodash';
 import { ActivatedRoute } from '@angular/router';
-import { GetUserAction, ClearProfileUserAction } from '../store/users/users.actions';
-import { usersStateProfileUser } from '../store/users/users.selectors';
 import { NavLink, navLinks } from './user-view-models';
 import { UserViewModel } from './user-view-models';
 import { UsersService } from './users.service';
@@ -41,9 +39,13 @@ export class ProfileComponent extends BaseComponent {
           filter(x => !!x),
         )
         .subscribe(x => {
-          this.user = cloneDeep(x);
           this.canEditProfile = true;
           loggedInUser = x;
+
+          if (loggedInUser.id === userId) {
+            this.user = loggedInUser;
+          }
+
         });
 
       // when visiting user own profile

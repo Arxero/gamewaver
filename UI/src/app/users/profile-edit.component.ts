@@ -1,3 +1,4 @@
+import { AuthState } from './../store/auth/auth.reducer';
 import { Component, OnInit } from '@angular/core';
 import { User, UserGender, UpdateUserCmd } from './user';
 import { BaseComponent } from '../shared/base.component';
@@ -5,11 +6,7 @@ import { Store, select } from '@ngrx/store';
 import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../store/auth/auth.selectors';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { cloneDeep } from 'lodash';
-import { EditUserAction, GetUserAction, ClearProfileUserAction } from '../store/users/users.actions';
-import { UsersState } from '../store/users/users.reducer';
 import { ActivatedRoute } from '@angular/router';
-import { usersStateProfileUser } from '../store/users/users.selectors';
 import { UserViewModel } from './user-view-models';
 import { UsersService } from './users.service';
 
@@ -24,7 +21,7 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
   userId: string;
   loggedInUserId: string;
 
-  constructor(private store: Store<UsersState>, private route: ActivatedRoute, private usersService: UsersService) {
+  constructor(private store: Store<AuthState>, private route: ActivatedRoute, private usersService: UsersService) {
     super();
     this.userId = this.route.snapshot.params.id;
 
@@ -36,7 +33,10 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
         filter(x => !!x),
       )
       .subscribe(loggedInUser => {
-        this.user = loggedInUser;
+        if (loggedInUser.id === this.userId) {
+          this.user = loggedInUser;
+        }
+
         this.loggedInUserId = loggedInUser.id;
       });
 

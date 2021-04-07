@@ -9,6 +9,8 @@ import { User, UserRole, UpdateUserCmd } from './user';
 import * as moment from 'moment';
 import { AuthState } from '../store/auth/auth.reducer';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
+import { usersProfileFullRoute } from './users.routing';
 
 @Injectable()
 export class UsersService {
@@ -24,6 +26,7 @@ export class UsersService {
     private loadingService: LoadingService,
     private snackbarService: SnackbarService,
     private store: Store<AuthState>,
+    private router: Router
   ) {}
 
   async loadUser(id: string): Promise<void> {
@@ -50,6 +53,8 @@ export class UsersService {
       if (isOwnProfile) {
         this.store.dispatch(new GetUserInfoSuccessAction({ userProfile: this._user }));
       }
+
+      this.router.navigateByUrl(`/users/profile/${this._user.id}`);
     } catch ({ error }) {
       this.snackbarService.showWarn('Edit User Failed ' + error.message);
     } finally {
@@ -61,7 +66,7 @@ export class UsersService {
     this._user = null;
   }
 
-  private mapUser(user: User): UserViewModel {
+  mapUser(user: User): UserViewModel {
     return {
       ...user,
       joinedAt: `Joined ${moment(user.createdAt).format('MMMM DD, YYYY [at] hh:mm A')}`,

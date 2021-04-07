@@ -18,9 +18,9 @@ import { MarkdownModule } from 'ngx-markdown';
 import { HttpClientService } from './services/http-client.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { UsersEffects } from './store/users/users.effects';
 import { HomeEffects } from './store/home/home.effects';
 import { NotFoundComponent } from './not-found.component';
+import { UsersService } from './users/users.service';
 
 
 @NgModule({
@@ -52,13 +52,13 @@ import { NotFoundComponent } from './not-found.component';
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     EffectsModule.forFeature([
       AuthEffects,
-      UsersEffects,
       HomeEffects,
     ]),
   ],
   providers: [
     { provide: 'IHttpClientService', useClass: HttpClientService},
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    UsersService
   ],
   bootstrap: [AppComponent]
 })
