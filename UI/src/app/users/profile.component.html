@@ -13,7 +13,7 @@
       <markdown [data]="user.summary || ''" ngPreserveWhitespaces></markdown>
     </div>
     <div class="actions">
-      <a mat-raised-button routerLink="edit" color="primary" *ngIf="canEditProfile">Edit Profile</a>
+      <a mat-raised-button routerLink="edit" color="primary" *ngIf="isEditAllowed">Edit Profile</a>
     </div>
   </div>
 </mat-card>

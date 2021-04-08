@@ -62,10 +62,6 @@ export class UsersService {
     }
   }
 
-  clear() {
-    this._user = null;
-  }
-
   mapUser(user: User): UserViewModel {
     return {
       ...user,

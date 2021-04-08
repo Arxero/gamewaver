@@ -1,49 +1,23 @@
 import { AuthState } from './../store/auth/auth.reducer';
 import { Component, OnInit } from '@angular/core';
-import { User, UserGender, UpdateUserCmd } from './user';
-import { BaseComponent } from '../shared/base.component';
-import { Store, select } from '@ngrx/store';
-import { takeUntil, filter } from 'rxjs/operators';
-import { userProfile } from '../store/auth/auth.selectors';
+import { UserGender, UpdateUserCmd } from './user';
+import { Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UserViewModel } from './user-view-models';
 import { UsersService } from './users.service';
+import { ProfileBase } from './profile.base';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './profile-edit.component.html',
   styleUrls: ['./profile-edit.component.scss'],
 })
-export class ProfileEditComponent extends BaseComponent implements OnInit {
-  user: UserViewModel;
+export class ProfileEditComponent extends ProfileBase implements OnInit {
   editProfileForm: FormGroup;
-  userId: string;
-  loggedInUserId: string;
 
-  constructor(private store: Store<AuthState>, private route: ActivatedRoute, private usersService: UsersService) {
-    super();
-    this.userId = this.route.snapshot.params.id;
-
-    // when own profile
-    store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(userProfile),
-        filter(x => !!x),
-      )
-      .subscribe(loggedInUser => {
-        if (loggedInUser.id === this.userId) {
-          this.user = loggedInUser;
-        }
-
-        this.loggedInUserId = loggedInUser.id;
-      });
-
-    // when some random user profile and current user is admin
-    if (!this.isOwnProfile()) {
-      usersService.loadUser(this.userId);
-    }
+  constructor(store: Store<AuthState>, route: ActivatedRoute, usersService: UsersService) {
+    super(store, route, usersService);
 
     usersService.user$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
       this.user = x;
@@ -107,14 +81,6 @@ export class ProfileEditComponent extends BaseComponent implements OnInit {
       location: this.location.value,
       summary: this.summary.value,
     };
-    this.usersService.editUser(this.userId, updateUserCmd, this.isOwnProfile());
-  }
-
-  onDestroy() {
-    this.usersService.clear();
-  }
-
-  private isOwnProfile(): boolean {
-    return this.userId === this.loggedInUserId;
+    this.usersService.editUser(this.user.id, updateUserCmd, this.isOwnProfile);
   }
 }

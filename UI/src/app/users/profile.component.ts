@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { BaseComponent } from '../shared/base.component';
-import { Store, select } from '@ngrx/store';
+import { ProfileBase } from './profile.base';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { AuthState } from '../store/auth/auth.reducer';
-import { takeUntil, filter } from 'rxjs/operators';
-import { userProfile } from '../store/auth/auth.selectors';
-import { UserRole } from './user';
-import { cloneDeep } from 'lodash';
+import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { NavLink, navLinks } from './user-view-models';
-import { UserViewModel } from './user-view-models';
 import { UsersService } from './users.service';
 
 @Component({
@@ -16,48 +12,18 @@ import { UsersService } from './users.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent extends BaseComponent {
-  user: UserViewModel;
-  canEditProfile: boolean;
+export class ProfileComponent extends ProfileBase {
   activeLink: NavLink;
   navLinks = navLinks;
 
-  constructor(private store: Store<AuthState>, private route: ActivatedRoute, private usersService: UsersService) {
-    super();
-    this.route.children[0].url.subscribe(url => {
+  constructor(store: Store<AuthState>, route: ActivatedRoute, usersService: UsersService) {
+    super(store, route, usersService);
+    route.children[0].url.subscribe(url => {
       this.activeLink = navLinks.find(x => x.link === url[0]?.path) || navLinks[0];
     });
 
-    this.route.params.subscribe(param => {
-      const userId = param.id;
-      let loggedInUser: UserViewModel;
-      // load user from profile page
-      this.store
-        .pipe(
-          takeUntil(this.destroyed$),
-          select(userProfile),
-          filter(x => !!x),
-        )
-        .subscribe(x => {
-          this.canEditProfile = true;
-          loggedInUser = x;
-
-          if (loggedInUser.id === userId) {
-            this.user = loggedInUser;
-          }
-
-        });
-
-      // when visiting user own profile
-      if (userId === this.user?.id) {
-        return;
-      }
-
-      this.usersService.loadUser(userId);
-      this.usersService.user$.pipe(takeUntil(this.destroyed$)).subscribe(u => {
-        this.user = u;
-        this.canEditProfile = loggedInUser?.role === UserRole.ADMIN;
-      });
+    this.usersService.user$.pipe(takeUntil(this.destroyed$)).subscribe(u => {
+      this.user = u;
     });
   }
 }
