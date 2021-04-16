@@ -1,3 +1,4 @@
+import { PostsService } from './posts.service';
 import { CommentsService } from './comments.service';
 import { AddItemModule } from './../add-item/add-item.module';
 import { CommentComponent } from './comment.component';
@@ -32,6 +33,6 @@ import { PostComponent } from './post.component';
     AddItemModule,
   ],
   exports: [CommentComponent, PostComponent],
-  providers: [CommentsService],
+  providers: [PostsService, CommentsService],
 })
 export class HomeModule {}

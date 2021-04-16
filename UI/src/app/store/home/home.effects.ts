@@ -7,7 +7,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { tap, withLatestFrom } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { HomeState } from './home.reducer';
-import { PostsService } from '../../services/posts.service';
+import { PostsApiService } from '../../services/posts.api.service';
 import {
   HomeActionTypes,
   CreatePostAction,
@@ -49,7 +49,7 @@ export class HomeEffects {
     private store: Store<HomeState>,
     private storeAuth: Store<AuthState>,
     private snackbarService: SnackbarService,
-    private postsService: PostsService,
+    private postsService: PostsApiService,
     private usersApiService: UsersApiService,
     private commentsService: CommentsApiService,
     private loadingService: LoadingService,

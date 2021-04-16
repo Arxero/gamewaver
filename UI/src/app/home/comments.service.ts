@@ -10,9 +10,7 @@ import * as moment from 'moment';
 import { EnvironmentService } from '../services/environment.service';
 import { SnackbarService } from '../services/snackbar.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CommentsService {
   private _commentsSubject = new Subject<PagedData<CommentViewModel>>();
   private _comments: CommentViewModel[] = [];

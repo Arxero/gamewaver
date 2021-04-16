@@ -14,7 +14,7 @@ import { GetPostDto, CreatePostCmd, UpdatePostCmd, GetPostDtoEx } from '../home/
 @Injectable({
   providedIn: 'root',
 })
-export class PostsService {
+export class PostsApiService {
   BASE_URL = `posts`;
 
   constructor(
