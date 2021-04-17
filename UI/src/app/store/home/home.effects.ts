@@ -29,7 +29,6 @@ import { SnackbarService } from '../../services/snackbar.service';
 import { UsersApiService } from '../../services/users.api.service';
 import { DataFilter, SearchType } from '../../shared/models/common';
 import {
-  PostViewModel,
   mapPostViewModel,
 } from '../../home/models/post-view-model';
 import { AuthState } from '../auth/auth.reducer';
@@ -39,6 +38,7 @@ import { CommentsApiService } from '../../services/comments.api.service';
 import {
   UserActionOnPost,
   PostContext,
+  PostViewModel,
 } from '../../home/models/home-view-model';
 import { LoadingService } from '../../services/loading.service';
 
@@ -210,6 +210,7 @@ export class HomeEffects {
           result as GetPostDtoEx,
           userResult.result,
           userVotesPerPosts?.result[0],
+          null,
         );
         this.store.dispatch(new GetPostActionSuccess({ data }));
       } catch (error) {

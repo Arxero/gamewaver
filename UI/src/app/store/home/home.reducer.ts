@@ -1,8 +1,7 @@
 import { SidebarNavigationType } from '../../sidebar/sidebar-view.models';
 import { PagedData } from './../../shared/models/common';
-import { VoteType } from './../../home/models/home-view-model';
+import { VoteType, PostViewModel } from './../../home/models/home-view-model';
 import { HomeActions, HomeActionTypes } from './home.actions';
-import { PostViewModel } from '../../home/models/post-view-model';
 import { cloneDeep } from 'lodash';
 
 export interface HomeState {
@@ -121,7 +120,7 @@ export function homeReducer(
         x => x.id === action.payload.data.postId,
       );
       postToUnvote.vote = {
-        type: VoteType.Unknown,
+        type: null,
         postId: null,
         userId: null,
       };

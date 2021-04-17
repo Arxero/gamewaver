@@ -3,6 +3,11 @@ import { PostCategory } from './post-category';
 import { DataEntity } from '../../shared/models/common';
 import { VoteType } from './home-view-model';
 
+export interface PostCmd {
+  content: string;
+  category: PostCategory;
+}
+
 export interface CreateCommentCmd {
   content: string;
 }

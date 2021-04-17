@@ -1,28 +1,19 @@
-import { postCategories, PostCategory } from './post-category';
+import { postCategories } from './post-category';
 import * as moment from 'moment';
 import { User, UserRole } from '../../users/user';
-import { HomeViewModel, UserActionOnPost, VoteType } from './home-view-model';
-import { GetVoteDto, GetPostDto, GetPostDtoEx } from './home.models';
+import { UserActionOnPost, VoteType, PostViewModel } from './home-view-model';
+import { GetVoteDto, GetPostDtoEx } from './home.models';
 
-export interface PostViewModel extends HomeViewModel {
-  category: PostCategory;
-  categoryLabel: string;
-  userActionOnPost?: UserActionOnPost;
-  comments: number;
 
-  upvotes: number;
-  downvotes: number;
-  vote: GetVoteDto;
-}
 
 export function mapPostViewModel(
   post: GetPostDtoEx,
   userInPosts: User,
-  votesDto: GetVoteDto = { type: VoteType.Unknown, postId: null, userId: null },
-  userActionOnPost: UserActionOnPost = UserActionOnPost.Unknown,
+  votesDto?: GetVoteDto,
+  userActionOnPost?: UserActionOnPost
 ): PostViewModel {
   const getTooltipDate: {[key: string]: Date} = {
-    [UserActionOnPost.Unknown]: post.createdAt,
+    // [UserActionOnPost.Unknown]: post.createdAt,
     [UserActionOnPost.Posted]: post.createdAt,
     [UserActionOnPost.Voted]: post.voteCreated,
     [UserActionOnPost.Commented]: post.commentCreated,

@@ -11,9 +11,9 @@ import {
 import {
   Component,
   AfterViewInit,
+  OnInit,
 } from '@angular/core';
 import { BaseComponent } from '../shared/base.component';
-import { PostViewModel } from './models/post-view-model';
 import { HomeState } from '../store/home/home.reducer';
 import { Store, select } from '@ngrx/store';
 import {
@@ -26,21 +26,20 @@ import { User } from '../users/user';
 import { userProfile } from '../store/auth/auth.selectors';
 import { ActivatedRoute } from '@angular/router';
 import { QueryRequest, QueryParams } from '../shared/models/query-request';
-import { PostContext } from './models/home-view-model';
+import { PostContext, PostViewModel } from './models/home-view-model';
 import { AddItem } from '../add-item/add-item.models';
 import { ViewportScroller } from '@angular/common';
+import { PostsService } from './posts.service';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
 })
-export class PostsComponent extends BaseComponent implements AfterViewInit {
+export class PostsComponent extends BaseComponent implements OnInit, AfterViewInit {
   posts: PagedData<PostViewModel>;
   user: User;
   queryRequest: QueryRequest;
-  get postContext() {
-    return PostContext;
-  }
+  postContext = PostContext;
   addItem: AddItem = {
     isPost: true,
     minLength: 3,
@@ -54,14 +53,16 @@ export class PostsComponent extends BaseComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private environmentService: EnvironmentService,
     private viewportScroller: ViewportScroller,
+    private postsService: PostsService
   ) {
     super();
     this.route.queryParams.subscribe(params => {
       this.queryRequest = new QueryRequest(params as QueryParams);
-      this.queryRequest.sorting.push(dateSort);
+      this.postsService.filter = this.queryRequest?.filters;
+      this.postsService.sort = this.queryRequest.sorting;
 
       if (this.sidebarNavigationType || this.queryRequest.fromPost) {
-        this.store.dispatch(new ClearPostsAction());
+        // this.store.dispatch(new ClearPostsAction());
         this.loadPosts();
       }
     });
@@ -71,20 +72,28 @@ export class PostsComponent extends BaseComponent implements AfterViewInit {
       this.addItem.userAvatar = this.user?.avatar;
     });
 
-    store
-      .pipe(takeUntil(this.destroyed$), select(homeStatePosts))
-      .subscribe(x => {
-        this.posts = x;
-        if (!this.posts && !this.sidebarNavigationType && !this.queryRequest.fromPost) {
-          this.loadPosts();
-        }
-      });
+    // store
+    //   .pipe(takeUntil(this.destroyed$), select(homeStatePosts))
+    //   .subscribe(x => {
+    //     this.posts = x;
+    //     if (!this.posts && !this.sidebarNavigationType && !this.queryRequest.fromPost) {
+    //       this.loadPosts();
+    //     }
+    //   });
+
+    this.postsService.posts$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
+      this.posts = x;
+    })
 
     store
       .pipe(takeUntil(this.destroyed$), select(homeStateSidebarNavigation))
       .subscribe(x => {
         this.sidebarNavigationType = x;
       });
+  }
+
+  ngOnInit(): void {
+    this.postsService.getMany();
   }
 
   ngAfterViewInit(): void {
@@ -107,15 +116,16 @@ export class PostsComponent extends BaseComponent implements AfterViewInit {
   }
 
   private loadPosts() {
-    this.store.dispatch(
-      new GetPostsAction({
-        paging: {
-          skip: this.posts ? this.posts.items.length : 0,
-          take: this.environmentService.take,
-        },
-        filters: this.queryRequest?.filters,
-        sorting: this.queryRequest.sorting,
-      }),
-    );
+    this.postsService.getMany();
+    // this.store.dispatch(
+    //   new GetPostsAction({
+    //     paging: {
+    //       skip: this.posts ? this.posts.items.length : 0,
+    //       take: this.environmentService.take,
+    //     },
+    //     filters: this.queryRequest?.filters,
+    //     sorting: this.queryRequest.sorting,
+    //   }),
+    // );
   }
 }

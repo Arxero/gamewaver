@@ -11,8 +11,7 @@ import {
 import { Store } from '@ngrx/store';
 import { HomeState } from '../store/home/home.reducer';
 import { UserRole, User } from '../users/user';
-import { PostViewModel } from './models/post-view-model';
-import { PostContext, VoteType } from './models/home-view-model';
+import { PostContext, VoteType, PostViewModel } from './models/home-view-model';
 import { Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { SnackbarService } from '../services/snackbar.service';

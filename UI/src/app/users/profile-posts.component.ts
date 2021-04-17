@@ -8,7 +8,6 @@ import {
 } from '../shared/models/common';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../shared/base.component';
-import { PostViewModel } from '../home/models/post-view-model';
 import { User } from './user';
 import { Store, select } from '@ngrx/store';
 import { HomeState } from '../store/home/home.reducer';
@@ -18,7 +17,7 @@ import { userProfile } from '../store/auth/auth.selectors';
 import { homeStatePosts } from '../store/home/home.selectors';
 import { GetPostsAction, ClearPostsAction } from '../store/home/home.actions';
 import { SearchType } from '../shared/models/common';
-import { PostContext, UserActionOnPost } from '../home/models/home-view-model';
+import { PostContext, UserActionOnPost, PostViewModel } from '../home/models/home-view-model';
 import { Observable } from 'rxjs';
 
 export interface UrlProfileData {

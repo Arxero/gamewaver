@@ -4,11 +4,11 @@ import {
 } from '../../sidebar/sidebar-view.models';
 import { Sorting, PagedData } from './../../shared/models/common';
 import { Action } from '@ngrx/store';
-import { PostViewModel } from '../../home/models/post-view-model';
 import { Paging, DataFilter } from '../../shared/models/common';
 import {
   UserActionOnPost,
   PostContext,
+  PostViewModel,
 } from '../../home/models/home-view-model';
 
 export enum HomeActionTypes {

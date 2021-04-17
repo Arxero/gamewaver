@@ -1,4 +1,5 @@
-import { DataEntity } from './../../shared/models/common';
+import { PostCategory } from './post-category';
+import { GetVoteDto } from './home.models';
 
 export interface HomeViewModel {
   id: string;
@@ -11,33 +12,41 @@ export interface HomeViewModel {
   userRole: string;
 }
 
+
+export interface PostViewModel extends HomeViewModel {
+  category: PostCategory;
+  categoryLabel: string;
+  userActionOnPost?: UserActionOnPost;
+  comments: number;
+
+  upvotes: number;
+  downvotes: number;
+  vote: GetVoteDto;
+}
+
 export interface CommentViewModel extends HomeViewModel {
   postId: string;
 }
 
 export enum PostContext {
-  Unknown,
   PostPage,
   PostsPage,
   ProfilePage,
 }
 
 export enum UserActionOnPost {
-  Unknown = 'unknown',
   Posted = 'posted',
   Commented = 'commented',
   Voted = 'voted'
 }
 
 export enum PostPageState {
-  Unknown,
   EditPost,
   EditComment,
   Default,
 }
 
 export enum VoteType {
-  Unknown = 'unknown',
   Upvote = 'upvote',
   DownVote = 'downvote'
 }

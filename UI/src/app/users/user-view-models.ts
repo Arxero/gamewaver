@@ -1,7 +1,6 @@
-import { CommentViewModel } from './../home/models/home-view-model';
+import { CommentViewModel, PostViewModel } from './../home/models/home-view-model';
 import { User, UserRole } from './user';
 import * as moment from 'moment';
-import { PostViewModel } from '../home/models/post-view-model';
 
 export interface NavLink {
   label: string;

@@ -58,7 +58,6 @@ export class UsersService extends BaseService {
   }
 
   async findOne(params: DeepPartial<User>): Promise<User> {
-    console.log(params);
     let user: User;
     try {
       user = await this.usersRepository.findOne(params);
