@@ -38,12 +38,11 @@ export enum SortUrl {
 }
 
 export enum SidebarNavigationType {
-  Unknown,
-  Search,
-  Sort,
-  Category,
-  Archive,
-  Logo,
+  Search = 'search',
+  Sort = 'sort',
+  Category = 'category',
+  Archive = 'archive',
+  Logo = 'logo',
 }
 
 export enum SortTime {

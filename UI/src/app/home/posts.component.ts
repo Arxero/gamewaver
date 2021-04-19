@@ -30,13 +30,14 @@ import { PostContext, PostViewModel } from './models/home-view-model';
 import { AddItem } from '../add-item/add-item.models';
 import { ViewportScroller } from '@angular/common';
 import { PostsService } from './posts.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
 })
 export class PostsComponent extends BaseComponent implements OnInit, AfterViewInit {
-  posts: PagedData<PostViewModel>;
+  posts$: Observable<PagedData<PostViewModel>>;
   user: User;
   queryRequest: QueryRequest;
   postContext = PostContext;
@@ -51,7 +52,6 @@ export class PostsComponent extends BaseComponent implements OnInit, AfterViewIn
   constructor(
     private store: Store<HomeState>,
     private route: ActivatedRoute,
-    private environmentService: EnvironmentService,
     private viewportScroller: ViewportScroller,
     private postsService: PostsService
   ) {
@@ -62,8 +62,8 @@ export class PostsComponent extends BaseComponent implements OnInit, AfterViewIn
       this.postsService.sort = this.queryRequest.sorting;
 
       if (this.sidebarNavigationType || this.queryRequest.fromPost) {
-        // this.store.dispatch(new ClearPostsAction());
-        this.loadPosts();
+        this.postsService.clear();
+        this.postsService.getMany();
       }
     });
 
@@ -71,19 +71,7 @@ export class PostsComponent extends BaseComponent implements OnInit, AfterViewIn
       this.user = x;
       this.addItem.userAvatar = this.user?.avatar;
     });
-
-    // store
-    //   .pipe(takeUntil(this.destroyed$), select(homeStatePosts))
-    //   .subscribe(x => {
-    //     this.posts = x;
-    //     if (!this.posts && !this.sidebarNavigationType && !this.queryRequest.fromPost) {
-    //       this.loadPosts();
-    //     }
-    //   });
-
-    this.postsService.posts$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
-      this.posts = x;
-    })
+    this.posts$ = this.postsService.posts$;
 
     store
       .pipe(takeUntil(this.destroyed$), select(homeStateSidebarNavigation))
@@ -109,23 +97,6 @@ export class PostsComponent extends BaseComponent implements OnInit, AfterViewIn
   }
 
   onScrollDown() {
-    if (this.posts.total === this.posts.items.length) {
-      return;
-    }
-    this.loadPosts();
-  }
-
-  private loadPosts() {
     this.postsService.getMany();
-    // this.store.dispatch(
-    //   new GetPostsAction({
-    //     paging: {
-    //       skip: this.posts ? this.posts.items.length : 0,
-    //       take: this.environmentService.take,
-    //     },
-    //     filters: this.queryRequest?.filters,
-    //     sorting: this.queryRequest.sorting,
-    //   }),
-    // );
   }
 }

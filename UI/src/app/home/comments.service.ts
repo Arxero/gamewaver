@@ -78,8 +78,8 @@ export class CommentsService {
         return this.mapCommment(c, author);
       });
 
-      this.paging.skip = mappedComments.length;
       this._comments = this._comments.concat(mappedComments);
+      this.paging.skip = this._comments.length;
       this._total = comments.total;
       this._noMoreComments = this._comments.length === this._total;
       this._commentsSubject.next({ items: this._comments, total: this._total });
@@ -151,7 +151,7 @@ export class CommentsService {
     this._comments = [];
     this._noMoreComments = false;
     this._postId = null;
-    this.paging = { skip: 0, take: 10 };
+    this.paging.skip = 0;
     this._total = null;
   }
 

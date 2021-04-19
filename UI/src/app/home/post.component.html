@@ -31,11 +31,11 @@
   <mat-card-actions>
     <span class="left">
       <button mat-button (click)="onVote(voteType.Upvote)">
-        <mat-icon [matBadge]="post.upvotes" matBadgeColor="primary" color="{{post.vote.type === voteType.Upvote ? 'primary' : '' }}">arrow_upward</mat-icon>
+        <mat-icon [matBadge]="post.upvotes" matBadgeColor="primary" color="{{post.vote?.type === voteType.Upvote ? 'primary' : '' }}">arrow_upward</mat-icon>
       </button>
 
       <button mat-button (click)="onVote(voteType.DownVote)">
-        <mat-icon [matBadge]="post.downvotes" matBadgeColor="primary" color="{{post.vote.type === voteType.DownVote ? 'primary' : '' }}">arrow_downward</mat-icon>
+        <mat-icon [matBadge]="post.downvotes" matBadgeColor="primary" color="{{post.vote?.type === voteType.DownVote ? 'primary' : '' }}">arrow_downward</mat-icon>
       </button>
     </span>
 

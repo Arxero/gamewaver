@@ -5,7 +5,7 @@
   infiniteScroll
   (scrolled)="onScrollDown()"
   [infiniteScrollDistance]="1"
-  *ngIf="posts"
+  *ngIf="posts$ | async as posts"
 >
   <ng-container *ngFor="let item of posts.items">
     <app-post

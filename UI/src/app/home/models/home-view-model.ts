@@ -21,7 +21,7 @@ export interface PostViewModel extends HomeViewModel {
 
   upvotes: number;
   downvotes: number;
-  vote: GetVoteDto;
+  vote?: GetVoteDto;
 }
 
 export interface CommentViewModel extends HomeViewModel {

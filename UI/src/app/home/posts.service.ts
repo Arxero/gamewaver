@@ -69,9 +69,9 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       this.loadingService.setUILoading();
       const posts = (await this.postsApiService.findAll(this.paging, this.filter, this.sort)).result;
       const votes = await this.getUserVotes(posts.items);
-      const mappedPosts = posts.items.map(p => this.mapPost(p, votes, this.action));
-      this.paging.skip = mappedPosts.length;
+      const mappedPosts = posts.items.map(p => this.mapPost(p, votes));
       this._posts = this._posts.concat(mappedPosts);
+      this.paging.skip = this._posts.length;
       this._total = posts.total;
       this._noMorePosts = this._posts.length === this._total;
       this._postsSubject.next({ items: this._posts, total: this._total });
@@ -98,6 +98,14 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     throw new Error('Method not implemented.');
   }
 
+  clear(): void {
+    this._posts = [];
+    this._noMorePosts = false;
+    this.paging.skip = 0;
+    this._total = null;
+  }
+
+
   private async getUserVotes(posts: GetPostDtoEx[]): Promise<GetVoteDto[]> {
     if (!this.authService.isLoggedIn()) {
       return;
@@ -107,24 +115,19 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     return (await this.votesService.findManyByPostId(postdIds)).result;
   }
 
-  private mapPost(
-    post: GetPostDtoEx,
-    votes: GetVoteDto[],
-    action: UserActionOnPost,
-    author?: User,
-  ): PostViewModel {
+  private mapPost(post: GetPostDtoEx, votes: GetVoteDto[], author?: User): PostViewModel {
     return {
       id: post.id,
       content: post.content,
       authorId: post.authorId,
       avatar: post.avatar ? post.avatar : author?.avatar,
       username: post.username ? post.username : author.username,
-      date: this.getPostDate(action, post),
-      tooltipDate: moment(this.getPostDate(action, post)).format('MMMM DD, YYYY [at] hh:mm A'),
+      date: this.getPostDate(post),
+      tooltipDate: moment(this.getPostDate(post)).format('MMMM DD, YYYY [at] hh:mm A'),
       userRole: post.role ? this.isNotUserRole(post.role) : this.isNotUserRole(author.role),
       category: post.category,
       categoryLabel: postCategories.find(j => j.value === post.category).label,
-      userActionOnPost: action,
+      userActionOnPost: this.action,
       upvotes: post.upvotes || 0,
       downvotes: post.downvotes || 0,
       comments: post.comments || 0,
@@ -132,13 +135,9 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     };
   }
 
-  private getPostDate(action: UserActionOnPost, post: GetPostDtoEx): string {
-    if (!action || !post) {
-      return;
-    }
-
+  private getPostDate(post: GetPostDtoEx): string {
     let date: Date;
-    switch (action) {
+    switch (this.action) {
       case UserActionOnPost.Posted:
         date = post.createdAt;
         break;
@@ -147,6 +146,9 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
         break;
       case UserActionOnPost.Voted:
         date = post.voteCreated;
+        break;
+      default:
+        date = post.createdAt;
         break;
     }
 
