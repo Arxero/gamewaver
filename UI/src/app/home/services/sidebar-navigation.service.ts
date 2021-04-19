@@ -2,7 +2,7 @@ import { SidebarNavigation } from './../../sidebar/sidebar-view.models';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class SidebarNavigationService {
   private _sidebarNavigation: SidebarNavigation;
   private _sidebarNavigationSubject = new Subject<SidebarNavigation>();

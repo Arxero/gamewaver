@@ -34,6 +34,6 @@ import { CommentsService } from './services/comments.service';
     AddItemModule,
   ],
   exports: [CommentComponent, PostComponent],
-  providers: [PostsService, CommentsService, SidebarNavigationService],
+  providers: [PostsService, CommentsService],
 })
 export class HomeModule {}

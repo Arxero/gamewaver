@@ -40,6 +40,5 @@ import { SidebarNavigationService } from '../home/services/sidebar-navigation.se
     RecaptchaModule,
     RecaptchaFormsModule,
   ],
-  providers: [SidebarNavigationService],
 })
 export class SharedModule {}
