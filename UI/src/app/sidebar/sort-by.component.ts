@@ -1,26 +1,12 @@
-import { homeStateSidebarNavigation } from './../store/home/home.selectors';
 import { BaseComponent } from './../shared/base.component';
-import { SidebarNavigation } from './../store/home/home.actions';
-import { HomeState } from './../store/home/home.reducer';
-import { Store, select } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import {
-  SortTime,
-  SidebarNavigationType,
-  SortSidebarItem,
-  SortType,
-} from './sidebar-view.models';
-import {
-  Component,
-  OnInit,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { SortTime, SidebarNavigation, SortSidebarItem, SortType } from './sidebar-view.models';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { SidebarHelperService } from './sidebar-helper.service';
 import { takeUntil, filter } from 'rxjs/operators';
 import { TypedChange } from '../shared/models/common';
+import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
 
 interface SortByComponentChanges extends SimpleChanges {
   sortType: TypedChange<SortType>;
@@ -32,8 +18,7 @@ interface SortByComponentChanges extends SimpleChanges {
   templateUrl: './sort-by.component.html',
   styleUrls: ['./sort-by.component.scss'],
 })
-export class SortByComponent extends BaseComponent
-  implements OnInit, OnChanges {
+export class SortByComponent extends BaseComponent implements OnInit, OnChanges {
   items: SortSidebarItem[];
   sort: SortSidebarItem;
 
@@ -41,38 +26,29 @@ export class SortByComponent extends BaseComponent
   @Input() time: SortTime;
 
   selectedTime = new FormControl(this.time);
-  sortTime: SortTime[] = [
-    SortTime.Days1,
-    SortTime.Days7,
-    SortTime.Days30,
-    SortTime.All,
-  ];
+  sortTime: SortTime[] = [SortTime.Days1, SortTime.Days7, SortTime.Days30, SortTime.All];
 
   constructor(
     private router: Router,
-    private store: Store<HomeState>,
     private sidebarHelper: SidebarHelperService,
+    private sidebarNavigation: SidebarNavigationService,
   ) {
     super();
     this.items = sidebarHelper.sorts;
     this.sort = this.items[0];
-
-    store
+    this.sidebarNavigation.navigation$
       .pipe(
         takeUntil(this.destroyed$),
-        select(homeStateSidebarNavigation),
-        filter(x => !!x && x !== SidebarNavigationType.Sort),
+        filter(x => x !== SidebarNavigation.Sort),
       )
       .subscribe(() => {
         this.selectedTime.setValue(SortTime.All);
         this.items.map(x => (x.class = ''));
       });
 
-    this.sidebarHelper.postNavigated$
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(() => {
-        this.items = sidebarHelper.sorts;
-      });
+    this.sidebarHelper.postNavigated$.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      this.items = sidebarHelper.sorts;
+    });
   }
 
   ngOnChanges(changes: SortByComponentChanges): void {
@@ -101,18 +77,14 @@ export class SortByComponent extends BaseComponent
   }
 
   navigateSorting(isTime?: boolean) {
-    this.store.dispatch(
-      new SidebarNavigation({ sidebarNavigation: SidebarNavigationType.Sort }),
-    );
+    this.sidebarNavigation.navigation = SidebarNavigation.Sort;
 
     if (!isTime) {
       return;
     }
 
     this.router.navigateByUrl(
-      `?sort=${this.sort.url}${
-        this.sidebarHelper.sortTimeMap[this.selectedTime.value]
-      }`,
+      `?sort=${this.sort.url}${this.sidebarHelper.sortTimeMap[this.selectedTime.value]}`,
     );
   }
 }

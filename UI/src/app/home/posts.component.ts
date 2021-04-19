@@ -1,25 +1,12 @@
-import { SidebarNavigationType } from '../sidebar/sidebar-view.models';
-import {
-  homeStateSidebarNavigation,
-  homeScrollPosition,
-} from '../store/home/home.selectors';
+import { SidebarNavigation } from '../sidebar/sidebar-view.models';
+import { homeStateSidebarNavigation, homeScrollPosition } from '../store/home/home.selectors';
 import { EnvironmentService } from '../services/environment.service';
-import {
-  dateSort,
-  PagedData,
-} from '../shared/models/common';
-import {
-  Component,
-  AfterViewInit,
-  OnInit,
-} from '@angular/core';
+import { dateSort, PagedData } from '../shared/models/common';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { BaseComponent } from '../shared/base.component';
 import { HomeState } from '../store/home/home.reducer';
 import { Store, select } from '@ngrx/store';
-import {
-  GetPostsAction,
-  ClearPostsAction,
-} from '../store/home/home.actions';
+import { GetPostsAction, ClearPostsAction } from '../store/home/home.actions';
 import { takeUntil, filter } from 'rxjs/operators';
 import { homeStatePosts } from '../store/home/home.selectors';
 import { User } from '../users/user';
@@ -29,8 +16,9 @@ import { QueryRequest, QueryParams } from '../shared/models/query-request';
 import { PostContext, PostViewModel } from './models/home-view-model';
 import { AddItem } from '../add-item/add-item.models';
 import { ViewportScroller } from '@angular/common';
-import { PostsService } from './posts.service';
+import { PostsService } from './services/posts.service';
 import { Observable } from 'rxjs';
+import { SidebarNavigationService } from './services/sidebar-navigation.service';
 
 @Component({
   selector: 'app-posts',
@@ -47,13 +35,14 @@ export class PostsComponent extends BaseComponent implements OnInit, AfterViewIn
     maxLength: 5000,
   };
 
-  sidebarNavigationType: SidebarNavigationType;
+  private sidebarNavigationType: SidebarNavigation;
 
   constructor(
     private store: Store<HomeState>,
     private route: ActivatedRoute,
     private viewportScroller: ViewportScroller,
-    private postsService: PostsService
+    private postsService: PostsService,
+    private sidebarNavigation: SidebarNavigationService,
   ) {
     super();
     this.route.queryParams.subscribe(params => {
@@ -73,11 +62,9 @@ export class PostsComponent extends BaseComponent implements OnInit, AfterViewIn
     });
     this.posts$ = this.postsService.posts$;
 
-    store
-      .pipe(takeUntil(this.destroyed$), select(homeStateSidebarNavigation))
-      .subscribe(x => {
-        this.sidebarNavigationType = x;
-      });
+    this.sidebarNavigation.navigation$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
+      this.sidebarNavigationType = x;
+    });
   }
 
   ngOnInit(): void {

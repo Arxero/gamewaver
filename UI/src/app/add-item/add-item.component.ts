@@ -1,3 +1,4 @@
+import { CommentsService } from './../home/services/comments.service';
 import { FormattingHelpComponent } from './formatting-help.component';
 import { AddItem } from './add-item.models';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -8,7 +9,6 @@ import { HomeState } from '../store/home/home.reducer';
 import { EditPostAction, CreatePostAction } from '../store/home/home.actions';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { CreatePostCmd, UpdatePostCmd, CreateCommentCmd, UpdateCommentCmd, postCategories } from '../home/models';
-import { CommentsService } from '../home/comments.service';
 
 @Component({
   selector: 'app-add-item',

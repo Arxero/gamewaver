@@ -10,9 +10,7 @@ import {
 import * as moment from 'moment';
 import { Subject, Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SidebarHelperService {
   get sorts(): SortSidebarItem[] {
     return this.getSortItems();
@@ -52,8 +50,6 @@ export class SidebarHelperService {
     [SortTime.Days30]: this.dateFilterSort(1, 'month'),
     [SortTime.All]: ``,
   };
-
-  constructor() {}
 
   private dateFilterSort(
     amount: moment.DurationInputArg1,

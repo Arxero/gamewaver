@@ -1,4 +1,4 @@
-import { SidebarNavigationType } from '../../sidebar/sidebar-view.models';
+import { SidebarNavigation } from '../../sidebar/sidebar-view.models';
 import { PagedData } from './../../shared/models/common';
 import { VoteType, PostViewModel } from './../../home/models/home-view-model';
 import { HomeActions, HomeActionTypes } from './home.actions';
@@ -8,7 +8,7 @@ export interface HomeState {
   posts: PagedData<PostViewModel>;
   post: PostViewModel;
   isEditSuccessful: boolean;
-  sidebarNavigation: SidebarNavigationType;
+  sidebarNavigation: SidebarNavigation;
   scrollPosition: [number, number];
 }
 
@@ -140,7 +140,7 @@ export function homeReducer(
         post: postToUnvote,
       } as HomeState;
 
-    case HomeActionTypes.SidebarNavigation:
+    case HomeActionTypes.SidebarNavigationAction:
       return {
         ...state,
         sidebarNavigation: action.payload.sidebarNavigation,

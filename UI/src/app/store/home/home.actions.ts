@@ -1,6 +1,6 @@
 import { CreatePostCmd, UpdatePostCmd, CreatePostVoteCmd, GetVoteDto } from './../../home/models/home.models';
 import {
-  SidebarNavigationType,
+  SidebarNavigation,
 } from '../../sidebar/sidebar-view.models';
 import { Sorting, PagedData } from './../../shared/models/common';
 import { Action } from '@ngrx/store';
@@ -31,7 +31,7 @@ export enum HomeActionTypes {
   DeletePostAction = '[DeletePost] Action',
   DeletePostActionSuccess = '[DeletePostSuccess] Action',
 
-  SidebarNavigation = '[SidebarNavigation] Action',
+  SidebarNavigationAction = '[SidebarNavigation] Action',
 
   // VOTES
   CreatePostUpvoteAction = '[CreatePostUpvote] Action',
@@ -118,9 +118,9 @@ export class DeletePostActionSuccess implements Action {
   constructor(public payload: { id: string; postContext?: PostContext }) {}
 }
 
-export class SidebarNavigation implements Action {
-  readonly type = HomeActionTypes.SidebarNavigation;
-  constructor(public payload: { sidebarNavigation: SidebarNavigationType }) {}
+export class SidebarNavigationAction implements Action {
+  readonly type = HomeActionTypes.SidebarNavigationAction;
+  constructor(public payload: { sidebarNavigation: SidebarNavigation }) {}
 }
 
 // CREATE POSTVOTE
@@ -157,7 +157,7 @@ export type HomeActions =
   | EditPostActionSuccess
   | GetPostsAction
   | GetPostsActionSuccess
-  | SidebarNavigation
+  | SidebarNavigationAction
   | ClearPostsAction
   | ClearPostAction
   | DeletePostAction

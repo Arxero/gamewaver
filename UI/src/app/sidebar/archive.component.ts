@@ -1,20 +1,10 @@
 import { TypedChange } from '../shared/models/common';
-import { homeStateSidebarNavigation } from '../store/home/home.selectors';
 import { takeUntil, filter } from 'rxjs/operators';
 import { BaseComponent } from '../shared/base.component';
-import { SidebarNavigation } from '../store/home/home.actions';
 import { SidebarHelperService } from './sidebar-helper.service';
-import { HomeState } from '../store/home/home.reducer';
-import { Store, select } from '@ngrx/store';
-import { Router } from '@angular/router';
-import {
-  Component,
-  OnInit,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
-import { SidebarNavigationType, SidebarItem } from './sidebar-view.models';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { SidebarNavigation, SidebarItem } from './sidebar-view.models';
+import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
 
 interface ArchiveComponentChanges extends SimpleChanges {
   year: TypedChange<string>;
@@ -26,8 +16,7 @@ interface ArchiveComponentChanges extends SimpleChanges {
   templateUrl: './archive.component.html',
   styleUrls: ['./archive.component.scss'],
 })
-export class ArchiveComponent extends BaseComponent
-  implements OnInit, OnChanges {
+export class ArchiveComponent extends BaseComponent implements OnChanges {
   currentYear: string;
   years: SidebarItem[];
   months: SidebarItem[];
@@ -35,32 +24,27 @@ export class ArchiveComponent extends BaseComponent
   @Input() month: SidebarItem;
 
   constructor(
-    private router: Router,
-    private store: Store<HomeState>,
     private sidebarHelper: SidebarHelperService,
+    private sidebarNavigation: SidebarNavigationService,
   ) {
     super();
     this.currentYear = this.sidebarHelper.year;
     this.years = this.sidebarHelper.years;
     this.months = this.sidebarHelper.months;
-
-    store
+    this.sidebarNavigation.navigation$
       .pipe(
         takeUntil(this.destroyed$),
-        select(homeStateSidebarNavigation),
-        filter(x => !!x && x !== SidebarNavigationType.Archive),
+        filter(x => x !== SidebarNavigation.Archive),
       )
       .subscribe(() => {
         this.clearSelection();
       });
 
-    this.sidebarHelper.postNavigated$
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(() => {
-        this.currentYear = this.sidebarHelper.year;
-        this.years = this.sidebarHelper.years;
-        this.months = this.sidebarHelper.months;
-      });
+    this.sidebarHelper.postNavigated$.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      this.currentYear = this.sidebarHelper.year;
+      this.years = this.sidebarHelper.years;
+      this.months = this.sidebarHelper.months;
+    });
   }
 
   ngOnChanges(changes: ArchiveComponentChanges): void {
@@ -82,16 +66,10 @@ export class ArchiveComponent extends BaseComponent
     }
   }
 
-  ngOnInit(): void {}
-
   onNavigate(item: SidebarItem) {
     this.clearSelection();
     item.class = item.class + ' selected';
-    this.store.dispatch(
-      new SidebarNavigation({
-        sidebarNavigation: SidebarNavigationType.Archive,
-      }),
-    );
+    this.sidebarNavigation.navigation = SidebarNavigation.Archive;
   }
 
   private clearSelection(): void {

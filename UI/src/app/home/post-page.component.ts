@@ -11,7 +11,7 @@ import { GetPostAction } from '../store/home/home.actions';
 import { PostContext, PostPageState, CommentViewModel, PostViewModel } from './models/home-view-model';
 import { DataFilter, PagedData } from '../shared/models/common';
 import { UserViewModel } from '../users/user-view-models';
-import { CommentsService } from './comments.service';
+import { CommentsService } from './services/comments.service';
 
 @Component({
   selector: 'app-post-page',

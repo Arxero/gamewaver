@@ -37,7 +37,7 @@ export enum SortUrl {
   Commented = 'commented',
 }
 
-export enum SidebarNavigationType {
+export enum SidebarNavigation {
   Search = 'search',
   Sort = 'sort',
   Category = 'category',

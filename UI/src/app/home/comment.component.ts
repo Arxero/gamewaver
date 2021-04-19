@@ -3,7 +3,7 @@ import { BaseComponent } from '../shared/base.component';
 import { usersProfileFullRoute } from '../users/users.routing';
 import { User, UserRole } from '../users/user';
 import { PostContext, CommentViewModel } from './models/home-view-model';
-import { CommentsService } from './comments.service';
+import { CommentsService } from './services/comments.service';
 
 @Component({
   selector: 'app-comment',

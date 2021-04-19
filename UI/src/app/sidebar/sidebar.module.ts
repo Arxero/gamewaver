@@ -8,6 +8,7 @@ import { SearchComponent } from './search.component';
 import { SortByComponent } from './sort-by.component';
 import { CategoryComponent } from './category.component';
 import { ArchiveComponent } from './archive.component';
+import { SidebarHelperService } from './sidebar-helper.service';
 
 @NgModule({
   declarations: [
@@ -25,5 +26,6 @@ import { ArchiveComponent } from './archive.component';
     FormsModule,
   ],
   exports: [SidebarComponent],
+  providers: [SidebarHelperService]
 })
 export class SidebarModule {}

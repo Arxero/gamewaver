@@ -9,16 +9,11 @@ import { TimeAgoPipe } from '../pipes/time-ago.pipe';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MarkdownModule } from 'ngx-markdown';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
-import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
-
-
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    MenuComponent,
-    TimeAgoPipe,
-  ],
+  declarations: [HeaderComponent, MenuComponent, TimeAgoPipe],
   imports: [
     CommonModule,
     MaterialModule,
@@ -45,6 +40,6 @@ import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
     RecaptchaModule,
     RecaptchaFormsModule,
   ],
-
+  providers: [SidebarNavigationService],
 })
 export class SharedModule {}

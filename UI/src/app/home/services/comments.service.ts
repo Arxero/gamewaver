@@ -1,14 +1,15 @@
+import { SnackbarService } from './../../services/snackbar.service';
+import { UsersApiService } from './../../services/users.api.service';
+import { CommentsApiService } from './../../services/comments.api.service';
+import { LoadingService } from './../../services/loading.service';
+import { CommentViewModel } from './../models/home-view-model';
 import { Injectable } from '@angular/core';
-import { CommentsApiService } from '../services/comments.api.service';
-import { LoadingService } from '../services/loading.service';
-import { UsersApiService } from '../services/users.api.service';
-import { PagedData, Sorting, SortDirection, Paging, DataFilter, SearchType } from '../shared/models/common';
-import { CommentViewModel, GetCommentDto, CreateCommentCmd, UpdateCommentCmd } from './models';
 import { Subject, Observable } from 'rxjs';
-import { User, UserRole } from '../users/user';
 import * as moment from 'moment';
-import { EnvironmentService } from '../services/environment.service';
-import { SnackbarService } from '../services/snackbar.service';
+import { PagedData, Sorting, SortDirection, DataFilter, SearchType, Paging } from '../../shared/models/common';
+import { User, UserRole } from '../../users/user';
+import { CreateCommentCmd, UpdateCommentCmd, GetCommentDto } from '../models/home.models';
+import { EnvironmentService } from '../../services/environment.service';
 
 @Injectable()
 export class CommentsService {

@@ -1,8 +1,8 @@
-import { BaseComponent } from './../shared/base.component';
+import { BaseComponent } from '../../shared/base.component';
 import { Injectable, OnDestroy } from '@angular/core';
-import { PostsApiService } from '../services/posts.api.service';
+import { PostsApiService } from '../../services/posts.api.service';
 import { Subject, Observable } from 'rxjs';
-import { PagedData } from '../shared/models/common';
+import { PagedData } from '../../shared/models/common';
 import {
   PostViewModel,
   PostCmd,
@@ -11,20 +11,20 @@ import {
   VoteType,
   UserActionOnPost,
   postCategories,
-} from './models';
-import { SidebarNavigationType } from '../sidebar/sidebar-view.models';
-import { AuthState } from '../store/auth/auth.reducer';
+} from '../models';
+import { SidebarNavigation } from '../../sidebar/sidebar-view.models';
+import { AuthState } from '../../store/auth/auth.reducer';
 import { Store, select } from '@ngrx/store';
-import { UserViewModel } from '../users/user-view-models';
+import { UserViewModel } from '../../users/user-view-models';
 import { withLatestFrom, take, takeUntil } from 'rxjs/operators';
-import { userProfile } from '../store/auth/auth.selectors';
-import { EnvironmentService } from '../services/environment.service';
-import { LoadingService } from '../services/loading.service';
-import { SnackbarService } from '../services/snackbar.service';
-import { BaseService } from '../shared/models/base.service';
-import { VotesService } from '../services/votes.service';
-import { AuthService } from '../services/auth.service';
-import { User, UserRole } from '../users/user';
+import { userProfile } from '../../store/auth/auth.selectors';
+import { EnvironmentService } from '../../services/environment.service';
+import { LoadingService } from '../../services/loading.service';
+import { SnackbarService } from '../../services/snackbar.service';
+import { BaseService } from '../../shared/models/base.service';
+import { VotesService } from '../../services/votes.service';
+import { AuthService } from '../../services/auth.service';
+import { User, UserRole } from '../../users/user';
 import * as moment from 'moment';
 
 @Injectable()
@@ -33,7 +33,6 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
   private _posts: PostViewModel[] = [];
   private _total: number;
   private _post: PostViewModel;
-  private _sidebarNavigation: SidebarNavigationType;
   private _user: UserViewModel;
   private _noMorePosts: boolean;
 
