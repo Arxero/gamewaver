@@ -1,7 +1,7 @@
 import { BaseComponent } from '../../shared/base.component';
 import { Injectable, OnDestroy } from '@angular/core';
 import { PostsApiService } from '../../services/posts.api.service';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { PagedData } from '../../shared/models/common';
 import {
   PostViewModel,
@@ -26,10 +26,11 @@ import { VotesService } from '../../services/votes.service';
 import { AuthService } from '../../services/auth.service';
 import { User, UserRole } from '../../users/user';
 import * as moment from 'moment';
+import { cloneDeep } from 'lodash';
 
 @Injectable()
 export class PostsService extends BaseService<PostCmd> implements OnDestroy {
-  private _postsSubject = new Subject<PagedData<PostViewModel>>();
+  private _postsSubject = new BehaviorSubject<PagedData<PostViewModel>>(null);
   private _posts: PostViewModel[] = [];
   private _total: number;
   private _post: PostViewModel;
@@ -42,6 +43,10 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
 
   get posts$(): Observable<PagedData<PostViewModel>> {
     return this._postsSubject.asObservable();
+  }
+
+  get isPosts(): boolean {
+    return this._posts.length > 0;
   }
 
   constructor(
@@ -103,7 +108,6 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     this.paging.skip = 0;
     this._total = null;
   }
-
 
   private async getUserVotes(posts: GetPostDtoEx[]): Promise<GetVoteDto[]> {
     if (!this.authService.isLoggedIn()) {

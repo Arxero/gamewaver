@@ -2,7 +2,7 @@ import { SidebarNavigation } from '../sidebar/sidebar-view.models';
 import { homeStateSidebarNavigation, homeScrollPosition } from '../store/home/home.selectors';
 import { EnvironmentService } from '../services/environment.service';
 import { dateSort, PagedData } from '../shared/models/common';
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, ChangeDetectorRef } from '@angular/core';
 import { BaseComponent } from '../shared/base.component';
 import { HomeState } from '../store/home/home.reducer';
 import { Store, select } from '@ngrx/store';
@@ -24,8 +24,9 @@ import { SidebarNavigationService } from './services/sidebar-navigation.service'
   selector: 'app-posts',
   templateUrl: './posts.component.html',
 })
-export class PostsComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class PostsComponent extends BaseComponent implements AfterViewInit {
   posts$: Observable<PagedData<PostViewModel>>;
+  posts: PagedData<PostViewModel>;
   user: User;
   queryRequest: QueryRequest;
   postContext = PostContext;
@@ -43,6 +44,7 @@ export class PostsComponent extends BaseComponent implements OnInit, AfterViewIn
     private viewportScroller: ViewportScroller,
     private postsService: PostsService,
     private sidebarNavigation: SidebarNavigationService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {
     super();
     this.route.queryParams.subscribe(params => {
@@ -52,6 +54,9 @@ export class PostsComponent extends BaseComponent implements OnInit, AfterViewIn
 
       if (this.sidebarNavigationType || this.queryRequest.fromPost) {
         this.postsService.clear();
+      }
+
+      if (!this.postsService.isPosts) {
         this.postsService.getMany();
       }
     });
@@ -67,9 +72,6 @@ export class PostsComponent extends BaseComponent implements OnInit, AfterViewIn
     });
   }
 
-  ngOnInit(): void {
-    this.postsService.getMany();
-  }
 
   ngAfterViewInit(): void {
     this.store
