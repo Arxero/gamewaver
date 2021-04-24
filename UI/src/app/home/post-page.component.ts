@@ -1,18 +1,16 @@
-import { EnvironmentService } from '../services/environment.service';
 import { AddItem } from '../add-item/add-item.models';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { HomeState } from '../store/home/home.reducer';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '../shared/base.component';
 import { takeUntil, filter } from 'rxjs/operators';
-import { homeStatePost, homeStateisEditSuccessful } from '../store/home/home.selectors';
-import { GetPostAction } from '../store/home/home.actions';
+import { homeStateisEditSuccessful } from '../store/home/home.selectors';
 import { PostContext, PostPageState, CommentViewModel, PostViewModel } from './models/home-view-model';
-import { DataFilter, PagedData } from '../shared/models/common';
+import { PagedData } from '../shared/models/common';
 import { UserViewModel } from '../users/user-view-models';
 import { CommentsService } from './services/comments.service';
 import { PostsService } from './services/posts.service';
+import { AuthState } from '../store/auth/auth.reducer';
 
 @Component({
   selector: 'app-post-page',
@@ -42,7 +40,7 @@ export class PostPageComponent extends BaseComponent implements OnInit, OnDestro
   editItemComment: AddItem;
 
   constructor(
-    private store: Store<HomeState>,
+    store: Store<AuthState>,
     private route: ActivatedRoute,
     private commentsService: CommentsService,
     private postsService: PostsService,

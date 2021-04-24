@@ -9,7 +9,6 @@ import {
   SaveScrollPositionAction,
 } from '../store/home/home.actions';
 import { Store } from '@ngrx/store';
-import { HomeState } from '../store/home/home.reducer';
 import { UserRole, User } from '../users/user';
 import { PostContext, VoteType, PostViewModel } from './models/home-view-model';
 import { Router } from '@angular/router';
@@ -17,6 +16,8 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { SnackbarService } from '../services/snackbar.service';
 import { ViewportScroller } from '@angular/common';
 import { CreatePostVoteCmd } from './models/home.models';
+import { ScrollPositionService } from './services/scroll-position.service';
+import { AuthState } from '../store/auth/auth.reducer';
 
 @Component({
   selector: 'app-post',
@@ -50,11 +51,12 @@ export class PostComponent implements OnInit {
   }
 
   constructor(
-    private store: Store<HomeState>,
+    private store: Store<AuthState>,
     private router: Router,
     private clipboard: Clipboard,
     private snackbarService: SnackbarService,
     private viewportScroller: ViewportScroller,
+    private scrollPositionService: ScrollPositionService
   ) {}
 
   ngOnInit(): void {
@@ -88,8 +90,7 @@ export class PostComponent implements OnInit {
   }
 
   onPostLink() {
-    this.store.dispatch(new SaveScrollPositionAction({ data: this.viewportScroller.getScrollPosition()}));
-    this.store.dispatch(new SetPostPagePost({ data: this.post }));
+    this.scrollPositionService.scrollPosition = this.viewportScroller.getScrollPosition();
   }
 
   onVote(voteType: VoteType) {

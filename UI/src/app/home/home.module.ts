@@ -1,3 +1,4 @@
+import { ScrollPositionService } from './services/scroll-position.service';
 import { SidebarNavigationService } from './services/sidebar-navigation.service';
 import { PostsService } from './services/posts.service';
 import { AddItemModule } from './../add-item/add-item.module';
@@ -34,6 +35,6 @@ import { CommentsService } from './services/comments.service';
     AddItemModule,
   ],
   exports: [CommentComponent, PostComponent],
-  providers: [PostsService, CommentsService],
+  providers: [PostsService, CommentsService, ScrollPositionService],
 })
 export class HomeModule {}
