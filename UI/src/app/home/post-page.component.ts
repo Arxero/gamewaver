@@ -12,6 +12,7 @@ import { PostContext, PostPageState, CommentViewModel, PostViewModel } from './m
 import { DataFilter, PagedData } from '../shared/models/common';
 import { UserViewModel } from '../users/user-view-models';
 import { CommentsService } from './services/comments.service';
+import { PostsService } from './services/posts.service';
 
 @Component({
   selector: 'app-post-page',
@@ -43,8 +44,8 @@ export class PostPageComponent extends BaseComponent implements OnInit, OnDestro
   constructor(
     private store: Store<HomeState>,
     private route: ActivatedRoute,
-    private environmentService: EnvironmentService,
     private commentsService: CommentsService,
+    private postsService: PostsService,
   ) {
     super();
     this.postId = this.route.snapshot.params.id;
@@ -54,19 +55,12 @@ export class PostPageComponent extends BaseComponent implements OnInit, OnDestro
 
     this.commentsService.postId = this.postId;
     this.commentsService.user = this.user;
-
-    store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(homeStatePost),
-        filter(x => !!x),
-      )
-      .subscribe(x => {
-        this.post = x;
-        this.editItemPost.id = x.id;
-        this.editItemPost.content = x.content;
-        this.editItemPost.category = x.category;
-      });
+    this.postsService.post$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
+      this.post = x;
+      this.editItemPost.id = x.id;
+      this.editItemPost.content = x.content;
+      this.editItemPost.category = x.category;
+    });
 
     store
       .pipe(
@@ -85,7 +79,7 @@ export class PostPageComponent extends BaseComponent implements OnInit, OnDestro
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetPostAction({ id: this.postId }));
+    this.postsService.getOne(this.postId);
     this.commentsService.load();
   }
 

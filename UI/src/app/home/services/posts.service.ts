@@ -1,3 +1,4 @@
+import { UsersApiService } from './../../services/users.api.service';
 import { BaseComponent } from '../../shared/base.component';
 import { Injectable, OnDestroy } from '@angular/core';
 import { PostsApiService } from '../../services/posts.api.service';
@@ -11,6 +12,7 @@ import {
   VoteType,
   UserActionOnPost,
   postCategories,
+  GetPostDto,
 } from '../models';
 import { SidebarNavigation } from '../../sidebar/sidebar-view.models';
 import { AuthState } from '../../store/auth/auth.reducer';
@@ -31,6 +33,7 @@ import { cloneDeep } from 'lodash';
 @Injectable()
 export class PostsService extends BaseService<PostCmd> implements OnDestroy {
   private _postsSubject = new BehaviorSubject<PagedData<PostViewModel>>(null);
+  private _postSubject = new Subject<PostViewModel>();
   private _posts: PostViewModel[] = [];
   private _total: number;
   private _post: PostViewModel;
@@ -38,11 +41,14 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
   private _noMorePosts: boolean;
 
   isEditSuccessful: boolean;
-  scrollPosition: [number, number];
   action: UserActionOnPost;
 
   get posts$(): Observable<PagedData<PostViewModel>> {
     return this._postsSubject.asObservable();
+  }
+
+  get post$(): Observable<PostViewModel> {
+    return this._postSubject.asObservable();
   }
 
   get isPosts(): boolean {
@@ -57,6 +63,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     private snackbarService: SnackbarService,
     private votesService: VotesService,
     private authService: AuthService,
+    private usersApiService: UsersApiService,
   ) {
     super(environmentService);
     this.store.pipe(takeUntil(this.destroyed$), select(userProfile)).subscribe(x => {
@@ -86,6 +93,27 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     }
   }
 
+  async getOne(id: string): Promise<void> {
+    const foundPost = this._posts.find(x => x.id === id);
+    if (foundPost) {
+      this._postSubject.next(foundPost);
+      return;
+    }
+
+    try {
+      this.loadingService.setUILoading();
+      const post = (await this.postsApiService.findOne(id)).result;
+      const author = (await this.usersApiService.findOne(post.authorId)).result;
+      const votes = await this.getUserVotes([post]);
+      const mappedPost = this.mapPost(post as GetPostDtoEx, votes, author);
+      this._postSubject.next(mappedPost);
+    } catch ({error}) {
+      this.snackbarService.showWarn('Get Post Failed ' + error.message);
+    } finally {
+      this.loadingService.setUILoading(false);
+    }
+  }
+
   create(cmd: PostCmd): Promise<void> {
     throw new Error('Method not implemented.');
   }
@@ -98,10 +126,6 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     throw new Error('Method not implemented.');
   }
 
-  getOne(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-
   clear(): void {
     this._posts = [];
     this._noMorePosts = false;
@@ -109,7 +133,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     this._total = null;
   }
 
-  private async getUserVotes(posts: GetPostDtoEx[]): Promise<GetVoteDto[]> {
+  private async getUserVotes(posts: GetPostDto[]): Promise<GetVoteDto[]> {
     if (!this.authService.isLoggedIn()) {
       return;
     }
