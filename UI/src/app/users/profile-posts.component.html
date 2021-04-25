@@ -1,4 +1,4 @@
-<div infiniteScroll (scrolled)="onScrollDown()" *ngIf="posts">
+<div infiniteScroll (scrolled)="onScrollDown()" *ngIf="posts$ | async as posts">
   <ng-container *ngFor="let item of posts.items">
     <app-post
       [post]="item"
