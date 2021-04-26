@@ -1,16 +1,13 @@
 import { AddItem } from '../add-item/add-item.models';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '../shared/base.component';
-import { takeUntil, filter } from 'rxjs/operators';
-import { homeStateisEditSuccessful } from '../store/home/home.selectors';
+import { takeUntil } from 'rxjs/operators';
 import { PostContext, PostPageState, CommentViewModel, PostViewModel } from './models/home-view-model';
 import { PagedData } from '../shared/models/common';
 import { UserViewModel } from '../users/user-view-models';
 import { CommentsService } from './services/comments.service';
 import { PostsService } from './services/posts.service';
-import { AuthState } from '../store/auth/auth.reducer';
 
 @Component({
   selector: 'app-post-page',
@@ -40,7 +37,6 @@ export class PostPageComponent extends BaseComponent implements OnInit, OnDestro
   editItemComment: AddItem;
 
   constructor(
-    store: Store<AuthState>,
     private route: ActivatedRoute,
     private commentsService: CommentsService,
     private postsService: PostsService,
@@ -58,18 +54,9 @@ export class PostPageComponent extends BaseComponent implements OnInit, OnDestro
       this.editItemPost.id = x.id;
       this.editItemPost.content = x.content;
       this.editItemPost.category = x.category;
+      this.pageState = PostPageState.Default;
+      this.editItemComment = this.mapEditItem();
     });
-
-    store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(homeStateisEditSuccessful),
-        filter(x => !!x),
-      )
-      .subscribe(() => {
-        this.pageState = PostPageState.Default;
-        this.editItemComment = this.mapEditItem();
-      });
 
     commentsService.comments$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
       this.comments = x;

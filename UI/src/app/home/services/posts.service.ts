@@ -120,6 +120,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       const mappedPost = this.mapPost(post as GetPostDtoEx, [], this._user);
       this._posts.unshift(mappedPost);
       this._postsSubject.next({ items: this._posts, total: this._total++ });
+      this.snackbarService.showInfo('Post Added Successfully');
     } catch ({error}) {
       this.snackbarService.showWarn('Create Post Failed ' + error.message);
     } finally {
@@ -127,8 +128,21 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     }
   }
 
-  edit(cmd: PostCmd, id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async edit(cmd: PostCmd, id: string): Promise<void> {
+    try {
+      this.loadingService.setUILoading();
+      const post = (await this.postsApiService.update(id, cmd)).result;
+      const mappedPost = this.mapPost(post as GetPostDtoEx, [], this._user);
+      const i = this._posts.findIndex(x => x.id === id);
+      this._posts.splice(i, 1, mappedPost);
+      this._postSubject.next(mappedPost);
+      this._postsSubject.next({ items: this._posts, total: this._total });
+      this.snackbarService.showInfo('Post Edited Successfully');
+    } catch ({error}) {
+      this.snackbarService.showWarn('Edit Post Failed ' + error.message);
+    } finally {
+      this.loadingService.setUILoading(false);
+    }
   }
 
   delete(id: string): Promise<void> {

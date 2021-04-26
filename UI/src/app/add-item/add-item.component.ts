@@ -4,9 +4,6 @@ import { AddItem } from './add-item.models';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
-import { HomeState } from '../store/home/home.reducer';
-import { EditPostAction } from '../store/home/home.actions';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { CommentCmd, postCategories, PostCmd } from '../home/models';
 import { PostsService } from '../home/services/posts.service';
@@ -36,7 +33,6 @@ export class AddItemComponent implements OnInit {
   }
   constructor(
     public dialog: MatDialog,
-    private store: Store<HomeState>,
     private commentsService: CommentsService,
     private postsService: PostsService,
   ) {}
@@ -77,9 +73,7 @@ export class AddItemComponent implements OnInit {
     };
 
     if (this.addItem.isPost) {
-      this.addItem.id
-        ? this.store.dispatch(new EditPostAction({ cmd: postCmd, id: this.addItem.id }))
-        : this.postsService.create(postCmd);
+      this.addItem.id ? this.postsService.edit(postCmd, this.addItem.id) : this.postsService.create(postCmd);
     } else {
       this.addItem.id
         ? this.commentsService.edit(commentCmd, this.addItem.id)
