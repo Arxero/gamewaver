@@ -3,7 +3,7 @@ import { HttpClientService } from './http-client.service';
 import { IResponse } from '../shared/models/response';
 import { DataFilter, Sorting, PagedData, Paging } from '../shared/models/common';
 import { HttpParams } from '@angular/common/http';
-import { CreateCommentCmd, GetCommentDto, GetCommentsCountDto, UpdateCommentCmd } from '../home/models/home.models';
+import { CommentCmd, GetCommentDto, GetCommentsCountDto } from '../home/models/home.models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class CommentsApiService {
     @Inject('IHttpClientService') private httpClient: HttpClientService,
   ) {}
 
-  create(cmd: CreateCommentCmd, postId: string): Promise<IResponse<GetCommentDto>> {
+  create(cmd: CommentCmd, postId: string): Promise<IResponse<GetCommentDto>> {
     return this.httpClient.post<IResponse<GetCommentDto>>(`${this.BASE_URL}/${postId}`, cmd);
   }
 
@@ -48,7 +48,7 @@ export class CommentsApiService {
     return this.httpClient.delete<IResponse<GetCommentDto>>(`${this.BASE_URL}/${id}`);
   }
 
-  update(id: string, cmd: UpdateCommentCmd): Promise<IResponse<GetCommentDto>> {
+  update(id: string, cmd: CommentCmd): Promise<IResponse<GetCommentDto>> {
     return this.httpClient.put<IResponse<GetCommentDto>>(`${this.BASE_URL}/${id}`, cmd);
   }
 }

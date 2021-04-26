@@ -9,7 +9,7 @@ import {
   Paging,
 } from '../shared/models/common';
 import { HttpParams } from '@angular/common/http';
-import { GetPostDto, CreatePostCmd, UpdatePostCmd, GetPostDtoEx } from '../home/models/home.models';
+import { GetPostDto, PostCmd, GetPostDtoEx } from '../home/models/home.models';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class PostsApiService {
     @Inject('IHttpClientService') private httpClient: HttpClientService,
   ) {}
 
-  create(cmd: CreatePostCmd): Promise<IResponse<GetPostDto>> {
+  create(cmd: PostCmd): Promise<IResponse<GetPostDto>> {
     return this.httpClient.post<IResponse<GetPostDto>>(`${this.BASE_URL}`, cmd);
   }
 
@@ -54,7 +54,7 @@ export class PostsApiService {
     return this.httpClient.delete<IResponse<GetPostDto>>(`${this.BASE_URL}/${id}`);
   }
 
-  update(id: string, cmd: UpdatePostCmd): Promise<IResponse<GetPostDto>> {
+  update(id: string, cmd: PostCmd): Promise<IResponse<GetPostDto>> {
     return this.httpClient.put<IResponse<GetPostDto>>(`${this.BASE_URL}/${id}`, cmd);
   }
 

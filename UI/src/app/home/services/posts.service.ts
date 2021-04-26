@@ -36,7 +36,6 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
   private _postSubject = new Subject<PostViewModel>();
   private _posts: PostViewModel[] = [];
   private _total: number;
-  private _post: PostViewModel;
   private _user: UserViewModel;
   private _noMorePosts: boolean;
 
@@ -114,8 +113,18 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     }
   }
 
-  create(cmd: PostCmd): Promise<void> {
-    throw new Error('Method not implemented.');
+  async create(cmd: PostCmd): Promise<void> {
+    try {
+      this.loadingService.setUILoading();
+      const post = (await this.postsApiService.create(cmd)).result;
+      const mappedPost = this.mapPost(post as GetPostDtoEx, [], this._user);
+      this._posts.unshift(mappedPost);
+      this._postsSubject.next({ items: this._posts, total: this._total++ });
+    } catch ({error}) {
+      this.snackbarService.showWarn('Create Post Failed ' + error.message);
+    } finally {
+      this.loadingService.setUILoading(false);
+    }
   }
 
   edit(cmd: PostCmd, id: string): Promise<void> {

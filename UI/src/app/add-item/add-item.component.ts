@@ -6,9 +6,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { HomeState } from '../store/home/home.reducer';
-import { EditPostAction, CreatePostAction } from '../store/home/home.actions';
+import { EditPostAction } from '../store/home/home.actions';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
-import { CreatePostCmd, UpdatePostCmd, CreateCommentCmd, UpdateCommentCmd, postCategories } from '../home/models';
+import { CommentCmd, postCategories, PostCmd } from '../home/models';
+import { PostsService } from '../home/services/posts.service';
 
 @Component({
   selector: 'app-add-item',
@@ -36,7 +37,9 @@ export class AddItemComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private store: Store<HomeState>,
-    private commentsService: CommentsService) {}
+    private commentsService: CommentsService,
+    private postsService: PostsService,
+  ) {}
 
   ngOnInit(): void {
     this.createItemForm();
@@ -64,31 +67,23 @@ export class AddItemComponent implements OnInit {
   }
 
   onSubmit() {
-    const createCmd: CreatePostCmd = {
-      content: this.content.value,
-      category: this.category.value,
-    };
-    const updateCmd: UpdatePostCmd = {
+    const postCmd: PostCmd = {
       content: this.content.value,
       category: this.category.value,
     };
 
-    const cmdCreate: CreateCommentCmd = {
-      content: this.content.value,
-    };
-
-    const cmdUpdate: UpdateCommentCmd = {
+    const commentCmd: CommentCmd = {
       content: this.content.value,
     };
 
     if (this.addItem.isPost) {
       this.addItem.id
-        ? this.store.dispatch(new EditPostAction({ cmd: updateCmd, id: this.addItem.id }))
-        : this.store.dispatch(new CreatePostAction({ cmd: createCmd }));
+        ? this.store.dispatch(new EditPostAction({ cmd: postCmd, id: this.addItem.id }))
+        : this.postsService.create(postCmd);
     } else {
       this.addItem.id
-        ? this.commentsService.edit(cmdUpdate, this.addItem.id)
-        : this.commentsService.create(cmdCreate);
+        ? this.commentsService.edit(commentCmd, this.addItem.id)
+        : this.commentsService.create(commentCmd);
     }
 
     this.itemForm.reset();

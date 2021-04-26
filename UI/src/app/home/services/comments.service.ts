@@ -8,7 +8,7 @@ import { Subject, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { PagedData, Sorting, SortDirection, DataFilter, SearchType, Paging } from '../../shared/models/common';
 import { User, UserRole } from '../../users/user';
-import { CreateCommentCmd, UpdateCommentCmd, GetCommentDto } from '../models/home.models';
+import { CommentCmd, GetCommentDto } from '../models/home.models';
 import { EnvironmentService } from '../../services/environment.service';
 
 @Injectable()
@@ -91,7 +91,7 @@ export class CommentsService {
     }
   }
 
-  async create(cmd: CreateCommentCmd): Promise<void> {
+  async create(cmd: CommentCmd): Promise<void> {
     try {
       this.loadingService.setUILoading();
       const comment = (await this.commentsApiService.create(cmd, this.postId)).result;
@@ -106,7 +106,7 @@ export class CommentsService {
     }
   }
 
-  async edit(cmd: UpdateCommentCmd, id: string): Promise<void> {
+  async edit(cmd: CommentCmd, id: string): Promise<void> {
     try {
       this.loadingService.setUILoading();
       const comment = (await this.commentsApiService.update(id, cmd)).result;

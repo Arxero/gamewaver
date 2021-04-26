@@ -1,4 +1,4 @@
-import { CreatePostCmd, UpdatePostCmd, CreatePostVoteCmd, GetVoteDto } from './../../home/models/home.models';
+import { CreatePostVoteCmd, GetVoteDto, PostCmd } from './../../home/models/home.models';
 import {
   SidebarNavigation,
 } from '../../sidebar/sidebar-view.models';
@@ -46,7 +46,7 @@ export enum HomeActionTypes {
 // CREATE POST
 export class CreatePostAction implements Action {
   readonly type = HomeActionTypes.CreatePostAction;
-  constructor(public payload: { cmd: CreatePostCmd }) {}
+  constructor(public payload: { cmd: PostCmd }) {}
 }
 
 export class CreatePostActionSuccess implements Action {
@@ -57,7 +57,7 @@ export class CreatePostActionSuccess implements Action {
 // EDIT POST
 export class EditPostAction implements Action {
   readonly type = HomeActionTypes.EditPostAction;
-  constructor(public payload: { cmd: UpdatePostCmd; id: string }) {}
+  constructor(public payload: { cmd: PostCmd; id: string }) {}
 }
 
 export class EditPostActionSuccess implements Action {

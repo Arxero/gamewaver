@@ -8,27 +8,13 @@ export interface PostCmd {
   category: PostCategory;
 }
 
-export interface CreateCommentCmd {
+export interface CommentCmd {
   content: string;
-}
-
-export interface CreatePostCmd {
-  content: string;
-  category: PostCategory;
 }
 
 export interface CreatePostVoteCmd {
   postId: string;
   type: VoteType;
-}
-
-export interface UpdateCommentCmd {
-  content: string;
-}
-
-export interface UpdatePostCmd {
-  content: string;
-  category: PostCategory;
 }
 
 export interface GetCommentDto extends DataEntity {
@@ -66,11 +52,3 @@ export interface GetPostDtoEx extends GetPostDto {
   commentAuthor: string;
   commentCreated: Date;
 }
-
-
-
-
-
-
-
-
