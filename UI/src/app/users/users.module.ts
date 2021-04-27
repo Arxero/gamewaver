@@ -23,6 +23,6 @@ import { PostsService } from '../home/services/posts.service';
     MarkdownModule.forChild(),
     HomeModule
   ],
-  providers: [UsersService, PostsService]
+  providers: [UsersService]
 })
 export class UsersModule { }

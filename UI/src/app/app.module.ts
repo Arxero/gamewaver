@@ -21,14 +21,11 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { HomeEffects } from './store/home/home.effects';
 import { NotFoundComponent } from './not-found.component';
 import { UsersService } from './users/users.service';
-
+import { PostsService } from './home/services/posts.service';
+import { HomeModule } from './home/home.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NotFoundComponent,
-    GotoTopComponent,
-  ],
+  declarations: [AppComponent, NotFoundComponent, GotoTopComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -36,7 +33,7 @@ import { UsersService } from './users/users.service';
     HttpClientModule,
     SharedModule,
     MarkdownModule.forRoot({
-      sanitize: SecurityContext.NONE
+      sanitize: SecurityContext.NONE,
     }),
 
     // NGRX
@@ -44,22 +41,20 @@ import { UsersService } from './users/users.service';
       metaReducers,
       runtimeChecks: {
         strictStateImmutability: true,
-        strictActionImmutability: true
-      }
+        strictActionImmutability: true,
+      },
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-    EffectsModule.forFeature([
-      AuthEffects,
-      HomeEffects,
-    ]),
+    EffectsModule.forFeature([AuthEffects, HomeEffects]),
+    HomeModule.forRoot(),
   ],
   providers: [
-    { provide: 'IHttpClientService', useClass: HttpClientService},
+    { provide: 'IHttpClientService', useClass: HttpClientService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    UsersService
+    UsersService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

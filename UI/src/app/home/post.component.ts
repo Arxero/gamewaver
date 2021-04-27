@@ -18,6 +18,7 @@ import { ViewportScroller } from '@angular/common';
 import { CreatePostVoteCmd } from './models/home.models';
 import { ScrollPositionService } from './services/scroll-position.service';
 import { AuthState } from '../store/auth/auth.reducer';
+import { PostsService } from './services/posts.service';
 
 @Component({
   selector: 'app-post',
@@ -34,15 +35,10 @@ export class PostComponent implements OnInit {
     [PostContext.ProfilePage]: '../../../../post',
   };
 
-  get voteType() {
-    return VoteType;
-  }
-
+  voteType = VoteType;
   userActionOnPost: string;
   canEditOrDelete: boolean;
-  get postContexts() {
-    return PostContext;
-  }
+  postContexts = PostContext;
 
   get userProfileRoute(): string {
     return this.postContext === PostContext.PostPage
@@ -56,7 +52,8 @@ export class PostComponent implements OnInit {
     private clipboard: Clipboard,
     private snackbarService: SnackbarService,
     private viewportScroller: ViewportScroller,
-    private scrollPositionService: ScrollPositionService
+    private scrollPositionService: ScrollPositionService,
+    private postsService: PostsService,
   ) {}
 
   ngOnInit(): void {
@@ -75,9 +72,8 @@ export class PostComponent implements OnInit {
   }
 
   onDelete() {
-    this.store.dispatch(
-      new DeletePostAction({ id: this.post.id, postContext: this.postContext }),
-    );
+    this.postsService.postContext = this.postContext;
+    this.postsService.delete(this.post.id);
   }
 
   navigate() {

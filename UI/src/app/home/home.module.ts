@@ -6,7 +6,7 @@ import { CommentComponent } from './comment.component';
 import { EmojiComponent } from '../add-item/emoji.component';
 import { FormattingHelpComponent } from '../add-item/formatting-help.component';
 import { SidebarModule } from './../sidebar/sidebar.module';
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { MarkdownModule } from 'ngx-markdown';
@@ -19,13 +19,7 @@ import { PostComponent } from './post.component';
 import { CommentsService } from './services/comments.service';
 
 @NgModule({
-  declarations: [
-    HomeComponent,
-    PostPageComponent,
-    PostsComponent,
-    CommentComponent,
-    PostComponent,
-  ],
+  declarations: [HomeComponent, PostPageComponent, PostsComponent, CommentComponent, PostComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -35,6 +29,13 @@ import { CommentsService } from './services/comments.service';
     AddItemModule,
   ],
   exports: [CommentComponent, PostComponent],
-  providers: [PostsService, CommentsService, ScrollPositionService],
+  providers: [CommentsService, ScrollPositionService],
 })
-export class HomeModule {}
+export class HomeModule {
+  static forRoot(): ModuleWithProviders<HomeModule> {
+    return {
+      ngModule: HomeModule,
+      providers: [PostsService],
+    };
+  }
+}

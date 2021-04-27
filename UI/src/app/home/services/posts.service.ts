@@ -13,6 +13,7 @@ import {
   UserActionOnPost,
   postCategories,
   GetPostDto,
+  PostContext,
 } from '../models';
 import { SidebarNavigation } from '../../sidebar/sidebar-view.models';
 import { AuthState } from '../../store/auth/auth.reducer';
@@ -29,6 +30,7 @@ import { AuthService } from '../../services/auth.service';
 import { User, UserRole } from '../../users/user';
 import * as moment from 'moment';
 import { cloneDeep } from 'lodash';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class PostsService extends BaseService<PostCmd> implements OnDestroy {
@@ -39,7 +41,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
   private _user: UserViewModel;
   private _noMorePosts: boolean;
 
-  isEditSuccessful: boolean;
+  postContext: PostContext
   action: UserActionOnPost;
 
   get posts$(): Observable<PagedData<PostViewModel>> {
@@ -63,6 +65,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     private votesService: VotesService,
     private authService: AuthService,
     private usersApiService: UsersApiService,
+    private router: Router,
   ) {
     super(environmentService);
     this.store.pipe(takeUntil(this.destroyed$), select(userProfile)).subscribe(x => {
@@ -106,7 +109,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       const votes = await this.getUserVotes([post]);
       const mappedPost = this.mapPost(post as GetPostDtoEx, votes, author);
       this._postSubject.next(mappedPost);
-    } catch ({error}) {
+    } catch ({ error }) {
       this.snackbarService.showWarn('Get Post Failed ' + error.message);
     } finally {
       this.loadingService.setUILoading(false);
@@ -121,7 +124,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       this._posts.unshift(mappedPost);
       this._postsSubject.next({ items: this._posts, total: this._total++ });
       this.snackbarService.showInfo('Post Added Successfully');
-    } catch ({error}) {
+    } catch ({ error }) {
       this.snackbarService.showWarn('Create Post Failed ' + error.message);
     } finally {
       this.loadingService.setUILoading(false);
@@ -138,15 +141,30 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       this._postSubject.next(mappedPost);
       this._postsSubject.next({ items: this._posts, total: this._total });
       this.snackbarService.showInfo('Post Edited Successfully');
-    } catch ({error}) {
+    } catch ({ error }) {
       this.snackbarService.showWarn('Edit Post Failed ' + error.message);
     } finally {
       this.loadingService.setUILoading(false);
     }
   }
 
-  delete(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async delete(id: string): Promise<void> {
+    try {
+      this.loadingService.setUILoading();
+      await this.postsApiService.delete(id);
+      const i = this._posts.findIndex(x => x.id === id);
+      this._posts.splice(i, 1);
+      this._postsSubject.next({ items: this._posts, total: this._total-- });
+      this.snackbarService.showInfo('Post Deleted Successfully');
+
+      if (this.postContext === PostContext.PostPage) {
+        this.router.navigateByUrl('/');
+      }
+    } catch ({ error }) {
+      this.snackbarService.showWarn('Delete Post Failed ' + error.message);
+    } finally {
+      this.loadingService.setUILoading(false);
+    }
   }
 
   clear(): void {
