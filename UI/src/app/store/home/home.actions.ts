@@ -1,4 +1,4 @@
-import { CreatePostVoteCmd, GetVoteDto, PostCmd } from './../../home/models/home.models';
+import { PostVoteCmd, GetVoteDto, PostCmd } from './../../home/models/home.models';
 import {
   SidebarNavigation,
 } from '../../sidebar/sidebar-view.models';
@@ -126,7 +126,7 @@ export class SidebarNavigationAction implements Action {
 // CREATE POSTVOTE
 export class CreatePostUpvoteAction implements Action {
   readonly type = HomeActionTypes.CreatePostUpvoteAction;
-  constructor(public payload: { cmd: CreatePostVoteCmd }) {}
+  constructor(public payload: { cmd: PostVoteCmd }) {}
 }
 
 export class CreatePostUpvoteActionSuccess implements Action {

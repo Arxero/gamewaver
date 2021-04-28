@@ -1,5 +1,4 @@
 import { UsersApiService } from './../../services/users.api.service';
-import { BaseComponent } from '../../shared/base.component';
 import { Injectable, OnDestroy } from '@angular/core';
 import { PostsApiService } from '../../services/posts.api.service';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
@@ -9,27 +8,25 @@ import {
   PostCmd,
   GetVoteDto,
   GetPostDtoEx,
-  VoteType,
   UserActionOnPost,
   postCategories,
   GetPostDto,
   PostContext,
+  VoteType,
 } from '../models';
-import { SidebarNavigation } from '../../sidebar/sidebar-view.models';
 import { AuthState } from '../../store/auth/auth.reducer';
 import { Store, select } from '@ngrx/store';
 import { UserViewModel } from '../../users/user-view-models';
-import { withLatestFrom, take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { userProfile } from '../../store/auth/auth.selectors';
 import { EnvironmentService } from '../../services/environment.service';
 import { LoadingService } from '../../services/loading.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { BaseService } from '../../shared/models/base.service';
-import { VotesService } from '../../services/votes.service';
+import { VotesApiService } from '../../services/votes.api.service';
 import { AuthService } from '../../services/auth.service';
 import { User, UserRole } from '../../users/user';
 import * as moment from 'moment';
-import { cloneDeep } from 'lodash';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -41,7 +38,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
   private _user: UserViewModel;
   private _noMorePosts: boolean;
 
-  postContext: PostContext
+  postContext: PostContext;
   action: UserActionOnPost;
 
   get posts$(): Observable<PagedData<PostViewModel>> {
@@ -62,7 +59,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     private loadingService: LoadingService,
     environmentService: EnvironmentService,
     private snackbarService: SnackbarService,
-    private votesService: VotesService,
+    private votesService: VotesApiService,
     private authService: AuthService,
     private usersApiService: UsersApiService,
     private router: Router,
@@ -172,6 +169,28 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     this._noMorePosts = false;
     this.paging.skip = 0;
     this._total = null;
+    this.action = null;
+  }
+
+  updateVote(vote: GetVoteDto, isDelete?: boolean): void {
+    const post = this._posts.find(x => x.id === vote.postId);
+
+    if (!post) {
+      return;
+    }
+
+    if (vote.type === VoteType.Upvote && !isDelete) {
+      post.upvotes++;
+    } else if (vote.type === VoteType.DownVote && !isDelete) {
+      post.downvotes++;
+    } else if (vote.type === VoteType.Upvote && isDelete) {
+      post.upvotes--;
+    } else if (vote.type === VoteType.DownVote && isDelete) {
+      post.downvotes--;
+    }
+
+    post.vote = isDelete ? null : vote;
+    this._postsSubject.next({ items: this._posts, total: this._total });
   }
 
   private async getUserVotes(posts: GetPostDto[]): Promise<GetVoteDto[]> {

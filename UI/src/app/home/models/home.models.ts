@@ -12,7 +12,7 @@ export interface CommentCmd {
   content: string;
 }
 
-export interface CreatePostVoteCmd {
+export interface PostVoteCmd {
   postId: string;
   type: VoteType;
 }

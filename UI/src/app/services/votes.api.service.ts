@@ -1,19 +1,19 @@
-import { CreatePostVoteCmd, GetVoteDto } from './../home/models/home.models';
-import { IResponse } from './../shared/models/response';
+import { PostVoteCmd, GetVoteDto } from '../home/models/home.models';
+import { IResponse } from '../shared/models/response';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class VotesService {
+export class VotesApiService {
   BASE_URL = `votes`;
 
   constructor(
     @Inject('IHttpClientService') private httpClient: HttpClientService,
   ) {}
 
-  create(cmd: CreatePostVoteCmd): Promise<IResponse<GetVoteDto>> {
+  create(cmd: PostVoteCmd): Promise<IResponse<GetVoteDto>> {
     return this.httpClient.post<IResponse<GetVoteDto>>(`${this.BASE_URL}`, cmd);
   }
 

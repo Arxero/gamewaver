@@ -1,24 +1,16 @@
 import { loginFullRoute } from '../auth/auth.routing';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { usersProfileFullRoute } from '../users/users.routing';
-import {
-  DeletePostAction,
-  SetPostPagePost,
-  DeletePostUpvoteAction,
-  CreatePostUpvoteAction,
-  SaveScrollPositionAction,
-} from '../store/home/home.actions';
-import { Store } from '@ngrx/store';
 import { UserRole, User } from '../users/user';
 import { PostContext, VoteType, PostViewModel } from './models/home-view-model';
 import { Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { SnackbarService } from '../services/snackbar.service';
 import { ViewportScroller } from '@angular/common';
-import { CreatePostVoteCmd } from './models/home.models';
+import { PostVoteCmd } from './models/home.models';
 import { ScrollPositionService } from './services/scroll-position.service';
-import { AuthState } from '../store/auth/auth.reducer';
 import { PostsService } from './services/posts.service';
+import { VotesService } from './services/votes.service';
 
 @Component({
   selector: 'app-post',
@@ -47,13 +39,13 @@ export class PostComponent implements OnInit {
   }
 
   constructor(
-    private store: Store<AuthState>,
     private router: Router,
     private clipboard: Clipboard,
     private snackbarService: SnackbarService,
     private viewportScroller: ViewportScroller,
     private scrollPositionService: ScrollPositionService,
     private postsService: PostsService,
+    private votesService: VotesService
   ) {}
 
   ngOnInit(): void {
@@ -94,20 +86,20 @@ export class PostComponent implements OnInit {
       return this.router.navigateByUrl(loginFullRoute());
     }
 
-    const cmd: CreatePostVoteCmd = {
+    const cmd: PostVoteCmd = {
       postId: this.post.id,
       type: voteType,
     };
 
-    switch (this.post.vote.type) {
+    switch (this.post.vote?.type) {
       // user already have vote and clicks to remove it
       case VoteType.Upvote:
       case VoteType.DownVote:
-        this.store.dispatch(new DeletePostUpvoteAction({ id: this.post.vote.id }));
+        this.votesService.delete(this.post.vote.id);
         break;
 
       default:
-        this.store.dispatch(new CreatePostUpvoteAction({ cmd }));
+        this.votesService.create(cmd);
         break;
     }
   }

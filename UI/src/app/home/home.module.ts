@@ -1,6 +1,7 @@
 import { ScrollPositionService } from './services/scroll-position.service';
 import { SidebarNavigationService } from './services/sidebar-navigation.service';
 import { PostsService } from './services/posts.service';
+import { VotesService } from './services/votes.service';
 import { AddItemModule } from './../add-item/add-item.module';
 import { CommentComponent } from './comment.component';
 import { EmojiComponent } from '../add-item/emoji.component';
@@ -35,7 +36,7 @@ export class HomeModule {
   static forRoot(): ModuleWithProviders<HomeModule> {
     return {
       ngModule: HomeModule,
-      providers: [PostsService],
+      providers: [PostsService, VotesService],
     };
   }
 }

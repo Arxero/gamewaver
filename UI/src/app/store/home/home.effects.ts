@@ -1,7 +1,7 @@
 import { GetPostDtoEx, GetPostDto } from './../../home/models/home.models';
 import { homeStatePosts } from './home.selectors';
 import { AuthService } from './../../services/auth.service';
-import { VotesService } from './../../services/votes.service';
+import { VotesApiService } from '../../services/votes.api.service';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { tap, withLatestFrom } from 'rxjs/operators';
@@ -53,7 +53,7 @@ export class HomeEffects {
     private usersApiService: UsersApiService,
     private commentsService: CommentsApiService,
     private loadingService: LoadingService,
-    private votesService: VotesService,
+    private votesService: VotesApiService,
     private authService: AuthService,
     private router: Router,
   ) {}

@@ -34,5 +34,4 @@ export abstract class BaseService<T> extends BaseComponent {
   abstract async create(cmd: T): Promise<void>;
   abstract async edit(cmd: T, id: string): Promise<void>;
   abstract async delete(id: string): Promise<void>;
-  abstract clear(): void;
 }
