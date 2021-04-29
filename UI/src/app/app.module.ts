@@ -1,7 +1,6 @@
 import { GotoTopComponent } from './goto-top.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, SecurityContext } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
@@ -12,16 +11,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { AuthEffects } from './store/auth/auth.effects';
 import { reducers, metaReducers } from './store/app.state';
-import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app.routing';
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClientService } from './services/http-client.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { HomeEffects } from './store/home/home.effects';
 import { NotFoundComponent } from './not-found.component';
 import { UsersService } from './users/users.service';
-import { PostsService } from './home/services/posts.service';
 import { HomeModule } from './home/home.module';
 
 @NgModule({
@@ -47,7 +43,7 @@ import { HomeModule } from './home/home.module';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-    EffectsModule.forFeature([AuthEffects, HomeEffects]),
+    EffectsModule.forFeature([AuthEffects]),
     HomeModule.forRoot(),
   ],
   providers: [

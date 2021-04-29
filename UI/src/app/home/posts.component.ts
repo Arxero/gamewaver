@@ -1,5 +1,4 @@
 import { SidebarNavigation } from '../sidebar/sidebar-view.models';
-import { homeScrollPosition } from '../store/home/home.selectors';
 import { PagedData } from '../shared/models/common';
 import { Component, AfterViewInit } from '@angular/core';
 import { BaseComponent } from '../shared/base.component';

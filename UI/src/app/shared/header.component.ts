@@ -1,8 +1,5 @@
 import { SidebarNavigation } from '../sidebar/sidebar-view.models';
-import { SidebarNavigationAction } from '../store/home/home.actions';
-import { HomeState } from '../store/home/home.reducer';
-import { Store } from '@ngrx/store';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { LoadingService } from '../services/loading.service';
 import { timer, Observable } from 'rxjs';

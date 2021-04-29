@@ -1,7 +1,6 @@
 import { CommentViewModel } from './models/home-view-model';
 import { userProfile } from '../store/auth/auth.selectors';
 import { DataFilter } from '../shared/models/common';
-import { HomeState } from '../store/home/home.reducer';
 import { Injectable } from '@angular/core';
 import {
   Resolve,
@@ -12,6 +11,7 @@ import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { UserViewModel } from 'src/app/users/user-view-models';
+import { AuthState } from '../store/auth/auth.reducer';
 
 export interface IPostPage {
   commentsFilters: DataFilter[];
@@ -24,7 +24,7 @@ export interface IPostPage {
 })
 export class PostPageResolver implements Resolve<UserViewModel> {
   constructor(
-    private store: Store<HomeState>,
+    private store: Store<AuthState>,
   ) {}
 
   resolve(
