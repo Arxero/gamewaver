@@ -30,7 +30,7 @@
     "@ngrx/store": "^9.2.0",
     "@ngrx/store-devtools": "^9.2.0",
     "lodash": "^4.17.19",
-    "marked": "^1.1.0",
+    "marked": "^1.2.9",
     "moment": "^2.26.0",
     "ng-recaptcha": "^5.0.0",
     "ngx-infinite-scroll": "^9.0.0",
