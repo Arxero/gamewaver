@@ -6,7 +6,7 @@ import { CommentViewModel } from './../models/home-view-model';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import * as moment from 'moment';
-import { PagedData, Sorting, SortDirection, DataFilter, SearchType, Paging } from '../../shared/models/common';
+import { PagedData, DataFilter, SearchType } from '../../shared/models/common';
 import { User, UserRole } from '../../users/user';
 import { CommentCmd, GetCommentDto } from '../models/home.models';
 import { EnvironmentService } from '../../services/environment.service';

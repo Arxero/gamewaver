@@ -1,4 +1,4 @@
-import { BaseComponent } from './../shared/base.component';
+import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { SortTime, SidebarNavigation, SortSidebarItem, SortType } from './sidebar-view.models';
@@ -18,7 +18,7 @@ interface SortByComponentChanges extends SimpleChanges {
   templateUrl: './sort-by.component.html',
   styleUrls: ['./sort-by.component.scss'],
 })
-export class SortByComponent extends BaseComponent implements OnInit, OnChanges {
+export class SortByComponent extends OnDestroyCleanup implements OnInit, OnChanges {
   items: SortSidebarItem[];
   sort: SortSidebarItem;
 

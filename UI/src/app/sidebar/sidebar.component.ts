@@ -1,5 +1,5 @@
 import { QueryRequest, QueryParams } from './../shared/models/query-request';
-import { BaseComponent } from './../shared/base.component';
+import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { SidebarSelectedItem } from './sidebar-view.models';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
@@ -12,7 +12,7 @@ import { filter } from 'rxjs/operators';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent extends BaseComponent {
+export class SidebarComponent extends OnDestroyCleanup {
   selectedItem: SidebarSelectedItem;
 
   constructor(

@@ -1,7 +1,7 @@
 import { SidebarNavigation } from '../sidebar/sidebar-view.models';
 import { PagedData } from '../shared/models/common';
 import { Component, AfterViewInit } from '@angular/core';
-import { BaseComponent } from '../shared/base.component';
+import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { Store, select } from '@ngrx/store';
 import { takeUntil, filter } from 'rxjs/operators';
 import { User } from '../users/user';
@@ -21,7 +21,7 @@ import { ScrollPositionService } from './services/scroll-position.service';
   selector: 'app-posts',
   templateUrl: './posts.component.html',
 })
-export class PostsComponent extends BaseComponent implements AfterViewInit {
+export class PostsComponent extends OnDestroyCleanup implements AfterViewInit {
   posts$: Observable<PagedData<PostViewModel>>;
   posts: PagedData<PostViewModel>;
   user: User;

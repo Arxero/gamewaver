@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BaseComponent } from '../shared/base.component';
+import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { usersProfileFullRoute } from '../users/users.routing';
 import { User, UserRole } from '../users/user';
 import { PostContext, CommentViewModel } from './models/home-view-model';
@@ -10,7 +10,7 @@ import { CommentsService } from './services/comments.service';
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss'],
 })
-export class CommentComponent extends BaseComponent implements OnInit {
+export class CommentComponent extends OnDestroyCleanup implements OnInit {
   @Input() comment: CommentViewModel;
   @Input() user: User;
   @Input() postContext: PostContext;

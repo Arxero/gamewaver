@@ -1,5 +1,5 @@
 import { PostCategory } from '../home/models/post-category';
-import { BaseComponent } from '../shared/base.component';
+import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { SidebarNavigation } from './sidebar-view.models';
 import { SidebarHelperService } from './sidebar-helper.service';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
@@ -12,7 +12,7 @@ import { SidebarNavigationService } from '../home/services/sidebar-navigation.se
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
 })
-export class CategoryComponent extends BaseComponent implements OnChanges {
+export class CategoryComponent extends OnDestroyCleanup implements OnChanges {
   items: CategorySidebarItem[];
   @Input() category: PostCategory;
 

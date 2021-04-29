@@ -3,7 +3,7 @@ import {
   SortDirection,
 } from '../shared/models/common';
 import { Component, OnInit } from '@angular/core';
-import { BaseComponent } from '../shared/base.component';
+import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { User } from './user';
 import { Store, select } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
@@ -24,7 +24,7 @@ export interface UrlProfileData {
   selector: 'app-profile-posts',
   templateUrl: './profile-posts.component.html',
 })
-export class ProfilePostsComponent extends BaseComponent implements OnInit {
+export class ProfilePostsComponent extends OnDestroyCleanup implements OnInit {
   user$: Observable<User>;
   postContext = PostContext;
   posts$: Observable<PagedData<PostViewModel>>;

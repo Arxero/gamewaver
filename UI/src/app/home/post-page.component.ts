@@ -1,7 +1,7 @@
 import { AddItem } from '../add-item/add-item.models';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BaseComponent } from '../shared/base.component';
+import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { takeUntil } from 'rxjs/operators';
 import { PostContext, PostPageState, CommentViewModel, PostViewModel } from './models/home-view-model';
 import { PagedData } from '../shared/models/common';
@@ -13,7 +13,7 @@ import { PostsService } from './services/posts.service';
   selector: 'app-post-page',
   templateUrl: './post-page.component.html',
 })
-export class PostPageComponent extends BaseComponent implements OnInit, OnDestroy {
+export class PostPageComponent extends OnDestroyCleanup implements OnInit, OnDestroy {
   post: PostViewModel;
   user: UserViewModel;
   postId: string;

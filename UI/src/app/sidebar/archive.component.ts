@@ -1,6 +1,6 @@
 import { TypedChange } from '../shared/models/common';
 import { takeUntil, filter } from 'rxjs/operators';
-import { BaseComponent } from '../shared/base.component';
+import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { SidebarHelperService } from './sidebar-helper.service';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { SidebarNavigation, SidebarItem } from './sidebar-view.models';
@@ -16,7 +16,7 @@ interface ArchiveComponentChanges extends SimpleChanges {
   templateUrl: './archive.component.html',
   styleUrls: ['./archive.component.scss'],
 })
-export class ArchiveComponent extends BaseComponent implements OnChanges {
+export class ArchiveComponent extends OnDestroyCleanup implements OnChanges {
   currentYear: string;
   years: SidebarItem[];
   months: SidebarItem[];

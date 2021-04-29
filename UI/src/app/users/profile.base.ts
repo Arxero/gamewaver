@@ -2,13 +2,13 @@ import { UsersService } from './users.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthState } from './../store/auth/auth.reducer';
 import { Store, select } from '@ngrx/store';
-import { BaseComponent } from './../shared/base.component';
+import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { takeUntil, filter } from 'rxjs/operators';
 import { userProfile } from '../store/auth/auth.selectors';
 import { UserViewModel } from './user-view-models';
 import { UserRole } from './user';
 
-export class ProfileBase extends BaseComponent {
+export class ProfileBase extends OnDestroyCleanup {
   user: UserViewModel;
   private userId: string;
   private loggedInUser: UserViewModel;

@@ -5,14 +5,14 @@ import {
 } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { BaseComponent } from '../shared/base.component';
+import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent extends BaseComponent implements OnInit {
+export class HomeComponent extends OnDestroyCleanup implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
   opened = true;
   mode = 'side';

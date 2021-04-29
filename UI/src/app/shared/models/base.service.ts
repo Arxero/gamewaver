@@ -1,8 +1,8 @@
 import { EnvironmentService } from './../../services/environment.service';
-import { BaseComponent } from './../base.component';
+import { OnDestroyCleanup } from '../on-destory-cleanup';
 import { SortDirection, Sorting, DataFilter, SearchType, Paging } from './common';
 
-export abstract class BaseService<T> extends BaseComponent {
+export abstract class BaseService<T> extends OnDestroyCleanup {
   public sort: Sorting[] = [
     {
       propertyName: 'createdAt',

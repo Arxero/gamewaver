@@ -1,4 +1,4 @@
-import { BaseComponent } from './shared/base.component';
+import { OnDestroyCleanup } from './shared/on-destory-cleanup';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AuthService } from './services/auth.service';
@@ -15,7 +15,7 @@ import { MenuItems } from './shared/menu.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent  extends BaseComponent implements OnInit {
+export class AppComponent  extends OnDestroyCleanup implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
   get menuItems() {
     return MenuItems;

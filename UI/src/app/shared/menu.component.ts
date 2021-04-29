@@ -2,7 +2,7 @@ import { aboutRoute } from '../about/about.routing';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../auth/login.component';
-import { BaseComponent } from './base.component';
+import { OnDestroyCleanup } from './on-destory-cleanup';
 import { Store, select } from '@ngrx/store';
 import { AuthState } from '../store/auth/auth.reducer';
 import { takeUntil, filter } from 'rxjs/operators';
@@ -35,7 +35,7 @@ export const MenuItems: Menu[] = [
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent extends BaseComponent {
+export class MenuComponent extends OnDestroyCleanup {
   get menuItems() { return MenuItems; }
   isLoggedIn: boolean;
   user: User;
