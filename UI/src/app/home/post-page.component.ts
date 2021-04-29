@@ -65,7 +65,7 @@ export class PostPageComponent extends BaseComponent implements OnInit, OnDestro
 
   ngOnInit(): void {
     this.postsService.getOne(this.postId);
-    this.commentsService.load();
+    this.commentsService.getMany();
   }
 
   onEditPost() {
@@ -102,7 +102,7 @@ export class PostPageComponent extends BaseComponent implements OnInit, OnDestro
       return;
     }
 
-    this.commentsService.load();
+    this.commentsService.getMany();
   }
 
   onDestroy() {

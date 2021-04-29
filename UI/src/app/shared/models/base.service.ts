@@ -1,6 +1,4 @@
-import { SnackbarService } from './../../services/snackbar.service';
 import { EnvironmentService } from './../../services/environment.service';
-import { LoadingService } from './../../services/loading.service';
 import { BaseComponent } from './../base.component';
 import { SortDirection, Sorting, DataFilter, SearchType, Paging } from './common';
 

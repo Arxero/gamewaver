@@ -10,9 +10,10 @@ import { PagedData, Sorting, SortDirection, DataFilter, SearchType, Paging } fro
 import { User, UserRole } from '../../users/user';
 import { CommentCmd, GetCommentDto } from '../models/home.models';
 import { EnvironmentService } from '../../services/environment.service';
+import { BaseService } from 'src/app/shared/models/base.service';
 
 @Injectable()
-export class CommentsService {
+export class CommentsService extends BaseService<CommentCmd> {
   private _commentsSubject = new Subject<PagedData<CommentViewModel>>();
   private _comments: CommentViewModel[] = [];
   private _total: number;
@@ -34,37 +35,17 @@ export class CommentsService {
     return this._postId;
   }
 
-  private sort: Sorting[] = [
-    {
-      propertyName: 'createdAt',
-      sort: SortDirection.DESC,
-    },
-  ];
-
-  private filter: DataFilter[] = [
-    {
-      fieldName: 'post',
-      searchOperator: SearchType.In,
-      searchValue: null,
-    },
-  ];
-
-  private paging: Paging = {
-    skip: 0,
-    take: 10,
-  };
-
   constructor(
     private commentsApiService: CommentsApiService,
     private loadingService: LoadingService,
     private usersApiService: UsersApiService,
-    private environmentService: EnvironmentService,
+    environmentService: EnvironmentService,
     private snackbarService: SnackbarService,
   ) {
-    this.paging.take = environmentService.take;
+    super(environmentService);
   }
 
-  async load(): Promise<void> {
+  async getMany(): Promise<void> {
     if (this._noMoreComments) {
       return;
     }
