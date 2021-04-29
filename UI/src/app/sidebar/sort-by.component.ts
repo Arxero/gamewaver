@@ -25,7 +25,7 @@ export class SortByComponent extends OnDestroyCleanup implements OnInit, OnChang
   @Input() sortType: SortType;
   @Input() time: SortTime;
 
-  selectedTime = new FormControl(this.time);
+  selectedTime = new FormControl();
   sortTime: SortTime[] = [SortTime.Days1, SortTime.Days7, SortTime.Days30, SortTime.All];
 
   constructor(

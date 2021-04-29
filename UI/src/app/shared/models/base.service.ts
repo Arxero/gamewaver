@@ -28,8 +28,8 @@ export abstract class BaseService<T> extends OnDestroyCleanup {
     this.paging.take = this.environmentService.take;
   }
 
-  abstract async getMany(): Promise<void>;
-  abstract async create(cmd: T): Promise<void>;
-  abstract async edit(cmd: T, id: string): Promise<void>;
-  abstract async delete(id: string): Promise<void>;
+  abstract getMany(): Promise<void>;
+  abstract create(cmd: T): Promise<void>;
+  abstract edit(cmd: T, id: string): Promise<void>;
+  abstract delete(id: string): Promise<void>;
 }
