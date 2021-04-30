@@ -6,7 +6,7 @@ import { CommentViewModel } from './../models/home-view-model';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import * as moment from 'moment';
-import { PagedData, DataFilter, SearchType } from '../../shared/models/common';
+import { PagedData, DataFilter, SearchType, SnackbarErrors } from '../../shared/models/common';
 import { User, UserRole } from '../../users/user';
 import { CommentCmd, GetCommentDto } from '../models/home.models';
 import { EnvironmentService } from '../../services/environment.service';
@@ -40,9 +40,9 @@ export class CommentsService extends BaseService<CommentCmd> {
     private loadingService: LoadingService,
     private usersApiService: UsersApiService,
     environmentService: EnvironmentService,
-    private snackbarService: SnackbarService,
+    snackbarService: SnackbarService,
   ) {
-    super(environmentService);
+    super(environmentService, snackbarService);
   }
 
   async getMany(): Promise<void> {
@@ -65,8 +65,8 @@ export class CommentsService extends BaseService<CommentCmd> {
       this._total = comments.total;
       this._noMoreComments = this._comments.length === this._total;
       this._commentsSubject.next({ items: this._comments, total: this._total });
-    } catch ({ error }) {
-      this.snackbarService.showWarn('Get Comments Failed ' + error.message);
+    } catch (error) {
+      this.handleFailure(error, SnackbarErrors.GetComments);
     } finally {
       this.loadingService.setUILoading(false);
     }
@@ -80,8 +80,8 @@ export class CommentsService extends BaseService<CommentCmd> {
       this._comments.unshift(mappedComment);
       this._total++;
       this._commentsSubject.next({ items: this._comments, total: this._total });
-    } catch ({ error }) {
-      this.snackbarService.showWarn('Create Comment Failed ' + error.message);
+    } catch (error) {
+      this.handleFailure(error, SnackbarErrors.CreateComment);
     } finally {
       this.loadingService.setUILoading(false);
     }
@@ -95,8 +95,8 @@ export class CommentsService extends BaseService<CommentCmd> {
       this._comments.splice(this._indexOfEditedComment, 0, mappedComment);
       this._commentsSubject.next({ items: this._comments, total: this._total });
       this.snackbarService.showInfo('Comment Edited Successfully');
-    } catch ({ error }) {
-      this.snackbarService.showWarn('Create Edit Failed ' + error.message);
+    } catch (error) {
+      this.handleFailure(error, SnackbarErrors.EditComment);
     } finally {
       this.loadingService.setUILoading(false);
     }
@@ -122,8 +122,8 @@ export class CommentsService extends BaseService<CommentCmd> {
       this._total--;
       this._commentsSubject.next({ items: this._comments, total: this._total });
       this.snackbarService.showInfo('Comment Deleted Successfully');
-    } catch ({ error }) {
-      this.snackbarService.showWarn('Delete Comment Failed ' + error.message);
+    } catch (error) {
+      this.handleFailure(error, SnackbarErrors.DeleteComment);
     } finally {
       this.loadingService.setUILoading(false);
     }

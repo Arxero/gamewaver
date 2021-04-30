@@ -2,7 +2,7 @@ import { UsersApiService } from './../../services/users.api.service';
 import { Injectable, OnDestroy } from '@angular/core';
 import { PostsApiService } from '../../services/posts.api.service';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
-import { PagedData } from '../../shared/models/common';
+import { PagedData, SnackbarErrors } from '../../shared/models/common';
 import {
   PostViewModel,
   PostCmd,
@@ -58,13 +58,13 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     private postsApiService: PostsApiService,
     private loadingService: LoadingService,
     environmentService: EnvironmentService,
-    private snackbarService: SnackbarService,
+    snackbarService: SnackbarService,
     private votesService: VotesApiService,
     private authService: AuthService,
     private usersApiService: UsersApiService,
     private router: Router,
   ) {
-    super(environmentService);
+    super(environmentService, snackbarService);
     this.store.pipe(takeUntil(this.destroyed$), select(userProfile)).subscribe(x => {
       this._user = x;
     });
@@ -85,8 +85,8 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       this._total = posts.total;
       this._noMorePosts = this._posts.length === this._total;
       this._postsSubject.next({ items: this._posts, total: this._total });
-    } catch ({ error }) {
-      this.snackbarService.showWarn('Get Posts Failed ' + error.message);
+    } catch (error) {
+      this.handleFailure(error, SnackbarErrors.GetPosts);
     } finally {
       this.loadingService.setUILoading(false);
     }
@@ -106,8 +106,8 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       const votes = await this.getUserVotes([post]);
       const mappedPost = this.mapPost(post as GetPostDtoEx, votes, author);
       this._postSubject.next(mappedPost);
-    } catch ({ error }) {
-      this.snackbarService.showWarn('Get Post Failed ' + error.message);
+    } catch (error) {
+      this.handleFailure(error, SnackbarErrors.GetPost);
     } finally {
       this.loadingService.setUILoading(false);
     }
@@ -121,8 +121,8 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       this._posts.unshift(mappedPost);
       this._postsSubject.next({ items: this._posts, total: this._total++ });
       this.snackbarService.showInfo('Post Added Successfully');
-    } catch ({ error }) {
-      this.snackbarService.showWarn('Create Post Failed ' + error.message);
+    } catch (error) {
+      this.handleFailure(error, SnackbarErrors.CreatePost);
     } finally {
       this.loadingService.setUILoading(false);
     }
@@ -138,8 +138,8 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       this._postSubject.next(mappedPost);
       this._postsSubject.next({ items: this._posts, total: this._total });
       this.snackbarService.showInfo('Post Edited Successfully');
-    } catch ({ error }) {
-      this.snackbarService.showWarn('Edit Post Failed ' + error.message);
+    } catch (error) {
+      this.handleFailure(error, SnackbarErrors.EditPost);
     } finally {
       this.loadingService.setUILoading(false);
     }
@@ -157,8 +157,8 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       if (this.postContext === PostContext.PostPage) {
         this.router.navigateByUrl('/');
       }
-    } catch ({ error }) {
-      this.snackbarService.showWarn('Delete Post Failed ' + error.message);
+    } catch (error) {
+      this.handleFailure(error, SnackbarErrors.DeletePost);
     } finally {
       this.loadingService.setUILoading(false);
     }
@@ -218,7 +218,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       upvotes: post.upvotes || 0,
       downvotes: post.downvotes || 0,
       comments: post.comments || 0,
-      vote: votes.find(v => v.postId === post.id),
+      vote: votes?.find(v => v.postId === post.id),
     };
   }
 

@@ -1,6 +1,8 @@
+import { SnackbarService } from './../../services/snackbar.service';
+import { ResponseError } from './response';
 import { EnvironmentService } from './../../services/environment.service';
 import { OnDestroyCleanup } from '../on-destory-cleanup';
-import { SortDirection, Sorting, DataFilter, SearchType, Paging } from './common';
+import { SortDirection, Sorting, DataFilter, SearchType, Paging, SnackbarErrors } from './common';
 
 export abstract class BaseService<T> extends OnDestroyCleanup {
   public sort: Sorting[] = [
@@ -23,7 +25,7 @@ export abstract class BaseService<T> extends OnDestroyCleanup {
     take: 10,
   };
 
-  constructor(private environmentService: EnvironmentService) {
+  constructor(private environmentService: EnvironmentService, protected snackbarService: SnackbarService) {
     super();
     this.paging.take = this.environmentService.take;
   }
@@ -32,4 +34,14 @@ export abstract class BaseService<T> extends OnDestroyCleanup {
   abstract create(cmd: T): Promise<void>;
   abstract edit(cmd: T, id: string): Promise<void>;
   abstract delete(id: string): Promise<void>;
+
+  protected handleFailure(error: string | ResponseError, message: SnackbarErrors): void {
+    if (typeof error === 'string') {
+      this.snackbarService.showWarn(`${message} ${error}`);
+      throw new Error(error);
+    }
+
+    this.snackbarService.showWarn(`${message} ${error.message}`);
+    throw new Error(error.message);
+  }
 }

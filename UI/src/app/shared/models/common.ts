@@ -69,3 +69,19 @@ export interface TypedChange<T> extends SimpleChange {
   previousValue: T;
   currentValue: T;
 }
+
+export enum SnackbarErrors {
+  GetPosts = 'Get Posts Failed',
+  GetPost = 'Get Post Failed',
+  CreatePost = 'Create Post Failed',
+  EditPost = 'Edit Post Failed',
+  DeletePost = 'Delete Post Failed',
+
+  GetComments = 'Get Comments Failed',
+  CreateComment  = 'Create Comment Failed',
+  EditComment = 'Edit Comment Failed',
+  DeleteComment ='Delete Comment Failed',
+
+  CreateVote = 'Create Vote Failed',
+  DeleteVote = 'Delete Vote Failed'
+}
