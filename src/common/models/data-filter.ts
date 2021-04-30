@@ -58,9 +58,7 @@ export class DataFilter {
     switch (searchOperator) {
       case SearchType.Equal:
         const findEqual = Equal(searchValue);
-        this.filterSql = findEqual.toSql(<any>{}, this.fieldName, [
-          `"${findEqual.value}"`,
-        ]);
+        this.filterSql  = `${this.fieldName} = '${searchValue}'`;
         return findEqual;
       case SearchType.Not:
         return Not(searchValue);
@@ -74,19 +72,14 @@ export class DataFilter {
         return LessThanOrEqual(searchValue);
       case SearchType.Like:
         const findLike = Like(`%${searchValue}%`);
-        this.filterSql = findLike.toSql(<any>{}, this.fieldName, [
-          `"${findLike.value}"`,
-        ]);
+        this.filterSql =  `${this.fieldName} LIKE '%${this.searchValue}%'`;
         return findLike;
       case SearchType.Between:
         const [from, to, type] = searchValue.split(',');
         const toPlusDay = new Date(to).setDate(new Date(to).getDate() + 1);
         if (type === 'date') {
           const findBetween = Between(new Date(from), new Date(toPlusDay));
-          this.filterSql = findBetween.toSql(null, this.fieldName, [
-            `"${new Date(from).toJSON()}"`,
-            `"${new Date(toPlusDay).toJSON()}"`,
-          ]);
+          this.filterSql = `${this.fieldName} BETWEEN '${new Date(from).toJSON()}' AND '${new Date(toPlusDay).toJSON()}'`;
           return findBetween;
         }
         return Between(+from, +to);
