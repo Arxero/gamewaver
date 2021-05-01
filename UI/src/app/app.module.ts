@@ -19,6 +19,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { NotFoundComponent } from './not-found.component';
 import { UsersService } from './users/users.service';
 import { HomeModule } from './home/home.module';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent, GotoTopComponent],
@@ -45,6 +46,7 @@ import { HomeModule } from './home/home.module';
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     EffectsModule.forFeature([AuthEffects]),
     HomeModule.forRoot(),
+    AuthModule.forRoot(),
   ],
   providers: [
     { provide: 'IHttpClientService', useClass: HttpClientService },

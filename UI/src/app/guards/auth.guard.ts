@@ -7,7 +7,7 @@ import {
   Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth.service';
+import { AuthApiService } from '../services/auth.api.service';
 import { loginFullRoute } from '../auth/auth.routing';
 import { SnackbarService } from '../services/snackbar.service';
 
@@ -16,7 +16,7 @@ import { SnackbarService } from '../services/snackbar.service';
 })
 export class AuthGuard implements CanActivate {
   constructor(
-    private authService: AuthService,
+    private authService: AuthApiService,
     private router: Router,
     private snackbarService: SnackbarService) {}
 

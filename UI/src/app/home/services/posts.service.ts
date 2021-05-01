@@ -24,7 +24,7 @@ import { LoadingService } from '../../services/loading.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { BaseService } from '../../shared/models/base.service';
 import { VotesApiService } from '../../services/votes.api.service';
-import { AuthService } from '../../services/auth.service';
+import { AuthApiService } from '../../services/auth.api.service';
 import { User, UserRole } from '../../users/user';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
@@ -60,7 +60,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     environmentService: EnvironmentService,
     snackbarService: SnackbarService,
     private votesService: VotesApiService,
-    private authService: AuthService,
+    private authApiService: AuthApiService,
     private usersApiService: UsersApiService,
     private router: Router,
   ) {
@@ -194,7 +194,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
   }
 
   private async getUserVotes(posts: GetPostDto[]): Promise<GetVoteDto[]> {
-    if (!this.authService.isLoggedIn()) {
+    if (!this.authApiService.isLoggedIn()) {
       return;
     }
 

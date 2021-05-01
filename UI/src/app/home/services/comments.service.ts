@@ -102,6 +102,10 @@ export class CommentsService extends BaseService<CommentCmd> {
     }
   }
 
+  getOne(id: string): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+
   startEdit(id: string): void {
     this._indexOfEditedComment = this._comments.findIndex(x => x.id === id);
     this._comments.splice(this._indexOfEditedComment, 1);

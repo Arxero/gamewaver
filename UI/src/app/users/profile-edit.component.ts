@@ -81,6 +81,6 @@ export class ProfileEditComponent extends ProfileBase implements OnInit {
       location: this.location.value,
       summary: this.summary.value,
     };
-    this.usersService.editUser(this.user.id, updateUserCmd, this.isOwnProfile);
+    this.usersService.edit(updateUserCmd, this.user.id, this.isOwnProfile);
   }
 }

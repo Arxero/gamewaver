@@ -1,3 +1,4 @@
+import { BaseService } from 'src/app/shared/models/base.service';
 import { GetUserInfoSuccessAction } from './../store/auth/auth.actions';
 import { Subject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -10,10 +11,11 @@ import * as moment from 'moment';
 import { AuthState } from '../store/auth/auth.reducer';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { usersProfileFullRoute } from './users.routing';
+import { EnvironmentService } from '../services/environment.service';
+import { SnackbarErrors } from '../shared/models/common';
 
 @Injectable()
-export class UsersService {
+export class UsersService extends BaseService<UpdateUserCmd> {
   private _userSubject = new Subject<UserViewModel>();
   private _user: UserViewModel;
 
@@ -24,25 +26,29 @@ export class UsersService {
   constructor(
     private usersApiService: UsersApiService,
     private loadingService: LoadingService,
-    private snackbarService: SnackbarService,
     private store: Store<AuthState>,
-    private router: Router
-  ) {}
+    private router: Router,
+    environmentService: EnvironmentService,
+    snackbarService: SnackbarService,
+  ) {
+    super(environmentService, snackbarService)
+  }
 
-  async loadUser(id: string): Promise<void> {
+  async getOne(id: string): Promise<void> {
     try {
       this.loadingService.setUILoading();
       const user = (await this.usersApiService.findOne(id)).result;
       this._user = this.mapUser(user);
       this._userSubject.next(this._user);
-    } catch ({ error }) {
+    } catch (error) {
+      this.handleFailure(error, SnackbarErrors.GetUser);
       this.snackbarService.showWarn('Get User Failed ' + error.message);
     } finally {
       this.loadingService.setUILoading(false);
     }
   }
 
-  async editUser(id: string, cmd: UpdateUserCmd, isOwnProfile: boolean): Promise<void> {
+  async edit(cmd: UpdateUserCmd, id: string, isOwnProfile?: boolean): Promise<void> {
     try {
       this.loadingService.setUILoading();
       const user = (await this.usersApiService.update(id, cmd)).result;
@@ -55,11 +61,23 @@ export class UsersService {
       }
 
       this.router.navigateByUrl(`/users/profile/${this._user.id}`);
-    } catch ({ error }) {
-      this.snackbarService.showWarn('Edit User Failed ' + error.message);
+    } catch (error) {
+      this.handleFailure(error, SnackbarErrors.EditUser);
     } finally {
       this.loadingService.setUILoading(false);
     }
+  }
+
+  getMany(): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+
+  create(cmd: UpdateUserCmd): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+
+  delete(id: string): Promise<void> {
+    throw new Error("Method not implemented.");
   }
 
   mapUser(user: User): UserViewModel {

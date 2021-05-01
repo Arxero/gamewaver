@@ -6,14 +6,14 @@ import {
   TokenLocal,
   ForgotPasswordCmd,
   ResetPasswordCmd,
-} from './../auth/auth.models';
+} from '../auth/auth.models';
 import { Injectable } from '@angular/core';
 import { IResponse } from '../shared/models/response';
 import { User } from '../users/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentService } from './environment.service';
 
-export interface IAuthService {
+export interface IAuthApiService {
   login(cmd: LoginCmd): Promise<TokenDto>;
   register(cmd: SignUpCmd): Promise<SentEmailDto>;
   getUser(): Promise<IResponse<User>>;
@@ -30,7 +30,7 @@ export interface IAuthService {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService implements IAuthService {
+export class AuthApiService implements IAuthApiService {
   BASE_URL = `${this.environmentService.apiUrl}auth`;
   accessToken = 'accessToken';
 

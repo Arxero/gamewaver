@@ -21,7 +21,7 @@ import {
   ResetPasswordActionFailure,
 } from './auth.actions';
 import { tap, map, switchMap } from 'rxjs/operators';
-import { AuthService } from '../../services/auth.service';
+import { AuthApiService } from '../../services/auth.api.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
@@ -35,7 +35,7 @@ import { SnackbarService } from '../../services/snackbar.service';
 export class AuthEffects {
   constructor(
     private actions$: Actions,
-    private authservice: AuthService,
+    private authservice: AuthApiService,
     private router: Router,
     private snackbarService: SnackbarService,
     private store: Store<AuthState>,

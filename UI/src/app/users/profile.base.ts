@@ -38,7 +38,7 @@ export class ProfileBase extends OnDestroyCleanup {
 
     // when some random user profile and current user is admin
     if (!this.isOwnProfile) {
-      this.usersService.loadUser(this.userId);
+      this.usersService.getOne(this.userId);
     }
   }
 

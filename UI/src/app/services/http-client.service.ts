@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
 import { EnvironmentService } from './environment.service';
-import { AuthService } from './auth.service';
+import { AuthApiService } from './auth.api.service';
 import { Paging, Sorting, DataFilter } from '../shared/models/common';
 import { filter } from 'lodash';
 
@@ -42,7 +42,7 @@ export class HttpClientService implements IHttpClientService {
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService,
-    private authService: AuthService,
+    private authService: AuthApiService,
   ) {
     this.url = this.environmentService.apiUrl;
   }
