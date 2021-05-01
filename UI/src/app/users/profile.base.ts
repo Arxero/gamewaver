@@ -43,10 +43,10 @@ export class ProfileBase extends OnDestroyCleanup {
   }
 
   get isOwnProfile(): boolean {
-    return this.userId === this.loggedInUser.id;
+    return this.userId === this.loggedInUser?.id;
   }
 
   get isEditAllowed(): boolean {
-    return this.userId === this.loggedInUser.id || this.loggedInUser.role === UserRole.ADMIN;
+    return this.userId === this.loggedInUser?.id || this.loggedInUser?.role === UserRole.ADMIN;
   }
 }

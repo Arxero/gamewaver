@@ -11,6 +11,8 @@ import { PostVoteCmd } from './models/home.models';
 import { ScrollPositionService } from './services/scroll-position.service';
 import { PostsService } from './services/posts.service';
 import { VotesService } from './services/votes.service';
+import { SidebarNavigationService } from './services/sidebar-navigation.service';
+import { SidebarNavigation } from '../sidebar/sidebar-view.models';
 
 @Component({
   selector: 'app-post',
@@ -45,7 +47,8 @@ export class PostComponent implements OnInit {
     private viewportScroller: ViewportScroller,
     private scrollPositionService: ScrollPositionService,
     private postsService: PostsService,
-    private votesService: VotesService
+    private votesService: VotesService,
+    private sidebarNavigationService: SidebarNavigationService
   ) {}
 
   ngOnInit(): void {
@@ -69,6 +72,7 @@ export class PostComponent implements OnInit {
   }
 
   navigate() {
+    this.sidebarNavigationService.navigation = SidebarNavigation.Post;
     this.router.navigateByUrl(`?filters=category!eq!${this.post.category}`);
   }
 

@@ -43,6 +43,7 @@ export enum SidebarNavigation {
   Category = 'category',
   Archive = 'archive',
   Logo = 'logo',
+  Post = 'post',
 }
 
 export enum SortTime {
