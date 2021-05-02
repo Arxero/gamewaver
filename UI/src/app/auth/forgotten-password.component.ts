@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { AuthState } from '../store/auth/auth.reducer';
 import { ForgotPasswordAction } from '../store/auth/auth.actions';
 import { ForgotPasswordCmd } from './auth.models';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-forgotten-password',
@@ -13,7 +12,7 @@ import { ForgotPasswordCmd } from './auth.models';
 export class ForgottenPasswordComponent implements OnInit {
   forgotPasswordForm: FormGroup;
 
-  constructor(private store: Store<AuthState>) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.forgotPasswordForm = new FormGroup({
@@ -34,6 +33,6 @@ export class ForgottenPasswordComponent implements OnInit {
     const forgotPasswordCmd: ForgotPasswordCmd = {
       email: this.email.value,
     };
-    this.store.dispatch(new ForgotPasswordAction({ forgotPasswordCmd }));
+    this.authService.forgotPassword(forgotPasswordCmd);
   }
 }

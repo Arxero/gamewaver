@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
-import { User, UserRole } from './models/user.entity';
+import { User, UserRole, UserStatus } from './models/user.entity';
 import * as bcrypt from 'bcrypt';
 import { ChangePasswordCmd } from 'src/auth/models/cmd/change-password.cmd';
 import { ResponseError } from 'src/common/models/response';
@@ -80,6 +80,16 @@ export class UsersService extends BaseService {
     user.summary = payload.summary;
     user.location = payload.location;
     user.gender = payload.gender;
+    try {
+      return await this.usersRepository.save(user);
+    } catch (error) {
+      throw new InternalServerErrorException(error.toString());
+    }
+  }
+
+  async updateStatus(id: string, status: UserStatus) {
+    const user = await this.findOne({ id });
+    user.status = status;
     try {
       return await this.usersRepository.save(user);
     } catch (error) {

@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginCmd } from './auth.models';
 import { AuthService } from './auth.service';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,7 +17,7 @@ export class LoginComponent implements OnInit {
     private dialogRef: MatDialogRef<LoginComponent>,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: string,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -54,7 +53,7 @@ export class LoginComponent implements OnInit {
       username: this.username.value,
       password: this.password.value,
     };
-    this.authService.login(loginCmd);
+    this.authService.login(loginCmd, this.data ? true : false);
     this.onAction();
   }
 }

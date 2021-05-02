@@ -31,3 +31,9 @@ export interface TokenDto {
 export interface TokenLocal extends TokenDto {
   savedAt: number;
 }
+
+export const authRoute = 'auth';
+export const loginRoute = 'login';
+export const registerRoute = 'register';
+export const forgottenPasswordRoute = 'forgotten-password';
+export const loginFullRoute = () => `${authRoute}/${loginRoute}`;

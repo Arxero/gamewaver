@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ForgottenPasswordComponent } from './forgotten-password.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import { loginRoute, forgottenPasswordRoute } from './auth.routing';
 import { ForgottenPasswordNewComponent } from './forgotten-password-new.component';
 
 @Component({

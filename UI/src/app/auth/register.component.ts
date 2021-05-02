@@ -1,16 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  AbstractControl,
-} from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { AuthState } from '../store/auth/auth.reducer';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { RegisterAction } from '../store/auth/auth.actions';
 import { EnvironmentService } from '../services/environment.service';
 import { RecaptchaComponent } from 'ng-recaptcha';
 import { SignUpCmd } from './auth.models';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-register',
@@ -25,10 +19,7 @@ export class RegisterComponent implements OnInit {
     return this.environmentService.reCaptchaSiteKey;
   }
 
-  constructor(
-    private store: Store<AuthState>,
-    private environmentService: EnvironmentService,
-  ) {}
+  constructor(private environmentService: EnvironmentService, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -48,10 +39,7 @@ export class RegisterComponent implements OnInit {
         Validators.minLength(6),
         Validators.maxLength(30),
       ]),
-      confirm: new FormControl(null, [
-        Validators.required,
-        x => this.confirmPasswordValidator(x),
-      ]),
+      confirm: new FormControl(null, [Validators.required, x => this.confirmPasswordValidator(x)]),
       termsAgree: new FormControl(null, [Validators.requiredTrue]),
     });
   }
@@ -95,6 +83,6 @@ export class RegisterComponent implements OnInit {
       password: this.password.value,
       reCaptchaaToken: captchaResponse,
     };
-    this.store.dispatch(new RegisterAction({ signUpCmd }));
+    this.authService.create(signUpCmd);
   }
 }

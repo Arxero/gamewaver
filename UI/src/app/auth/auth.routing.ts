@@ -3,13 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { RegisterComponent } from './register.component';
 import { LoginUrlComponent } from './login-url.component';
 import { ForgottenPasswordUrlComponent } from './forgotten-password-url.component';
-
-export const authRoute = 'auth';
-export const loginRoute = 'login';
-export const registerRoute = 'register';
-export const forgottenPasswordRoute = 'forgotten-password';
-export const loginFullRoute = () => `${authRoute}/${loginRoute}`;
-
+import { registerRoute, loginRoute, forgottenPasswordRoute } from './auth.models';
 
 const routes: Routes = [
   { path: registerRoute, component: RegisterComponent },

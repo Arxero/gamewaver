@@ -8,8 +8,8 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthApiService } from '../services/auth.api.service';
-import { loginFullRoute } from '../auth/auth.routing';
 import { SnackbarService } from '../services/snackbar.service';
+import { loginFullRoute } from '../auth/auth.models';
 
 @Injectable({
   providedIn: 'root',

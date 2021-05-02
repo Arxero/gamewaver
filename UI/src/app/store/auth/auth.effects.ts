@@ -1,3 +1,4 @@
+import { loginFullRoute } from './../../auth/auth.models';
 import { UsersService } from './../../users/users.service';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -28,7 +29,6 @@ import { Store } from '@ngrx/store';
 import { AuthState } from './auth.reducer';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterConfirmDialogComponent } from '../../auth/register-confirm-dialog';
-import { loginFullRoute } from '../../auth/auth.routing';
 import { SnackbarService } from '../../services/snackbar.service';
 
 @Injectable()

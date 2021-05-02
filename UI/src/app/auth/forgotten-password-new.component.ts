@@ -1,13 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { AuthState } from '../store/auth/auth.reducer';
-import {
-  ForgotPasswordAction,
-  ResetPasswordAction,
-} from '../store/auth/auth.actions';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ResetPasswordCmd } from './auth.models';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-forgotten-password',
@@ -19,7 +14,7 @@ export class ForgottenPasswordNewComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: string,
-    private store: Store<AuthState>,
+    private authService: AuthService,
     private dialogRef: MatDialogRef<ForgottenPasswordNewComponent>,
   ) {}
 
@@ -42,7 +37,7 @@ export class ForgottenPasswordNewComponent implements OnInit {
       password: this.password.value,
       token: this.data,
     };
-    this.store.dispatch(new ResetPasswordAction({ resetPasswordCmd }));
+    this.authService.resetPassword(resetPasswordCmd);
     this.dialogRef.close();
   }
 }

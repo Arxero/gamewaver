@@ -138,11 +138,7 @@ export class AuthController {
   ): Promise<TokenDto> {
     try {
       const decoded = await this.authJwtService.verifyToken(token);
-
-      await this.usersService.update(
-        decoded.id,
-        new User({ status: UserStatus.CONFIRM } as IUser),
-      );
+      await this.usersService.updateStatus( decoded.id, UserStatus.CONFIRM);
       return res.redirect(this.webLink + 'auth/login?emailConfirmed=true');
     } catch (error) {
       throw new BadRequestException(`Invalid token.`);

@@ -90,4 +90,6 @@ export enum SnackbarErrors {
 
   Register = 'Registration Failed',
   Login = 'Login Failed',
+  ForgotPassword = 'Forgot Password Failed',
+  ResetPassword = 'Reset Password Failed',
 }
