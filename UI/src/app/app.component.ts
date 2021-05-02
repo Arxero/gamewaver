@@ -2,13 +2,11 @@ import { OnDestroyCleanup } from './shared/on-destory-cleanup';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AuthApiService } from './services/auth.api.service';
-import { Store } from '@ngrx/store';
-import { AuthState } from './store/auth/auth.reducer';
-import { GetUserInfoAction } from './store/auth/auth.actions';
 import { Router, Scroll } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ViewportScroller } from '@angular/common';
 import { MenuItems } from './shared/menu.component';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -22,10 +20,10 @@ export class AppComponent  extends OnDestroyCleanup implements OnInit {
   }
 
   constructor(
-    private authService: AuthApiService,
-    private store: Store<AuthState>,
+    private authApiService: AuthApiService,
     private router: Router,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    private authService: AuthService,
   ) {
     super();
 
@@ -46,8 +44,8 @@ export class AppComponent  extends OnDestroyCleanup implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.authService.isLoggedIn()) {
-      this.store.dispatch(new GetUserInfoAction());
+    if (this.authApiService.isLoggedIn()) {
+      this.authService.getProfile();
     }
   }
 

@@ -2,13 +2,11 @@ import { aboutRoute } from '../about/about.routing';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../auth/login.component';
-import { OnDestroyCleanup } from './on-destory-cleanup';
-import { Store, select } from '@ngrx/store';
-import { AuthState } from '../store/auth/auth.reducer';
-import { takeUntil, filter } from 'rxjs/operators';
-import { authState } from '../store/auth/auth.selectors';
 import { User } from '../users/user';
-import { LogoutAction } from '../store/auth/auth.actions';
+import { AuthService } from '../auth/auth.service';
+import { Observable } from 'rxjs';
+import { UserViewModel } from '../users/user-view-models';
+import { shareReplay } from 'rxjs/operators';
 
 export interface Menu {
   path: string;
@@ -35,24 +33,12 @@ export const MenuItems: Menu[] = [
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent extends OnDestroyCleanup {
-  get menuItems() { return MenuItems; }
-  isLoggedIn: boolean;
-  user: User;
+export class MenuComponent {
+  menuItems = MenuItems;
+  user$: Observable<UserViewModel>;
 
-  constructor(public dialog: MatDialog, private store: Store<AuthState>) {
-    super();
-
-    store
-      .pipe(
-        takeUntil(this.destroyed$),
-        select(authState),
-        filter(x => !!x),
-      )
-      .subscribe(x => {
-        this.isLoggedIn = x.isAuthenticated;
-        this.user = x.profile;
-      });
+  constructor(public dialog: MatDialog, private authService: AuthService) {
+    this.user$ = this.authService.profile$.pipe(shareReplay());
   }
 
   openLoginDialog() {
@@ -60,6 +46,6 @@ export class MenuComponent extends OnDestroyCleanup {
   }
 
   onLogout() {
-    this.store.dispatch(new LogoutAction());
+    this.authService.logout();
   }
 }

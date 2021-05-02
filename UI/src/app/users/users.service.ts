@@ -68,18 +68,6 @@ export class UsersService extends BaseService<UpdateUserCmd> {
     }
   }
 
-  getMany(): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
-
-  create(cmd: UpdateUserCmd): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
-
-  delete(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
-
   mapUser(user: User): UserViewModel {
     return {
       ...user,

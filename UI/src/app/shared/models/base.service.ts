@@ -30,11 +30,11 @@ export abstract class BaseService<T> extends OnDestroyCleanup {
     this.paging.take = this.environmentService.take;
   }
 
-  abstract getOne(id: string): Promise<void>
-  abstract getMany(): Promise<void>;
-  abstract create(cmd: T): Promise<void>;
-  abstract edit(cmd: T, id: string): Promise<void>;
-  abstract delete(id: string): Promise<void>;
+  getOne?(id: string): Promise<void>
+  getMany?(): Promise<void>;
+  create?(cmd: T): Promise<void>;
+  edit?(cmd: T, id: string): Promise<void>;
+  delete?(id: string): Promise<void>;
 
   protected handleFailure(error: string | ResponseError, message: SnackbarErrors): void {
     if (typeof error === 'string') {

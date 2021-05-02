@@ -20,14 +20,14 @@
     <!-- Children menu -->
   </ng-container>
 
-  <button mat-button *ngIf="!isLoggedIn" (click)="openLoginDialog()">
+  <button mat-button *ngIf="!(user$ | async) as user" (click)="openLoginDialog()">
     <mat-icon>power_settings_new</mat-icon>
     <span class="menu-item-name">Login</span>
   </button>
 
- <ng-container *ngIf="isLoggedIn && user">
+ <ng-container *ngIf="user$ | async as user">
   <button mat-button [matMenuTriggerFor]="menuUser">
-    <span class="menu-item-name">{{ user?.username }}</span>
+    <span class="menu-item-name">{{ user.username }}</span>
   </button>
 
   <mat-menu #menuUser="matMenu">

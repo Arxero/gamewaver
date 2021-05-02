@@ -87,4 +87,7 @@ export enum SnackbarErrors {
 
   GetUser = 'Get User Failed',
   EditUser = 'Edit User Failed',
+
+  Register = 'Registration Failed',
+  Login = 'Login Failed',
 }

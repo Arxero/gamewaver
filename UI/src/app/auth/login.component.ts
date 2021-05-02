@@ -1,11 +1,9 @@
-import { AuthState } from './../store/auth/auth.reducer';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginCmd } from './auth.models';
-import { LoginAction } from '../store/auth/auth.actions';
+import { AuthService } from './auth.service';
 
 
 @Component({
@@ -18,9 +16,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<LoginComponent>,
-    private store: Store<AuthState>,
     private snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public data: string
+    @Inject(MAT_DIALOG_DATA) public data: string,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +54,7 @@ export class LoginComponent implements OnInit {
       username: this.username.value,
       password: this.password.value,
     };
-    this.store.dispatch(new LoginAction({ loginCmd }));
+    this.authService.login(loginCmd);
     this.onAction();
   }
 }

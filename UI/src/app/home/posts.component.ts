@@ -2,10 +2,8 @@ import { SidebarNavigation } from '../sidebar/sidebar-view.models';
 import { PagedData } from '../shared/models/common';
 import { Component, AfterViewInit } from '@angular/core';
 import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
-import { Store, select } from '@ngrx/store';
-import { takeUntil, filter } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { User } from '../users/user';
-import { userProfile } from '../store/auth/auth.selectors';
 import { ActivatedRoute } from '@angular/router';
 import { QueryRequest, QueryParams } from '../shared/models/query-request';
 import { PostContext, PostViewModel } from './models/home-view-model';
@@ -14,8 +12,8 @@ import { ViewportScroller } from '@angular/common';
 import { PostsService } from './services/posts.service';
 import { Observable } from 'rxjs';
 import { SidebarNavigationService } from './services/sidebar-navigation.service';
-import { AuthState } from '../store/auth/auth.reducer';
 import { ScrollPositionService } from './services/scroll-position.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-posts',
@@ -36,12 +34,12 @@ export class PostsComponent extends OnDestroyCleanup implements AfterViewInit {
   private sidebarNavigationType: SidebarNavigation;
 
   constructor(
-    private store: Store<AuthState>,
     private route: ActivatedRoute,
     private viewportScroller: ViewportScroller,
     private postsService: PostsService,
     private sidebarNavigation: SidebarNavigationService,
     private scrollPositionService: ScrollPositionService,
+    private authService: AuthService,
   ) {
     super();
     this.route.queryParams.subscribe(params => {
@@ -58,10 +56,10 @@ export class PostsComponent extends OnDestroyCleanup implements AfterViewInit {
       }
     });
 
-    store.pipe(takeUntil(this.destroyed$), select(userProfile)).subscribe(x => {
+    this.authService.profile$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
       this.user = x;
       this.addItem.userAvatar = this.user?.avatar;
-    });
+    })
 
     this.posts$ = this.postsService.posts$;
     this.sidebarNavigation.navigation$.pipe(takeUntil(this.destroyed$)).subscribe(x => {

@@ -36,16 +36,4 @@ export class VotesService extends BaseService<PostVoteCmd> {
       this.handleFailure(error, SnackbarErrors.DeleteVote);
     }
   }
-
-  edit(cmd: PostVoteCmd, id: string): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-
-  getOne(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
-
-  getMany(): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
 }
