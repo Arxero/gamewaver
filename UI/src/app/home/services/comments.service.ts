@@ -111,6 +111,10 @@ export class CommentsService extends BaseService<CommentCmd> {
   }
 
   cancelEdit(comment: CommentViewModel): void {
+    if (!comment) {
+      return;
+    }
+
     this._comments.splice(this._indexOfEditedComment, 0, comment)
     this._commentsSubject.next({ items: this._comments, total: this._total });
   }

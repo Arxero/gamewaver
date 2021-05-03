@@ -17,14 +17,15 @@
               #myTextArea (click)="getCaretPos(myTextArea)"
               (keyup)="getCaretPos(myTextArea)">
           </textarea>
-            <mat-error *ngIf="content.errors?.minlength || content.errors?.maxlength">Content must be between {{ addItem.minLength }} and {{ addItem.maxLength }} characters long</mat-error>
+          <mat-error *ngIf="content.errors?.minlength || content.errors?.maxlength">Content must be between {{ addItem.minLength }} and {{ addItem.maxLength }} characters long</mat-error>
+          <mat-error *ngIf="content.errors?.required">Content is required</mat-error>
           </mat-form-field>
         </div>
 
-        <div class="actions" *ngIf="content.value">
+        <div class="actions" *ngIf="showActions">
           <mat-form-field class="category" *ngIf="addItem.isPost">
             <mat-label>Category</mat-label>
-            <mat-select formControlName="category">
+            <mat-select formControlName="category" required>
               <mat-option *ngFor="let item of categories" [value]="item.value">{{ item.label }}</mat-option>
             </mat-select>
             <mat-error *ngIf="category.invalid && category.errors.required">Category is required</mat-error>
@@ -34,7 +35,7 @@
           </button>
           <app-upload (imageLink)="onUpload($event)"></app-upload>
           <app-emoji (emoji)="onAddedEmoji($event)" #emoji></app-emoji>
-          <button mat-stroked-button color="accent" class="form-button cancel" *ngIf="addItem.content" (click)="onCancel()">Cancel</button>
+          <button mat-stroked-button color="accent" class="form-button cancel" (click)="onCancel()">Cancel</button>
           <button mat-raised-button color="primary" class="form-button" [disabled]="itemForm.invalid" (click)="onSubmit()">{{ addItem.content ? 'SAVE' : 'SUBMIT' }}</button>
         </div>
       </form>
