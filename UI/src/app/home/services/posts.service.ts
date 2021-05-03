@@ -1,3 +1,4 @@
+import { AuthService } from './../../auth/auth.service';
 import { UsersApiService } from './../../services/users.api.service';
 import { Injectable, OnDestroy } from '@angular/core';
 import { PostsApiService } from '../../services/posts.api.service';
@@ -14,11 +15,8 @@ import {
   PostContext,
   VoteType,
 } from '../models';
-import { AuthState } from '../../store/auth/auth.reducer';
-import { Store, select } from '@ngrx/store';
 import { UserViewModel } from '../../users/user-view-models';
 import { takeUntil } from 'rxjs/operators';
-import { userProfile } from '../../store/auth/auth.selectors';
 import { EnvironmentService } from '../../services/environment.service';
 import { LoadingService } from '../../services/loading.service';
 import { SnackbarService } from '../../services/snackbar.service';
@@ -32,7 +30,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class PostsService extends BaseService<PostCmd> implements OnDestroy {
   private _postsSubject = new BehaviorSubject<PagedData<PostViewModel>>(null);
-  private _postSubject = new Subject<PostViewModel>();
+  private _postSubject = new BehaviorSubject<PostViewModel>(null);
   private _posts: PostViewModel[] = [];
   private _total: number;
   private _user: UserViewModel;
@@ -54,7 +52,6 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
   }
 
   constructor(
-    private store: Store<AuthState>,
     private postsApiService: PostsApiService,
     private loadingService: LoadingService,
     environmentService: EnvironmentService,
@@ -63,11 +60,10 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     private authApiService: AuthApiService,
     private usersApiService: UsersApiService,
     private router: Router,
+    private authService: AuthService,
   ) {
     super(environmentService, snackbarService);
-    this.store.pipe(takeUntil(this.destroyed$), select(userProfile)).subscribe(x => {
-      this._user = x;
-    });
+    this.authService.profile$.pipe(takeUntil(this.destroyed$)).subscribe(x => (this._user = x));
   }
 
   async getMany(): Promise<void> {

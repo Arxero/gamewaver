@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/auth.service';
 import { AddItem } from '../add-item/add-item.models';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -16,18 +17,12 @@ import { PostsService } from './services/posts.service';
 export class PostPageComponent extends OnDestroyCleanup implements OnInit, OnDestroy {
   post: PostViewModel;
   user: UserViewModel;
-  postId: string;
   pageState: PostPageState = PostPageState.Default;
   comments: PagedData<CommentViewModel>;
   commentToEdit: CommentViewModel;
 
-  get postContext() {
-    return PostContext;
-  }
-
-  get postPageState() {
-    return PostPageState;
-  }
+  postContext = PostContext;
+  postPageState = PostPageState;
 
   get isDefaultOrEditComment(): boolean {
     return this.pageState === this.postPageState.Default || this.pageState === this.postPageState.EditComment;
@@ -40,36 +35,38 @@ export class PostPageComponent extends OnDestroyCleanup implements OnInit, OnDes
     private route: ActivatedRoute,
     private commentsService: CommentsService,
     private postsService: PostsService,
+    private authService: AuthService,
   ) {
     super();
-    this.postId = this.route.snapshot.params.id;
-    this.user = this.route.snapshot.data.userData;
+    this.post = this.route.snapshot.data.post;
     this.editItemPost = this.mapEditItem(true);
     this.editItemComment = this.mapEditItem();
+    this.commentsService.postId = this.post.id;
 
-    this.commentsService.postId = this.postId;
-    this.commentsService.user = this.user;
+    this.authService.profile$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
+      this.user = x;
+      this.editItemComment.userAvatar = this.user.avatar;
+      this.commentsService.user = this.user;
+    });
+
     this.postsService.post$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
       this.post = x;
-      this.editItemPost.id = x.id;
-      this.editItemPost.content = x.content;
-      this.editItemPost.category = x.category;
       this.pageState = PostPageState.Default;
-      this.editItemComment = this.mapEditItem();
     });
 
-    commentsService.comments$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
-      this.comments = x;
-    });
+    this.commentsService.comments$.pipe(takeUntil(this.destroyed$)).subscribe(x => (this.comments = x));
   }
 
   ngOnInit(): void {
-    this.postsService.getOne(this.postId);
     this.commentsService.getMany();
   }
 
   onEditPost() {
     this.pageState = PostPageState.EditPost;
+    this.editItemPost.id = this.post.id;
+    this.editItemPost.content = this.post.content;
+    this.editItemPost.category = this.post.category;
+    this.editItemPost.userAvatar = this.user.avatar;
 
     if (this.commentToEdit) {
       this.cancelCommentEdit();
@@ -109,13 +106,13 @@ export class PostPageComponent extends OnDestroyCleanup implements OnInit, OnDes
     this.commentsService.clear();
   }
 
-  private mapEditItem(isPost: boolean = false): AddItem {
+  private mapEditItem(isPost?: boolean): AddItem {
     return {
       isPost,
       minLength: 3,
       maxLength: isPost ? 5000 : 1000,
       userAvatar: this.user?.avatar,
-      postId: this.postId,
+      postId: this.post.id,
     };
   }
 

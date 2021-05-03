@@ -13,7 +13,7 @@ const routes: Routes = [
       {
         path: `post/:id`,
         component: PostPageComponent,
-        resolve: { userData: PostPageResolver }
+        resolve: { post: PostPageResolver }
       },
     ],
   },

@@ -18,6 +18,7 @@ import { PostsComponent } from './posts.component';
 import { UploadComponent } from '../add-item/upload.component';
 import { PostComponent } from './post.component';
 import { CommentsService } from './services/comments.service';
+import { PostPageResolver } from './post-page.resolver';
 
 @NgModule({
   declarations: [HomeComponent, PostPageComponent, PostsComponent, CommentComponent, PostComponent],
@@ -30,7 +31,7 @@ import { CommentsService } from './services/comments.service';
     AddItemModule,
   ],
   exports: [CommentComponent, PostComponent],
-  providers: [CommentsService, ScrollPositionService],
+  providers: [CommentsService, ScrollPositionService, PostPageResolver],
 })
 export class HomeModule {
   static forRoot(): ModuleWithProviders<HomeModule> {

@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/auth.service';
 import { AuthState } from './../store/auth/auth.reducer';
 import { Component, OnInit } from '@angular/core';
 import { UserGender, UpdateUserCmd } from './user';
@@ -16,8 +17,8 @@ import { ProfileBase } from './profile.base';
 export class ProfileEditComponent extends ProfileBase implements OnInit {
   editProfileForm: FormGroup;
 
-  constructor(store: Store<AuthState>, route: ActivatedRoute, usersService: UsersService) {
-    super(store, route, usersService);
+  constructor(route: ActivatedRoute, usersService: UsersService, authService: AuthService) {
+    super(route, usersService, authService);
 
     usersService.user$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
       this.user = x;

@@ -1,17 +1,11 @@
-import { CommentViewModel } from './models/home-view-model';
-import { userProfile } from '../store/auth/auth.selectors';
+import { CommentViewModel, PostViewModel } from './models/home-view-model';
 import { DataFilter } from '../shared/models/common';
 import { Injectable } from '@angular/core';
-import {
-  Resolve,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { take, filter } from 'rxjs/operators';
 import { UserViewModel } from 'src/app/users/user-view-models';
-import { AuthState } from '../store/auth/auth.reducer';
+import { PostsService } from './services/posts.service';
 
 export interface IPostPage {
   commentsFilters: DataFilter[];
@@ -19,23 +13,12 @@ export interface IPostPage {
   user: UserViewModel;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
-export class PostPageResolver implements Resolve<UserViewModel> {
-  constructor(
-    private store: Store<AuthState>,
-  ) {}
+@Injectable()
+export class PostPageResolver implements Resolve<PostViewModel> {
+  constructor(private postsService: PostsService) {}
 
-  resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ): Observable<UserViewModel> {
-
-    return this.store
-      .pipe(
-        select(userProfile),
-        take(1)
-      );
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PostViewModel> {
+    this.postsService.getOne(route.params.id);
+    return this.postsService.post$.pipe(filter(x => !!x), take(1));
   }
 }

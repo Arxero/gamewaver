@@ -1,5 +1,5 @@
+import { AuthService } from './../auth/auth.service';
 import { BaseService } from 'src/app/shared/models/base.service';
-import { GetUserInfoSuccessAction } from './../store/auth/auth.actions';
 import { Subject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { UsersApiService } from '../services/users.api.service';
@@ -8,8 +8,6 @@ import { SnackbarService } from '../services/snackbar.service';
 import { UserViewModel } from './user-view-models';
 import { User, UserRole, UpdateUserCmd } from './user';
 import * as moment from 'moment';
-import { AuthState } from '../store/auth/auth.reducer';
-import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { EnvironmentService } from '../services/environment.service';
 import { SnackbarErrors } from '../shared/models/common';
@@ -26,12 +24,13 @@ export class UsersService extends BaseService<UpdateUserCmd> {
   constructor(
     private usersApiService: UsersApiService,
     private loadingService: LoadingService,
-    private store: Store<AuthState>,
     private router: Router,
+    private authService: AuthService,
     environmentService: EnvironmentService,
     snackbarService: SnackbarService,
   ) {
-    super(environmentService, snackbarService)
+    super(environmentService, snackbarService);
+    this.authService.usersService = this;
   }
 
   async getOne(id: string): Promise<void> {
@@ -57,9 +56,8 @@ export class UsersService extends BaseService<UpdateUserCmd> {
       this.snackbarService.showInfo('Profile Edited Successfully');
 
       if (isOwnProfile) {
-        this.store.dispatch(new GetUserInfoSuccessAction({ userProfile: this._user }));
+        this.authService.profile = this._user;
       }
-
       this.router.navigateByUrl(`/users/profile/${this._user.id}`);
     } catch (error) {
       this.handleFailure(error, SnackbarErrors.EditUser);
