@@ -20,16 +20,14 @@ export class PostPageComponent extends OnDestroyCleanup implements OnInit, OnDes
   pageState: PostPageState = PostPageState.Default;
   comments: PagedData<CommentViewModel>;
   commentToEdit: CommentViewModel;
-
   postContext = PostContext;
   postPageState = PostPageState;
+  editItemPost: AddItem;
+  editItemComment: AddItem;
 
   get isDefaultOrEditComment(): boolean {
     return this.pageState === this.postPageState.Default || this.pageState === this.postPageState.EditComment;
   }
-
-  editItemPost: AddItem;
-  editItemComment: AddItem;
 
   constructor(
     private route: ActivatedRoute,
