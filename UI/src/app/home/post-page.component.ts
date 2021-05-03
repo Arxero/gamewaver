@@ -43,7 +43,7 @@ export class PostPageComponent extends OnDestroyCleanup implements OnInit, OnDes
 
     this.authService.profile$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
       this.user = x;
-      this.editItemComment.userAvatar = this.user.avatar;
+      this.editItemComment.userAvatar = this.user?.avatar;
       this.commentsService.user = this.user;
     });
 
