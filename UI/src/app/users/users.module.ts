@@ -8,7 +8,6 @@ import { MarkdownModule } from 'ngx-markdown';
 import { ProfileComponent } from './profile.component';
 import { ProfileEditComponent } from './profile-edit.component';
 import { ProfilePostsComponent } from './profile-posts.component';
-import { PostsService } from '../home/services/posts.service';
 
 @NgModule({
   declarations: [
@@ -25,4 +24,4 @@ import { PostsService } from '../home/services/posts.service';
   ],
   providers: [UsersService]
 })
-export class UsersModule { }
+export class UsersModule {}

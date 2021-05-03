@@ -1,8 +1,11 @@
+import { UserViewModel } from './../../users/user-view-models';
+import { User, UserRole } from './../../users/user';
 import { SnackbarService } from './../../services/snackbar.service';
 import { ResponseError } from './response';
 import { EnvironmentService } from './../../services/environment.service';
 import { OnDestroyCleanup } from '../on-destory-cleanup';
 import { SortDirection, Sorting, DataFilter, SearchType, Paging, SnackbarErrors } from './common';
+import * as moment from 'moment';
 
 export abstract class BaseService<T> extends OnDestroyCleanup {
   public sort: Sorting[] = [
@@ -30,7 +33,7 @@ export abstract class BaseService<T> extends OnDestroyCleanup {
     this.paging.take = this.environmentService.take;
   }
 
-  getOne?(id: string): Promise<void>
+  getOne?(id: string): Promise<void>;
   getMany?(): Promise<void>;
   create?(cmd: T): Promise<void>;
   edit?(cmd: T, id: string): Promise<void>;
@@ -44,5 +47,15 @@ export abstract class BaseService<T> extends OnDestroyCleanup {
 
     this.snackbarService.showWarn(`${message} ${error.message}`);
     throw new Error(error.message);
+  }
+
+  // moving this here so it can be used by auth and users service
+  protected mapUser(user: User): UserViewModel {
+    return {
+      ...user,
+      joinedAt: `Joined ${moment(user.createdAt).format('MMMM DD, YYYY [at] hh:mm A')}`,
+      userRole: user.role !== UserRole.USER ? user.role : null,
+      defaultAvatar: '/assets/images/common/no_avatar.jpg',
+    } as UserViewModel;
   }
 }

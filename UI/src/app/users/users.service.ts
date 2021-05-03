@@ -6,8 +6,7 @@ import { UsersApiService } from '../services/users.api.service';
 import { LoadingService } from '../services/loading.service';
 import { SnackbarService } from '../services/snackbar.service';
 import { UserViewModel } from './user-view-models';
-import { User, UserRole, UpdateUserCmd } from './user';
-import * as moment from 'moment';
+import { UpdateUserCmd } from './user';
 import { Router } from '@angular/router';
 import { EnvironmentService } from '../services/environment.service';
 import { SnackbarErrors } from '../shared/models/common';
@@ -30,7 +29,6 @@ export class UsersService extends BaseService<UpdateUserCmd> {
     snackbarService: SnackbarService,
   ) {
     super(environmentService, snackbarService);
-    this.authService.usersService = this;
   }
 
   async getOne(id: string): Promise<void> {
@@ -64,14 +62,5 @@ export class UsersService extends BaseService<UpdateUserCmd> {
     } finally {
       this.loadingService.setUILoading(false);
     }
-  }
-
-  mapUser(user: User): UserViewModel {
-    return {
-      ...user,
-      joinedAt: `Joined ${moment(user.createdAt).format('MMMM DD, YYYY [at] hh:mm A')}`,
-      userRole: user.role !== UserRole.USER ? user.role : null,
-      defaultAvatar: '/assets/images/common/no_avatar.jpg',
-    } as UserViewModel;
   }
 }

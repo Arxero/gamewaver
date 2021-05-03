@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ForgotPasswordAction } from '../store/auth/auth.actions';
 import { ForgotPasswordCmd } from './auth.models';
 import { AuthService } from './auth.service';
 

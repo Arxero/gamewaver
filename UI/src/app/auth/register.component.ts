@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { RegisterAction } from '../store/auth/auth.actions';
 import { EnvironmentService } from '../services/environment.service';
 import { RecaptchaComponent } from 'ng-recaptcha';
 import { SignUpCmd } from './auth.models';

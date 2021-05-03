@@ -1,7 +1,5 @@
 import { ProfileBase } from './profile.base';
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AuthState } from '../store/auth/auth.reducer';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { NavLink, navLinks } from './user-view-models';

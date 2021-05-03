@@ -1,5 +1,4 @@
 import { AuthService } from './../auth/auth.service';
-import { AuthState } from './../store/auth/auth.reducer';
 import { Component, OnInit } from '@angular/core';
 import { UserGender, UpdateUserCmd } from './user';
 import { Store } from '@ngrx/store';

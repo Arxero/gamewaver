@@ -17,11 +17,6 @@ import { RegisterConfirmDialogComponent } from './register-confirm-dialog';
 export class AuthService extends BaseService<SignUpCmd> {
   private _profileSubject = new BehaviorSubject<UserViewModel>(null);
   private _profile: UserViewModel;
-  private _usersService: UsersService;
-
-  set usersService(value: UsersService) {
-    this._usersService = value;
-  }
 
   set profile(value: UserViewModel) {
     this._profile = value;
@@ -77,7 +72,7 @@ export class AuthService extends BaseService<SignUpCmd> {
   async getProfile(): Promise<void> {
     try {
       const profile = (await this.authApiService.getUser()).result;
-      this._profile = this._usersService.mapUser(profile);
+      this._profile = this.mapUser(profile);
       this._profileSubject.next(this._profile);
     } catch (error) {
       this.handleFailure(error, SnackbarErrors.GetUser);

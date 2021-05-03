@@ -9,7 +9,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { AuthEffects } from './store/auth/auth.effects';
 import { reducers, metaReducers } from './store/app.state';
 import { AppRoutingModule } from './app.routing';
 import { MarkdownModule } from 'ngx-markdown';
@@ -32,6 +31,8 @@ import { AuthModule } from './auth/auth.module';
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE,
     }),
+    HomeModule.forRoot(),
+    AuthModule.forRoot(),
 
     // NGRX
     StoreModule.forRoot(reducers, {
@@ -42,11 +43,9 @@ import { AuthModule } from './auth/auth.module';
       },
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-    EffectsModule.forFeature([AuthEffects]),
-    HomeModule.forRoot(),
-    AuthModule.forRoot(),
+    EffectsModule.forRoot([]),
+    EffectsModule.forFeature([]),
   ],
   providers: [
     { provide: 'IHttpClientService', useClass: HttpClientService },
