@@ -27,12 +27,14 @@ import { AuthApiService } from '../../services/auth.api.service';
 import { User, UserRole } from '../../users/user';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import { isEmpty } from 'lodash';
 
 @Injectable()
 export class PostsService extends BaseService<PostCmd> implements OnDestroy {
   private _postsSubject = new BehaviorSubject<PagedData<PostViewModel>>(null);
   private _postSubject = new BehaviorSubject<PostViewModel>(null);
   private _posts: PostViewModel[] = [];
+  private _post: PostViewModel;
   private _total: number;
   private _user: UserViewModel;
   private _noMorePosts: boolean;
@@ -103,8 +105,8 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       const votes = await this.getUserVotes([post]);
       const votesCount = (await this.votesApiService.findCountByPostId([post.id])).result[0];
       const mappedPostEx = this.mapPost(post, author, votesCount);
-      const mappedPost = this.mapPostEx(mappedPostEx, votes);
-      this._postSubject.next(mappedPost);
+      this._post = this.mapPostEx(mappedPostEx, votes);
+      this._postSubject.next(this._post);
     } catch (error) {
       this.handleFailure(error, SnackbarErrors.GetPost);
     } finally {
@@ -170,13 +172,15 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     this.paging.skip = 0;
     this._total = null;
     this.action = null;
+    this._post = null;
   }
 
   updateVote(vote: GetVoteDto, isDelete?: boolean): void {
-    const post = this._posts.find(x => x.id === vote.postId);
+    let post = { ...this._posts.find(x => x.id === vote.postId) };
 
-    if (!post) {
-      return;
+    // when we load directly from post page
+    if (isEmpty(post)) {
+      post = { ...this._post };
     }
 
     if (vote.type === VoteType.Upvote && !isDelete) {
@@ -190,6 +194,10 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     }
 
     post.vote = isDelete ? null : vote;
+    const i = this._posts.findIndex(x => x.id === vote.postId);
+    this._posts.splice(i, 1, post);
+    this._post = post;
+    this._postSubject.next(this._post);
     this._postsSubject.next({ items: this._posts, total: this._total });
   }
 
