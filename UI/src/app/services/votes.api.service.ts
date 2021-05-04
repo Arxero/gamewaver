@@ -1,4 +1,4 @@
-import { PostVoteCmd, GetVoteDto } from '../home/models/home.models';
+import { PostVoteCmd, GetVoteDto, GetVotesCountDto } from '../home/models/home.models';
 import { IResponse } from '../shared/models/response';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
@@ -24,5 +24,10 @@ export class VotesApiService {
   findManyByPostId(ids: string[]): Promise<IResponse<GetVoteDto[]>> {
     const idsString = ids.join(',');
     return this.httpClient.get<IResponse<GetVoteDto[]>>(`${this.BASE_URL}?postIds=${idsString}`);
+  }
+
+  findCountByPostId(ids: string[]): Promise<IResponse<GetVotesCountDto[]>> {
+    const idsString = ids.join(',');
+    return this.httpClient.get<IResponse<GetVotesCountDto[]>>(`${this.BASE_URL}/count?postIds=${idsString}`);
   }
 }

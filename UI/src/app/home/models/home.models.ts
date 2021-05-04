@@ -35,6 +35,12 @@ export interface GetVoteDto {
   userId: string;
 }
 
+export interface GetVotesCountDto {
+  upvotes: number;
+  downvotes: number;
+  postId: string;
+}
+
 export interface GetPostDto extends DataEntity {
   content: string;
   category: PostCategory;
@@ -48,7 +54,7 @@ export interface GetPostDtoEx extends GetPostDto {
   role: UserRole;
   avatar: string;
   username: string;
-  voteCreated: Date;
-  commentAuthor: string;
-  commentCreated: Date;
+  voteCreated: Date; // when user voted on this post
+  commentAuthor: string; // id of the author
+  commentCreated: Date; // when user commented on this post
 }

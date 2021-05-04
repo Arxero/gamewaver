@@ -2,7 +2,7 @@ import { AuthService } from './../../auth/auth.service';
 import { UsersApiService } from './../../services/users.api.service';
 import { Injectable, OnDestroy } from '@angular/core';
 import { PostsApiService } from '../../services/posts.api.service';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { PagedData, SnackbarErrors } from '../../shared/models/common';
 import {
   PostViewModel,
@@ -14,6 +14,7 @@ import {
   GetPostDto,
   PostContext,
   VoteType,
+  GetVotesCountDto,
 } from '../models';
 import { UserViewModel } from '../../users/user-view-models';
 import { takeUntil } from 'rxjs/operators';
@@ -37,7 +38,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
   private _noMorePosts: boolean;
 
   postContext: PostContext;
-  action: UserActionOnPost;
+  action: UserActionOnPost = UserActionOnPost.Posted;
 
   get posts$(): Observable<PagedData<PostViewModel>> {
     return this._postsSubject.asObservable();
@@ -56,7 +57,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     private loadingService: LoadingService,
     environmentService: EnvironmentService,
     snackbarService: SnackbarService,
-    private votesService: VotesApiService,
+    private votesApiService: VotesApiService,
     private authApiService: AuthApiService,
     private usersApiService: UsersApiService,
     private router: Router,
@@ -75,7 +76,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       this.loadingService.setUILoading();
       const posts = (await this.postsApiService.findAll(this.paging, this.filter, this.sort)).result;
       const votes = await this.getUserVotes(posts.items);
-      const mappedPosts = posts.items.map(p => this.mapPost(p, votes));
+      const mappedPosts = posts.items.map(p => this.mapPostEx(p, votes));
       this._posts = this._posts.concat(mappedPosts);
       this.paging.skip = this._posts.length;
       this._total = posts.total;
@@ -100,7 +101,9 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       const post = (await this.postsApiService.findOne(id)).result;
       const author = (await this.usersApiService.findOne(post.authorId)).result;
       const votes = await this.getUserVotes([post]);
-      const mappedPost = this.mapPost(post as GetPostDtoEx, votes, author);
+      const votesCount = (await this.votesApiService.findCountByPostId([post.id])).result[0];
+      const mappedPostEx = this.mapPost(post, author, votesCount);
+      const mappedPost = this.mapPostEx(mappedPostEx, votes);
       this._postSubject.next(mappedPost);
     } catch (error) {
       this.handleFailure(error, SnackbarErrors.GetPost);
@@ -113,7 +116,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     try {
       this.loadingService.setUILoading();
       const post = (await this.postsApiService.create(cmd)).result;
-      const mappedPost = this.mapPost(post as GetPostDtoEx, [], this._user);
+      const mappedPost = this.mapPostEx(this.mapPost(post, this._user));
       this._posts.unshift(mappedPost);
       this._postsSubject.next({ items: this._posts, total: this._total++ });
       this.snackbarService.showInfo('Post Added Successfully');
@@ -128,7 +131,8 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     try {
       this.loadingService.setUILoading();
       const post = (await this.postsApiService.update(id, cmd)).result;
-      const mappedPost = this.mapPost(post as GetPostDtoEx, [], this._user);
+      const author = (await this.usersApiService.findOne(post.authorId)).result;
+      const mappedPost = this.mapPostEx(this.mapPost(post, author));
       const i = this._posts.findIndex(x => x.id === id);
       this._posts.splice(i, 1, mappedPost);
       this._postSubject.next(mappedPost);
@@ -195,25 +199,30 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     }
 
     const postdIds = posts.map(x => x.id);
-    return (await this.votesService.findManyByPostId(postdIds)).result;
+    return (await this.votesApiService.findManyByPostId(postdIds)).result;
   }
 
-  private mapPost(post: GetPostDtoEx, votes: GetVoteDto[], author?: User): PostViewModel {
+  private mapPost(post: GetPostDto, author: User, votesCount?: GetVotesCountDto): GetPostDtoEx {
     return {
-      id: post.id,
-      content: post.content,
-      authorId: post.authorId,
-      avatar: post.avatar ? post.avatar : author?.avatar,
-      username: post.username ? post.username : author.username,
+      ...post,
+      upvotes: votesCount?.upvotes || 0,
+      downvotes: votesCount?.downvotes || 0,
+      comments: 0,
+      role: author.role,
+      avatar: author.avatar,
+      username: author.username,
+    } as GetPostDtoEx;
+  }
+
+  private mapPostEx(post: GetPostDtoEx, votes?: GetVoteDto[]): PostViewModel {
+    return {
+      ...post,
       date: this.getPostDate(post),
       tooltipDate: moment(this.getPostDate(post)).format('MMMM DD, YYYY [at] hh:mm A'),
-      userRole: post.role ? this.isNotUserRole(post.role) : this.isNotUserRole(author.role),
+      userRole: this.isNotUserRole(post.role),
       category: post.category,
       categoryLabel: postCategories.find(j => j.value === post.category).label,
       userActionOnPost: this.action,
-      upvotes: post.upvotes || 0,
-      downvotes: post.downvotes || 0,
-      comments: post.comments || 0,
       vote: votes?.find(v => v.postId === post.id),
     };
   }
