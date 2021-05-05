@@ -10,7 +10,6 @@ import { ImgurReponse, ImgurError, ImgurSuccess } from '../home/models/imgur-res
 })
 export class UploadComponent {
   @Output() imageLink: EventEmitter<string> = new EventEmitter();
-
   acceptedFiles: string[] = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
 
   constructor(
