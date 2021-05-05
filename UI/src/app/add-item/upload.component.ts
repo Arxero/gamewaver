@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { UploadService } from '../services/upload.service';
 import { LoadingService } from '../services/loading.service';
 import { SnackbarService } from '../services/snackbar.service';
-import { ImgurReponse, ImgurError } from '../home/models/imgur-response';
+import { ImgurReponse, ImgurError, ImgurSuccess } from '../home/models/imgur-response';
 
 @Component({
   selector: 'gw-upload',
@@ -11,13 +11,7 @@ import { ImgurReponse, ImgurError } from '../home/models/imgur-response';
 export class UploadComponent {
   @Output() imageLink: EventEmitter<string> = new EventEmitter();
 
-  acceptedFiles: string[] = [
-    '.jpg',
-    '.jpeg',
-    '.png',
-    '.gif',
-    '.bmp',
-  ];
+  acceptedFiles: string[] = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
 
   constructor(
     private uploadService: UploadService,
@@ -37,12 +31,20 @@ export class UploadComponent {
 
     try {
       this.loadingService.setUILoading();
-      const result = await this.uploadService.upload(data);
-      this.imageLink.emit(result.data.link);
-      this.loadingService.setUILoading(false);
+      const result = (await this.uploadService.upload(data)).data as ImgurSuccess;
+      this.imageLink.emit(result.link);
     } catch ({ error }) {
-      const tempError = error as ImgurReponse<ImgurError>;
-      this.snackbarService.showWarn(tempError.data.error.message);
+      const errorData = (error as ImgurReponse<ImgurError>).data;
+
+      if (typeof errorData.error === 'string') {
+        this.snackbarService.showWarn(errorData.error);
+        throw new Error(errorData.error);
+      } else {
+        this.snackbarService.showWarn(errorData.error.message);
+        throw new Error(errorData.error.message);
+      }
+    } finally {
+      this.loadingService.setUILoading(false);
     }
   }
 }

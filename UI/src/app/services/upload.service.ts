@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentService } from './environment.service';
-import { ImgurReponse, ImgurSuccess } from '../home/models/imgur-response';
+import { ImgurReponse, ImgurSuccess, ImgurError } from '../home/models/imgur-response';
 
 @Injectable({
   providedIn: 'root',
@@ -15,12 +15,12 @@ export class UploadService {
     private environmentService: EnvironmentService,
   ) {}
 
-  upload(data: FormData): Promise<ImgurReponse<ImgurSuccess>> {
+  upload(data: FormData): Promise<ImgurReponse<ImgurSuccess | ImgurError>> {
     let headers = new HttpHeaders();
     headers = headers.append('Authorization', `Client-ID ${this.CLIENT_ID}`);
 
     return this.http
-      .post<ImgurReponse<ImgurSuccess>>(`${this.BASE_URL}`, data, { headers })
+      .post<ImgurReponse<ImgurSuccess | ImgurError>>(`${this.BASE_URL}`, data, { headers })
       .toPromise();
   }
 }

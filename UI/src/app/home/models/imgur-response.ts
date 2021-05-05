@@ -10,7 +10,7 @@ export interface ImgurError {
     exception: any[];
     message: string
     type: string;
-  }
+  } | string,
   method: string;
   request: string;
 }
