@@ -1,8 +1,8 @@
 import { CommentsService } from './../home/services/comments.service';
 import { FormattingHelpComponent } from './formatting-help.component';
 import { AddItem } from './add-item.models';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { CommentCmd, postCategories, PostCmd } from '../home/models';
@@ -25,6 +25,7 @@ export class AddItemComponent implements OnInit {
     this.showActions = true;
   }
 
+  @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Output() cancelEditItem: EventEmitter<void> = new EventEmitter();
   @Input() set addItem(value: AddItem) {
     this._addItem = value;
@@ -85,13 +86,26 @@ export class AddItemComponent implements OnInit {
         : this.commentsService.create(commentCmd);
     }
 
-    this.itemForm.reset();
+    this.formGroupDirective.resetForm();
+    this.showActions = false;
   }
 
   onCancel() {
+    this.formGroupDirective.resetForm();
     this.showActions = false;
-    this.itemForm.reset();
     this.cancelEditItem.emit();
+  }
+
+  getErrorMessage(): string {
+    if (this.content.errors?.required) {
+      return 'Content is required';
+    } else if (this.content.errors?.minlength || this.content.errors?.maxlength) {
+      return `Content must be between ${this.addItem.minLength } and ${this.addItem.maxLength } characters long`
+    }
+
+    if (this.category.errors?.required) {
+      return 'Category is required';
+    }
   }
 
   onFormatHelp() {

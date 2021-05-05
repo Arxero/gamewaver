@@ -17,8 +17,7 @@
               #myTextArea (click)="getCaretPos(myTextArea)"
               (keyup)="getCaretPos(myTextArea)">
           </textarea>
-          <mat-error *ngIf="content.errors?.minlength || content.errors?.maxlength">Content must be between {{ addItem.minLength }} and {{ addItem.maxLength }} characters long</mat-error>
-          <mat-error *ngIf="content.errors?.required">Content is required</mat-error>
+          <mat-error *ngIf="content.invalid">{{ getErrorMessage() }}</mat-error>
           </mat-form-field>
         </div>
 
@@ -28,7 +27,7 @@
             <mat-select formControlName="category" required>
               <mat-option *ngFor="let item of categories" [value]="item.value">{{ item.label }}</mat-option>
             </mat-select>
-            <mat-error *ngIf="category.invalid && category.errors.required">Category is required</mat-error>
+            <mat-error *ngIf="category.invalid">{{ getErrorMessage() }}</mat-error>
           </mat-form-field>
           <button mat-icon-button color="primary" (click)="onFormatHelp()">
             <mat-icon>text_format</mat-icon>
