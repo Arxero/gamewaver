@@ -16,7 +16,7 @@ import { ScrollPositionService } from './services/scroll-position.service';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
-  selector: 'app-posts',
+  selector: 'gw-posts',
   templateUrl: './posts.component.html',
 })
 export class PostsComponent extends OnDestroyCleanup implements AfterViewInit {

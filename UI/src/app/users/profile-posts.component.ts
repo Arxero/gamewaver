@@ -16,7 +16,7 @@ export interface UrlProfileData {
 }
 
 @Component({
-  selector: 'app-profile-posts',
+  selector: 'gw-profile-posts',
   templateUrl: './profile-posts.component.html',
 })
 export class ProfilePostsComponent extends OnDestroyCleanup implements OnInit {

@@ -8,7 +8,7 @@ export interface ExpansionPanel {
 }
 
 @Component({
-  selector: 'app-faq',
+  selector: 'gw-faq',
   templateUrl: './faq.component.html',
 })
 export class FaqComponent {

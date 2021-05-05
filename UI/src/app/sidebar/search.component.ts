@@ -5,7 +5,7 @@ import { SidebarNavigation } from './sidebar-view.models';
 import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
 
 @Component({
-  selector: 'app-search',
+  selector: 'gw-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })

@@ -7,7 +7,7 @@ import { distinctUntilChanged, delayWhen } from 'rxjs/operators';
 import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
 
 @Component({
-  selector: 'app-header',
+  selector: 'gw-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })

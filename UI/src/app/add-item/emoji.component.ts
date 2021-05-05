@@ -10,7 +10,7 @@ import {
 import { TemplatePortalDirective } from '@angular/cdk/portal';
 
 @Component({
-  selector: 'app-emoji',
+  selector: 'gw-emoji',
   templateUrl: './emoji.component.html',
 })
 export class EmojiComponent {

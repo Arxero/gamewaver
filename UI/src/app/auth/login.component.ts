@@ -6,7 +6,7 @@ import { LoginCmd } from './auth.models';
 import { AuthService } from './auth.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'gw-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })

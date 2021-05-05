@@ -8,7 +8,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 
 @Component({
-  selector: 'app-home',
+  selector: 'gw-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })

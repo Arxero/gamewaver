@@ -12,7 +12,7 @@ interface ArchiveComponentChanges extends SimpleChanges {
 }
 
 @Component({
-  selector: 'app-archive',
+  selector: 'gw-archive',
   templateUrl: './archive.component.html',
   styleUrls: ['./archive.component.scss'],
 })

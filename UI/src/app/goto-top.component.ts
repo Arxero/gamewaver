@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 
 @Component({
-  selector: 'app-goto-top',
+  selector: 'gw-goto-top',
   template: `
     <button
       *ngIf="isShow"

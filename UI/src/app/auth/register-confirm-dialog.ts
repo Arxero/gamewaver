@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SentEmailDto } from './auth.models';
 
 @Component({
-  selector: 'app-register-confirm-dialog',
+  selector: 'gw-register-confirm-dialog',
   template: `
     <h2 mat-dialog-title>Confirm Your Email</h2>
     <p>

@@ -29,7 +29,7 @@ export const MenuItems: Menu[] = [
 ];
 
 @Component({
-  selector: 'app-menu',
+  selector: 'gw-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })

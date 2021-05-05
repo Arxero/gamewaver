@@ -9,7 +9,7 @@ export interface TeamItem {
 }
 
 @Component({
-  selector: 'app-team',
+  selector: 'gw-team',
   templateUrl: './team.component.html',
   styleUrls: ['./team.component.scss']
 })

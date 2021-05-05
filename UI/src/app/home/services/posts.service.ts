@@ -203,8 +203,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
 
   updateComment(postId: string, isDelete?: boolean): void {
     const post = { ...this._posts.find(x => x.id === postId) };
-
-    if(isEmpty(post)) {
+    if (isEmpty(post)) {
       return;
     }
 
@@ -213,7 +212,6 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     } else {
       post.comments++;
     }
-
     const i = this._posts.findIndex(x => x.id === postId);
     this._posts.splice(i, 1, post);
     this._postsSubject.next({ items: this._posts, total: this._total });
@@ -256,9 +254,6 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
   private getPostDate(post: GetPostDtoEx): string {
     let date: Date;
     switch (this.action) {
-      case UserActionOnPost.Posted:
-        date = post.createdAt;
-        break;
       case UserActionOnPost.Commented:
         date = post.commentCreated;
         break;

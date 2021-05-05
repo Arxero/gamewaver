@@ -6,14 +6,14 @@
       </button>
     </div>
 
-    <app-menu></app-menu>
+    <gw-menu></gw-menu>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <app-header [sidenav]="sidenav"></app-header>
+    <gw-header [sidenav]="sidenav"></gw-header>
     <main>
       <router-outlet></router-outlet>
-      <app-goto-top></app-goto-top>
+      <gw-goto-top></gw-goto-top>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

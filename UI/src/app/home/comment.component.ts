@@ -6,7 +6,7 @@ import { PostContext, CommentViewModel } from './models/home-view-model';
 import { CommentsService } from './services/comments.service';
 
 @Component({
-  selector: 'app-comment',
+  selector: 'gw-comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss'],
 })

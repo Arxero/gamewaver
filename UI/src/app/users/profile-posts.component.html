@@ -1,9 +1,9 @@
 <div infiniteScroll (scrolled)="onScrollDown()" *ngIf="posts$ | async as posts">
   <ng-container *ngFor="let item of posts.items">
-    <app-post
+    <gw-post
       [post]="item"
       [user]="user$ | async"
       [postContext]="postContext.ProfilePage"
-    ></app-post>
+    ></gw-post>
   </ng-container>
 </div>

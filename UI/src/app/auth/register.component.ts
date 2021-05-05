@@ -6,7 +6,7 @@ import { SignUpCmd } from './auth.models';
 import { AuthService } from './auth.service';
 
 @Component({
-  selector: 'app-register',
+  selector: 'gw-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })

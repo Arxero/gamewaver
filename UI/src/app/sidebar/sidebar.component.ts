@@ -8,7 +8,7 @@ import { SidebarHelperService } from './sidebar-helper.service';
 import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-sidebar',
+  selector: 'gw-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })

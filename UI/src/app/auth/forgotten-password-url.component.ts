@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ForgottenPasswordNewComponent } from './forgotten-password-new.component';
 
 @Component({
-  selector: 'app-forgotten-password-url',
+  selector: 'gw-forgotten-password-url',
   template: ``,
 })
 export class ForgottenPasswordUrlComponent implements OnInit {

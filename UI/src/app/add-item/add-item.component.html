@@ -32,8 +32,8 @@
           <button mat-icon-button color="primary" (click)="onFormatHelp()">
             <mat-icon>text_format</mat-icon>
           </button>
-          <app-upload (imageLink)="onUpload($event)"></app-upload>
-          <app-emoji (emoji)="onAddedEmoji($event)" #emoji></app-emoji>
+          <gw-upload (imageLink)="onUpload($event)"></gw-upload>
+          <gw-emoji (emoji)="onAddedEmoji($event)" #emoji></gw-emoji>
           <button mat-stroked-button color="accent" class="form-button cancel" (click)="onCancel()">Cancel</button>
           <button mat-raised-button color="primary" class="form-button" [disabled]="itemForm.invalid" (click)="onSubmit()">{{ addItem.content ? 'SAVE' : 'SUBMIT' }}</button>
         </div>

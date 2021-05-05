@@ -9,7 +9,7 @@ import { UsersService } from './users.service';
 import { ProfileBase } from './profile.base';
 
 @Component({
-  selector: 'app-edit',
+  selector: 'gw-edit',
   templateUrl: './profile-edit.component.html',
   styleUrls: ['./profile-edit.component.scss'],
 })

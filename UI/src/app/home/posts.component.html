@@ -1,4 +1,4 @@
-<app-add-item *ngIf="user" [addItem]="addItem"></app-add-item>
+<gw-add-item *ngIf="user" [addItem]="addItem"></gw-add-item>
 
 <div
   class="posts"
@@ -8,10 +8,10 @@
   *ngIf="posts$ | async as posts"
 >
   <ng-container *ngFor="let item of posts.items">
-    <app-post
+    <gw-post
       [post]="item"
       [user]="user"
       [postContext]="postContext.PostsPage"
-    ></app-post>
+    ></gw-post>
   </ng-container>
 </div>

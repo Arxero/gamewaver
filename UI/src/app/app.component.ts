@@ -9,7 +9,7 @@ import { MenuItems } from './shared/menu.component';
 import { AuthService } from './auth/auth.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'gw-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

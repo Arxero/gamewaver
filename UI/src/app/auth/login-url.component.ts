@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LoginComponent } from './login.component';
 
 @Component({
-  selector: 'app-login-url',
+  selector: 'gw-login-url',
   template: '',
 })
 export class LoginUrlComponent implements OnInit {

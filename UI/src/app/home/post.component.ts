@@ -15,7 +15,7 @@ import { SidebarNavigation } from '../sidebar/sidebar-view.models';
 import { loginFullRoute } from '../auth/auth.models';
 
 @Component({
-  selector: 'app-post',
+  selector: 'gw-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
 })

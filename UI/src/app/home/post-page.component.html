@@ -1,22 +1,22 @@
-<app-post
+<gw-post
   [post]="post"
   [postContext]="postContext.PostPage"
   [user]="user"
   *ngIf="post && isDefaultOrEditComment"
   (editPost)="onEditPost()"
-></app-post>
+></gw-post>
 
-<app-add-item
+<gw-add-item
   (cancelEditItem)="onCancelPostEdit()"
   *ngIf="pageState === postPageState.EditPost"
   [addItem]="editItemPost"
-></app-add-item>
+></gw-add-item>
 
-<app-add-item
+<gw-add-item
   (cancelEditItem)="onCancelCommentEdit()"
   *ngIf="isDefaultOrEditComment && user"
   [addItem]="editItemComment"
-></app-add-item>
+></gw-add-item>
 
 <div
   infiniteScroll
@@ -25,13 +25,13 @@
   *ngIf="comments"
 >
   <ng-container *ngFor="let item of comments.items">
-    <app-comment
+    <gw-comment
       *ngIf="post"
       [comment]="item"
       [user]="user"
       (editComment)="onEditComment($event)"
       [postContext]="postContext.PostPage"
       [postAuthorId]="post.authorId"
-    ></app-comment>
+    ></gw-comment>
   </ng-container>
 </div>

@@ -14,7 +14,7 @@ interface SortByComponentChanges extends SimpleChanges {
 }
 
 @Component({
-  selector: 'app-sort-by',
+  selector: 'gw-sort-by',
   templateUrl: './sort-by.component.html',
   styleUrls: ['./sort-by.component.scss'],
 })

@@ -9,7 +9,7 @@ import { CommentCmd, postCategories, PostCmd } from '../home/models';
 import { PostsService } from '../home/services/posts.service';
 
 @Component({
-  selector: 'app-add-item',
+  selector: 'gw-add-item',
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.scss'],
 })

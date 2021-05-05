@@ -6,7 +6,7 @@ export interface FormatHelpItem {
 }
 
 @Component({
-  selector: 'app-formatting-help',
+  selector: 'gw-formatting-help',
   templateUrl: './formatting-help.component.html',
   styleUrls: ['./formatting-help.component.scss'],
 })

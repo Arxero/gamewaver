@@ -5,7 +5,7 @@ import { SnackbarService } from '../services/snackbar.service';
 import { ImgurReponse, ImgurError } from '../home/models/imgur-response';
 
 @Component({
-  selector: 'app-upload',
+  selector: 'gw-upload',
   templateUrl: './upload.component.html',
 })
 export class UploadComponent {

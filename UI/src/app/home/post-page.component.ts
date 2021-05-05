@@ -11,7 +11,7 @@ import { CommentsService } from './services/comments.service';
 import { PostsService } from './services/posts.service';
 
 @Component({
-  selector: 'app-post-page',
+  selector: 'gw-post-page',
   templateUrl: './post-page.component.html',
 })
 export class PostPageComponent extends OnDestroyCleanup implements OnInit, OnDestroy {

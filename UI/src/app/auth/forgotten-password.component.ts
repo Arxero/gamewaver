@@ -4,7 +4,7 @@ import { ForgotPasswordCmd } from './auth.models';
 import { AuthService } from './auth.service';
 
 @Component({
-  selector: 'app-forgotten-password',
+  selector: 'gw-forgotten-password',
   templateUrl: './forgotten-password.component.html',
   styleUrls: ['./forgotten-password.component.scss'],
 })

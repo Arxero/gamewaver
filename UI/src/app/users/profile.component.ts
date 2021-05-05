@@ -7,7 +7,7 @@ import { UsersService } from './users.service';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'gw-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
