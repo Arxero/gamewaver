@@ -243,8 +243,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
       ...post,
       date: this.getPostDate(post),
       tooltipDate: moment(this.getPostDate(post)).format('MMMM DD, YYYY [at] hh:mm A'),
-      userRole: this.isNotUserRole(post.role),
-      category: post.category,
+      userRole: post.role !== UserRole.USER ? post.role : null,
       categoryLabel: postCategories.find(j => j.value === post.category).label,
       userActionOnPost: this.action,
       vote: votes?.find(v => v.postId === post.id),
@@ -267,9 +266,4 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
 
     return date.toString();
   }
-
-  // to be refactored after other stuff here are done
-  private isNotUserRole = (role: UserRole): UserRole | null => {
-    return role !== UserRole.USER ? role : null;
-  };
 }

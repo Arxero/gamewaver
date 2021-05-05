@@ -34,14 +34,14 @@
   );
 }
 
-app-add-item .mat-tab-header,
-app-profile .mat-tab-header {
+gw-add-item .mat-tab-header,
+gw-profile .mat-tab-header {
   background: #2b2b2b;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
 
-app-home {
+gw-home {
   mat-card {
     margin-bottom: 16px;
   }
@@ -51,7 +51,7 @@ app-home {
   }
 }
 
-app-post .mat-badge-content {
+gw-post .mat-badge-content {
   transition: none;
 }
 
@@ -60,8 +60,8 @@ app-post .mat-badge-content {
 }
 
 @media screen and (max-width: 500px) {
-  app-post .mat-card,
-  app-comment .mat-card {
+  gw-post .mat-card,
+  gw-comment .mat-card {
     padding: 16px 4px;
   }
 }
