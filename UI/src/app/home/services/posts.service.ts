@@ -201,6 +201,24 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     this._postsSubject.next({ items: this._posts, total: this._total });
   }
 
+  updateComment(postId: string, isDelete?: boolean): void {
+    const post = { ...this._posts.find(x => x.id === postId) };
+
+    if(isEmpty(post)) {
+      return;
+    }
+
+    if (isDelete) {
+      post.comments--;
+    } else {
+      post.comments++;
+    }
+
+    const i = this._posts.findIndex(x => x.id === postId);
+    this._posts.splice(i, 1, post);
+    this._postsSubject.next({ items: this._posts, total: this._total });
+  }
+
   private async getUserVotes(posts: GetPostDto[]): Promise<GetVoteDto[]> {
     if (!this.authApiService.isLoggedIn()) {
       return;

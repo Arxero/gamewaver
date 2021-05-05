@@ -11,6 +11,7 @@ import { User, UserRole } from '../../users/user';
 import { CommentCmd, GetCommentDto } from '../models/home.models';
 import { EnvironmentService } from '../../services/environment.service';
 import { BaseService } from 'src/app/shared/models/base.service';
+import { PostsService } from './posts.service';
 
 @Injectable()
 export class CommentsService extends BaseService<CommentCmd> {
@@ -41,6 +42,7 @@ export class CommentsService extends BaseService<CommentCmd> {
     private usersApiService: UsersApiService,
     environmentService: EnvironmentService,
     snackbarService: SnackbarService,
+    private postsService: PostsService
   ) {
     super(environmentService, snackbarService);
   }
@@ -80,6 +82,7 @@ export class CommentsService extends BaseService<CommentCmd> {
       this._comments.unshift(mappedComment);
       this._total++;
       this._commentsSubject.next({ items: this._comments, total: this._total });
+      this.postsService.updateComment(this.postId);
     } catch (error) {
       this.handleFailure(error, SnackbarErrors.CreateComment);
     } finally {
@@ -102,7 +105,22 @@ export class CommentsService extends BaseService<CommentCmd> {
     }
   }
 
-
+  async delete(id: string): Promise<void> {
+    try {
+      this.loadingService.setUILoading();
+      await this.commentsApiService.delete(id);
+      const deletedIndex = this._comments.findIndex(x => x.id === id);
+      this._comments.splice(deletedIndex, 1);
+      this._total--;
+      this._commentsSubject.next({ items: this._comments, total: this._total });
+      this.snackbarService.showInfo('Comment Deleted Successfully');
+      this.postsService.updateComment(this.postId, true);
+    } catch (error) {
+      this.handleFailure(error, SnackbarErrors.DeleteComment);
+    } finally {
+      this.loadingService.setUILoading(false);
+    }
+  }
 
   startEdit(id: string): void {
     this._indexOfEditedComment = this._comments.findIndex(x => x.id === id);
@@ -117,22 +135,6 @@ export class CommentsService extends BaseService<CommentCmd> {
 
     this._comments.splice(this._indexOfEditedComment, 0, comment)
     this._commentsSubject.next({ items: this._comments, total: this._total });
-  }
-
-  async delete(id: string): Promise<void> {
-    try {
-      this.loadingService.setUILoading();
-      await this.commentsApiService.delete(id);
-      const deletedIndex = this._comments.findIndex(x => x.id === id);
-      this._comments.splice(deletedIndex, 1);
-      this._total--;
-      this._commentsSubject.next({ items: this._comments, total: this._total });
-      this.snackbarService.showInfo('Comment Deleted Successfully');
-    } catch (error) {
-      this.handleFailure(error, SnackbarErrors.DeleteComment);
-    } finally {
-      this.loadingService.setUILoading(false);
-    }
   }
 
   clear(): void {
