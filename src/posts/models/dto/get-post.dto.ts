@@ -12,9 +12,9 @@ export interface IPostDtoEx extends IPost {
   avatar: string;
   username: string;
   authorId: string;
-  voteCreated: Date;
-  commentAuthor: string;
-  commentCreated: Date;
+  // these two would be null if we are not looking for votes or commented posts
+  voteCreated?: Date;
+  commentCreated?: Date;
 }
 
 export class GetPostDto extends BaseDto {
@@ -41,7 +41,6 @@ export class GetPostDtoEx extends GetPostDto {
     this.username = data.username;
     this.authorId = data.authorId;
     this.voteCreated = data.voteCreated;
-    this.commentAuthor = data.commentAuthor;
     this.commentCreated = data.commentCreated;
   }
 
@@ -52,6 +51,5 @@ export class GetPostDtoEx extends GetPostDto {
   avatar: string;
   username: string;
   voteCreated: Date;
-  commentAuthor: string;
   commentCreated: Date;
 }

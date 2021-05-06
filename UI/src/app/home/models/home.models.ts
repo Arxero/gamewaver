@@ -54,7 +54,6 @@ export interface GetPostDtoEx extends GetPostDto {
   role: UserRole;
   avatar: string;
   username: string;
-  voteCreated: Date; // when user voted on this post
-  commentAuthor: string; // id of the author
-  commentCreated: Date; // when user commented on this post
+  voteCreated?: Date; // when user voted on this post
+  commentCreated?: Date; // when user commented on this post
 }

@@ -16,11 +16,7 @@ import { UsersService } from 'src/users/users.service';
 import { ResponseError } from 'src/common/models/response';
 import { QueryRequest } from 'src/common/models/query-request';
 import { PagedData } from 'src/common/models/paged-data';
-import {
-  GetPostDto,
-  IPostDtoEx,
-  GetPostDtoEx,
-} from './models/dto/get-post.dto';
+import { GetPostDto, IPostDtoEx, GetPostDtoEx } from './models/dto/get-post.dto';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { TokenUserPayloadDto } from 'src/auth/models/dto/token-user-payload.dto';
@@ -49,23 +45,41 @@ export class PostsService extends BaseService {
       });
       return await this.postsRepository.save(post);
     } catch (error) {
-      throw new BadRequestException(
-        new ResponseError({ message: error.toString() }),
-      );
+      throw new BadRequestException(new ResponseError({ message: error.toString() }));
     }
   }
 
   async findAll(queryRequest: QueryRequest): Promise<PagedData<GetPostDto>> {
-    const sqb = new SimpleQueryBuilder()
-      .select('*', 'x')
-      .from('posts')
+    const sqb = new SimpleQueryBuilder().select('*', 'x').from('posts');
+    const userId = queryRequest.filters?.find(x => x.fieldName === 'userId');
+    const commentAuthor = queryRequest.filters?.find(x => x.fieldName === 'commentAuthor');
+
+    if (userId) {
+      sqb.join(
+        'INNER',
+        ['postId', 'userId', 'createdAt AS voteCreated'],
+        null,
+        'post_votes',
+        'v1',
+        `v1.postId = x.id AND userId = '${userId.searchValue}'`,
+      );
+    } else if (commentAuthor) {
+      sqb.join(
+        'INNER',
+        ['postId', 'authorId AS commentAuthor', 'createdAt AS commentCreated'],
+        'commentAuthor, postId',
+        'comments',
+        'c1',
+        `c1.postId = x.id AND commentAuthor = '${commentAuthor.searchValue}'`,
+      );
+    }
+
+    sqb
       .join(
         'LEFT',
         [
           'postId',
           'type',
-          'userId',
-          'createdAt AS voteCreated',
           'COUNT(IF(type = "upvote", 1, null)) upvotes',
           'COUNT(IF(type = "downvote", 1, null)) downvotes',
         ],
@@ -76,12 +90,7 @@ export class PostsService extends BaseService {
       )
       .join(
         'LEFT',
-        [
-          'postId',
-          'authorId AS commentAuthor',
-          'createdAt AS commentCreated',
-          'COUNT(*) comments',
-        ],
+        ['postId', 'COUNT(*) comments'],
         'postId',
         'comments',
         'c',
@@ -89,19 +98,17 @@ export class PostsService extends BaseService {
       )
       .join(
         'LEFT',
-        ['role', 'avatar', 'username', 'id AS joinedAuthorId'],
+        ['role', 'avatar', 'username', 'id AS postAuthorId'],
         null,
         'users',
-        'a',
-        'a.joinedAuthorId = x.authorId',
+        'u',
+        'u.postAuthorId = x.authorId',
       )
       .where(queryRequest.filters ? queryRequest.filters[0].filterSql : '')
       .orderBy(queryRequest.sorting.order)
       .paging(queryRequest.paging.take, queryRequest.paging.skip);
 
-    const items = (await this.postsRepository.query(
-      sqb.build(),
-    )) as IPostDtoEx[];
+    const items = (await this.postsRepository.query(sqb.build())) as IPostDtoEx[];
 
     const [{ total }] = await this.postsRepository.query(
       sqb
@@ -125,8 +132,7 @@ export class PostsService extends BaseService {
     } catch (error) {
       throw new InternalServerErrorException(error.toString());
     }
-    if (!post)
-      throw new NotFoundException(new ResponseError({ message: 'Not Found' }));
+    if (!post) throw new NotFoundException(new ResponseError({ message: 'Not Found' }));
     return post;
   }
 
