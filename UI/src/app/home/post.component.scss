@@ -1,16 +1,4 @@
 .post {
-  .post-header-image {
-    img {
-      width: 48px;
-      border-radius: 2px;
-      box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
-        rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
-    }
-  }
-  a:hover {
-    text-decoration: underline;
-  }
-
   .category {
     cursor: pointer;
   }
@@ -21,30 +9,10 @@ markdown ::ng-deep {
     max-width: 100%;
     display: block;
   }
-
 }
 
 mat-card {
   margin-bottom: 16px;
-}
-
-
-.mat-card-subtitle {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.51);
-}
-
-.mat-card-header .mat-card-subtitle:not(:first-child) {
-  margin-top: -10px;
-}
-
-.mat-card-header .mat-card-title {
-  font-size: 18px;
-}
-
-.mat-card-title {
-  display: flex;
-  align-items: center;
 }
 
 .mat-card-actions {

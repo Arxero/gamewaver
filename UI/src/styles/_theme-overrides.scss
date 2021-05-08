@@ -59,6 +59,12 @@ gw-post .mat-badge-content {
   opacity: 0;
 }
 
+.mat-tab-links, .mat-menu-content  {
+  & > a:hover {
+    text-decoration: none;
+  }
+}
+
 @media screen and (max-width: 500px) {
   gw-post .mat-card,
   gw-comment .mat-card {

@@ -1,28 +1,13 @@
 <mat-card class="post">
-  <mat-card-header *ngIf="postContext === postContexts.PostsPage || postContext === postContexts.PostPage">
-    <div mat-card-avatar class="post-header-image">
-      <a [routerLink]="[userProfileRoute, post.authorId]">
-        <img [src]="post.avatar  || './assets/images/common/no_avatar.jpg'" alt="{{ post.username }}'s avatar">
-      </a>
-    </div>
-    <mat-card-title>
-      <a [routerLink]="[userProfileRoute, post.authorId]">
-        {{ post.username }}
-      </a>
-      <span class="role" [ngClass]="post.userRole" *ngIf="post.userRole">{{ post.userRole | titlecase }}</span>
-    </mat-card-title>
-    <mat-card-subtitle>
-      <a class="category" (click)="navigate()">{{ post.categoryLabel }}</a> ·
-      <span [matTooltip]="post.tooltipDate">{{ post.date | timeAgo }}</span>
-    </mat-card-subtitle>
-  </mat-card-header>
+  <gw-user-info [userInfo]="userInfo" [showInfo]="!isProfilePage">
+    <a class="category" (click)="navigate()" *ngIf="!isProfilePage else categoryText;">{{ post.categoryLabel }}</a> ·
+    <span [matTooltip]="post.tooltipDate">{{ post.date | timeAgo }}</span>
+    <span *ngIf="isProfilePage"> · {{ post.userActionOnPost }}</span>
+  </gw-user-info>
 
-  <mat-card-subtitle *ngIf="postContext === postContexts.ProfilePage">
-    <span>{{ post.categoryLabel }}</span> ·
-    <span [matTooltip]="post.tooltipDate">{{ post.date | timeAgo }}</span> ·
-    <span>{{ post.userActionOnPost }}</span>
-  </mat-card-subtitle>
-
+  <ng-template #categoryText>
+    <span>{{ post.categoryLabel }}</span>
+  </ng-template>
 
   <mat-card-content>
     <markdown [data]="post.content" ngPreserveWhitespaces></markdown>

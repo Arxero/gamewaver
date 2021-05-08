@@ -40,7 +40,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
   private _noMorePosts: boolean;
 
   postContext: PostContext;
-  action: UserActionOnPost = UserActionOnPost.Posted;
+  action = UserActionOnPost.Posted;
 
   get posts$(): Observable<PagedData<PostViewModel>> {
     return this._postsSubject.asObservable();
@@ -171,7 +171,7 @@ export class PostsService extends BaseService<PostCmd> implements OnDestroy {
     this._noMorePosts = false;
     this.paging.skip = 0;
     this._total = null;
-    this.action = null;
+    this.action = UserActionOnPost.Posted;
     this._post = null;
   }
 

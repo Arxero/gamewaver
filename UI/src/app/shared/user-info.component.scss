@@ -1,0 +1,35 @@
+.mat-card-header {
+  &.profile {
+    margin-left: -8px;
+  }
+
+  .mat-card-avatar {
+    height: 48px;
+    width: 48px;
+
+    img {
+      width: 48px;
+      border-radius: 2px;
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px,
+        rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+    }
+  }
+
+  .mat-card-title {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    margin-left: -8px;
+  }
+
+  .mat-card-subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.51);
+    margin-left: -8px;
+
+    &:not(:first-child) {
+      margin-top: -10px;
+    }
+  }
+}
+

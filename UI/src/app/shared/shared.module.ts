@@ -10,10 +10,10 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MarkdownModule } from 'ngx-markdown';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
-import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
+import { UserInfoComponent } from './user-info.component';
 
 @NgModule({
-  declarations: [HeaderComponent, MenuComponent, TimeAgoPipe],
+  declarations: [HeaderComponent, MenuComponent, TimeAgoPipe, UserInfoComponent],
   imports: [
     CommonModule,
     MaterialModule,
@@ -39,6 +39,7 @@ import { SidebarNavigationService } from '../home/services/sidebar-navigation.se
     PickerModule,
     RecaptchaModule,
     RecaptchaFormsModule,
+    UserInfoComponent,
   ],
 })
 export class SharedModule {}

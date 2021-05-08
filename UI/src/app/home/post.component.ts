@@ -13,6 +13,7 @@ import { VotesService } from './services/votes.service';
 import { SidebarNavigationService } from './services/sidebar-navigation.service';
 import { SidebarNavigation } from '../sidebar/sidebar-view.models';
 import { loginFullRoute } from '../auth/auth.models';
+import { UserInfo } from '../shared/user-info.component';
 
 @Component({
   selector: 'gw-post',
@@ -38,6 +39,20 @@ export class PostComponent implements OnInit {
     return this.postContext === PostContext.PostPage
       ? `../../${usersProfileFullRoute()}`
       : `../${usersProfileFullRoute()}`;
+  }
+
+  get userInfo(): UserInfo {
+    return {
+      id: this.post.authorId,
+      avatar: this.post.avatar,
+      username: this.post.username,
+      role: this.post.userRole,
+      link: [this.userProfileRoute, this.post.authorId]
+    }
+  }
+
+  get isProfilePage(): boolean {
+    return this.postContext === this.postContexts.ProfilePage;
   }
 
   constructor(
