@@ -110,7 +110,6 @@ export class PostPageComponent extends OnDestroyCleanup implements OnInit, OnDes
       minLength: 3,
       maxLength: isPost ? 5000 : 1000,
       userAvatar: this.user?.avatar,
-      postId: this.post.id,
     };
   }
 

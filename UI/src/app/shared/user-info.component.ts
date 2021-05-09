@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, HostBinding } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, HostBinding, ViewEncapsulation } from '@angular/core';
 import { PostContext } from '../home/models';
 
 export interface UserInfo {
@@ -8,17 +8,21 @@ export interface UserInfo {
   username?: string;
   role?: string;
   link?: string[];
+  joinedAt?: string;
 }
 
 @Component({
   selector: 'gw-user-info',
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class UserInfoComponent implements OnChanges {
   @Input() userInfo: UserInfo;
   @Input() showAvatarFallback = true;
   @Input() showInfo = true;
+  @HostBinding('class') class = 'user-info';
+  @HostBinding('class.profile') @Input() isProfile: boolean;;
   avatar: string;
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -1,31 +1,27 @@
 <mat-card class="profile" *ngIf="user">
-  <div class="image">
-    <img [src]="user.avatar || user.defaultAvatar" alt="{{ user.username }}'s avatar" />
-  </div>
-  <div class="info">
-    <div class="name">
-      <span [matTooltip]="user.joinedAt">{{ user.username }}</span>
-      <span class="role" [ngClass]="user.userRole" *ngIf="user.userRole">{{ user.userRole | titlecase }}</span>
+  <gw-user-info [userInfo]="userInfo" [isProfile]="true">
+    <div class="details">
+      <div class="location" *ngIf="user.location">{{ user.location }}</div>
+      <div class="gender" *ngIf="user.gender">{{ user.gender | titlecase }}</div>
+      <markdown class="summary" [data]="user.summary || ''" ngPreserveWhitespaces></markdown>
     </div>
-    <div class="location">{{ user.location }}</div>
-    <div class="gender">{{ user.gender | titlecase }}</div>
-    <div class="summary">
-      <markdown [data]="user.summary || ''" ngPreserveWhitespaces></markdown>
-    </div>
-    <div class="actions">
-      <a mat-raised-button routerLink="edit" color="primary" *ngIf="isEditAllowed">Edit Profile</a>
-    </div>
+  </gw-user-info>
+
+  <div class="actions">
+    <a mat-raised-button routerLink="edit" color="primary" *ngIf="isEditAllowed">Edit Profile</a>
   </div>
 </mat-card>
 
-
 <nav mat-tab-nav-bar>
-  <a mat-tab-link *ngFor="let item of navLinks"
-  (click)="activeLink = item"
-  [routerLink]="item.link"
-  [active]="activeLink === item"> {{ item.label }} </a>
+  <a
+    mat-tab-link
+    *ngFor="let item of navLinks"
+    (click)="activeLink = item"
+    [routerLink]="item.link"
+    [active]="activeLink === item"
+  >
+    {{ item.label }}
+  </a>
 </nav>
 
 <router-outlet></router-outlet>
-
-

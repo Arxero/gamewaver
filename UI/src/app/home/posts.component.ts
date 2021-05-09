@@ -59,6 +59,7 @@ export class PostsComponent extends OnDestroyCleanup implements AfterViewInit {
     this.authService.profile$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
       this.user = x;
       this.addItem.userAvatar = this.user?.avatar;
+      this.addItem.userId = this.user?.id;
     })
 
     this.posts$ = this.postsService.posts$;

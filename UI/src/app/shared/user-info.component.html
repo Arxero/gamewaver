@@ -1,18 +1,28 @@
-<mat-card-header [class.profile]="!showInfo">
-  <div mat-card-avatar *ngIf="showInfo">
-    <a [routerLink]="userInfo.link">
-      <img [src]="avatar" alt="{{ userInfo.username }}'s avatar" />
-    </a>
+<div class="avatar" *ngIf="showInfo">
+  <img [src]="avatar"*ngIf="isProfile || !userInfo.link else clickableAvatar;"  alt="{{ userInfo.username }}'s avatar" />
+</div>
+
+<div class="info-container">
+  <div class="name" *ngIf="showInfo">
+    <span [matTooltip]="userInfo.joinedAt" *ngIf="isProfile else clickableName;">{{ userInfo.username }}</span>
+    <span class="role" [ngClass]="userInfo.role" *ngIf="userInfo.role">{{ userInfo.role | titlecase }}</span>
   </div>
 
-  <mat-card-title *ngIf="showInfo">
-    <a [routerLink]="userInfo.link">
-      {{ userInfo.username }}
-    </a>
-    <span class="role" [ngClass]="userInfo.role" *ngIf="userInfo.role">{{ userInfo.role | titlecase }}</span>
-  </mat-card-title>
+  <ng-content></ng-content>
+</div>
 
-  <mat-card-subtitle>
-    <ng-content></ng-content>
-  </mat-card-subtitle>
-</mat-card-header>
+<ng-template #clickableName>
+  <a [routerLink]="userInfo.link">{{ userInfo.username }}</a>
+</ng-template>
+
+<ng-template #clickableAvatar>
+  <a [routerLink]="userInfo?.link">
+    <img [src]="avatar" alt="{{ userInfo.username }}'s avatar" />
+  </a>
+</ng-template>
+
+
+
+
+
+

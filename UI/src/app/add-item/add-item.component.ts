@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { CommentCmd, postCategories, PostCmd } from '../home/models';
 import { PostsService } from '../home/services/posts.service';
+import { UserInfo } from '../shared/user-info.component';
 
 @Component({
   selector: 'gw-add-item',
@@ -34,6 +35,13 @@ export class AddItemComponent implements OnInit {
 
   get addItem(): AddItem {
     return this._addItem;
+  }
+
+  get userInfo(): UserInfo {
+    return {
+      id: this.addItem.userId,
+      avatar: this.addItem.userAvatar,
+    }
   }
 
   constructor(

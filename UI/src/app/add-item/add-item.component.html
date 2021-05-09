@@ -4,10 +4,7 @@
       <form [formGroup]="itemForm" class="post-form">
 
         <div class="content-container">
-          <div class="image">
-            <img [src]="addItem.userAvatar || './assets/images/common/no_avatar.jpg'"/>
-          </div>
-
+          <gw-user-info [userInfo]="userInfo"></gw-user-info>
           <mat-form-field class="form-field">
             <textarea
               [cdkTextareaAutosize]='true'

@@ -7,6 +7,6 @@ export interface AddItem {
   content?: string;
   category?: PostCategory;
   id?: string;
-  postId?: string;
   userAvatar?: string;
+  userId?: string;
 }
