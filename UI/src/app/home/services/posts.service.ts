@@ -27,7 +27,7 @@ import { AuthApiService } from '../../services/auth.api.service';
 import { User, UserRole } from '../../users/user';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es'
 
 @Injectable()
 export class PostsService extends BaseService<PostCmd> implements OnDestroy {

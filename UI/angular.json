@@ -40,8 +40,7 @@
               "node_modules/prismjs/components/prism-scss.js",
               "node_modules/prismjs/components/prism-typescript.min.js",
               "node_modules/prismjs/components/prism-javascript.min.js"
-            ],
-            "allowedCommonJsDependencies": ["lodash"]
+            ]
           },
           "configurations": {
             "production": {

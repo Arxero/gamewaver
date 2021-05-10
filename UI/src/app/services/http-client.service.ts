@@ -3,7 +3,6 @@ import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
 import { EnvironmentService } from './environment.service';
 import { AuthApiService } from './auth.api.service';
 import { Paging, Sorting, DataFilter } from '../shared/models/common';
-import { filter } from 'lodash';
 
 export interface IRequestOptions {
   headers?: HttpHeaders;
