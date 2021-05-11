@@ -1,5 +1,5 @@
 <mat-card class="post">
-  <gw-user-info [userInfo]="userInfo" [showInfo]="!isProfilePage">
+  <gw-user-info [userInfo]="userInfo" [contextInput]="userInfoContext">
     <div class="category">
       <a (click)="navigate()" *ngIf="!isProfilePage else categoryText;">{{ post.categoryLabel }}</a> ·
       <span [matTooltip]="post.tooltipDate">{{ post.date | timeAgo }}</span>

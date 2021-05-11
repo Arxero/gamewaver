@@ -1,12 +1,7 @@
 <mat-card class="edit-profile-container" *ngIf="user">
   <form [formGroup]="editProfileForm" class="register-form">
     <h2>Edit Profile</h2>
-
-    <div class="image-wrapper">
-      <div class="image">
-        <img [src]="user.avatar" alt="{{ user.username }}'s avatar" />
-      </div>
-    </div>
+    <gw-user-info [userInfo]="userInfo" [contextInput]="userInfoContext.ProfileEdit"></gw-user-info>
 
     <mat-form-field class="form-field">
       <input matInput placeholder="Avatar" formControlName="avatar"/>

@@ -4,7 +4,7 @@
       <form [formGroup]="itemForm" class="post-form">
 
         <div class="content-container">
-          <gw-user-info [userInfo]="userInfo"></gw-user-info>
+          <gw-user-info [userInfo]="userInfo" [contextInput]="userInfoContext.AddItem"></gw-user-info>
           <mat-form-field class="form-field">
             <textarea
               [cdkTextareaAutosize]='true'

@@ -1,3 +1,4 @@
+import { UserInfoContext } from './../shared/user-info.component';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { usersProfileFullRoute } from '../users/users.routing';
 import { UserRole, User } from '../users/user';
@@ -53,6 +54,14 @@ export class PostComponent implements OnInit {
 
   get isProfilePage(): boolean {
     return this.postContext === this.postContexts.ProfilePage;
+  }
+
+  get userInfoContext(): UserInfoContext {
+    if (this.postContext === this.postContexts.ProfilePage) {
+      return UserInfoContext.ProfilePost;
+    }
+
+    return UserInfoContext.Post;
   }
 
   constructor(

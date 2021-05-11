@@ -1,5 +1,5 @@
 import { AuthService } from './../auth/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserGender, UpdateUserCmd } from './user';
 import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
@@ -7,14 +7,17 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from './users.service';
 import { ProfileBase } from './profile.base';
+import { UserInfo, UserInfoContext } from '../shared/user-info.component';
 
 @Component({
   selector: 'gw-edit',
   templateUrl: './profile-edit.component.html',
   styleUrls: ['./profile-edit.component.scss'],
 })
-export class ProfileEditComponent extends ProfileBase implements OnInit {
+export class ProfileEditComponent extends ProfileBase implements OnInit, OnDestroy {
   editProfileForm: FormGroup;
+  tempAvatar: string;
+  userInfoContext = UserInfoContext;
 
   constructor(route: ActivatedRoute, usersService: UsersService, authService: AuthService) {
     super(route, usersService, authService);
@@ -31,11 +34,23 @@ export class ProfileEditComponent extends ProfileBase implements OnInit {
     });
   }
 
+  get userInfo(): UserInfo {
+    return {
+      id: this.user.id,
+      avatar: this.user.avatar,
+      username: this.user.username,
+    }
+  }
+
   ngOnInit(): void {
     this.initializeData();
     this.avatar.valueChanges.subscribe(x => {
       this.user.avatar = x || window.location.origin + this.user.defaultAvatar;
     });
+  }
+
+  ngOnDestroy(): void {
+
   }
 
   initializeData() {

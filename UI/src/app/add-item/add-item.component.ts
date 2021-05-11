@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { CommentCmd, postCategories, PostCmd } from '../home/models';
 import { PostsService } from '../home/services/posts.service';
-import { UserInfo } from '../shared/user-info.component';
+import { UserInfo, UserInfoContext } from '../shared/user-info.component';
 
 @Component({
   selector: 'gw-add-item',
@@ -20,6 +20,7 @@ export class AddItemComponent implements OnInit {
   caretPos = 0;
   categories = postCategories;
   showActions: boolean;
+  userInfoContext = UserInfoContext;
 
   @HostListener('mousedown')
   mousedown() {

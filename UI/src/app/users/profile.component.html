@@ -1,5 +1,5 @@
 <mat-card class="profile" *ngIf="user">
-  <gw-user-info [userInfo]="userInfo" [isProfile]="true">
+  <gw-user-info [userInfo]="userInfo" [contextInput]="userInfoContext.Profile">
     <div class="details">
       <div class="location" *ngIf="user.location">{{ user.location }}</div>
       <div class="gender" *ngIf="user.gender">{{ user.gender | titlecase }}</div>

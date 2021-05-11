@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavLink, navLinks } from './user-view-models';
 import { UsersService } from './users.service';
 import { AuthService } from '../auth/auth.service';
-import { UserInfo } from '../shared/user-info.component';
+import { UserInfo, UserInfoContext } from '../shared/user-info.component';
 
 @Component({
   selector: 'gw-profile',
@@ -15,6 +15,7 @@ import { UserInfo } from '../shared/user-info.component';
 export class ProfileComponent extends ProfileBase {
   activeLink: NavLink;
   navLinks = navLinks;
+  userInfoContext = UserInfoContext;
 
   constructor(route: ActivatedRoute, usersService: UsersService, authService: AuthService) {
     super(route, usersService, authService);

@@ -1,11 +1,11 @@
-<div class="avatar" *ngIf="showInfo">
-  <img [src]="avatar"*ngIf="isProfile || !userInfo.link else clickableAvatar;"  alt="{{ userInfo.username }}'s avatar" />
+<div class="avatar" *ngIf="contextInput !== context.ProfilePost">
+  <img [src]="avatar"*ngIf="shouldShowAvatarImage else clickableAvatar;"  alt="{{ userInfo.username }}'s avatar" />
 </div>
 
 <div class="info-container">
-  <div class="name" *ngIf="showInfo">
-    <span [matTooltip]="userInfo.joinedAt" *ngIf="isProfile else clickableName;">{{ userInfo.username }}</span>
-    <span class="role" [ngClass]="userInfo.role" *ngIf="userInfo.role">{{ userInfo.role | titlecase }}</span>
+  <div class="name" *ngIf="contextInput === context.Profile || contextInput === context.Post">
+    <span [matTooltip]="userInfo.joinedAt" *ngIf="contextInput === context.Profile else clickableName;">{{ userInfo.username }}</span>
+    <span class="role" [ngClass]="userInfo.role" *ngIf="userInfo.role">{{ userInfo?.role | titlecase }}</span>
   </div>
 
   <ng-content></ng-content>
