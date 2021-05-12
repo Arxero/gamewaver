@@ -1,11 +1,8 @@
 import { SidebarNavigation } from '../sidebar/sidebar-view.models';
-import { PagedData } from '../shared/models/common';
 import { Component, AfterViewInit } from '@angular/core';
-import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { takeUntil } from 'rxjs/operators';
 import { User } from '../users/user';
 import { ActivatedRoute } from '@angular/router';
-import { QueryRequest, QueryParams } from '../shared/models/query-request';
 import { PostContext, PostViewModel } from './models/home-view-model';
 import { AddItem } from '../add-item/add-item.models';
 import { ViewportScroller } from '@angular/common';
@@ -14,6 +11,7 @@ import { Observable } from 'rxjs';
 import { SidebarNavigationService } from './services/sidebar-navigation.service';
 import { ScrollPositionService } from './services/scroll-position.service';
 import { AuthService } from '../auth/auth.service';
+import { OnDestroyCleanup, PagedData, QueryRequest, QueryParams } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-posts',
@@ -60,7 +58,7 @@ export class PostsComponent extends OnDestroyCleanup implements AfterViewInit {
       this.user = x;
       this.addItem.userAvatar = this.user?.avatar;
       this.addItem.userId = this.user?.id;
-    })
+    });
 
     this.posts$ = this.postsService.posts$;
     this.sidebarNavigation.navigation$.pipe(takeUntil(this.destroyed$)).subscribe(x => {

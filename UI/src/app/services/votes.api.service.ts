@@ -1,7 +1,7 @@
 import { PostVoteCmd, GetVoteDto, GetVotesCountDto } from '../home/models/home.models';
-import { IResponse } from '../shared/models/response';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
+import { IResponse } from '@gamewaver/shared';
 
 @Injectable({
   providedIn: 'root',
@@ -9,9 +9,7 @@ import { HttpClientService } from './http-client.service';
 export class VotesApiService {
   BASE_URL = `votes`;
 
-  constructor(
-    @Inject('IHttpClientService') private httpClient: HttpClientService,
-  ) {}
+  constructor(@Inject('IHttpClientService') private httpClient: HttpClientService) {}
 
   create(cmd: PostVoteCmd): Promise<IResponse<GetVoteDto>> {
     return this.httpClient.post<IResponse<GetVoteDto>>(`${this.BASE_URL}`, cmd);

@@ -5,7 +5,6 @@ import { AuthApiService } from './services/auth.api.service';
 import { Router, Scroll } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ViewportScroller } from '@angular/common';
-import { MenuItems } from './shared/menu.component';
 import { AuthService } from './auth/auth.service';
 
 @Component({
@@ -15,9 +14,6 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent  extends OnDestroyCleanup implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
-  get menuItems() {
-    return MenuItems;
-  }
 
   constructor(
     private authApiService: AuthApiService,

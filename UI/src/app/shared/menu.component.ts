@@ -2,7 +2,6 @@ import { aboutRoute } from '../about/about.routing';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../auth/login.component';
-import { User } from '../users/user';
 import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
 import { UserViewModel } from '../users/user-view-models';

@@ -1,10 +1,10 @@
 import { UsersService } from './users.service';
 import { ActivatedRoute } from '@angular/router';
-import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { takeUntil } from 'rxjs/operators';
 import { UserViewModel } from './user-view-models';
 import { UserRole } from './user';
 import { AuthService } from '../auth/auth.service';
+import { OnDestroyCleanup, UserInfo } from '@gamewaver/shared';
 
 export class ProfileBase extends OnDestroyCleanup {
   user: UserViewModel;
@@ -40,5 +40,15 @@ export class ProfileBase extends OnDestroyCleanup {
 
   get isEditAllowed(): boolean {
     return this.userId === this.loggedInUser?.id || this.loggedInUser?.role === UserRole.ADMIN;
+  }
+
+  get userInfo(): UserInfo {
+    return {
+      id: this.user.id,
+      avatar: this.user.avatar,
+      username: this.user.username,
+      role: this.user.userRole,
+      joinedAt: this.user.joinedAt
+    }
   }
 }

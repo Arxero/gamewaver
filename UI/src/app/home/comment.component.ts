@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { User, UserRole } from '../users/user';
 import { PostContext, CommentViewModel } from './models/home-view-model';
 import { CommentsService } from './services/comments.service';
 import { usersProfileFullRoute } from '../users/user-view-models';
+import { OnDestroyCleanup } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-comment',

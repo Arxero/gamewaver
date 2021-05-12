@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
 import { EnvironmentService } from './environment.service';
 import { AuthApiService } from './auth.api.service';
-import { Paging, Sorting, DataFilter } from '../shared/models/common';
+import { Paging, Sorting, DataFilter } from '@gamewaver/shared';
 
 export interface IRequestOptions {
   headers?: HttpHeaders;
@@ -16,16 +16,8 @@ export interface IRequestOptions {
 
 export interface IHttpClientService {
   get<T>(endPoint: string, options?: IRequestOptions): Promise<T>;
-  post<T>(
-    endPoint: string,
-    params: object,
-    options?: IRequestOptions,
-  ): Promise<T>;
-  put<T>(
-    endPoint: string,
-    params: object,
-    options?: IRequestOptions,
-  ): Promise<T>;
+  post<T>(endPoint: string, params: object, options?: IRequestOptions): Promise<T>;
+  put<T>(endPoint: string, params: object, options?: IRequestOptions): Promise<T>;
   delete<T>(endPoint: string, options?: IRequestOptions): Promise<T>;
   setPaging(paging: Paging, httpParams: HttpParams): HttpParams;
   setSorting(sorting: Sorting[], httpParams: HttpParams): HttpParams;
@@ -47,35 +39,19 @@ export class HttpClientService implements IHttpClientService {
   }
 
   get<T>(endPoint: string, params?: object, options?: IRequestOptions): Promise<T> {
-    return this.http
-      .get<T>(this.url + endPoint, this.SetHeaders(options))
-      .toPromise();
+    return this.http.get<T>(this.url + endPoint, this.SetHeaders(options)).toPromise();
   }
 
-  post<T>(
-    endPoint: string,
-    params: object,
-    options?: IRequestOptions,
-  ): Promise<T> {
-    return this.http
-      .post<T>(this.url + endPoint, params, this.SetHeaders(options))
-      .toPromise();
+  post<T>(endPoint: string, params: object, options?: IRequestOptions): Promise<T> {
+    return this.http.post<T>(this.url + endPoint, params, this.SetHeaders(options)).toPromise();
   }
 
-  put<T>(
-    endPoint: string,
-    params: object,
-    options?: IRequestOptions,
-  ): Promise<T> {
-    return this.http
-      .put<T>(this.url + endPoint, params, this.SetHeaders(options))
-      .toPromise();
+  put<T>(endPoint: string, params: object, options?: IRequestOptions): Promise<T> {
+    return this.http.put<T>(this.url + endPoint, params, this.SetHeaders(options)).toPromise();
   }
 
   delete<T>(endPoint: string, options?: IRequestOptions): Promise<T> {
-    return this.http
-      .delete<T>(this.url + endPoint, this.SetHeaders(options))
-      .toPromise();
+    return this.http.delete<T>(this.url + endPoint, this.SetHeaders(options)).toPromise();
   }
 
   setPaging(paging: Paging, httpParams: HttpParams): HttpParams {

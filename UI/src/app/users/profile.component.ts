@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavLink, navLinks } from './user-view-models';
 import { UsersService } from './users.service';
 import { AuthService } from '../auth/auth.service';
-import { UserInfo, UserInfoContext } from '../shared/user-info.component';
+import { UserInfoContext } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-profile',
@@ -26,15 +26,5 @@ export class ProfileComponent extends ProfileBase {
     this.usersService.user$.pipe(takeUntil(this.destroyed$)).subscribe(u => {
       this.user = u;
     });
-  }
-
-  get userInfo(): UserInfo {
-    return {
-      id: this.user.id,
-      avatar: this.user.avatar,
-      username: this.user.username,
-      role: this.user.userRole,
-      joinedAt: this.user.joinedAt
-    }
   }
 }

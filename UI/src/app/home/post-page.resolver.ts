@@ -1,11 +1,11 @@
 import { CommentViewModel, PostViewModel } from './models/home-view-model';
-import { DataFilter } from '../shared/models/common';
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { take, filter } from 'rxjs/operators';
 import { UserViewModel } from 'src/app/users/user-view-models';
 import { PostsService } from './services/posts.service';
+import { DataFilter } from '@gamewaver/shared';
 
 export interface IPostPage {
   commentsFilters: DataFilter[];

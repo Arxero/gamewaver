@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   @ViewChild('captchaRef') captchaRef: RecaptchaComponent;
 
-  get siteKey() {
+  get siteKey(): string {
     return this.environmentService.reCaptchaSiteKey;
   }
 

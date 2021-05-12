@@ -1,7 +1,7 @@
 import { UserRole } from './../../users/user';
 import { PostCategory } from './post-category';
-import { DataEntity } from '../../shared/models/common';
 import { VoteType } from './home-view-model';
+import { DataEntity } from '@gamewaver/shared';
 
 export interface PostCmd {
   content: string;

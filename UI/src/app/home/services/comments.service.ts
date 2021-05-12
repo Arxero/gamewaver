@@ -6,12 +6,11 @@ import { CommentViewModel } from './../models/home-view-model';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import * as moment from 'moment';
-import { PagedData, DataFilter, SearchType, SnackbarErrors } from '../../shared/models/common';
 import { User, UserRole } from '../../users/user';
 import { CommentCmd, GetCommentDto } from '../models/home.models';
 import { EnvironmentService } from '../../services/environment.service';
-import { BaseService } from 'src/app/shared/models/base.service';
 import { PostsService } from './posts.service';
+import { BaseService, PagedData, SnackbarErrors, DataFilter, SearchType } from '@gamewaver/shared';
 
 @Injectable()
 export class CommentsService extends BaseService<CommentCmd> {
@@ -42,7 +41,7 @@ export class CommentsService extends BaseService<CommentCmd> {
     private usersApiService: UsersApiService,
     environmentService: EnvironmentService,
     snackbarService: SnackbarService,
-    private postsService: PostsService
+    private postsService: PostsService,
   ) {
     super(environmentService, snackbarService);
   }
@@ -133,7 +132,7 @@ export class CommentsService extends BaseService<CommentCmd> {
       return;
     }
 
-    this._comments.splice(this._indexOfEditedComment, 0, comment)
+    this._comments.splice(this._indexOfEditedComment, 0, comment);
     this._commentsSubject.next({ items: this._comments, total: this._total });
   }
 

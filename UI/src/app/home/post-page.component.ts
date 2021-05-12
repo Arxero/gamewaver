@@ -2,13 +2,12 @@ import { AuthService } from './../auth/auth.service';
 import { AddItem } from '../add-item/add-item.models';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { takeUntil } from 'rxjs/operators';
 import { PostContext, PostPageState, CommentViewModel, PostViewModel } from './models/home-view-model';
-import { PagedData } from '../shared/models/common';
 import { UserViewModel } from '../users/user-view-models';
 import { CommentsService } from './services/comments.service';
 import { PostsService } from './services/posts.service';
+import { OnDestroyCleanup, PagedData } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-post-page',

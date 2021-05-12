@@ -1,9 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
 import { User, UpdateUserCmd } from '../users/user';
-import { PagedData, DataFilter } from '../shared/models/common';
-import { IResponse } from '../shared/models/response';
 import { HttpParams } from '@angular/common/http';
+import { IResponse, DataFilter, PagedData } from '@gamewaver/shared';
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +10,7 @@ import { HttpParams } from '@angular/common/http';
 export class UsersApiService {
   BASE_URL = `users`;
 
-  constructor(
-    @Inject('IHttpClientService') private httpClient: HttpClientService,
-  ) {}
+  constructor(@Inject('IHttpClientService') private httpClient: HttpClientService) {}
 
   update(id: string, cmd: UpdateUserCmd): Promise<IResponse<User>> {
     return this.httpClient.put<IResponse<User>>(`${this.BASE_URL}/${id}`, cmd);

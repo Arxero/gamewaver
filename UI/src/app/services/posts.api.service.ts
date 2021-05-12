@@ -1,15 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
-import { IResponse } from '../shared/models/response';
-import {
-  PagedData,
-  DataFilter,
-  Sorting,
-  SortDirection,
-  Paging,
-} from '../shared/models/common';
+import { PagedData, DataFilter, Sorting, Paging } from '../shared/models/common';
 import { HttpParams } from '@angular/common/http';
 import { GetPostDto, PostCmd, GetPostDtoEx } from '../home/models/home.models';
+import { IResponse } from '@gamewaver/shared';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +11,7 @@ import { GetPostDto, PostCmd, GetPostDtoEx } from '../home/models/home.models';
 export class PostsApiService {
   BASE_URL = `posts`;
 
-  constructor(
-    @Inject('IHttpClientService') private httpClient: HttpClientService,
-  ) {}
+  constructor(@Inject('IHttpClientService') private httpClient: HttpClientService) {}
 
   create(cmd: PostCmd): Promise<IResponse<GetPostDto>> {
     return this.httpClient.post<IResponse<GetPostDto>>(`${this.BASE_URL}`, cmd);
@@ -41,9 +33,7 @@ export class PostsApiService {
       );
     }
 
-    return this.httpClient.get<IResponse<PagedData<GetPostDtoEx>>>(
-      `${this.BASE_URL}`,
-    );
+    return this.httpClient.get<IResponse<PagedData<GetPostDtoEx>>>(`${this.BASE_URL}`);
   }
 
   findOne(id: string): Promise<IResponse<GetPostDto>> {
@@ -57,5 +47,4 @@ export class PostsApiService {
   update(id: string, cmd: PostCmd): Promise<IResponse<GetPostDto>> {
     return this.httpClient.put<IResponse<GetPostDto>>(`${this.BASE_URL}/${id}`, cmd);
   }
-
 }

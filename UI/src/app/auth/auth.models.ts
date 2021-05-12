@@ -1,4 +1,5 @@
-import { BaseCmd } from './../shared/models/common';
+import { BaseCmd } from '@gamewaver/shared';
+
 export interface ForgotPasswordCmd {
   email: string;
 }

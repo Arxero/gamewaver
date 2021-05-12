@@ -3,7 +3,6 @@ import { UsersApiService } from './../../services/users.api.service';
 import { Injectable, OnDestroy } from '@angular/core';
 import { PostsApiService } from '../../services/posts.api.service';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { PagedData, SnackbarErrors } from '../../shared/models/common';
 import {
   PostViewModel,
   PostCmd,
@@ -21,16 +20,16 @@ import { takeUntil } from 'rxjs/operators';
 import { EnvironmentService } from '../../services/environment.service';
 import { LoadingService } from '../../services/loading.service';
 import { SnackbarService } from '../../services/snackbar.service';
-import { BaseService } from '../../shared/models/base.service';
 import { VotesApiService } from '../../services/votes.api.service';
 import { AuthApiService } from '../../services/auth.api.service';
 import { User, UserRole } from '../../users/user';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { isEmpty } from 'lodash-es'
+import { BaseService, PagedData, SnackbarErrors } from '@gamewaver/shared';
 
 @Injectable()
-export class PostsService extends BaseService<PostCmd> implements OnDestroy {
+export class PostsService extends BaseService<PostCmd> {
   private _postsSubject = new BehaviorSubject<PagedData<PostViewModel>>(null);
   private _postSubject = new BehaviorSubject<PostViewModel>(null);
   private _posts: PostViewModel[] = [];

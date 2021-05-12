@@ -1,10 +1,9 @@
-import { TypedChange } from '../shared/models/common';
 import { takeUntil, filter } from 'rxjs/operators';
-import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { SidebarHelperService } from './sidebar-helper.service';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { SidebarNavigation, SidebarItem } from './sidebar-view.models';
 import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
+import { TypedChange, OnDestroyCleanup } from '@gamewaver/shared';
 
 interface ArchiveComponentChanges extends SimpleChanges {
   year: TypedChange<string>;

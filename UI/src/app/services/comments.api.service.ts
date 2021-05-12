@@ -1,19 +1,16 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
-import { IResponse } from '../shared/models/response';
-import { DataFilter, Sorting, PagedData, Paging } from '../shared/models/common';
 import { HttpParams } from '@angular/common/http';
 import { CommentCmd, GetCommentDto, GetCommentsCountDto } from '../home/models/home.models';
+import { IResponse, Paging, DataFilter, Sorting, PagedData } from '@gamewaver/shared';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CommentsApiService {
   BASE_URL = `comments`;
 
-  constructor(
-    @Inject('IHttpClientService') private httpClient: HttpClientService,
-  ) {}
+  constructor(@Inject('IHttpClientService') private httpClient: HttpClientService) {}
 
   create(cmd: CommentCmd, postId: string): Promise<IResponse<GetCommentDto>> {
     return this.httpClient.post<IResponse<GetCommentDto>>(`${this.BASE_URL}/${postId}`, cmd);
@@ -35,13 +32,13 @@ export class CommentsApiService {
       );
     }
 
-    return this.httpClient.get<IResponse<PagedData<GetCommentDto>>>(
-      `${this.BASE_URL}`,
-    );
+    return this.httpClient.get<IResponse<PagedData<GetCommentDto>>>(`${this.BASE_URL}`);
   }
 
   findCountByPostIds(ids: string[]): Promise<IResponse<GetCommentsCountDto[]>> {
-    return this.httpClient.get<IResponse<GetCommentsCountDto[]>>(`${this.BASE_URL}/count?postIds=${ids.join(',')}`);
+    return this.httpClient.get<IResponse<GetCommentsCountDto[]>>(
+      `${this.BASE_URL}/count?postIds=${ids.join(',')}`,
+    );
   }
 
   delete(id: string): Promise<IResponse<GetCommentDto>> {

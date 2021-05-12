@@ -8,10 +8,10 @@ import {
   ResetPasswordCmd,
 } from '../auth/auth.models';
 import { Injectable } from '@angular/core';
-import { IResponse } from '../shared/models/response';
 import { User } from '../users/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentService } from './environment.service';
+import { IResponse } from '@gamewaver/shared';
 
 export interface IAuthApiService {
   login(cmd: LoginCmd): Promise<TokenDto>;

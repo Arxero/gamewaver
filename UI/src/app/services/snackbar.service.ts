@@ -10,7 +10,7 @@ export class SnackbarService {
   showInfo(message: string, duration?: number) {
     this.snackBar.open(message, 'CLOSE', {
       duration: duration ? duration : 5000,
-      panelClass: ['snackbar', 'info']
+      panelClass: ['snackbar', 'info'],
     });
   }
 

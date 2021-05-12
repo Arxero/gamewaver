@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { PostPageComponent } from './post-page.component';
 import { PostsComponent } from './posts.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -13,7 +14,7 @@ const routes: Routes = [
       {
         path: `post/:id`,
         component: PostPageComponent,
-        resolve: { post: PostPageResolver }
+        resolve: { post: PostPageResolver },
       },
     ],
   },

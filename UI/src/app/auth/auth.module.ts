@@ -2,7 +2,6 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
-import { SharedModule } from '../shared/shared.module';
 import { AuthRoutingModule } from './auth.routing';
 import { MarkdownModule } from 'ngx-markdown';
 import { LoginUrlComponent } from './login-url.component';
@@ -11,6 +10,7 @@ import { ForgottenPasswordComponent } from './forgotten-password.component';
 import { ForgottenPasswordUrlComponent } from './forgotten-password-url.component';
 import { ForgottenPasswordNewComponent } from './forgotten-password-new.component';
 import { AuthService } from './auth.service';
+import { SharedModule } from '@gamewaver/shared';
 
 @NgModule({
   declarations: [

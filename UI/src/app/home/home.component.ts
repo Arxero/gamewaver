@@ -1,11 +1,7 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
+import { OnDestroyCleanup } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-home',

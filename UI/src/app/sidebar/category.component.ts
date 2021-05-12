@@ -1,11 +1,11 @@
 import { PostCategory } from '../home/models/post-category';
-import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { SidebarNavigation } from './sidebar-view.models';
 import { SidebarHelperService } from './sidebar-helper.service';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CategorySidebarItem } from './sidebar-view.models';
 import { takeUntil, filter } from 'rxjs/operators';
 import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
+import { OnDestroyCleanup } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-category',

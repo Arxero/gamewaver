@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { IEnvironment } from '../shared/models/ienvironment';
 import { environment } from '../../environments/environment';
-
+import { IEnvironment } from '@gamewaver/shared';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +29,4 @@ export class EnvironmentService implements IEnvironment {
   get take() {
     return environment.take;
   }
-
-  constructor() {}
 }

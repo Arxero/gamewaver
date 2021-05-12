@@ -5,7 +5,6 @@ import { SnackbarService } from '../services/snackbar.service';
 import { AuthApiService } from '../services/auth.api.service';
 import { LoadingService } from '../services/loading.service';
 import { MatDialog } from '@angular/material/dialog';
-import { UsersService } from '../users/users.service';
 import { Router } from '@angular/router';
 import { UserViewModel, usersProfileFullRoute } from '../users/user-view-models';
 import { EnvironmentService } from '../services/environment.service';

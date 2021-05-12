@@ -1,12 +1,10 @@
-import { SnackbarErrors } from './../../shared/models/common';
 import { PostsService } from './posts.service';
 import { PostVoteCmd } from './../models/home.models';
 import { Injectable } from '@angular/core';
-import { BaseService } from '../../shared/models/base.service';
 import { EnvironmentService } from '../../services/environment.service';
 import { VotesApiService } from '../../services/votes.api.service';
-import { LoadingService } from '../../services/loading.service';
 import { SnackbarService } from '../../services/snackbar.service';
+import { SnackbarErrors, BaseService } from '@gamewaver/shared';
 
 @Injectable()
 export class VotesService extends BaseService<PostVoteCmd> {

@@ -1,4 +1,3 @@
-import { UserInfoContext } from './../shared/user-info.component';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UserRole, User } from '../users/user';
 import { PostContext, VoteType, PostViewModel } from './models/home-view-model';
@@ -13,8 +12,8 @@ import { VotesService } from './services/votes.service';
 import { SidebarNavigationService } from './services/sidebar-navigation.service';
 import { SidebarNavigation } from '../sidebar/sidebar-view.models';
 import { loginFullRoute } from '../auth/auth.models';
-import { UserInfo } from '../shared/user-info.component';
 import { usersProfileFullRoute } from '../users/user-view-models';
+import { UserInfoContext, UserInfo } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-post',

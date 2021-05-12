@@ -1,12 +1,11 @@
-import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { SortTime, SidebarNavigation, SortSidebarItem, SortType } from './sidebar-view.models';
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { SidebarHelperService } from './sidebar-helper.service';
 import { takeUntil, filter } from 'rxjs/operators';
-import { TypedChange } from '../shared/models/common';
 import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
+import { TypedChange, OnDestroyCleanup } from '@gamewaver/shared';
 
 interface SortByComponentChanges extends SimpleChanges {
   sortType: TypedChange<SortType>;

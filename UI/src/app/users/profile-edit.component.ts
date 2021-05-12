@@ -6,7 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from './users.service';
 import { ProfileBase } from './profile.base';
-import { UserInfo, UserInfoContext } from '../shared/user-info.component';
+import { UserInfoContext } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-edit',
@@ -35,14 +35,6 @@ export class ProfileEditComponent extends ProfileBase implements OnInit {
 
       this.tempAvatar = this.user.avatar;
     });
-  }
-
-  get userInfo(): UserInfo {
-    return {
-      id: this.user.id,
-      avatar: this.tempAvatar,
-      username: this.user.username,
-    };
   }
 
   ngOnInit(): void {

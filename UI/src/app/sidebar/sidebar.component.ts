@@ -1,11 +1,10 @@
-import { QueryRequest, QueryParams } from './../shared/models/query-request';
-import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
 import { SidebarSelectedItem } from './sidebar-view.models';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { ParsedQuery } from './parsed-query';
 import { SidebarHelperService } from './sidebar-helper.service';
 import { filter } from 'rxjs/operators';
+import { OnDestroyCleanup, QueryRequest, QueryParams } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-sidebar',
@@ -38,7 +37,7 @@ export class SidebarComponent extends OnDestroyCleanup {
       .subscribe((event: NavigationStart) => {
         if (event.url.startsWith('/post')) {
           this.sidebarHelper.fromPost = true;
-        } else if (event.url.startsWith('/')){
+        } else if (event.url.startsWith('/')) {
           this.sidebarHelper.fromPost = null;
         }
       });
