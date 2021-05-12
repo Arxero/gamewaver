@@ -1,13 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  HostBinding,
-  ViewEncapsulation,
-} from '@angular/core';
-import { PostContext } from '../home/models';
+import { Component, Input, OnChanges, SimpleChanges, HostBinding, ViewEncapsulation } from '@angular/core';
 
 export interface UserInfo {
   id: string;
@@ -36,30 +27,17 @@ export enum UserInfoContext {
 export class UserInfoComponent implements OnChanges {
   @Input() userInfo: UserInfo;
   @Input() showAvatarFallback = true;
-  @HostBinding('class') class = 'user-info';
+  @Input() contextInput: UserInfoContext;
   avatar: string;
   context = UserInfoContext;
 
-  @Input() contextInput: UserInfoContext;
-
+  @HostBinding('class') class = 'user-info';
   @HostBinding(`class.profile`) get profile() {
     return this.contextInput === this.context.Profile;
   }
 
   @HostBinding(`class.profile-edit`) get profileEdit() {
     return this.contextInput === this.context.ProfileEdit;
-  }
-
-  @HostBinding(`class.profile-post`) get profilePost() {
-    return this.contextInput === this.context.ProfilePost;
-  }
-
-  @HostBinding(`class.add-item`) get addItem() {
-    return this.contextInput === this.context.AddItem;
-  }
-
-  @HostBinding(`class.post`) get post() {
-    return this.contextInput === this.context.Post;
   }
 
   get shouldShowAvatarImage(): boolean {

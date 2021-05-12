@@ -29,7 +29,8 @@
     text-decoration: underline;
   }
 
-  &.profile, &.profile-edit {
+  &.profile,
+  &.profile-edit {
     .avatar {
       margin-right: 16px;
       width: 184px;
@@ -46,5 +47,4 @@
   &.profile-edit {
     justify-content: center;
   }
-
 }
