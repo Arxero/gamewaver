@@ -1,7 +1,5 @@
 export * from './shared.module';
 export * from './user-info.component';
-export * from './header.component';
-export * from './menu.component';
 export * from './on-destory-cleanup';
 export * from './models/base.service';
 export * from './models/common';

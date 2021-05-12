@@ -8,9 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UserViewModel, usersProfileFullRoute } from '../users/user-view-models';
 import { EnvironmentService } from '../services/environment.service';
-import { BaseService } from '../shared/models/base.service';
-import { SnackbarErrors } from '../shared/models/common';
 import { RegisterConfirmDialogComponent } from './register-confirm-dialog';
+import { BaseService, SnackbarErrors } from '@gamewaver/shared';
 
 @Injectable()
 export class AuthService extends BaseService<SignUpCmd> {
