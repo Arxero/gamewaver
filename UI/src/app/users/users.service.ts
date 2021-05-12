@@ -1,5 +1,4 @@
 import { AuthService } from './../auth/auth.service';
-import { BaseService } from 'src/app/shared/models/base.service';
 import { Subject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { UsersApiService } from '../services/users.api.service';
@@ -9,7 +8,7 @@ import { UserViewModel } from './user-view-models';
 import { UpdateUserCmd } from './user';
 import { Router } from '@angular/router';
 import { EnvironmentService } from '../services/environment.service';
-import { SnackbarErrors } from '../shared/models/common';
+import { SnackbarErrors, BaseService } from '@gamewaver/shared';
 
 @Injectable()
 export class UsersService extends BaseService<UpdateUserCmd> {
