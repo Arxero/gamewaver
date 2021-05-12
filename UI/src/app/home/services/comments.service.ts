@@ -6,11 +6,11 @@ import { CommentViewModel } from './../models/home-view-model';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import * as moment from 'moment';
-import { User, UserRole } from '../../users/user';
+import { User } from '@gamewaver/users';
 import { CommentCmd, GetCommentDto } from '../models/home.models';
 import { EnvironmentService } from '../../services/environment.service';
 import { PostsService } from './posts.service';
-import { BaseService, PagedData, SnackbarErrors, DataFilter, SearchType } from '@gamewaver/shared';
+import { BaseService, PagedData, SnackbarErrors, DataFilter, SearchType, UserRole } from '@gamewaver/shared';
 
 @Injectable()
 export class CommentsService extends BaseService<CommentCmd> {

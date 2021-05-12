@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './login.component';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
-import { UserViewModel } from '../users/user-view-models';
+import { UserViewModel } from '@gamewaver/users';
 import { shareReplay } from 'rxjs/operators';
 
 export interface Menu {

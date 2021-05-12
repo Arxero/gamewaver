@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { UserRole, User } from '../users/user';
+import { User } from '@gamewaver/users';
 import { PostContext, VoteType, PostViewModel } from './models/home-view-model';
 import { Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -13,7 +13,7 @@ import { SidebarNavigationService } from './services/sidebar-navigation.service'
 import { SidebarNavigation } from '../sidebar/sidebar-view.models';
 import { loginFullRoute } from '../auth/auth.models';
 import { usersProfileFullRoute } from '../users/user-view-models';
-import { UserInfoContext, UserInfo } from '@gamewaver/shared';
+import { UserInfoContext, UserInfo, UserRole } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-post',

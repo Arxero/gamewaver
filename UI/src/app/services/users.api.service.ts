@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
-import { User, UpdateUserCmd } from '../users/user';
+import { User, UpdateUserCmd } from '@gamewaver/users';
 import { HttpParams } from '@angular/common/http';
 import { IResponse, DataFilter, PagedData } from '@gamewaver/shared';
 

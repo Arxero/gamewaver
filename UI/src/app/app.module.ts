@@ -16,7 +16,6 @@ import { HttpClientService } from './services/http-client.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { NotFoundComponent } from './not-found.component';
-import { UsersService } from './users/users.service';
 import { HomeModule } from './home/home.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -50,7 +49,6 @@ import { AuthModule } from './auth/auth.module';
   providers: [
     { provide: 'IHttpClientService', useClass: HttpClientService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    UsersService,
   ],
   bootstrap: [AppComponent],
 })

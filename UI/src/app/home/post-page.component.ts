@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { PostContext, PostPageState, CommentViewModel, PostViewModel } from './models/home-view-model';
-import { UserViewModel } from '../users/user-view-models';
+import { UserViewModel } from '@gamewaver/users';
 import { CommentsService } from './services/comments.service';
 import { PostsService } from './services/posts.service';
 import { OnDestroyCleanup, PagedData } from '@gamewaver/shared';

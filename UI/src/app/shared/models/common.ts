@@ -93,3 +93,8 @@ export enum SnackbarErrors {
   ForgotPassword = 'Forgot Password Failed',
   ResetPassword = 'Reset Password Failed',
 }
+
+export enum UserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+}

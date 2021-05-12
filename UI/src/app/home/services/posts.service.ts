@@ -15,18 +15,18 @@ import {
   VoteType,
   GetVotesCountDto,
 } from '../models';
-import { UserViewModel } from '../../users/user-view-models';
+import { UserViewModel } from '@gamewaver/users';
 import { takeUntil } from 'rxjs/operators';
 import { EnvironmentService } from '../../services/environment.service';
 import { LoadingService } from '../../services/loading.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { VotesApiService } from '../../services/votes.api.service';
 import { AuthApiService } from '../../services/auth.api.service';
-import { User, UserRole } from '../../users/user';
+import { User } from '@gamewaver/users';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { isEmpty } from 'lodash-es'
-import { BaseService, PagedData, SnackbarErrors } from '@gamewaver/shared';
+import { BaseService, PagedData, SnackbarErrors, UserRole } from '@gamewaver/shared';
 
 @Injectable()
 export class PostsService extends BaseService<PostCmd> {

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { NotFoundComponent } from './not-found.component';
 import { aboutRoute } from './about/about.routing';
 import { authRoute } from './auth/auth.models';
-import { usersRoute } from './users/user-view-models';
+import { usersRoute } from '@gamewaver/users';
 
 const routes: Routes = [
   {

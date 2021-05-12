@@ -1,6 +1,4 @@
-import { CommentViewModel, PostViewModel } from './../home/models/home-view-model';
-import { User, UserRole } from './user';
-import * as moment from 'moment';
+import { User } from './user';
 
 export interface NavLink {
   label: string;
@@ -21,12 +19,6 @@ export const navLinks: NavLink[] = [
     link: 'votes',
   },
 ];
-
-export interface ProfileHomeItem {
-  date: Date;
-  post?: PostViewModel;
-  comment?: CommentViewModel;
-}
 
 export interface UserViewModel extends User {
   joinedAt: string;

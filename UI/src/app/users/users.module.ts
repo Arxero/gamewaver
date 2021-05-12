@@ -20,7 +20,7 @@ import { SharedModule } from '@gamewaver/shared';
     UsersRoutingModule,
     SharedModule,
     MarkdownModule.forChild(),
-    HomeModule
+    HomeModule,
   ],
   providers: [UsersService]
 })

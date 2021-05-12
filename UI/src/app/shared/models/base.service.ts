@@ -1,10 +1,10 @@
-import { UserViewModel } from './../../users/user-view-models';
-import { User, UserRole } from './../../users/user';
+import { UserViewModel } from '@gamewaver/users';
+import { User } from '@gamewaver/users';
 import { SnackbarService } from './../../services/snackbar.service';
 import { ResponseError } from './response';
 import { EnvironmentService } from './../../services/environment.service';
 import { OnDestroyCleanup } from '../on-destory-cleanup';
-import { SortDirection, Sorting, DataFilter, SearchType, Paging, SnackbarErrors } from './common';
+import { SortDirection, Sorting, DataFilter, SearchType, Paging, SnackbarErrors, UserRole } from './common';
 import * as moment from 'moment';
 
 export abstract class BaseService<T> extends OnDestroyCleanup {

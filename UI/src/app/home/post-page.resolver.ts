@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { take, filter } from 'rxjs/operators';
-import { UserViewModel } from 'src/app/users/user-view-models';
+import { UserViewModel } from '@gamewaver/users';
 import { PostsService } from './services/posts.service';
 import { DataFilter } from '@gamewaver/shared';
 

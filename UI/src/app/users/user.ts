@@ -1,9 +1,4 @@
-import { DataEntity } from '../shared/models/common';
-
-export enum UserRole {
-  ADMIN = 'admin',
-  USER = 'user',
-}
+import { UserRole, DataEntity } from '@gamewaver/shared';
 
 export enum UserStatus {
   PENDING = 'pending',

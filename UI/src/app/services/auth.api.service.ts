@@ -8,7 +8,7 @@ import {
   ResetPasswordCmd,
 } from '../auth/auth.models';
 import { Injectable } from '@angular/core';
-import { User } from '../users/user';
+import { User } from '@gamewaver/users';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentService } from './environment.service';
 import { IResponse } from '@gamewaver/shared';

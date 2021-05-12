@@ -1,7 +1,7 @@
 import { SidebarNavigation } from '../sidebar/sidebar-view.models';
 import { Component, AfterViewInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
-import { User } from '../users/user';
+import { User } from '@gamewaver/users';
 import { ActivatedRoute } from '@angular/router';
 import { PostContext, PostViewModel } from './models/home-view-model';
 import { AddItem } from '../add-item/add-item.models';
