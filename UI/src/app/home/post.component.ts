@@ -1,6 +1,5 @@
 import { UserInfoContext } from './../shared/user-info.component';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { usersProfileFullRoute } from '../users/users.routing';
 import { UserRole, User } from '../users/user';
 import { PostContext, VoteType, PostViewModel } from './models/home-view-model';
 import { Router } from '@angular/router';
@@ -15,6 +14,7 @@ import { SidebarNavigationService } from './services/sidebar-navigation.service'
 import { SidebarNavigation } from '../sidebar/sidebar-view.models';
 import { loginFullRoute } from '../auth/auth.models';
 import { UserInfo } from '../shared/user-info.component';
+import { usersProfileFullRoute } from '../users/user-view-models';
 
 @Component({
   selector: 'gw-post',
@@ -38,8 +38,8 @@ export class PostComponent implements OnInit {
 
   get userProfileRoute(): string {
     return this.postContext === PostContext.PostPage
-      ? `../../${usersProfileFullRoute()}`
-      : `../${usersProfileFullRoute()}`;
+      ? `../../${usersProfileFullRoute(this.post.authorId)}`
+      : `../${usersProfileFullRoute(this.post.authorId)}`;
   }
 
   get userInfo(): UserInfo {
@@ -48,7 +48,7 @@ export class PostComponent implements OnInit {
       avatar: this.post.avatar,
       username: this.post.username,
       role: this.post.userRole,
-      link: [this.userProfileRoute, this.post.authorId]
+      link: [this.userProfileRoute]
     }
   }
 

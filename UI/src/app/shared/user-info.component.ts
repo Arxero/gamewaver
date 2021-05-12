@@ -76,7 +76,7 @@ export class UserInfoComponent implements OnChanges {
       this.avatar = this.userInfo.avatar;
 
       if (!this.userInfo.avatar && this.showAvatarFallback) {
-        this.avatar = './assets/images/common/no_avatar.jpg';
+        this.avatar = window.location.origin + '/assets/images/common/no_avatar.jpg';
       }
     }
   }

@@ -7,7 +7,7 @@ import { LoadingService } from '../services/loading.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from '../users/users.service';
 import { Router } from '@angular/router';
-import { UserViewModel } from '../users/user-view-models';
+import { UserViewModel, usersProfileFullRoute } from '../users/user-view-models';
 import { EnvironmentService } from '../services/environment.service';
 import { BaseService } from '../shared/models/base.service';
 import { SnackbarErrors } from '../shared/models/common';
@@ -110,5 +110,9 @@ export class AuthService extends BaseService<SignUpCmd> {
     this.authApiService.logout();
     this._profile = null;
     this._profileSubject.next(null);
+  }
+
+  cancelEdit(id: string) {
+    this.router.navigate([usersProfileFullRoute(id)])
   }
 }

@@ -6,13 +6,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { AuthGuard } from '../guards/auth.guard';
 import { ProfilePostsComponent, UrlProfileData } from './profile-posts.component';
 import { UserActionOnPost } from '../home/models';
-
-export const usersRoute = 'users';
-export const usersProfileRoute = 'profile';
-export const usersProfileEditRoute = 'edit';
-export const usersProfileFullRoute = () => `${usersRoute}/${usersProfileRoute}`;
-export const usersProfileEditFullRoute = () =>
-  `../../${usersRoute}/${usersProfileEditRoute}`;
+import { usersProfileRoute, usersProfileEditRoute } from './user-view-models';
 
 const routes: Routes = [
   {

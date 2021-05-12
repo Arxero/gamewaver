@@ -1,7 +1,6 @@
 import { AuthService } from './../auth/auth.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserGender, UpdateUserCmd } from './user';
-import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -14,14 +13,16 @@ import { UserInfo, UserInfoContext } from '../shared/user-info.component';
   templateUrl: './profile-edit.component.html',
   styleUrls: ['./profile-edit.component.scss'],
 })
-export class ProfileEditComponent extends ProfileBase implements OnInit, OnDestroy {
+export class ProfileEditComponent extends ProfileBase implements OnInit {
   editProfileForm: FormGroup;
   tempAvatar: string;
   userInfoContext = UserInfoContext;
+  userGender = UserGender;
 
   constructor(route: ActivatedRoute, usersService: UsersService, authService: AuthService) {
     super(route, usersService, authService);
 
+    // when we are editing other user profile
     usersService.user$.pipe(takeUntil(this.destroyed$)).subscribe(x => {
       this.user = x;
       this.editProfileForm.patchValue({
@@ -31,26 +32,24 @@ export class ProfileEditComponent extends ProfileBase implements OnInit, OnDestr
         location: x.location,
         gender: x.gender,
       });
+
+      this.tempAvatar = this.user.avatar;
     });
   }
 
   get userInfo(): UserInfo {
     return {
       id: this.user.id,
-      avatar: this.user.avatar,
+      avatar: this.tempAvatar,
       username: this.user.username,
-    }
+    };
   }
 
   ngOnInit(): void {
     this.initializeData();
     this.avatar.valueChanges.subscribe(x => {
-      this.user.avatar = x || window.location.origin + this.user.defaultAvatar;
+      this.tempAvatar = x;
     });
-  }
-
-  ngOnDestroy(): void {
-
   }
 
   initializeData() {
@@ -67,6 +66,7 @@ export class ProfileEditComponent extends ProfileBase implements OnInit, OnDestr
       location: new FormControl(this.user?.location),
       gender: new FormControl(this.user?.gender),
     });
+    this.tempAvatar = this.user?.avatar;
   }
 
   get email() {
@@ -84,18 +84,19 @@ export class ProfileEditComponent extends ProfileBase implements OnInit, OnDestr
   get gender() {
     return this.editProfileForm.get('gender');
   }
-  get userGender() {
-    return UserGender;
-  }
 
   onSave() {
     const updateUserCmd: UpdateUserCmd = {
       email: this.email.value,
-      avatar: this.user.avatar,
+      avatar: this.avatar.value,
       gender: this.gender.value,
       location: this.location.value,
       summary: this.summary.value,
     };
     this.usersService.edit(updateUserCmd, this.user.id, this.isOwnProfile);
+  }
+
+  onCancel() {
+    this.authService.cancelEdit(this.user.id);
   }
 }

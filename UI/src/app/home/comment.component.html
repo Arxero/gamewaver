@@ -1,12 +1,12 @@
 <mat-card class="comment">
   <mat-card-header>
     <div mat-card-avatar class="post-header-image">
-      <a [routerLink]="[userProfileRoute, comment.authorId]">
+      <a [routerLink]="[userProfileRoute]">
         <img [src]="comment.avatar  || './assets/images/common/no_avatar.jpg'" alt="{{ comment.username }}'s avatar">
       </a>
     </div>
     <mat-card-title>
-      <a [routerLink]="[userProfileRoute, comment.authorId]">
+      <a [routerLink]="[userProfileRoute]">
         {{ comment.username }}
       </a>
       <span class="role" [ngClass]="comment.userRole" *ngIf="comment.userRole">{{ comment.userRole | titlecase }}</span>

@@ -31,6 +31,7 @@
 
 
     <div class="actions">
+      <button mat-stroked-button color="accent" class="form-button cancel" (click)="onCancel()">Cancel</button>
       <button mat-raised-button color="primary" class="form-button" [disabled]="editProfileForm.invalid" (click)="onSave()">Save</button>
     </div>
   </form>

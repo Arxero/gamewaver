@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { OnDestroyCleanup } from '../shared/on-destory-cleanup';
-import { usersProfileFullRoute } from '../users/users.routing';
 import { User, UserRole } from '../users/user';
 import { PostContext, CommentViewModel } from './models/home-view-model';
 import { CommentsService } from './services/comments.service';
+import { usersProfileFullRoute } from '../users/user-view-models';
 
 @Component({
   selector: 'gw-comment',
@@ -28,8 +28,8 @@ export class CommentComponent extends OnDestroyCleanup implements OnInit {
 
   get userProfileRoute(): string {
     return this.postContext === PostContext.PostPage
-      ? `../../${usersProfileFullRoute()}`
-      : `../${usersProfileFullRoute()}`;
+      ? `../../${usersProfileFullRoute(this.comment.authorId)}`
+      : `../${usersProfileFullRoute(this.comment.authorId)}`;
   }
 
   constructor(

@@ -31,5 +31,9 @@ export interface ProfileHomeItem {
 export interface UserViewModel extends User {
   joinedAt: string;
   userRole: string;
-  defaultAvatar: string;
 }
+
+export const usersRoute = 'users';
+export const usersProfileRoute = 'profile';
+export const usersProfileEditRoute = 'edit';
+export const usersProfileFullRoute = (id: string) => `${usersRoute}/${usersProfileRoute}/${id}`;
