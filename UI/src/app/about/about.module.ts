@@ -9,11 +9,6 @@ import { SharedModule } from '@gamewaver/shared';
 
 @NgModule({
   declarations: [FaqComponent, TeamComponent, TosComponent],
-  imports: [
-    CommonModule,
-    AboutRoutingModule,
-    SharedModule,
-    MarkdownModule.forChild(),
-  ]
+  imports: [CommonModule, AboutRoutingModule, SharedModule, MarkdownModule.forChild()],
 })
-export class AboutModule { }
+export class AboutModule {}

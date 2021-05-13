@@ -1,4 +1,4 @@
-import { aboutRoute } from '../about/about.routing';
+import { aboutRoute } from '@gamewaver/about';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './login.component';
