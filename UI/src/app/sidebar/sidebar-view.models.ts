@@ -31,12 +31,6 @@ export interface SidebarSelectedItem {
   month: string;
 }
 
-export enum SortUrl {
-  Fresh = '/',
-  Popular = 'popular',
-  Commented = 'commented',
-}
-
 export enum SidebarNavigation {
   Search = 'search',
   Sort = 'sort',

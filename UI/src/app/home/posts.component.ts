@@ -1,4 +1,4 @@
-import { SidebarNavigation } from '../sidebar/sidebar-view.models';
+import { SidebarNavigation } from '@gamewaver/sidebar';
 import { Component, AfterViewInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { User } from '@gamewaver/users';

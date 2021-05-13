@@ -3,7 +3,7 @@ import { PostsService } from './services/posts.service';
 import { VotesService } from './services/votes.service';
 import { AddItemModule } from './../add-item/add-item.module';
 import { CommentComponent } from './comment.component';
-import { SidebarModule } from './../sidebar/sidebar.module';
+import { SidebarModule } from '@gamewaver/sidebar';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';

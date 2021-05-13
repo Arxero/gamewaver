@@ -1,4 +1,4 @@
-import { SidebarNavigation } from './../../sidebar/sidebar-view.models';
+import { SidebarNavigation } from '@gamewaver/sidebar';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 

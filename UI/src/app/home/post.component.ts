@@ -10,7 +10,7 @@ import { ScrollPositionService } from './services/scroll-position.service';
 import { PostsService } from './services/posts.service';
 import { VotesService } from './services/votes.service';
 import { SidebarNavigationService } from './services/sidebar-navigation.service';
-import { SidebarNavigation } from '../sidebar/sidebar-view.models';
+import { SidebarNavigation } from '@gamewaver/sidebar';
 import { loginFullRoute } from '../auth/auth.models';
 import { usersProfileFullRoute } from '../users/user-view-models';
 import { UserInfoContext, UserInfo, UserRole } from '@gamewaver/shared';

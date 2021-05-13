@@ -1,4 +1,4 @@
-import { SidebarNavigation } from '../sidebar/sidebar-view.models';
+import { SidebarNavigation } from '@gamewaver/sidebar';
 import { Component, Input } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { LoadingService } from '../services/loading.service';
