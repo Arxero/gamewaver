@@ -7,7 +7,7 @@ import {
   ConnectionPositionPair,
   CdkOverlayOrigin,
 } from '@angular/cdk/overlay';
-import { TemplatePortalDirective } from '@angular/cdk/portal';
+import { CdkPortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'gw-emoji',
@@ -16,7 +16,7 @@ import { TemplatePortalDirective } from '@angular/cdk/portal';
 export class EmojiComponent {
   @Output() emoji: EventEmitter<EmojiData> = new EventEmitter();
   private overlayRef: OverlayRef;
-  @ViewChild('overlayTemplate') overlayTemplate: TemplatePortalDirective;
+  @ViewChild('overlayTemplate') overlayTemplate: CdkPortal;
 
   constructor(private overlay: Overlay) {}
 

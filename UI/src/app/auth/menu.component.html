@@ -20,7 +20,7 @@
     <!-- Children menu -->
   </ng-container>
 
-  <button mat-button *ngIf="!(user$ | async) as user" (click)="openLoginDialog()">
+  <button mat-button *ngIf="(user$ | async) === null" (click)="openLoginDialog()">
     <mat-icon>power_settings_new</mat-icon>
     <span class="menu-item-name">Login</span>
   </button>

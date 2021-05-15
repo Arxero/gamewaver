@@ -26,7 +26,8 @@ export class FormattingHelpComponent {
 
     {
       syntax: `[![](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Image with link")](http://google.com)`,
-      example: `[![](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Image with link")](http://google.com)`,
+      example: `[![](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Image with link")]
+      (http://google.com)`,
     },
     {
       syntax: 'Inline `code` has `back-ticks around` it.',
@@ -39,10 +40,8 @@ export class FormattingHelpComponent {
       example: '[Website link](https://google.com)',
     },
     {
-      syntax:
-        '<audio src="http://stream.zenolive.com/ndcpxfu5vrquv" controls></audio>',
-      example:
-        '<audio src="http://stream.zenolive.com/ndcpxfu5vrquv" controls></audio>',
+      syntax: '<audio src="http://stream.zenolive.com/ndcpxfu5vrquv" controls></audio>',
+      example: '<audio src="http://stream.zenolive.com/ndcpxfu5vrquv" controls></audio>',
     },
     {
       syntax:

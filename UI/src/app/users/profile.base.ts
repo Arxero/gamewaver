@@ -13,7 +13,7 @@ export class ProfileBase extends OnDestroyCleanup {
   constructor(
     protected route: ActivatedRoute,
     protected usersService: UsersService,
-    protected authService: AuthService
+    protected authService: AuthService,
   ) {
     super();
     this.userId = route.snapshot.params.id;
@@ -22,10 +22,10 @@ export class ProfileBase extends OnDestroyCleanup {
     this.authService.profile$.pipe(takeUntil(this.destroyed$)).subscribe(loggedInUser => {
       this.loggedInUser = loggedInUser;
 
-        if (this.isOwnProfile) {
-          this.user = loggedInUser;
-        }
-    })
+      if (this.isOwnProfile) {
+        this.user = loggedInUser;
+      }
+    });
 
     // when some random user profile and current user is admin
     if (!this.isOwnProfile) {
@@ -47,7 +47,7 @@ export class ProfileBase extends OnDestroyCleanup {
       avatar: this.user.avatar,
       username: this.user.username,
       role: this.user.userRole,
-      joinedAt: this.user.joinedAt
-    }
+      joinedAt: this.user.joinedAt,
+    };
   }
 }

@@ -50,7 +50,7 @@ export class UserInfoComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['userInfo'].currentValue) {
+    if (changes.userInfo.currentValue) {
       this.avatar = this.userInfo.avatar;
 
       if (!this.userInfo.avatar && this.showAvatarFallback) {

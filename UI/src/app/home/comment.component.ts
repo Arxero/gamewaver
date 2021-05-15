@@ -14,9 +14,9 @@ export class CommentComponent extends OnDestroyCleanup implements OnInit {
   @Input() comment: CommentViewModel;
   @Input() user: User;
   @Input() postContext: PostContext;
-  postRoute: {[key: number]: string} = {
-    [PostContext.PostsPage] : `post`,
-    [PostContext.ProfilePage]: '../../../../post'
+  postRoute: { [key: number]: string } = {
+    [PostContext.PostsPage]: `post`,
+    [PostContext.ProfilePage]: '../../../../post',
   };
 
   canEditOrDelete: boolean;
@@ -32,8 +32,7 @@ export class CommentComponent extends OnDestroyCleanup implements OnInit {
       : `../${usersProfileFullRoute(this.comment.authorId)}`;
   }
 
-  constructor(
-    private commentsService: CommentsService) {
+  constructor(private commentsService: CommentsService) {
     super();
   }
 
@@ -43,10 +42,7 @@ export class CommentComponent extends OnDestroyCleanup implements OnInit {
     }
 
     this.canEditOrDelete =
-      this.user.id === this.comment?.authorId ||
-      this.user.role === UserRole.ADMIN
-        ? true
-        : false;
+      this.user.id === this.comment?.authorId || this.user.role === UserRole.ADMIN ? true : false;
   }
 
   onEdit() {
@@ -54,6 +50,6 @@ export class CommentComponent extends OnDestroyCleanup implements OnInit {
   }
 
   onDelete() {
-    this.commentsService.delete(this.comment.id)
+    this.commentsService.delete(this.comment.id);
   }
 }

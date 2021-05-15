@@ -47,8 +47,8 @@ export class PostComponent implements OnInit {
       avatar: this.post.avatar,
       username: this.post.username,
       role: this.post.userRole,
-      link: [this.userProfileRoute]
-    }
+      link: [this.userProfileRoute],
+    };
   }
 
   get isProfilePage(): boolean {
@@ -71,7 +71,7 @@ export class PostComponent implements OnInit {
     private scrollPositionService: ScrollPositionService,
     private postsService: PostsService,
     private votesService: VotesService,
-    private sidebarNavigationService: SidebarNavigationService
+    private sidebarNavigationService: SidebarNavigationService,
   ) {}
 
   ngOnInit(): void {
@@ -80,9 +80,7 @@ export class PostComponent implements OnInit {
     }
 
     this.canEditOrDelete =
-      this.user.id === this.post?.authorId || this.user.role === UserRole.ADMIN
-        ? true
-        : false;
+      this.user.id === this.post?.authorId || this.user.role === UserRole.ADMIN ? true : false;
   }
 
   onEdit() {

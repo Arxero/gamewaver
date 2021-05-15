@@ -5,9 +5,9 @@ import { Subject, Observable } from 'rxjs';
 export abstract class OnDestroyCleanup implements OnDestroy {
   private destroyed = new Subject();
 
-	protected get destroyed$(): Observable<any> {
-		return this.destroyed.asObservable();
-	}
+  protected get destroyed$(): Observable<any> {
+    return this.destroyed.asObservable();
+  }
 
   ngOnDestroy(): void {
     this.destroyed.next();
@@ -17,4 +17,3 @@ export abstract class OnDestroyCleanup implements OnDestroy {
 
   protected onDestroy(): void {}
 }
-

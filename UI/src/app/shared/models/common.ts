@@ -78,9 +78,9 @@ export enum SnackbarErrors {
   DeletePost = 'Delete Post Failed',
 
   GetComments = 'Get Comments Failed',
-  CreateComment  = 'Create Comment Failed',
+  CreateComment = 'Create Comment Failed',
   EditComment = 'Edit Comment Failed',
-  DeleteComment ='Delete Comment Failed',
+  DeleteComment = 'Delete Comment Failed',
 
   CreateVote = 'Create Vote Failed',
   DeleteVote = 'Delete Vote Failed',

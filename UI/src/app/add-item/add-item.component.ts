@@ -15,20 +15,15 @@ import { UserInfo, UserInfoContext } from '../shared/user-info.component';
   styleUrls: ['./add-item.component.scss'],
 })
 export class AddItemComponent implements OnInit {
-  private _addItem: AddItem;
+  @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
+  @Output() cancelEditItem: EventEmitter<void> = new EventEmitter();
   itemForm: FormGroup;
   caretPos = 0;
   categories = postCategories;
   showActions: boolean;
   userInfoContext = UserInfoContext;
 
-  @HostListener('mousedown')
-  mousedown() {
-    this.showActions = true;
-  }
-
-  @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
-  @Output() cancelEditItem: EventEmitter<void> = new EventEmitter();
+  private _addItem: AddItem;
   @Input() set addItem(value: AddItem) {
     this._addItem = value;
     this.createItemForm();
@@ -42,7 +37,12 @@ export class AddItemComponent implements OnInit {
     return {
       id: this.addItem.userId,
       avatar: this.addItem.userAvatar,
-    }
+    };
+  }
+
+  @HostListener('mousedown')
+  mousedown() {
+    this.showActions = true;
   }
 
   constructor(
@@ -109,7 +109,7 @@ export class AddItemComponent implements OnInit {
     if (this.content.errors?.required) {
       return 'Content is required';
     } else if (this.content.errors?.minlength || this.content.errors?.maxlength) {
-      return `Content must be between ${this.addItem.minLength } and ${this.addItem.maxLength } characters long`
+      return `Content must be between ${this.addItem.minLength} and ${this.addItem.maxLength} characters long`;
     }
 
     if (this.category.errors?.required) {

@@ -1,6 +1,6 @@
 import { AuthService } from './../../auth/auth.service';
 import { UsersApiService } from './../../services/users.api.service';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { PostsApiService } from '../../services/posts.api.service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import {
@@ -25,7 +25,7 @@ import { AuthApiService } from '../../services/auth.api.service';
 import { User } from '@gamewaver/users';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
-import { isEmpty } from 'lodash-es'
+import { isEmpty } from 'lodash-es';
 import { BaseService, PagedData, SnackbarErrors, UserRole } from '@gamewaver/shared';
 
 @Injectable()

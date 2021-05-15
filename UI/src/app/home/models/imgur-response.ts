@@ -5,12 +5,14 @@ export interface ImgurReponse<T> {
 }
 
 export interface ImgurError {
-  error: {
-    code: number;
-    exception: any[];
-    message: string
-    type: string;
-  } | string,
+  error:
+    | {
+        code: number;
+        exception: any[];
+        message: string;
+        type: string;
+      }
+    | string;
   method: string;
   request: string;
 }
@@ -43,4 +45,3 @@ export interface ImgurSuccess {
   name: string;
   link: string;
 }
-
