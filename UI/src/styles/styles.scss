@@ -1,5 +1,6 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 @import '~@ctrl/ngx-emoji-mart/picker';
 @import './reset';
@@ -7,23 +8,23 @@
 @import './theme-overrides';
 // Plus imports for other components in your app.
 
-$custom-typography: mat-typography-config(
-  $headline: mat-typography-level(32px, 48px, 400),
-  $body-1: mat-typography-level(16px, 24px, 400),
+$custom-typography: mat.define-typography-config(
+  $headline: mat.define-typography-level(32px, 48px, 400),
+  $body-1: mat.define-typography-level(16px, 24px, 400),
 );
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core($custom-typography);
+@include mat.core($custom-typography);
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$gamewaver-primary: mat-palette($mat-blue);
-$gamewaver-accent: mat-palette($mat-pink, A200, A100, A400);
+$gamewaver-primary: mat.define-palette(mat.$blue-palette);
+$gamewaver-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$gamewaver-warn: mat-palette($mat-red);
+$gamewaver-warn: mat.define-palette(mat.$red-palette);
 
 $my-mat-grey: (
   50: #fafafa,
@@ -61,20 +62,20 @@ $my-mat-grey: (
 // Background palette for dark themes.
 $my-mat-dark-theme-background: (
   status-bar: black,
-  app-bar: map_get($mat-grey, 900),
+  app-bar: map_get(mat.$grey-palette, 900),
   background: #303030,
   hover: rgba(white, 0.04),
   card: #2b2b2b,
   dialog: #2b2b2b,
   disabled-button: rgba(white, 0.12),
-  raised-button: map-get($mat-grey, 800),
+  raised-button: map-get(mat.$grey-palette, 800),
   focused-button: $light-focused,
-  selected-button: map_get($mat-grey, 900),
-  selected-disabled-button: map_get($mat-grey, 800),
+  selected-button: map_get(mat.$grey-palette, 900),
+  selected-disabled-button: map_get(mat.$grey-palette, 800),
   disabled-button-toggle: black,
-  unselected-chip: map_get($mat-grey, 700),
+  unselected-chip: map_get(mat.$grey-palette, 700),
   disabled-list-option: black,
-  tooltip: map_get($mat-grey, 700),
+  tooltip: map_get(mat.$grey-palette, 700),
 );
 
 // Foreground palette for dark themes.
@@ -109,7 +110,7 @@ $gamewaver-theme: (
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($gamewaver-theme);
+@include mat.all-component-themes($gamewaver-theme);
 
 /* You can add global styles to this file, and also import other style files */
 body {
