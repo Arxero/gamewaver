@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { CanActivate, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthApiService } from '../services/auth.api.service';
 import { SnackbarService } from '../services/snackbar.service';
@@ -15,10 +15,7 @@ export class AuthGuard implements CanActivate {
     private snackbarService: SnackbarService,
   ) {}
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.authService.isLoggedIn()) {
       this.router.navigate([loginFullRoute()]);
       this.snackbarService.showWarn('The page you are trying to access requires logged-in user.');

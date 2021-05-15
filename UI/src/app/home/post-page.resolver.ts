@@ -1,6 +1,6 @@
 import { CommentViewModel, PostViewModel } from './models/home-view-model';
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { take, filter } from 'rxjs/operators';
 import { UserViewModel } from '@gamewaver/users';
@@ -17,7 +17,7 @@ export interface IPostPage {
 export class PostPageResolver implements Resolve<PostViewModel> {
   constructor(private postsService: PostsService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PostViewModel> {
+  resolve(route: ActivatedRouteSnapshot): Observable<PostViewModel> {
     this.postsService.getOne(route.params.id);
     return this.postsService.post$.pipe(filter(x => !!x), take(1));
   }

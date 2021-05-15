@@ -90,6 +90,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
     OverlayModule,
     PortalModule,
     ScrollingModule,
+    MatFormFieldModule,
   ],
 })
 export class MaterialModule {}

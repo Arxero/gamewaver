@@ -35,7 +35,9 @@
             "style": "camelCase",
             "type": "attribute"
           }
-        ]
+        ],
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "@typescript-eslint/semi": ["error"]
       }
     },
     {
