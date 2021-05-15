@@ -1,7 +1,7 @@
 import { ScrollPositionService } from './services/scroll-position.service';
 import { PostsService } from './services/posts.service';
 import { VotesService } from './services/votes.service';
-import { AddItemModule } from './../add-item/add-item.module';
+import { AddItemModule } from '@gamewaver/add-item';
 import { CommentComponent } from './comment.component';
 import { SidebarModule } from '@gamewaver/sidebar';
 import { NgModule, ModuleWithProviders } from '@angular/core';

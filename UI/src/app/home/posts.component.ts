@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { User } from '@gamewaver/users';
 import { ActivatedRoute } from '@angular/router';
 import { PostContext, PostViewModel } from './models/home-view-model';
-import { AddItem } from '../add-item/add-item.models';
+import { AddItem } from '@gamewaver/add-item';
 import { ViewportScroller } from '@angular/common';
 import { PostsService } from './services/posts.service';
 import { Observable } from 'rxjs';

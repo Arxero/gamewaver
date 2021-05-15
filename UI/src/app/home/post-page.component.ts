@@ -1,5 +1,5 @@
 import { AuthService } from './../auth/auth.service';
-import { AddItem } from '../add-item/add-item.models';
+import { AddItem } from '@gamewaver/add-item';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
