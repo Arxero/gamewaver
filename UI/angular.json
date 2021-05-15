@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "gw-angular": {
+    "gamewaver": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/gw-angular",
+            "outputPath": "dist/gamewaver",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -76,18 +76,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "gw-angular:build"
+            "browserTarget": "gamewaver:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "gw-angular:build:production"
+              "browserTarget": "gamewaver:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "gw-angular:build"
+            "browserTarget": "gamewaver:build"
           }
         },
         "test": {
@@ -124,18 +124,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "gw-angular:serve"
+            "devServerTarget": "gamewaver:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "gw-angular:serve:production"
+              "devServerTarget": "gamewaver:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "gw-angular",
+  "defaultProject": "gamewaver",
   "cli": {
     "defaultCollection": "@ngrx/schematics"
   }

@@ -19,11 +19,11 @@ $custom-typography: mat-typography-config(
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$gw-angular-primary: mat-palette($mat-blue);
-$gw-angular-accent: mat-palette($mat-pink, A200, A100, A400);
+$gamewaver-primary: mat-palette($mat-blue);
+$gamewaver-accent: mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$gw-angular-warn: mat-palette($mat-red);
+$gamewaver-warn: mat-palette($mat-red);
 
 $my-mat-grey: (
   50: #fafafa,
@@ -96,10 +96,10 @@ $my-mat-dark-theme-foreground: (
   slider-off-active: rgba(#dadada, 0.3),
 );
 
-$gw-angular-theme: (
-  primary: $gw-angular-primary,
-  accent: $gw-angular-accent,
-  warn: $gw-angular-warn,
+$gamewaver-theme: (
+  primary: $gamewaver-primary,
+  accent: $gamewaver-accent,
+  warn: $gamewaver-warn,
   is-dark: true,
   foreground: $my-mat-dark-theme-foreground,
   background: $my-mat-dark-theme-background,
@@ -109,7 +109,7 @@ $gw-angular-theme: (
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($gw-angular-theme);
+@include angular-material-theme($gamewaver-theme);
 
 /* You can add global styles to this file, and also import other style files */
 body {
