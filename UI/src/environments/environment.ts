@@ -2,7 +2,7 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { IEnvironment } from '../app/shared/models/ienvironment';
+import { IEnvironment } from '@gamewaver/shared';
 
 export const environment: IEnvironment = {
   production: false,

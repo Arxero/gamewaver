@@ -1,7 +1,7 @@
-import { OnDestroyCleanup } from './shared/on-destory-cleanup';
+import { OnDestroyCleanup } from '@gamewaver/shared';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { AuthApiService } from './services/auth.api.service';
+import { AuthApiService } from '@gamewaver/services';
 import { Router, Scroll } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ViewportScroller } from '@angular/common';

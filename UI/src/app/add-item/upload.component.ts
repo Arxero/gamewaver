@@ -1,7 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { UploadService } from '../services/upload.service';
-import { LoadingService } from '../services/loading.service';
-import { SnackbarService } from '../services/snackbar.service';
+import { UploadService, LoadingService, SnackbarService } from '@gamewaver/services';
 import { ImgurReponse, ImgurError, ImgurSuccess } from '../home/models/imgur-response';
 
 @Component({

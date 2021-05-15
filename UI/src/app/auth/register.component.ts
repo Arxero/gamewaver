@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { EnvironmentService } from '../services/environment.service';
+import { EnvironmentService } from '@gamewaver/services';
 import { RecaptchaComponent } from 'ng-recaptcha';
 import { SignUpCmd } from './auth.models';
 import { AuthService } from './auth.service';

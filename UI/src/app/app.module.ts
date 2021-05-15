@@ -12,7 +12,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { reducers, metaReducers } from './store/app.state';
 import { AppRoutingModule } from './app.routing';
 import { MarkdownModule } from 'ngx-markdown';
-import { HttpClientService } from './services/http-client.service';
+import { HttpClientService } from '@gamewaver/services';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { NotFoundComponent } from './not-found.component';

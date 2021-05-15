@@ -1,7 +1,7 @@
 import { SidebarNavigation } from '@gamewaver/sidebar';
 import { Component, Input } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { LoadingService } from '../services/loading.service';
+import { LoadingService } from '@gamewaver/services';
 import { timer, Observable } from 'rxjs';
 import { distinctUntilChanged, delayWhen } from 'rxjs/operators';
 import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';

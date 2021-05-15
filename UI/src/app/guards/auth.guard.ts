@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthApiService } from '../services/auth.api.service';
-import { SnackbarService } from '../services/snackbar.service';
+import { AuthApiService, SnackbarService } from '@gamewaver/services';
 import { loginFullRoute } from '../auth/auth.models';
 
 @Injectable({

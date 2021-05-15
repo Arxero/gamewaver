@@ -1,14 +1,10 @@
 import { SignUpCmd, LoginCmd, ForgotPasswordCmd, ResetPasswordCmd, loginFullRoute } from './auth.models';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { SnackbarService } from '../services/snackbar.service';
-import { AuthApiService } from '../services/auth.api.service';
-import { LoadingService } from '../services/loading.service';
+import { AuthApiService, SnackbarService, LoadingService, EnvironmentService } from '@gamewaver/services';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { UserViewModel } from '@gamewaver/users';
-import { usersProfileFullRoute } from '../users/user-view-models';
-import { EnvironmentService } from '../services/environment.service';
+import { UserViewModel, usersProfileFullRoute } from '@gamewaver/users';
 import { RegisterConfirmDialogComponent } from './register-confirm-dialog';
 import { BaseService, SnackbarErrors } from '@gamewaver/shared';
 

@@ -1,9 +1,7 @@
 import { PostsService } from './posts.service';
 import { PostVoteCmd } from './../models/home.models';
 import { Injectable } from '@angular/core';
-import { EnvironmentService } from '../../services/environment.service';
-import { VotesApiService } from '../../services/votes.api.service';
-import { SnackbarService } from '../../services/snackbar.service';
+import { EnvironmentService, VotesApiService, SnackbarService} from '@gamewaver/services';
 import { SnackbarErrors, BaseService } from '@gamewaver/shared';
 
 @Injectable()

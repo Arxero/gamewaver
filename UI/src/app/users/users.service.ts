@@ -1,13 +1,11 @@
 import { AuthService } from './../auth/auth.service';
 import { Subject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { UsersApiService } from '../services/users.api.service';
-import { LoadingService } from '../services/loading.service';
-import { SnackbarService } from '../services/snackbar.service';
+import { UsersApiService, EnvironmentService, LoadingService, SnackbarService } from '@gamewaver/services';
 import { UserViewModel } from './user-view-models';
 import { UpdateUserCmd } from './user';
 import { Router } from '@angular/router';
-import { EnvironmentService } from '../services/environment.service';
+
 import { SnackbarErrors, BaseService } from '@gamewaver/shared';
 
 @Injectable()

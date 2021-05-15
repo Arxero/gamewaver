@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, from } from 'rxjs';
-import { AuthApiService } from '../services/auth.api.service';
+import { AuthApiService } from '@gamewaver/services';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

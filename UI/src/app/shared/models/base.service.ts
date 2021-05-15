@@ -1,8 +1,6 @@
-import { UserViewModel } from '@gamewaver/users';
-import { User } from '@gamewaver/users';
-import { SnackbarService } from './../../services/snackbar.service';
+import { UserViewModel, User } from '@gamewaver/users';
+import { SnackbarService, EnvironmentService } from '@gamewaver/services';
 import { ResponseError } from './response';
-import { EnvironmentService } from './../../services/environment.service';
 import { OnDestroyCleanup } from '../on-destory-cleanup';
 import { SortDirection, Sorting, DataFilter, SearchType, Paging, SnackbarErrors, UserRole } from './common';
 import * as moment from 'moment';

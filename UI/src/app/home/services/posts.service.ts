@@ -1,7 +1,5 @@
 import { AuthService } from './../../auth/auth.service';
-import { UsersApiService } from './../../services/users.api.service';
 import { Injectable } from '@angular/core';
-import { PostsApiService } from '../../services/posts.api.service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import {
   PostViewModel,
@@ -15,14 +13,17 @@ import {
   VoteType,
   GetVotesCountDto,
 } from '../models';
-import { UserViewModel } from '@gamewaver/users';
+import { UserViewModel, User } from '@gamewaver/users';
 import { takeUntil } from 'rxjs/operators';
-import { EnvironmentService } from '../../services/environment.service';
-import { LoadingService } from '../../services/loading.service';
-import { SnackbarService } from '../../services/snackbar.service';
-import { VotesApiService } from '../../services/votes.api.service';
-import { AuthApiService } from '../../services/auth.api.service';
-import { User } from '@gamewaver/users';
+import {
+  AuthApiService,
+  SnackbarService,
+  LoadingService,
+  EnvironmentService,
+  VotesApiService,
+  UsersApiService,
+  PostsApiService,
+} from '@gamewaver/services';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { isEmpty } from 'lodash-es';
