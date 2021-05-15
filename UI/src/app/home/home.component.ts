@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { OnDestroyCleanup } from '@gamewaver/shared';
@@ -8,7 +8,7 @@ import { OnDestroyCleanup } from '@gamewaver/shared';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent extends OnDestroyCleanup implements OnInit {
+export class HomeComponent extends OnDestroyCleanup {
   @ViewChild('sidenav') sidenav: MatSidenav;
   opened = true;
   mode = 'side';
@@ -25,8 +25,6 @@ export class HomeComponent extends OnDestroyCleanup implements OnInit {
       }
     });
   }
-
-  ngOnInit(): void {}
 
   onToggle() {
     this.sidenav.toggle();

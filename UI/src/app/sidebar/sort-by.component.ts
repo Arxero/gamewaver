@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { SortTime, SidebarNavigation, SortSidebarItem, SortType } from './sidebar-view.models';
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { SidebarHelperService } from './sidebar-helper.service';
 import { takeUntil, filter } from 'rxjs/operators';
 import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
@@ -17,7 +17,7 @@ interface SortByComponentChanges extends SimpleChanges {
   templateUrl: './sort-by.component.html',
   styleUrls: ['./sort-by.component.scss'],
 })
-export class SortByComponent extends OnDestroyCleanup implements OnInit, OnChanges {
+export class SortByComponent extends OnDestroyCleanup implements OnChanges {
   items: SortSidebarItem[];
   sort: SortSidebarItem;
 
@@ -64,8 +64,6 @@ export class SortByComponent extends OnDestroyCleanup implements OnInit, OnChang
       this.selectedTime.setValue(time);
     }
   }
-
-  ngOnInit(): void {}
 
   onSortSelected(sort: SortSidebarItem) {
     this.items.map(x => (x.class = ''));
