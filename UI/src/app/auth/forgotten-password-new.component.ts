@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ResetPasswordCmd } from './auth.models';
 import { AuthService } from './auth.service';
@@ -28,11 +28,11 @@ export class ForgottenPasswordNewComponent implements OnInit {
     });
   }
 
-  get password() {
+  get password(): AbstractControl {
     return this.newPasswordForm.get('password');
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const resetPasswordCmd: ResetPasswordCmd = {
       password: this.password.value,
       token: this.data,

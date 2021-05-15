@@ -16,11 +16,11 @@ interface ArchiveComponentChanges extends SimpleChanges {
   styleUrls: ['./archive.component.scss'],
 })
 export class ArchiveComponent extends OnDestroyCleanup implements OnChanges {
+  @Input() year: SidebarItem;
+  @Input() month: SidebarItem;
   currentYear: string;
   years: SidebarItem[];
   months: SidebarItem[];
-  @Input() year: SidebarItem;
-  @Input() month: SidebarItem;
 
   constructor(
     private sidebarHelper: SidebarHelperService,
@@ -65,7 +65,7 @@ export class ArchiveComponent extends OnDestroyCleanup implements OnChanges {
     }
   }
 
-  onNavigate(item: SidebarItem) {
+  onNavigate(item: SidebarItem): void {
     this.clearSelection();
     item.class = item.class + ' selected';
     this.sidebarNavigation.navigation = SidebarNavigation.Archive;

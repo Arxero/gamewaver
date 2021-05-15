@@ -11,7 +11,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return from(this.handle(request, next));
   }
 
-  async handle(request: HttpRequest<any>, next: HttpHandler) {
+  async handle(request: HttpRequest<any>, next: HttpHandler): Promise<any> {
     const token = this.authService.getToken();
     const isRenew = request.url.includes('renew');
     const isTokenExpired = Date.now() > token?.savedAt + token?.expiresIn * 1000;

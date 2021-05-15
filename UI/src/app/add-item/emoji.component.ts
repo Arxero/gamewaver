@@ -20,12 +20,12 @@ export class EmojiComponent {
 
   constructor(private overlay: Overlay) {}
 
-  addEmoji(ev: EmojiEvent) {
+  addEmoji(ev: EmojiEvent): void {
     this.emoji.emit(ev.emoji);
     this.overlayRef.dispose();
   }
 
-  openEmojiOverlay(origin: CdkOverlayOrigin) {
+  openEmojiOverlay(origin: CdkOverlayOrigin): void {
     const positionStrategy = this.overlay
       .position()
       .flexibleConnectedTo(origin.elementRef)

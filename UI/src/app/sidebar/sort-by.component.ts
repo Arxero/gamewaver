@@ -65,7 +65,7 @@ export class SortByComponent extends OnDestroyCleanup implements OnChanges {
     }
   }
 
-  onSortSelected(sort: SortSidebarItem) {
+  onSortSelected(sort: SortSidebarItem): void {
     this.items.map(x => (x.class = ''));
     sort.class = 'selected';
     this.sort = sort;
@@ -73,7 +73,7 @@ export class SortByComponent extends OnDestroyCleanup implements OnChanges {
     this.navigateSorting();
   }
 
-  navigateSorting(isTime?: boolean) {
+  navigateSorting(isTime?: boolean): void {
     this.sidebarNavigation.navigation = SidebarNavigation.Sort;
 
     if (!isTime) {

@@ -17,7 +17,7 @@ export class SearchComponent {
     private sidebarNavigation: SidebarNavigationService,
   ) {}
 
-  onSubmit() {
+  onSubmit(): void {
     this.sidebarNavigation.navigation = SidebarNavigation.Search;
     this.router.navigateByUrl(`?filters=content!like!${this.searchTerm.value}`);
   }

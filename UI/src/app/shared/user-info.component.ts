@@ -32,11 +32,11 @@ export class UserInfoComponent implements OnChanges {
   context = UserInfoContext;
 
   @HostBinding('class') class = 'user-info';
-  @HostBinding(`class.profile`) get profile() {
+  @HostBinding(`class.profile`) get profile(): boolean {
     return this.contextInput === this.context.Profile;
   }
 
-  @HostBinding(`class.profile-edit`) get profileEdit() {
+  @HostBinding(`class.profile-edit`) get profileEdit(): boolean {
     return this.contextInput === this.context.ProfileEdit;
   }
 

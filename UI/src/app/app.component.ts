@@ -45,7 +45,7 @@ export class AppComponent  extends OnDestroyCleanup implements OnInit {
     }
   }
 
-  close() {
+  close(): void {
     this.sidenav.close();
   }
 }

@@ -2,7 +2,7 @@ import { AuthService } from './../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { UserGender, UpdateUserCmd } from './user';
 import { takeUntil } from 'rxjs/operators';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from './users.service';
 import { ProfileBase } from './profile.base';
@@ -44,7 +44,7 @@ export class ProfileEditComponent extends ProfileBase implements OnInit {
     });
   }
 
-  initializeData() {
+  initializeData(): void {
     this.editProfileForm = new FormGroup({
       email: new FormControl(this.user?.email, [
         Validators.required,
@@ -61,23 +61,23 @@ export class ProfileEditComponent extends ProfileBase implements OnInit {
     this.tempAvatar = this.user?.avatar;
   }
 
-  get email() {
+  get email(): AbstractControl {
     return this.editProfileForm.get('email');
   }
-  get avatar() {
+  get avatar(): AbstractControl {
     return this.editProfileForm.get('avatar');
   }
-  get summary() {
+  get summary(): AbstractControl {
     return this.editProfileForm.get('summary');
   }
-  get location() {
+  get location(): AbstractControl {
     return this.editProfileForm.get('location');
   }
-  get gender() {
+  get gender(): AbstractControl {
     return this.editProfileForm.get('gender');
   }
 
-  onSave() {
+  onSave(): void {
     const updateUserCmd: UpdateUserCmd = {
       email: this.email.value,
       avatar: this.avatar.value,
@@ -88,7 +88,7 @@ export class ProfileEditComponent extends ProfileBase implements OnInit {
     this.usersService.edit(updateUserCmd, this.user.id, this.isOwnProfile);
   }
 
-  onCancel() {
+  onCancel(): void {
     this.authService.cancelEdit(this.user.id);
   }
 }

@@ -6,27 +6,27 @@ import { IEnvironment } from '@gamewaver/shared';
   providedIn: 'root',
 })
 export class EnvironmentService implements IEnvironment {
-  get production() {
+  get production(): boolean {
     return environment.production;
   }
 
-  get apiUrl() {
+  get apiUrl(): string {
     return environment.apiUrl;
   }
 
-  get uploadApiUrl() {
+  get uploadApiUrl(): string {
     return environment.uploadApiUrl;
   }
 
-  get uploadApiClientId() {
+  get uploadApiClientId(): string {
     return environment.uploadApiClientId;
   }
 
-  get reCaptchaSiteKey() {
+  get reCaptchaSiteKey(): string {
     return environment.reCaptchaSiteKey;
   }
 
-  get take() {
+  get take(): number {
     return environment.take;
   }
 }

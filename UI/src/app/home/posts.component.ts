@@ -72,7 +72,7 @@ export class PostsComponent extends OnDestroyCleanup implements AfterViewInit {
     });
   }
 
-  onScrollDown() {
+  onScrollDown(): void {
     this.postsService.getMany();
   }
 }

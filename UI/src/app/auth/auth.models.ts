@@ -37,4 +37,4 @@ export const authRoute = 'auth';
 export const loginRoute = 'login';
 export const registerRoute = 'register';
 export const forgottenPasswordRoute = 'forgotten-password';
-export const loginFullRoute = () => `${authRoute}/${loginRoute}`;
+export const loginFullRoute = (): string => `${authRoute}/${loginRoute}`;

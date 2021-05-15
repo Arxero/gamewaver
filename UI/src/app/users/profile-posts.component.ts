@@ -56,11 +56,11 @@ export class ProfilePostsComponent extends OnDestroyCleanup implements OnInit {
     this.postsService.getMany();
   }
 
-  onScrollDown() {
+  onScrollDown(): void {
     this.postsService.getMany();
   }
 
-  onDestroy() {
+  onDestroy(): void {
     this.postsService.clear();
   }
 }

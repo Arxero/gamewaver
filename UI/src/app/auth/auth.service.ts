@@ -107,7 +107,7 @@ export class AuthService extends BaseService<SignUpCmd> {
     this._profileSubject.next(null);
   }
 
-  cancelEdit(id: string) {
+  cancelEdit(id: string): void {
     this.router.navigate([usersProfileFullRoute(id)]);
   }
 }

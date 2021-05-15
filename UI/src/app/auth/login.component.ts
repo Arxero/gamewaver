@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginCmd } from './auth.models';
@@ -34,21 +34,21 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  get username() {
+  get username(): AbstractControl {
     return this.loginForm.get('username');
   }
-  get password() {
+  get password(): AbstractControl {
     return this.loginForm.get('password');
   }
-  get rememberMe() {
+  get rememberMe(): AbstractControl {
     return this.loginForm.get('rememberMe');
   }
 
-  onAction() {
+  onAction(): void {
     this.dialogRef.close();
   }
 
-  onLogin() {
+  onLogin(): void {
     const loginCmd: LoginCmd = {
       username: this.username.value,
       password: this.password.value,

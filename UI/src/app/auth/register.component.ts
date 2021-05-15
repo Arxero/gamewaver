@@ -38,7 +38,10 @@ export class RegisterComponent implements OnInit {
         Validators.minLength(6),
         Validators.maxLength(30),
       ]),
-      confirm: new FormControl(null, [Validators.required, x => this.confirmPasswordValidator(x)]),
+      confirm: new FormControl(null, [
+        Validators.required,
+        (x): { [key: string]: boolean } => this.confirmPasswordValidator(x),
+      ]),
       termsAgree: new FormControl(null, [Validators.requiredTrue]),
     });
   }
@@ -52,30 +55,30 @@ export class RegisterComponent implements OnInit {
     return null;
   }
 
-  get username() {
+  get username(): AbstractControl {
     return this.registerForm.get('username');
   }
-  get password() {
+  get password(): AbstractControl {
     if (!this.registerForm) {
       return;
     }
     return this.registerForm.get('password');
   }
-  get confirm() {
+  get confirm(): AbstractControl {
     return this.registerForm.get('confirm');
   }
-  get email() {
+  get email(): AbstractControl {
     return this.registerForm.get('email');
   }
-  get termsAgree() {
+  get termsAgree(): AbstractControl {
     return this.registerForm.get('termsAgree');
   }
 
-  onRegister() {
+  onRegister(): void {
     this.captchaRef.execute();
   }
 
-  resolved(captchaResponse: string) {
+  resolved(captchaResponse: string): void {
     const signUpCmd: SignUpCmd = {
       username: this.username.value,
       email: this.email.value,

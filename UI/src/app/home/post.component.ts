@@ -82,30 +82,30 @@ export class PostComponent implements OnInit {
       this.user.id === this.post?.authorId || this.user.role === UserRole.ADMIN ? true : false;
   }
 
-  onEdit() {
+  onEdit(): void {
     this.editPost.emit();
   }
 
-  onDelete() {
+  onDelete(): void {
     this.postsService.postContext = this.postContext;
     this.postsService.delete(this.post.id);
   }
 
-  navigate() {
+  navigate(): void {
     this.sidebarNavigationService.navigation = SidebarNavigation.Post;
     this.router.navigateByUrl(`?filters=category!eq!${this.post.category}`);
   }
 
-  onCopyLink() {
+  onCopyLink(): void {
     this.clipboard.copy(window.location.origin + '/post/' + this.post.id);
     this.snackbarService.showInfo('Link Copied.');
   }
 
-  onPostLink() {
+  onPostLink(): void {
     this.scrollPositionService.scrollPosition = this.viewportScroller.getScrollPosition();
   }
 
-  onVote(voteType: VoteType) {
+  onVote(voteType: VoteType): Promise<boolean> {
     if (!this.user) {
       return this.router.navigateByUrl(loginFullRoute());
     }

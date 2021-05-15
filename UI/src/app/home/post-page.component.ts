@@ -58,7 +58,7 @@ export class PostPageComponent extends OnDestroyCleanup implements OnInit, OnDes
     this.commentsService.getMany();
   }
 
-  onEditPost() {
+  onEditPost(): void {
     this.pageState = PostPageState.EditPost;
     this.editItemPost.id = this.post.id;
     this.editItemPost.content = this.post.content;
@@ -70,17 +70,17 @@ export class PostPageComponent extends OnDestroyCleanup implements OnInit, OnDes
     }
   }
 
-  onCancelPostEdit() {
+  onCancelPostEdit(): void {
     this.pageState = PostPageState.Default;
     this.editItemComment = this.mapEditItem();
   }
 
-  onCancelCommentEdit() {
+  onCancelCommentEdit(): void {
     this.editItemComment = this.mapEditItem();
     this.cancelCommentEdit();
   }
 
-  onEditComment(id: string) {
+  onEditComment(id: string): void {
     this.pageState = PostPageState.EditComment;
     this.commentToEdit = this.comments.items.find(x => x.id === id);
     this.editItemComment = {
@@ -91,7 +91,7 @@ export class PostPageComponent extends OnDestroyCleanup implements OnInit, OnDes
     this.commentsService.startEdit(id);
   }
 
-  onScrollDown() {
+  onScrollDown(): void {
     if (this.pageState === this.postPageState.EditComment) {
       return;
     }
@@ -99,7 +99,7 @@ export class PostPageComponent extends OnDestroyCleanup implements OnInit, OnDes
     this.commentsService.getMany();
   }
 
-  onDestroy() {
+  onDestroy(): void {
     this.commentsService.clear();
   }
 
@@ -112,7 +112,7 @@ export class PostPageComponent extends OnDestroyCleanup implements OnInit, OnDes
     };
   }
 
-  private cancelCommentEdit() {
+  private cancelCommentEdit(): void {
     this.commentsService.cancelEdit(this.commentToEdit);
     this.commentToEdit = null;
   }

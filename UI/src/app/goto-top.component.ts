@@ -3,13 +3,7 @@ import { Component, HostListener } from '@angular/core';
 @Component({
   selector: 'gw-goto-top',
   template: `
-    <button
-      *ngIf="isShow"
-      mat-mini-fab
-      color="primary"
-      class="goto-top"
-      (click)="gotoTop()"
-    >
+    <button *ngIf="isShow" mat-mini-fab color="primary" class="goto-top" (click)="gotoTop()">
       <mat-icon>keyboard_arrow_up</mat-icon>
     </button>
   `,
@@ -20,12 +14,9 @@ export class GotoTopComponent {
   topPosToStartShowing = 1000;
 
   @HostListener('window:scroll')
-  checkScroll() {
+  checkScroll(): void {
     const scrollPosition =
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
+      window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
 
     if (scrollPosition >= this.topPosToStartShowing) {
       this.isShow = true;
@@ -34,7 +25,7 @@ export class GotoTopComponent {
     }
   }
 
-  gotoTop() {
+  gotoTop(): void {
     window.scroll({
       top: 0,
       left: 0,

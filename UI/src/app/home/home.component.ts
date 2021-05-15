@@ -26,7 +26,7 @@ export class HomeComponent extends OnDestroyCleanup {
     });
   }
 
-  onToggle() {
+  onToggle(): void {
     this.sidenav.toggle();
     this.opened = !this.opened;
   }

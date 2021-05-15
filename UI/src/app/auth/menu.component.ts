@@ -40,11 +40,11 @@ export class MenuComponent {
     this.user$ = this.authService.profile$.pipe(shareReplay());
   }
 
-  openLoginDialog() {
+  openLoginDialog(): void {
     this.dialog.open(LoginComponent);
   }
 
-  onLogout() {
+  onLogout(): void {
     this.authService.logout();
   }
 }

@@ -8,7 +8,7 @@ export class LoadingService {
   private _uiLoading = new BehaviorSubject(false);
   uiLoading$ = this._uiLoading.asObservable();
 
-  setUILoading(loading = true) {
+  setUILoading(loading = true): void {
     if (this._uiLoading.getValue() !== loading) {
       this._uiLoading.next(loading);
     }

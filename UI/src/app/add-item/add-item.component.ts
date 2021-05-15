@@ -1,7 +1,7 @@
 import { CommentsService } from './../home/services/comments.service';
 import { FormattingHelpComponent } from './formatting-help.component';
 import { AddItem } from './add-item.models';
-import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormGroupDirective, AbstractControl } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
@@ -41,7 +41,7 @@ export class AddItemComponent implements OnInit {
   }
 
   @HostListener('mousedown')
-  mousedown() {
+  mousedown(): void {
     this.showActions = true;
   }
 
@@ -55,14 +55,14 @@ export class AddItemComponent implements OnInit {
     this.createItemForm();
   }
 
-  get content() {
+  get content(): AbstractControl {
     return this.itemForm.get('content');
   }
-  get category() {
+  get category(): AbstractControl {
     return this.itemForm.get('category');
   }
 
-  createItemForm() {
+  createItemForm(): void {
     this.itemForm = new FormGroup({
       content: new FormControl(this.addItem.content, [
         Validators.minLength(this.addItem.minLength),
@@ -77,7 +77,7 @@ export class AddItemComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const postCmd: PostCmd = {
       content: this.content.value,
       category: this.category.value,
@@ -99,7 +99,7 @@ export class AddItemComponent implements OnInit {
     this.showActions = false;
   }
 
-  onCancel() {
+  onCancel(): void {
     this.formGroupDirective.resetForm();
     this.showActions = false;
     this.cancelEditItem.emit();
@@ -117,11 +117,11 @@ export class AddItemComponent implements OnInit {
     }
   }
 
-  onFormatHelp() {
+  onFormatHelp(): void {
     this.dialog.open(FormattingHelpComponent);
   }
 
-  onAddedEmoji(emoji: EmojiData) {
+  onAddedEmoji(emoji: EmojiData): void {
     const temp = ((this.content.value as string) || '').split('');
     temp.splice(this.caretPos, 0, emoji.native);
     this.itemForm.patchValue({
@@ -129,13 +129,13 @@ export class AddItemComponent implements OnInit {
     });
   }
 
-  onUpload(imageLink: string) {
+  onUpload(imageLink: string): void {
     this.itemForm.patchValue({
       content: this.content.value + `\n![](${imageLink})\n`,
     });
   }
 
-  getCaretPos(oField) {
+  getCaretPos(oField): void {
     if (oField.selectionStart || oField.selectionStart === 0) {
       this.caretPos = oField.selectionStart;
     }

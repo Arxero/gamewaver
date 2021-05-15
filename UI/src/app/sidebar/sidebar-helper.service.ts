@@ -1,12 +1,6 @@
 import { postCategories } from '../home/models/post-category';
 import { Injectable } from '@angular/core';
-import {
-  SortSidebarItem,
-  SortType,
-  SortTime,
-  CategorySidebarItem,
-  SidebarItem,
-} from './sidebar-view.models';
+import { SortSidebarItem, SortType, SortTime, CategorySidebarItem, SidebarItem } from './sidebar-view.models';
 import * as moment from 'moment';
 import { Subject, Observable } from 'rxjs';
 
@@ -51,10 +45,7 @@ export class SidebarHelperService {
     [SortTime.All]: ``,
   };
 
-  private dateFilterSort(
-    amount: moment.DurationInputArg1,
-    unit: moment.DurationInputArg2,
-  ) {
+  private dateFilterSort(amount: moment.DurationInputArg1, unit: moment.DurationInputArg2): string {
     return `&filters=createdAt!between!${moment()
       .subtract(amount, unit)
       .format('YYYY-MM-DD')},${moment().format('YYYY-MM-DD')},date`;
@@ -138,8 +129,7 @@ export class SidebarHelperService {
   }
 
   private getMonthsFromCurrentYear(): string[] {
-    const monthsFromYear =
-      moment().diff(`${moment().year()}-01-01`, 'months') + 1;
+    const monthsFromYear = moment().diff(`${moment().year()}-01-01`, 'months') + 1;
     const months: string[] = [];
     for (let i = 1; i <= monthsFromYear; i++) {
       const temp = i <= 9 ? `0` : '';

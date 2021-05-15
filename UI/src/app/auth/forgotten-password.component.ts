@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { ForgotPasswordCmd } from './auth.models';
 import { AuthService } from './auth.service';
 
@@ -24,11 +24,11 @@ export class ForgottenPasswordComponent implements OnInit {
     });
   }
 
-  get email() {
+  get email(): AbstractControl {
     return this.forgotPasswordForm.get('email');
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const forgotPasswordCmd: ForgotPasswordCmd = {
       email: this.email.value,
     };

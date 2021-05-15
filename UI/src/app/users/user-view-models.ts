@@ -28,4 +28,4 @@ export interface UserViewModel extends User {
 export const usersRoute = 'users';
 export const usersProfileRoute = 'profile';
 export const usersProfileEditRoute = 'edit';
-export const usersProfileFullRoute = (id: string) => `${usersRoute}/${usersProfileRoute}/${id}`;
+export const usersProfileFullRoute = (id: string): string => `${usersRoute}/${usersProfileRoute}/${id}`;

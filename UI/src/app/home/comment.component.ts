@@ -14,17 +14,15 @@ export class CommentComponent extends OnDestroyCleanup implements OnInit {
   @Input() comment: CommentViewModel;
   @Input() user: User;
   @Input() postContext: PostContext;
+  @Input() postAuthorId: string;
+  @Output() editComment: EventEmitter<string> = new EventEmitter();
+  canEditOrDelete: boolean;
+  postContexts = PostContext;
+
   postRoute: { [key: number]: string } = {
     [PostContext.PostsPage]: `post`,
     [PostContext.ProfilePage]: '../../../../post',
   };
-
-  canEditOrDelete: boolean;
-  @Input() postAuthorId: string;
-  @Output() editComment: EventEmitter<string> = new EventEmitter();
-  get postContexts() {
-    return PostContext;
-  }
 
   get userProfileRoute(): string {
     return this.postContext === PostContext.PostPage
@@ -45,11 +43,11 @@ export class CommentComponent extends OnDestroyCleanup implements OnInit {
       this.user.id === this.comment?.authorId || this.user.role === UserRole.ADMIN ? true : false;
   }
 
-  onEdit() {
+  onEdit(): void {
     this.editComment.emit(this.comment.id);
   }
 
-  onDelete() {
+  onDelete(): void {
     this.commentsService.delete(this.comment.id);
   }
 }

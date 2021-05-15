@@ -16,7 +16,7 @@ export class UploadComponent {
     private snackbarService: SnackbarService,
   ) {}
 
-  async upload(files: FileList) {
+  async upload(files: FileList): Promise<void> {
     if (files.length === 0) {
       return;
     }
