@@ -1,4 +1,4 @@
-import { AuthService } from './../auth/auth.service';
+import { AuthService } from '@gamewaver/auth';
 import { Component, OnInit } from '@angular/core';
 import { UserGender, UpdateUserCmd } from './user';
 import { takeUntil } from 'rxjs/operators';

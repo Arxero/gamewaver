@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PostContext, UserActionOnPost, PostViewModel } from '../home/models/home-view-model';
 import { Observable } from 'rxjs';
 import { PostsService } from '../home/services/posts.service';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '@gamewaver/auth';
 import { PagedData, SearchType, SortDirection, OnDestroyCleanup } from '@gamewaver/shared';
 
 export interface UrlProfileData {

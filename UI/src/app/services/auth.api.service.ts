@@ -6,7 +6,7 @@ import {
   TokenLocal,
   ForgotPasswordCmd,
   ResetPasswordCmd,
-} from '../auth/auth.models';
+} from '@gamewaver/auth';
 import { Injectable } from '@angular/core';
 import { User } from '@gamewaver/users';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -34,19 +34,14 @@ export class AuthApiService implements IAuthApiService {
   BASE_URL = `${this.environmentService.apiUrl}auth`;
   accessToken = 'accessToken';
 
-  constructor(
-    private http: HttpClient,
-    private environmentService: EnvironmentService,
-  ) {}
+  constructor(private http: HttpClient, private environmentService: EnvironmentService) {}
 
   login(cmd: LoginCmd): Promise<TokenDto> {
     return this.http.post<TokenDto>(`${this.BASE_URL}/login`, cmd).toPromise();
   }
 
   register(cmd: SignUpCmd): Promise<SentEmailDto> {
-    return this.http
-      .post<SentEmailDto>(`${this.BASE_URL}/signup`, cmd)
-      .toPromise();
+    return this.http.post<SentEmailDto>(`${this.BASE_URL}/signup`, cmd).toPromise();
   }
 
   getUser(): Promise<IResponse<User>> {
@@ -60,8 +55,7 @@ export class AuthApiService implements IAuthApiService {
 
   isLoggedIn(): boolean {
     return (
-      sessionStorage.getItem(this.accessToken) !== null ||
-      localStorage.getItem(this.accessToken) !== null
+      sessionStorage.getItem(this.accessToken) !== null || localStorage.getItem(this.accessToken) !== null
     );
   }
 
@@ -95,20 +89,14 @@ export class AuthApiService implements IAuthApiService {
 
   renewToken(): Promise<TokenDto> {
     const token = this.getToken().accessToken;
-    return this.http
-      .get<TokenDto>(`${this.BASE_URL}/renew/${token}`)
-      .toPromise();
+    return this.http.get<TokenDto>(`${this.BASE_URL}/renew/${token}`).toPromise();
   }
 
   forgotPassword(cmd: ForgotPasswordCmd): Promise<IResponse<SentEmailDto>> {
-    return this.http
-      .post<IResponse<SentEmailDto>>(`${this.BASE_URL}/forgot-password`, cmd)
-      .toPromise();
+    return this.http.post<IResponse<SentEmailDto>>(`${this.BASE_URL}/forgot-password`, cmd).toPromise();
   }
 
   resetPassword(cmd: ResetPasswordCmd): Promise<IResponse<string>> {
-    return this.http
-      .post<IResponse<string>>(`${this.BASE_URL}/reset-password`, cmd)
-      .toPromise();
+    return this.http.post<IResponse<string>>(`${this.BASE_URL}/reset-password`, cmd).toPromise();
   }
 }

@@ -11,7 +11,7 @@ import { PostsService } from './services/posts.service';
 import { VotesService } from './services/votes.service';
 import { SidebarNavigationService } from './services/sidebar-navigation.service';
 import { SidebarNavigation } from '@gamewaver/sidebar';
-import { loginFullRoute } from '../auth/auth.models';
+import { loginFullRoute } from '@gamewaver/auth';
 import { UserInfoContext, UserInfo, UserRole } from '@gamewaver/shared';
 
 @Component({

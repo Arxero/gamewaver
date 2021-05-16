@@ -1,4 +1,4 @@
-import { AuthService } from './../auth/auth.service';
+import { AuthService } from '@gamewaver/auth';
 import { AddItem } from '@gamewaver/add-item';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';

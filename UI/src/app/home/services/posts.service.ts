@@ -1,4 +1,4 @@
-import { AuthService } from './../../auth/auth.service';
+import { AuthService } from '@gamewaver/auth';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import {

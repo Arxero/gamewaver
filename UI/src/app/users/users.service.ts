@@ -1,4 +1,4 @@
-import { AuthService } from './../auth/auth.service';
+import { AuthService } from '@gamewaver/auth';
 import { Subject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { UsersApiService, EnvironmentService, LoadingService, SnackbarService } from '@gamewaver/services';

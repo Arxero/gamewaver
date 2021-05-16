@@ -14,10 +14,9 @@ import { AppRoutingModule } from './app.routing';
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClientService } from '@gamewaver/services';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AuthInterceptor } from './auth/auth.interceptor';
+import { AuthInterceptor, AuthModule } from '@gamewaver/auth';
 import { NotFoundComponent } from './not-found.component';
 import { HomeModule } from './home/home.module';
-import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent, GotoTopComponent],

@@ -10,7 +10,7 @@ import { PostsService } from './services/posts.service';
 import { Observable } from 'rxjs';
 import { SidebarNavigationService } from './services/sidebar-navigation.service';
 import { ScrollPositionService } from './services/scroll-position.service';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '@gamewaver/auth';
 import { OnDestroyCleanup, PagedData, QueryRequest, QueryParams } from '@gamewaver/shared';
 
 @Component({

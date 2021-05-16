@@ -5,7 +5,7 @@ import { AuthApiService } from '@gamewaver/services';
 import { Router, Scroll } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ViewportScroller } from '@angular/common';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from '@gamewaver/auth';
 
 @Component({
   selector: 'gw-root',

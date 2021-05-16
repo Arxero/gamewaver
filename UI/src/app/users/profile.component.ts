@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { NavLink, navLinks } from './user-view-models';
 import { UsersService } from './users.service';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '@gamewaver/auth';
 import { UserInfoContext } from '@gamewaver/shared';
 
 @Component({

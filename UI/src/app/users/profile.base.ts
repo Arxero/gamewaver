@@ -2,7 +2,7 @@ import { UsersService } from './users.service';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { UserViewModel } from './user-view-models';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '@gamewaver/auth';
 import { OnDestroyCleanup, UserInfo, UserRole } from '@gamewaver/shared';
 
 export class ProfileBase extends OnDestroyCleanup {
