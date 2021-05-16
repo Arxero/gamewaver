@@ -1,17 +1,15 @@
+import { SidebarNavigationService, ScrollPositionService, PostsService } from './services';
+import { OnDestroyCleanup, PagedData, QueryRequest, QueryParams } from '@gamewaver/shared';
 import { SidebarNavigation } from '@gamewaver/sidebar';
 import { Component, AfterViewInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { User } from '@gamewaver/users';
 import { ActivatedRoute } from '@angular/router';
-import { PostContext, PostViewModel } from './models/home-view-model';
+import { PostContext, PostViewModel } from './models';
 import { AddItem } from '@gamewaver/add-item';
 import { ViewportScroller } from '@angular/common';
-import { PostsService } from './services/posts.service';
 import { Observable } from 'rxjs';
-import { SidebarNavigationService } from './services/sidebar-navigation.service';
-import { ScrollPositionService } from './services/scroll-position.service';
 import { AuthService } from '@gamewaver/auth';
-import { OnDestroyCleanup, PagedData, QueryRequest, QueryParams } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-posts',

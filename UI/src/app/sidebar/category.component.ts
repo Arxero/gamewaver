@@ -1,4 +1,4 @@
-import { PostCategory } from '../home/models/post-category';
+import { PostCategory } from '@gamewaver/home';
 import { SidebarNavigation, CategorySidebarItem } from './sidebar-view.models';
 import { SidebarHelperService } from './sidebar-helper.service';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';

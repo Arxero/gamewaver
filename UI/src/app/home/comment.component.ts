@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { User } from '@gamewaver/users';
-import { PostContext, CommentViewModel } from './models/home-view-model';
-import { CommentsService } from './services/comments.service';
-import { usersProfileFullRoute } from '../users/user-view-models';
+import { User, usersProfileFullRoute } from '@gamewaver/users';
+import { PostContext, CommentViewModel } from './models';
+import { CommentsService } from './services';
 import { OnDestroyCleanup, UserRole } from '@gamewaver/shared';
 
 @Component({

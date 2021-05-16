@@ -1,4 +1,4 @@
-import { PostVoteCmd, GetVoteDto, GetVotesCountDto } from '../home/models/home.models';
+import { PostVoteCmd, GetVoteDto, GetVotesCountDto } from '@gamewaver/home';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
 import { IResponse } from '@gamewaver/shared';

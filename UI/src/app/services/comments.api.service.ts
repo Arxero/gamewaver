@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
 import { HttpParams } from '@angular/common/http';
-import { CommentCmd, GetCommentDto, GetCommentsCountDto } from '../home/models/home.models';
+import { CommentCmd, GetCommentDto, GetCommentsCountDto } from '@gamewaver/home';
 import { IResponse, Paging, DataFilter, Sorting, PagedData } from '@gamewaver/shared';
 
 @Injectable({

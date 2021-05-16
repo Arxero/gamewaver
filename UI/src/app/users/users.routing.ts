@@ -5,7 +5,7 @@ import { ProfileEditComponent } from './profile-edit.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { AuthGuard } from '../guards/auth.guard';
 import { ProfilePostsComponent, UrlProfileData } from './profile-posts.component';
-import { UserActionOnPost } from '../home/models';
+import { UserActionOnPost } from '@gamewaver/home';
 import { usersProfileRoute, usersProfileEditRoute } from './user-view-models';
 
 const routes: Routes = [

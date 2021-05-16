@@ -1,5 +1,5 @@
+import { SharedModule } from '@gamewaver/shared';
 import { RouterModule } from '@angular/router';
-import { MaterialModule } from './../shared/material-module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -21,9 +21,9 @@ import { SidebarHelperService } from './sidebar-helper.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MaterialModule,
     RouterModule,
     FormsModule,
+    SharedModule
   ],
   exports: [SidebarComponent],
   providers: [SidebarHelperService]

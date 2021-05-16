@@ -1,13 +1,11 @@
-import { CommentsService } from './../home/services/comments.service';
-import { FormattingHelpComponent } from './formatting-help.component';
-import { AddItem } from './add-item.models';
 import { FormGroup, FormControl, Validators, FormGroupDirective, AbstractControl } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild } from '@angular/core';
+import { CommentCmd, postCategories, PostCmd, PostsService, CommentsService } from '@gamewaver/home';
+import { FormattingHelpComponent } from './formatting-help.component';
+import { AddItem } from './add-item.models';
 import { MatDialog } from '@angular/material/dialog';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
-import { CommentCmd, postCategories, PostCmd } from '../home/models';
-import { PostsService } from '../home/services/posts.service';
-import { UserInfo, UserInfoContext } from '../shared/user-info.component';
+import { UserInfo, UserInfoContext } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-add-item',

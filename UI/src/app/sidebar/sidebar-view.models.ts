@@ -1,4 +1,4 @@
-import { PostCategoryViewModel, PostCategory } from '../home/models/post-category';
+import { PostCategoryViewModel, PostCategory } from '@gamewaver/home';
 
 export enum SortType {
   Fresh = 'Fresh',

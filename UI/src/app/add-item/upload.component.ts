@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { UploadService, LoadingService, SnackbarService } from '@gamewaver/services';
-import { ImgurReponse, ImgurError, ImgurSuccess } from '../home/models/imgur-response';
+import { ImgurReponse, ImgurError, ImgurSuccess } from '@gamewaver/home';
 
 @Component({
   selector: 'gw-upload',

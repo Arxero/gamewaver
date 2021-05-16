@@ -1,10 +1,9 @@
 import { SnackbarService, LoadingService, EnvironmentService, UsersApiService, CommentsApiService } from '@gamewaver/services';
-import { CommentViewModel } from './../models/home-view-model';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { User } from '@gamewaver/users';
-import { CommentCmd, GetCommentDto } from '../models/home.models';
+import { CommentCmd, GetCommentDto, CommentViewModel } from '../models';
 import { PostsService } from './posts.service';
 import { BaseService, PagedData, SnackbarErrors, DataFilter, SearchType, UserRole } from '@gamewaver/shared';
 

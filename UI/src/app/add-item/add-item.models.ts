@@ -1,4 +1,4 @@
-import { PostCategory } from '../home/models/post-category';
+import { PostCategory } from '@gamewaver/home';
 
 export interface AddItem {
   isPost: boolean;

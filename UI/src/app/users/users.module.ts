@@ -1,5 +1,5 @@
 import { UsersService } from './users.service';
-import { HomeModule } from './../home/home.module';
+import { HomeModule } from '@gamewaver/home';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsersRoutingModule } from './users.routing';

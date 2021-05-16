@@ -3,10 +3,9 @@ import { AddItem } from '@gamewaver/add-item';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { PostContext, PostPageState, CommentViewModel, PostViewModel } from './models/home-view-model';
+import { PostContext, PostPageState, CommentViewModel, PostViewModel } from './models';
 import { UserViewModel } from '@gamewaver/users';
-import { CommentsService } from './services/comments.service';
-import { PostsService } from './services/posts.service';
+import { CommentsService, PostsService } from './services';
 import { OnDestroyCleanup, PagedData } from '@gamewaver/shared';
 
 @Component({

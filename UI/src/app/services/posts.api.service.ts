@@ -1,9 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClientService } from './http-client.service';
-import { PagedData, DataFilter, Sorting, Paging } from '../shared/models/common';
+import { PagedData, DataFilter, Sorting, Paging, IResponse } from '@gamewaver/shared';
 import { HttpParams } from '@angular/common/http';
-import { GetPostDto, PostCmd, GetPostDtoEx } from '../home/models/home.models';
-import { IResponse } from '@gamewaver/shared';
+import { GetPostDto, PostCmd, GetPostDtoEx } from '@gamewaver/home';
 
 @Injectable({
   providedIn: 'root',

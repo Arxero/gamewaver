@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthApiService, SnackbarService } from '@gamewaver/services';
-import { loginFullRoute } from '../auth/auth.models';
+import { loginFullRoute } from '@gamewaver/auth';
 
 @Injectable({
   providedIn: 'root',

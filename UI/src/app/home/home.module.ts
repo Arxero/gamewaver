@@ -1,6 +1,4 @@
-import { ScrollPositionService } from './services/scroll-position.service';
-import { PostsService } from './services/posts.service';
-import { VotesService } from './services/votes.service';
+import { ScrollPositionService, PostsService, VotesService, CommentsService } from './services';
 import { AddItemModule } from '@gamewaver/add-item';
 import { CommentComponent } from './comment.component';
 import { SidebarModule } from '@gamewaver/sidebar';
@@ -12,7 +10,6 @@ import { HomeRoutingModule } from './home.routing';
 import { PostPageComponent } from './post-page.component';
 import { PostsComponent } from './posts.component';
 import { PostComponent } from './post.component';
-import { CommentsService } from './services/comments.service';
 import { PostPageResolver } from './post-page.resolver';
 import { SharedModule } from '@gamewaver/shared';
 

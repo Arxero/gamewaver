@@ -10,7 +10,7 @@ import { HttpClientService } from '@gamewaver/services';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor, AuthModule } from '@gamewaver/auth';
 import { NotFoundComponent } from './not-found.component';
-import { HomeModule } from './home/home.module';
+import { HomeModule } from '@gamewaver/home';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent, GotoTopComponent],

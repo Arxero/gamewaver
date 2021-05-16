@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from './user';
 import { ActivatedRoute } from '@angular/router';
-import { PostContext, UserActionOnPost, PostViewModel } from '../home/models/home-view-model';
+import { PostContext, UserActionOnPost, PostViewModel, PostsService } from '@gamewaver/home';
 import { Observable } from 'rxjs';
-import { PostsService } from '../home/services/posts.service';
 import { AuthService } from '@gamewaver/auth';
 import { PagedData, SearchType, SortDirection, OnDestroyCleanup } from '@gamewaver/shared';
 

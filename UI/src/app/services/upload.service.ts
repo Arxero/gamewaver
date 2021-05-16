@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EnvironmentService } from './environment.service';
-import { ImgurReponse, ImgurSuccess, ImgurError } from '../home/models/imgur-response';
+import { EnvironmentService } from '@gamewaver/services';
+import { ImgurReponse, ImgurSuccess, ImgurError } from '@gamewaver/home';
 
 @Injectable({
   providedIn: 'root',
