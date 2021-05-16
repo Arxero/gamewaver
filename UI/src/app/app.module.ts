@@ -4,12 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, SecurityContext } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { reducers, metaReducers } from './store/app.state';
 import { AppRoutingModule } from './app.routing';
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClientService } from '@gamewaver/services';
@@ -31,19 +25,6 @@ import { HomeModule } from './home/home.module';
     }),
     HomeModule.forRoot(),
     AuthModule.forRoot(),
-
-    // NGRX
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-      runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true,
-      },
-    }),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-    EffectsModule.forRoot([]),
-    EffectsModule.forFeature([]),
   ],
   providers: [
     { provide: 'IHttpClientService', useClass: HttpClientService },
