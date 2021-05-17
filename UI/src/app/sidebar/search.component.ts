@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { Component } from '@angular/core';
 import { SidebarNavigation } from './sidebar-view.models';
-import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
+import { SidebarNavigationService } from '@gamewaver/home/services';
 
 @Component({
   selector: 'gw-search',

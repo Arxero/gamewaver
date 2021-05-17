@@ -4,7 +4,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { LoadingService } from '@gamewaver/services';
 import { timer, Observable } from 'rxjs';
 import { distinctUntilChanged, delayWhen } from 'rxjs/operators';
-import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
+import { SidebarNavigationService } from '@gamewaver/home/services';
 
 @Component({
   selector: 'gw-header',

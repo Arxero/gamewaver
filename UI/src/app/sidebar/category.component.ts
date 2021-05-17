@@ -3,7 +3,7 @@ import { SidebarNavigation, CategorySidebarItem } from './sidebar-view.models';
 import { SidebarHelperService } from './sidebar-helper.service';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { takeUntil, filter } from 'rxjs/operators';
-import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
+import { SidebarNavigationService } from '@gamewaver/home/services';
 import { OnDestroyCleanup } from '@gamewaver/shared';
 
 @Component({

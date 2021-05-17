@@ -2,7 +2,7 @@ import { takeUntil, filter } from 'rxjs/operators';
 import { SidebarHelperService } from './sidebar-helper.service';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { SidebarNavigation, SidebarItem } from './sidebar-view.models';
-import { SidebarNavigationService } from '../home/services/sidebar-navigation.service';
+import { SidebarNavigationService } from '@gamewaver/home/services';
 import { TypedChange, OnDestroyCleanup } from '@gamewaver/shared';
 
 interface ArchiveComponentChanges extends SimpleChanges {

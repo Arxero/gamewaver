@@ -1,5 +1,4 @@
-import { PostCategory } from '@gamewaver/home';
-import { postCategories } from '@gamewaver/home/models/post-category';
+import { PostCategory, postCategories } from '@gamewaver/home/models';
 import { SortTime, SortType } from './sidebar-view.models';
 import * as moment from 'moment';
 import { QueryRequest } from '@gamewaver/shared';
