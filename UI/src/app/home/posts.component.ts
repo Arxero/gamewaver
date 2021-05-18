@@ -1,6 +1,6 @@
-import { SidebarNavigationService, ScrollPositionService, PostsService } from './services';
+import { ScrollPositionService, PostsService } from './services';
 import { OnDestroyCleanup, PagedData, QueryRequest, QueryParams } from '@gamewaver/shared';
-import { SidebarNavigation } from '@gamewaver/sidebar';
+import { SidebarNavigation, SidebarNavigationService } from '@gamewaver/sidebar';
 import { Component, AfterViewInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { User } from '@gamewaver/users';

@@ -4,7 +4,7 @@ import { SortTime, SidebarNavigation, SortSidebarItem, SortType } from './sideba
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { SidebarHelperService } from './sidebar-helper.service';
 import { takeUntil, filter } from 'rxjs/operators';
-import { SidebarNavigationService } from '@gamewaver/home/services';
+import { SidebarNavigationService } from './sidebar-navigation.service';
 import { TypedChange, OnDestroyCleanup } from '@gamewaver/shared';
 
 interface SortByComponentChanges extends SimpleChanges {

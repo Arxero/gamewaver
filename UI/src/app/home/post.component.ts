@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User, usersProfileFullRoute } from '@gamewaver/users';
 import { PostContext, VoteType, PostViewModel, PostVoteCmd } from './models';
-import { PostsService, VotesService, SidebarNavigationService, ScrollPositionService } from './services';
+import { PostsService, VotesService, ScrollPositionService } from './services';
 import { Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { SnackbarService } from '@gamewaver/services';
 import { ViewportScroller } from '@angular/common';
-import { SidebarNavigation } from '@gamewaver/sidebar';
+import { SidebarNavigation, SidebarNavigationService } from '@gamewaver/sidebar';
 import { loginFullRoute } from '@gamewaver/auth';
 import { UserInfoContext, UserInfo, UserRole } from '@gamewaver/shared';
 
