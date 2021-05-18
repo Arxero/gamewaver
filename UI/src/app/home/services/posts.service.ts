@@ -7,7 +7,6 @@ import {
   GetVoteDto,
   GetPostDtoEx,
   UserActionOnPost,
-  postCategories,
   GetPostDto,
   PostContext,
   VoteType,
@@ -27,7 +26,7 @@ import {
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { isEmpty } from 'lodash-es';
-import { BaseService, PagedData, SnackbarErrors, UserRole } from '@gamewaver/shared';
+import { BaseService, PagedData, SnackbarErrors, UserRole, postCategories } from '@gamewaver/shared';
 
 @Injectable()
 export class PostsService extends BaseService<PostCmd> {

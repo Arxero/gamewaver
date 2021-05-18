@@ -1,4 +1,4 @@
-import { postCategories } from '@gamewaver/home/models';
+import { postCategories } from '@gamewaver/shared';
 import { Injectable } from '@angular/core';
 import { SortSidebarItem, SortType, SortTime, CategorySidebarItem, SidebarItem } from './sidebar-view.models';
 import * as moment from 'moment';

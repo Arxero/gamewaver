@@ -1,11 +1,11 @@
 import { FormGroup, FormControl, Validators, FormGroupDirective, AbstractControl } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild } from '@angular/core';
-import { CommentCmd, postCategories, PostCmd, PostsService, CommentsService } from '@gamewaver/home';
+import { CommentCmd, PostCmd, PostsService, CommentsService } from '@gamewaver/home';
 import { FormattingHelpComponent } from './formatting-help.component';
 import { AddItem } from './add-item.models';
 import { MatDialog } from '@angular/material/dialog';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
-import { UserInfo, UserInfoContext } from '@gamewaver/shared';
+import { UserInfo, UserInfoContext, postCategories } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-add-item',

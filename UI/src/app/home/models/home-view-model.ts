@@ -1,4 +1,4 @@
-import { PostCategory } from './post-category';
+import { PostCategory } from '@gamewaver/shared';
 import { GetVoteDto } from './home.models';
 
 export interface HomeViewModel {

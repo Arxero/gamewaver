@@ -6,3 +6,4 @@ export * from './models/common';
 export * from './models/ienvironment';
 export * from './models/query-request';
 export * from './models/response';
+export * from './models/post-category';

@@ -1,4 +1,4 @@
-import { PostCategory } from '@gamewaver/home';
+import { PostCategory } from '@gamewaver/shared';
 
 export interface AddItem {
   isPost: boolean;

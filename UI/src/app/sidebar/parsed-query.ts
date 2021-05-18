@@ -1,7 +1,6 @@
-import { PostCategory, postCategories } from '@gamewaver/home/models';
+import { PostCategory, postCategories, QueryRequest } from '@gamewaver/shared';
 import { SortTime, SortType } from './sidebar-view.models';
 import * as moment from 'moment';
-import { QueryRequest } from '@gamewaver/shared';
 
 export class ParsedQuery {
   private queryRequest: QueryRequest;
