@@ -20,8 +20,8 @@
   white-space: normal;
 }
 
-.mat-progress-bar-buffer {
-  background: #dadada;
+mat-progress-bar .mat-progress-bar-buffer {
+  background: #bbdefb;
 }
 
 .mat-progress-bar-fill::after {
