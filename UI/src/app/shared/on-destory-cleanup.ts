@@ -15,5 +15,6 @@ export abstract class OnDestroyCleanup implements OnDestroy {
     this.onDestroy();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   protected onDestroy(): void {}
 }

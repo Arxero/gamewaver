@@ -5,9 +5,10 @@ import { FormattingHelpComponent } from './formatting-help.component';
 import { SharedModule } from '@gamewaver/shared';
 import { MarkdownModule } from 'ngx-markdown';
 import { UploadComponent } from './upload.component';
+import { ToolbarComponent } from './toolbar.component';
 
 @NgModule({
-  declarations: [AddItemComponent, FormattingHelpComponent, UploadComponent, EmojiComponent],
+  declarations: [AddItemComponent, FormattingHelpComponent, UploadComponent, EmojiComponent, ToolbarComponent],
   imports: [SharedModule, MarkdownModule.forChild()],
   exports: [AddItemComponent],
 })
