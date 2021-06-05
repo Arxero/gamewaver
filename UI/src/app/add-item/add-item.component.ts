@@ -1,11 +1,21 @@
 import { FormGroup, FormControl, Validators, FormGroupDirective, AbstractControl } from '@angular/forms';
-import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { CommentCmd, PostCmd, PostsService, CommentsService } from '@gamewaver/home';
 import { FormattingHelpComponent } from './formatting-help.component';
 import { AddItem } from './add-item.models';
 import { MatDialog } from '@angular/material/dialog';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { UserInfo, UserInfoContext, postCategories } from '@gamewaver/shared';
+import { TabOption } from './models';
 
 @Component({
   selector: 'gw-add-item',
@@ -15,11 +25,14 @@ import { UserInfo, UserInfoContext, postCategories } from '@gamewaver/shared';
 export class AddItemComponent implements OnInit {
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Output() cancelEditItem: EventEmitter<void> = new EventEmitter();
+  @ViewChild('inkBar') inkBar: ElementRef;
   itemForm: FormGroup;
   caretPos = 0;
   categories = postCategories;
   showActions: boolean;
   userInfoContext = UserInfoContext;
+  tabOption = TabOption;
+  activeTab = TabOption.Write;
 
   private _addItem: AddItem;
   @Input() set addItem(value: AddItem) {
@@ -136,6 +149,16 @@ export class AddItemComponent implements OnInit {
   getCaretPos(oField): void {
     if (oField.selectionStart || oField.selectionStart === 0) {
       this.caretPos = oField.selectionStart;
+    }
+  }
+
+  onSelectedTab(tab: TabOption): void {
+    this.activeTab = tab;
+
+    if (this.activeTab === this.tabOption.Write) {
+      this.inkBar.nativeElement.style.left = '0px';
+    } else if (this.activeTab === this.tabOption.Preview) {
+      this.inkBar.nativeElement.style.left = '100px';
     }
   }
 }

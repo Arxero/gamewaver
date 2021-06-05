@@ -6,6 +6,7 @@
 @import './reset';
 @import './typography';
 @import './theme-overrides';
+@import './variables';
 // Plus imports for other components in your app.
 
 $custom-typography: mat.define-typography-config(
@@ -65,8 +66,8 @@ $my-mat-dark-theme-background: (
   app-bar: map_get(mat.$grey-palette, 900),
   background: #303030,
   hover: rgba(white, 0.04),
-  card: #2b2b2b,
-  dialog: #2b2b2b,
+  card: $background-color,
+  dialog: $background-color,
   disabled-button: rgba(white, 0.12),
   raised-button: map-get(mat.$grey-palette, 800),
   focused-button: $light-focused,
@@ -80,7 +81,7 @@ $my-mat-dark-theme-background: (
 
 // Foreground palette for dark themes.
 $my-mat-dark-theme-foreground: (
-  base: #dadada,
+  base: $text-color,
   divider: $light-dividers,
   dividers: $light-dividers,
   disabled: $light-disabled-text,
@@ -89,12 +90,12 @@ $my-mat-dark-theme-foreground: (
   elevation: black,
   hint-text: $light-disabled-text,
   secondary-text: $light-secondary-text,
-  icon: #dadada,
-  icons: #dadada,
-  text: #dadada,
-  slider-min: #dadada,
-  slider-off: rgba(#dadada, 0.3),
-  slider-off-active: rgba(#dadada, 0.3),
+  icon: $text-color,
+  icons: $text-color,
+  text: $text-color,
+  slider-min: $text-color,
+  slider-off: rgba($text-color, 0.3),
+  slider-off-active: rgba($text-color, 0.3),
 );
 
 $gamewaver-theme: (
@@ -116,7 +117,7 @@ $gamewaver-theme: (
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
-  color: #dadada;
+  color: $text-color;
 }
 
 .embed-container {

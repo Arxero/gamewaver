@@ -45,5 +45,12 @@
   </mat-tab>
 </mat-tab-group>
 
+<div class="tab-group">
+  <div class="tab-header">
+    <div class="tab" [class.active]="activeTab === tabOption.Write" matRipple (click)="onSelectedTab(tabOption.Write)">Write</div>
+    <div class="tab" [class.active]="activeTab === tabOption.Preview" matRipple (click)="onSelectedTab(tabOption.Preview)">Preview</div>
+    <div class="ink-bar" #inkBar></div>
+  </div>
+</div>
 
 
