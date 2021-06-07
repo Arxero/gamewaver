@@ -1,56 +1,85 @@
-<mat-tab-group>
-  <mat-tab label="Write">
-    <mat-card>
-      <form [formGroup]="itemForm" class="post-form">
-
-        <div class="content-container">
-          <gw-user-info [userInfo]="userInfo" [contextInput]="userInfoContext.AddItem"></gw-user-info>
-          <mat-form-field class="form-field">
-            <textarea
-              [cdkTextareaAutosize]='true'
-              [cdkAutosizeMinRows]='2'
-              matInput placeholder="{{ addItem.isPost ? 'Add a post...' : 'Write a comment...'}}"
-              formControlName="content"
-              #myTextArea (click)="getCaretPos(myTextArea)"
-              (keyup)="getCaretPos(myTextArea)">
-          </textarea>
-          <mat-error *ngIf="content.invalid">{{ getErrorMessage() }}</mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="actions" *ngIf="showActions">
-          <mat-form-field class="category" *ngIf="addItem.isPost">
-            <mat-label>Category</mat-label>
-            <mat-select formControlName="category" required>
-              <mat-option *ngFor="let item of categories" [value]="item.value">{{ item.label }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="category.invalid">{{ getErrorMessage() }}</mat-error>
-          </mat-form-field>
-          <button mat-icon-button color="primary" (click)="onFormatHelp()">
-            <mat-icon>text_format</mat-icon>
-          </button>
-          <gw-upload (imageLink)="onUpload($event)"></gw-upload>
-          <gw-emoji (emoji)="onAddedEmoji($event)" #emoji></gw-emoji>
-          <button mat-stroked-button color="accent" class="form-button cancel" (click)="onCancel()">Cancel</button>
-          <button mat-raised-button color="primary" class="form-button" [disabled]="itemForm.invalid" (click)="onSubmit()">{{ addItem.content ? 'SAVE' : 'SUBMIT' }}</button>
-        </div>
-      </form>
-
-    </mat-card>
-  </mat-tab>
-  <mat-tab label="Preview">
-    <mat-card class="preview">
-      <markdown [data]="content.value" *ngIf="content.value" ngPreserveWhitespaces></markdown>
-    </mat-card>
-  </mat-tab>
-</mat-tab-group>
-
 <div class="tab-group">
   <div class="tab-header">
-    <div class="tab" [class.active]="activeTab === tabOption.Write" matRipple (click)="onSelectedTab(tabOption.Write)">Write</div>
-    <div class="tab" [class.active]="activeTab === tabOption.Preview" matRipple (click)="onSelectedTab(tabOption.Preview)">Preview</div>
-    <div class="ink-bar" #inkBar></div>
+    <div
+      class="tab"
+      [class.active]="activeTab === tabOption.Write"
+      matRipple
+      (click)="onSelectedTab(tabOption.Write)"
+    >
+      Write
+    </div>
+    <div
+      class="tab"
+      [class.active]="activeTab === tabOption.Preview"
+      matRipple
+      (click)="onSelectedTab(tabOption.Preview)"
+    >
+      Preview
+    </div>
+    <div class="ink-bar" [@animateInkBar]="activeTab === tabOption.Write" #inkBar></div>
+  </div>
+
+  <div class="tab-body">
+    <div class="tab-panel" [class.active]="activeTab === tabOption.Write">
+      <mat-card>
+        <form [formGroup]="itemForm" class="post-form">
+          <div class="content-container">
+            <gw-user-info [userInfo]="userInfo" [contextInput]="userInfoContext.AddItem"></gw-user-info>
+            <mat-form-field class="form-field">
+              <textarea
+                [cdkTextareaAutosize]="true"
+                [cdkAutosizeMinRows]="2"
+                matInput
+                placeholder="{{ addItem.isPost ? 'Add a post...' : 'Write a comment...' }}"
+                formControlName="content"
+                #textArea
+                (click)="getCaretPos(textArea)"
+                (keyup)="getCaretPos(textArea)"
+              >
+              </textarea>
+              <mat-error *ngIf="content.invalid">{{ getErrorMessage() }}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="actions" *ngIf="showActions">
+            <mat-form-field class="category" *ngIf="addItem.isPost">
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="category" required>
+                <mat-option *ngFor="let item of categories" [value]="item.value">{{ item.label }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="category.invalid">{{ getErrorMessage() }}</mat-error>
+            </mat-form-field>
+            <button mat-icon-button color="primary" (click)="onFormatHelp()">
+              <mat-icon>text_format</mat-icon>
+            </button>
+            <gw-upload (imageLink)="onUpload($event)"></gw-upload>
+            <gw-emoji (emoji)="onAddedEmoji($event)" #emoji></gw-emoji>
+            <button mat-stroked-button color="accent" class="form-button cancel" (click)="onCancel()">
+              Cancel
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              class="form-button"
+              [disabled]="itemForm.invalid"
+              (click)="onSubmit()"
+            >
+              {{ addItem.content ? 'SAVE' : 'SUBMIT' }}
+            </button>
+          </div>
+        </form>
+      </mat-card>
+    </div>
+    <div class="tab-panel" [class.active]="activeTab === tabOption.Preview">
+      <mat-card class="preview">
+        <markdown
+          [data]="content.value"
+          *ngIf="content.value; else noPreview"
+          ngPreserveWhitespaces
+        ></markdown>
+      </mat-card>
+    </div>
   </div>
 </div>
 
-
+<ng-template #noPreview>Nothing to preview</ng-template>

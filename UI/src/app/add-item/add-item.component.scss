@@ -1,7 +1,6 @@
-@import "variables";
+@import 'variables';
 
 .post-form {
-
   .content-container {
     display: flex;
   }
@@ -9,12 +8,11 @@
   .image {
     margin-right: 16px;
 
-
     img {
       width: 48px;
       border-radius: 2px;
-      box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
-      rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px,
+        rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
     }
   }
 
@@ -57,43 +55,67 @@ markdown {
 }
 
 .tab-group {
-  background: $background-color;
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
+  overflow: auto;
 
   .tab-header {
+    background: $background-color;
     display: flex;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     font-size: 14px;
     font-weight: 500;
     color: darken($text-color, 20%);
     position: relative;
+
+    .tab {
+      height: 48px;
+      padding: 0 24px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      white-space: nowrap;
+      cursor: pointer;
+      min-width: 100px;
+    }
+
+    .ink-bar {
+      background-color: $ink-bar-color;
+      position: absolute;
+      left: 0px;
+      bottom: 0;
+      height: 2px;
+      transition: 500ms cubic-bezier(0.35, 0, 0.25, 1);
+      width: 100px;
+    }
   }
 
-  .tab {
-    height: 48px;
-    padding: 0 24px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-    cursor: pointer;
-    min-width: 100px;
-  }
+  .tab-body {
+    position: relative;
+    display: flex;
 
-  .ink-bar {
-    background-color: $ink-bar-color;
-    position: absolute;
-    left: 0px;
-    bottom: 0;
-    height: 2px;
-    transition: 500ms cubic-bezier(0.35, 0, 0.25, 1);
-    width: 100px;
+    .tab-panel {
+      display: block;
+      overflow: hidden;
+      flex-basis: 100%;
+
+      &.active {
+        overflow-x: hidden;
+        overflow-y: auto;
+        z-index: 1;
+        flex-grow: 1;
+      }
+
+      &:not(.active) {
+        display: none;
+      }
+
+      mat-card {
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+      }
+    }
   }
 }
-
-
-

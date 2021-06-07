@@ -16,16 +16,23 @@ import { MatDialog } from '@angular/material/dialog';
 import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { UserInfo, UserInfoContext, postCategories } from '@gamewaver/shared';
 import { TabOption } from './models';
+import { trigger, state, style } from '@angular/animations';
 
 @Component({
   selector: 'gw-add-item',
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.scss'],
+  animations: [
+    trigger('animateInkBar', [
+      state('true', style({ left: '0px' })),
+      state('false', style({ left: '100px' })),
+    ]),
+  ],
 })
 export class AddItemComponent implements OnInit {
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
+  @ViewChild('textArea') textArea: ElementRef;
   @Output() cancelEditItem: EventEmitter<void> = new EventEmitter();
-  @ViewChild('inkBar') inkBar: ElementRef;
   itemForm: FormGroup;
   caretPos = 0;
   categories = postCategories;
@@ -114,6 +121,7 @@ export class AddItemComponent implements OnInit {
     this.formGroupDirective.resetForm();
     this.showActions = false;
     this.cancelEditItem.emit();
+    this.textArea.nativeElement.style.height = '36px';
   }
 
   getErrorMessage(): string {
@@ -154,11 +162,5 @@ export class AddItemComponent implements OnInit {
 
   onSelectedTab(tab: TabOption): void {
     this.activeTab = tab;
-
-    if (this.activeTab === this.tabOption.Write) {
-      this.inkBar.nativeElement.style.left = '0px';
-    } else if (this.activeTab === this.tabOption.Preview) {
-      this.inkBar.nativeElement.style.left = '100px';
-    }
   }
 }
