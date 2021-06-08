@@ -154,7 +154,7 @@ export class AddItemComponent implements OnInit {
     });
   }
 
-  getCaretPos(oField): void {
+  getCaretPos(oField: HTMLInputElement): void {
     if (oField.selectionStart || oField.selectionStart === 0) {
       this.caretPos = oField.selectionStart;
     }
