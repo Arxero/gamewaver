@@ -2,11 +2,11 @@ h1,
 h2,
 h3,
 h4 {
-  color: #dadada;
+  color: $text-color;
 }
 
 a {
-  color: #49a0cc;
+  color: $link-color;
   text-decoration: none;
 }
 
@@ -23,7 +23,7 @@ ol {
 blockquote {
   padding: 0 1em;
   color: #968f83;
-  border-left: 0.25em solid #dadada;
+  border-left: 0.25em solid $text-color;
 }
 
 table {

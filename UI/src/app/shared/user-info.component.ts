@@ -22,7 +22,6 @@ export enum UserInfoContext {
   selector: 'gw-user-info',
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class UserInfoComponent implements OnChanges {
   @Input() userInfo: UserInfo;
@@ -31,7 +30,7 @@ export class UserInfoComponent implements OnChanges {
   avatar: string;
   context = UserInfoContext;
 
-  @HostBinding('class') class = 'user-info';
+  @HostBinding('class') className = 'user-info';
   @HostBinding(`class.profile`) get profile(): boolean {
     return this.contextInput === this.context.Profile;
   }

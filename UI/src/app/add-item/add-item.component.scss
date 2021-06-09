@@ -71,6 +71,7 @@ markdown {
     font-weight: 500;
     color: darken($text-color, 20%);
     position: relative;
+    justify-content: space-between;
 
     .tab {
       height: 48px;

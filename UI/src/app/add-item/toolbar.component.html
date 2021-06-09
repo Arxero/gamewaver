@@ -1,1 +1,5 @@
-<p>toolbar works!</p>
+<ng-container *ngFor="let button of toolbarButtons">
+  <button mat-icon-button>
+    <mat-icon>{{ button }}</mat-icon>
+  </button>
+</ng-container>
