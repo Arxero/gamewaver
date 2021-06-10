@@ -40,6 +40,7 @@ export class AddItemComponent implements OnInit {
   userInfoContext = UserInfoContext;
   tabOption = TabOption;
   activeTab = TabOption.Write;
+  showToolbar = true;
 
   private _addItem: AddItem;
   @Input() set addItem(value: AddItem) {
@@ -162,5 +163,6 @@ export class AddItemComponent implements OnInit {
 
   onSelectedTab(tab: TabOption): void {
     this.activeTab = tab;
+    this.showToolbar = this.activeTab === TabOption.Write;
   }
 }

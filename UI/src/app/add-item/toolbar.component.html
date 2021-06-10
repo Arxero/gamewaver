@@ -1,5 +1,17 @@
-<ng-container *ngFor="let button of toolbarButtons">
-  <button mat-icon-button>
+<ng-container *ngFor="let button of primaryButtons">
+  <button mat-icon-button [matTooltip]="toolbarButtons[button]">
     <mat-icon>{{ button }}</mat-icon>
   </button>
 </ng-container>
+
+<button mat-icon-button [matMenuTriggerFor]="moreBtns">
+  <mat-icon>expand_more</mat-icon>
+</button>
+
+<mat-menu #moreBtns="matMenu">
+  <ng-container *ngFor="let button of secondaryButtons">
+    <button mat-icon-button [matTooltip]="toolbarButtons[button]">
+      <mat-icon>{{ button }}</mat-icon>
+    </button>
+  </ng-container>
+</mat-menu>

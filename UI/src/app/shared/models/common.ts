@@ -98,3 +98,7 @@ export enum UserRole {
   ADMIN = 'admin',
   USER = 'user',
 }
+
+export interface Dictionary<T> {
+  [key: string]: T;
+}

@@ -18,7 +18,7 @@
         Preview
       </div>
     </div>
-    <gw-toolbar></gw-toolbar>
+    <gw-toolbar *ngIf="showToolbar"></gw-toolbar>
 
     <div class="ink-bar" [@animateInkBar]="activeTab === tabOption.Write" #inkBar></div>
   </div>
