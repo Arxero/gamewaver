@@ -77,6 +77,7 @@ export class AddItemComponent implements OnInit {
   get content(): AbstractControl {
     return this.itemForm.get('content');
   }
+
   get category(): AbstractControl {
     return this.itemForm.get('category');
   }

@@ -40,7 +40,14 @@
         "@typescript-eslint/semi": ["error"],
         "@typescript-eslint/no-duplicate-imports": ["error"],
         "@typescript-eslint/explicit-function-return-type": ["error"],
-        "@typescript-eslint/no-empty-function": ["error"]
+        "@typescript-eslint/no-empty-function": ["error"],
+        "@typescript-eslint/quotes":  ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
+        "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+        "padding-line-between-statements":[
+					"error",
+					{ "blankLine": "always", "prev": "*", "next": "function" }
+					// { "blankLine": "always", "prev": "*", "next": "return" }
+				]
       }
     },
     {

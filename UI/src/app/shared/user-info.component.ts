@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, HostBinding, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, HostBinding } from '@angular/core';
 
 export interface UserInfo {
   id: string;

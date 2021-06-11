@@ -58,18 +58,22 @@ export class RegisterComponent implements OnInit {
   get username(): AbstractControl {
     return this.registerForm.get('username');
   }
+
   get password(): AbstractControl {
     if (!this.registerForm) {
       return;
     }
     return this.registerForm.get('password');
   }
+
   get confirm(): AbstractControl {
     return this.registerForm.get('confirm');
   }
+
   get email(): AbstractControl {
     return this.registerForm.get('email');
   }
+
   get termsAgree(): AbstractControl {
     return this.registerForm.get('termsAgree');
   }

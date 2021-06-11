@@ -37,9 +37,11 @@ export class LoginComponent implements OnInit {
   get username(): AbstractControl {
     return this.loginForm.get('username');
   }
+
   get password(): AbstractControl {
     return this.loginForm.get('password');
   }
+
   get rememberMe(): AbstractControl {
     return this.loginForm.get('rememberMe');
   }

@@ -64,15 +64,19 @@ export class ProfileEditComponent extends ProfileBase implements OnInit {
   get email(): AbstractControl {
     return this.editProfileForm.get('email');
   }
+
   get avatar(): AbstractControl {
     return this.editProfileForm.get('avatar');
   }
+
   get summary(): AbstractControl {
     return this.editProfileForm.get('summary');
   }
+
   get location(): AbstractControl {
     return this.editProfileForm.get('location');
   }
+
   get gender(): AbstractControl {
     return this.editProfileForm.get('gender');
   }

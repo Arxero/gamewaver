@@ -12,6 +12,7 @@ export class ResponseSuccess<T> implements IResponse<T> {
     this.message = data.message;
     this.result = data.result;
   }
+
   private failed = false;
   errors: string[];
   result: T;
@@ -23,6 +24,7 @@ export class ResponseError implements IResponseBase {
     this.message = data.message;
     this.errors = data.errors;
   }
+
   private failed = true;
   errors: string[];
   message: string;
