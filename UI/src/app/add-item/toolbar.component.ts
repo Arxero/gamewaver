@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component, HostBinding, Output, EventEmitter, Input } from '@angular/core';
 import { ToolbarButtonType } from './models';
 
 @Component({
@@ -8,6 +8,9 @@ import { ToolbarButtonType } from './models';
 })
 export class ToolbarComponent {
   @HostBinding('class') className = 'toolbar';
+  @Input() selectedText: string;
+  @Input() caretPosition: number;
+  @Output() textFormatted: EventEmitter<string> = new EventEmitter();
 
   toolbarButtons: Record<ToolbarButtonType, string> = {
     [ToolbarButtonType.Header]: 'Add title',
@@ -29,4 +32,17 @@ export class ToolbarComponent {
 
   primaryButtons = Object.keys(this.toolbarButtons).slice(0, 9);
   secondaryButtons = Object.keys(this.toolbarButtons).slice(9);
+
+  onBtnClick(btn: ToolbarButtonType): void {
+    console.log(btn);
+
+    switch (btn) {
+      case ToolbarButtonType.Bold:
+        this.textFormatted.emit(`**${this.selectedText}**`);
+        break;
+
+      default:
+        break;
+    }
+  }
 }

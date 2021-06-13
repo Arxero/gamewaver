@@ -8,6 +8,8 @@ import {
   HostListener,
   ViewChild,
   ElementRef,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { CommentCmd, PostCmd, PostsService, CommentsService } from '@gamewaver/home';
 import { FormattingHelpComponent } from './formatting-help.component';
@@ -29,28 +31,21 @@ import { trigger, state, style } from '@angular/animations';
     ]),
   ],
 })
-export class AddItemComponent implements OnInit {
+export class AddItemComponent implements OnInit, OnChanges {
+  @Input() addItem: AddItem;
+  @Output() cancelEditItem: EventEmitter<void> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @ViewChild('textArea') textArea: ElementRef;
-  @Output() cancelEditItem: EventEmitter<void> = new EventEmitter();
+
   itemForm: FormGroup;
-  caretPos = 0;
   categories = postCategories;
   showActions: boolean;
   userInfoContext = UserInfoContext;
   tabOption = TabOption;
   activeTab = TabOption.Write;
   showToolbar = true;
-
-  private _addItem: AddItem;
-  @Input() set addItem(value: AddItem) {
-    this._addItem = value;
-    this.createItemForm();
-  }
-
-  get addItem(): AddItem {
-    return this._addItem;
-  }
+  caretPosition = 0;
+  selectedText = '';
 
   get userInfo(): UserInfo {
     return {
@@ -74,6 +69,12 @@ export class AddItemComponent implements OnInit {
     this.createItemForm();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['addItem'].currentValue) {
+      this.createItemForm();
+    }
+  }
+
   get content(): AbstractControl {
     return this.itemForm.get('content');
   }
@@ -84,7 +85,7 @@ export class AddItemComponent implements OnInit {
 
   createItemForm(): void {
     this.itemForm = new FormGroup({
-      content: new FormControl(this.addItem.content, [
+      content: new FormControl(this.addItem.content || '', [
         Validators.minLength(this.addItem.minLength),
         Validators.maxLength(this.addItem.maxLength),
         Validators.required,
@@ -143,8 +144,8 @@ export class AddItemComponent implements OnInit {
   }
 
   onAddedEmoji(emoji: EmojiData): void {
-    const temp = ((this.content.value as string) || '').split('');
-    temp.splice(this.caretPos, 0, emoji.native);
+    const temp = (this.content.value as string).split('');
+    temp.splice(this.caretPosition, 0, emoji.native);
     this.itemForm.patchValue({
       content: temp.join(''),
     });
@@ -156,14 +157,22 @@ export class AddItemComponent implements OnInit {
     });
   }
 
-  getCaretPos(oField: HTMLInputElement): void {
-    if (oField.selectionStart || oField.selectionStart === 0) {
-      this.caretPos = oField.selectionStart;
+  getCaretPos(input: HTMLInputElement): void {
+    if (input.selectionStart || input.selectionStart === 0) {
+      this.caretPosition = input.selectionStart;
+
+      if (this.content.value && input.selectionStart != input.selectionEnd) {
+        this.selectedText = this.content.value.substring(input.selectionStart, input.selectionEnd);
+      }
     }
   }
 
   onSelectedTab(tab: TabOption): void {
     this.activeTab = tab;
     this.showToolbar = this.activeTab === TabOption.Write;
+  }
+
+  onTextFormatted(text: string): void {
+    this.itemForm.patchValue({ content: text });
   }
 }

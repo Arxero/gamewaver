@@ -18,7 +18,12 @@
         Preview
       </div>
     </div>
-    <gw-toolbar *ngIf="showToolbar"></gw-toolbar>
+    <gw-toolbar
+      *ngIf="showToolbar"
+      (textFormatted)="onTextFormatted($event)"
+      [caretPosition]="caretPosition"
+      [selectedText]="selectedText"
+    ></gw-toolbar>
 
     <div class="ink-bar" [@animateInkBar]="activeTab === tabOption.Write" #inkBar></div>
   </div>
