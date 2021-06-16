@@ -18,13 +18,7 @@
         Preview
       </div>
     </div>
-    <gw-toolbar
-      *ngIf="showToolbar"
-      (textFormatted)="onTextFormatted($event)"
-      [caretPosition]="caretPosition"
-      [selectedText]="selectedText"
-    ></gw-toolbar>
-
+    <gw-toolbar *ngIf="showToolbar" (textFormatted)="onTextFormatted($event)"></gw-toolbar>
     <div class="ink-bar" [@animateInkBar]="activeTab === tabOption.Write" #inkBar></div>
   </div>
 
@@ -42,8 +36,8 @@
                 placeholder="{{ addItem.isPost ? 'Add a post...' : 'Write a comment...' }}"
                 formControlName="content"
                 #textArea
-                (click)="getCaretPos(textArea)"
-                (keyup)="getCaretPos(textArea)"
+                (click)="onClickTextArea(textArea)"
+                (keyup)="onClickTextArea(textArea)"
               >
               </textarea>
               <mat-error *ngIf="content.invalid">{{ getErrorMessage() }}</mat-error>

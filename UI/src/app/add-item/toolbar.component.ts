@@ -1,5 +1,6 @@
 import { Component, HostBinding, Output, EventEmitter, Input } from '@angular/core';
 import { ToolbarButtonType } from './models';
+import { ToolbarHelperService } from './toolbar-helper.service';
 
 @Component({
   selector: 'gw-toolbar',
@@ -33,16 +34,18 @@ export class ToolbarComponent {
   primaryButtons = Object.keys(this.toolbarButtons).slice(0, 9);
   secondaryButtons = Object.keys(this.toolbarButtons).slice(9);
 
+  constructor(private toolbarHelperService: ToolbarHelperService) {}
+
   onBtnClick(btn: ToolbarButtonType): void {
-    console.log(btn);
 
     switch (btn) {
       case ToolbarButtonType.Bold:
-        this.textFormatted.emit(`**${this.selectedText}**`);
+        this.textFormatted.emit(`**${this.toolbarHelperService.selectedText}**`);
         break;
 
       default:
         break;
     }
   }
+
 }

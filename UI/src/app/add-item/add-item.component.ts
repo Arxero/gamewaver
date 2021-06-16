@@ -19,6 +19,8 @@ import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { UserInfo, UserInfoContext, postCategories } from '@gamewaver/shared';
 import { TabOption } from './models';
 import { trigger, state, style } from '@angular/animations';
+import { debounceTime } from 'rxjs/operators';
+import { ToolbarHelperService } from './toolbar-helper.service';
 
 @Component({
   selector: 'gw-add-item',
@@ -44,8 +46,6 @@ export class AddItemComponent implements OnInit, OnChanges {
   tabOption = TabOption;
   activeTab = TabOption.Write;
   showToolbar = true;
-  caretPosition = 0;
-  selectedText = '';
 
   get userInfo(): UserInfo {
     return {
@@ -63,10 +63,14 @@ export class AddItemComponent implements OnInit, OnChanges {
     public dialog: MatDialog,
     private commentsService: CommentsService,
     private postsService: PostsService,
+    private toolbarHelperService: ToolbarHelperService,
   ) {}
 
   ngOnInit(): void {
     this.createItemForm();
+    this.content.valueChanges.pipe(debounceTime(500)).subscribe(x => {
+      this.toolbarHelperService.content = x;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -145,7 +149,7 @@ export class AddItemComponent implements OnInit, OnChanges {
 
   onAddedEmoji(emoji: EmojiData): void {
     const temp = (this.content.value as string).split('');
-    temp.splice(this.caretPosition, 0, emoji.native);
+    temp.splice(this.toolbarHelperService.caretPosition, 0, emoji.native);
     this.itemForm.patchValue({
       content: temp.join(''),
     });
@@ -157,14 +161,8 @@ export class AddItemComponent implements OnInit, OnChanges {
     });
   }
 
-  getCaretPos(input: HTMLInputElement): void {
-    if (input.selectionStart || input.selectionStart === 0) {
-      this.caretPosition = input.selectionStart;
-
-      if (this.content.value && input.selectionStart != input.selectionEnd) {
-        this.selectedText = this.content.value.substring(input.selectionStart, input.selectionEnd);
-      }
-    }
+  onClickTextArea(input: HTMLInputElement): void {
+    this.toolbarHelperService.getCaretPos(input);
   }
 
   onSelectedTab(tab: TabOption): void {
@@ -173,6 +171,7 @@ export class AddItemComponent implements OnInit, OnChanges {
   }
 
   onTextFormatted(text: string): void {
-    this.itemForm.patchValue({ content: text });
+    const formattedText = (this.content.value as string).replace(this.toolbarHelperService.selectedText, text);
+    this.itemForm.patchValue({ content: formattedText });
   }
 }
