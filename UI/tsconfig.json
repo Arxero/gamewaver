@@ -17,10 +17,12 @@
     ],
     "paths": {
       "@gamewaver/*" : ["src/app/*"],
-    }
+    },
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "strictInjectionParameters": true,
   },
 }

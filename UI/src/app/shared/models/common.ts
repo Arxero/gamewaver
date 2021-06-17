@@ -102,3 +102,8 @@ export enum UserRole {
 export interface Dictionary<T> {
   [key: string]: T;
 }
+
+//https://github.com/microsoft/TypeScript/issues/35859#issuecomment-663210925
+export const getKeyValue = <T extends object, U extends keyof T>(obj: T) => (key: U):T[U] => obj[key];
+export const getKeys = <T extends object>(obj: T): (keyof T)[] => Object.keys(obj) as (keyof T)[];
+

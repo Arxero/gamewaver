@@ -17,7 +17,8 @@
       },
       "extends": [
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "prettier/@typescript-eslint"
       ],
       "rules": {
         "@angular-eslint/component-selector": [
@@ -43,7 +44,7 @@
         "@typescript-eslint/no-empty-function": ["error"],
         "@typescript-eslint/quotes":  ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
         "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
-        "padding-line-between-statements":[
+        "padding-line-between-statements": [
 					"error",
 					{ "blankLine": "always", "prev": "*", "next": "function" }
 					// { "blankLine": "always", "prev": "*", "next": "return" }

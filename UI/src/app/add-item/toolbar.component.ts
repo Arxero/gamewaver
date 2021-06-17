@@ -1,6 +1,7 @@
 import { Component, HostBinding, Output, EventEmitter, Input } from '@angular/core';
 import { ToolbarButtonType } from './models';
 import { ToolbarHelperService } from './toolbar-helper.service';
+import { getKeys } from '@gamewaver/shared';
 
 @Component({
   selector: 'gw-toolbar',
@@ -31,13 +32,12 @@ export class ToolbarComponent {
     [ToolbarButtonType.Checkbox]: 'Add a checkbox',
   };
 
-  primaryButtons = Object.keys(this.toolbarButtons).slice(0, 9);
-  secondaryButtons = Object.keys(this.toolbarButtons).slice(9);
+  primaryButtons = getKeys(this.toolbarButtons).slice(0, 9);;
+  secondaryButtons = getKeys(this.toolbarButtons).slice(9);
 
   constructor(private toolbarHelperService: ToolbarHelperService) {}
 
   onBtnClick(btn: ToolbarButtonType): void {
-
     switch (btn) {
       case ToolbarButtonType.Bold:
         this.textFormatted.emit(`**${this.toolbarHelperService.selectedText}**`);
@@ -47,5 +47,5 @@ export class ToolbarComponent {
         break;
     }
   }
-
 }
+
