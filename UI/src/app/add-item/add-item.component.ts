@@ -10,6 +10,7 @@ import {
   ElementRef,
   OnChanges,
   SimpleChanges,
+  AfterViewInit,
 } from '@angular/core';
 import { CommentCmd, PostCmd, PostsService, CommentsService } from '@gamewaver/home';
 import { FormattingHelpComponent } from './formatting-help.component';
@@ -19,8 +20,9 @@ import { EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { UserInfo, UserInfoContext, postCategories } from '@gamewaver/shared';
 import { TabOption } from './models';
 import { trigger, state, style } from '@angular/animations';
-import { debounceTime } from 'rxjs/operators';
 import { ToolbarHelperService } from './toolbar-helper.service';
+
+const mockText = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`;
 
 @Component({
   selector: 'gw-add-item',
@@ -33,7 +35,7 @@ import { ToolbarHelperService } from './toolbar-helper.service';
     ]),
   ],
 })
-export class AddItemComponent implements OnInit, OnChanges {
+export class AddItemComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() addItem: AddItem;
   @Output() cancelEditItem: EventEmitter<void> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
@@ -68,7 +70,7 @@ export class AddItemComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.createItemForm();
-    this.content.valueChanges.pipe(debounceTime(500)).subscribe(x => {
+    this.content.valueChanges.subscribe(x => {
       this.toolbarHelperService.content = x;
     });
   }
@@ -77,6 +79,13 @@ export class AddItemComponent implements OnInit, OnChanges {
     if (changes['addItem'].currentValue) {
       this.createItemForm();
     }
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.itemForm.patchValue({ content: mockText });
+    }, 0);
+
   }
 
   get content(): AbstractControl {
@@ -171,7 +180,6 @@ export class AddItemComponent implements OnInit, OnChanges {
   }
 
   onTextFormatted(text: string): void {
-    const formattedText = (this.content.value as string).replace(this.toolbarHelperService.selectedText, text);
-    this.itemForm.patchValue({ content: formattedText });
+    this.itemForm.patchValue({ content: text });
   }
 }

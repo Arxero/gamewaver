@@ -1,4 +1,4 @@
-import { Component, HostBinding, Output, EventEmitter, Input } from '@angular/core';
+import { Component, HostBinding, Output, EventEmitter } from '@angular/core';
 import { ToolbarButtonType } from './models';
 import { ToolbarHelperService } from './toolbar-helper.service';
 import { getKeys } from '@gamewaver/shared';
@@ -10,8 +10,6 @@ import { getKeys } from '@gamewaver/shared';
 })
 export class ToolbarComponent {
   @HostBinding('class') className = 'toolbar';
-  @Input() selectedText: string;
-  @Input() caretPosition: number;
   @Output() textFormatted: EventEmitter<string> = new EventEmitter();
 
   toolbarButtons: Record<ToolbarButtonType, string> = {
@@ -32,20 +30,20 @@ export class ToolbarComponent {
     [ToolbarButtonType.Checkbox]: 'Add a checkbox',
   };
 
-  primaryButtons = getKeys(this.toolbarButtons).slice(0, 9);;
+  primaryButtons = getKeys(this.toolbarButtons).slice(0, 9);
   secondaryButtons = getKeys(this.toolbarButtons).slice(9);
 
   constructor(private toolbarHelperService: ToolbarHelperService) {}
 
   onBtnClick(btn: ToolbarButtonType): void {
+    let formatted: string;
+
     switch (btn) {
       case ToolbarButtonType.Bold:
-        this.textFormatted.emit(`**${this.toolbarHelperService.selectedText}**`);
-        break;
-
-      default:
+        formatted =  this.toolbarHelperService.formatInput('**');
         break;
     }
+
+    this.textFormatted.emit(formatted);
   }
 }
-
