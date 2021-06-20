@@ -29,11 +29,13 @@ export class ToolbarHelperService {
       this.selectionEnd = input.selectionEnd;
       this.caretPosition = input.selectionStart;
 
-      if (this.content && input.selectionStart != input.selectionEnd) {
-        this.selectedText = this.content.substring(input.selectionStart, input.selectionEnd);
-        this.caretWordPosition = this.getWordPosition();
-        console.log(this.caretWordPosition);
-      } else {
+      if (this.content) {
+        this.selectedText = '';
+
+        if (input.selectionStart != input.selectionEnd) {
+          this.selectedText = this.content.substring(input.selectionStart, input.selectionEnd);
+        }
+
         this.caretWordPosition = this.getWordPosition();
       }
     }
@@ -50,20 +52,24 @@ export class ToolbarHelperService {
       this.selectedText = words[this.caretWordPosition];
     }
 
-    const text = `${symbol}${this.selectedText}${symbol}`;
+    const text = `${symbol}${this.selectedText.trim().trimEnd()}${symbol}`;
     const replType = this.findSelectionReplacementType(this.selectedText);
-    this.selectedText = '';
 
     if (replType === ReplacementType.SingleWord) {
       words.splice(this.caretWordPosition, 1, text);
-      return words.join(' ');
     } else if (replType === ReplacementType.MultupleWords) {
       const letters = this.content.split('');
       letters.splice(this.selectionStart, 0, symbol);
       letters.splice(this.selectionEnd + 1, 0, symbol);
+
       return letters.join('');
+    } else if (replType === ReplacementType.PartialWord) {
+      let wordUnerMouse = words[this.caretWordPosition];
+      wordUnerMouse = wordUnerMouse.replace(this.selectedText, text);
+      words.splice(this.caretWordPosition, 1, wordUnerMouse);
     }
 
+    return words.join(' ');
   }
 
   private getWordPosition(): number {
@@ -88,6 +94,12 @@ export class ToolbarHelperService {
     const splitedText = selectedText.split(' ');
 
     if (splitedText.length === 1) {
+      const wordUnerMouse = this.content.split(' ')[this.caretWordPosition];
+
+      if (this.selectionEnd - this.selectionStart < wordUnerMouse.length) {
+        return ReplacementType.PartialWord;
+      }
+
       return ReplacementType.SingleWord;
     } else if (splitedText.length > 1) {
       return ReplacementType.MultupleWords;
