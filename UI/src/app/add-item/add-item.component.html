@@ -37,7 +37,7 @@
                 formControlName="content"
                 #textArea
                 (click)="onClickTextArea(textArea)"
-                (keyup)="onClickTextArea(textArea)"
+                (mouseup)="onClickTextArea(textArea)"
               >
               </textarea>
               <mat-error *ngIf="content.invalid">{{ getErrorMessage() }}</mat-error>

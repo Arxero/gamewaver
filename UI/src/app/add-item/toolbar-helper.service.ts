@@ -91,7 +91,11 @@ export class ToolbarHelperService {
   }
 
   private findSelectionReplacementType(selectedText: string): ReplacementType {
-    const splitedText = selectedText.split(' ');
+    if (!selectedText) {
+      return;
+    }
+
+    const splitedText = selectedText.split(' ').filter(x => x !== '');
 
     if (splitedText.length === 1) {
       const wordUnerMouse = this.content.split(' ')[this.caretWordPosition];
