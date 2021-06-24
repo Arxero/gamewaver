@@ -14,7 +14,8 @@
     "lib": [
       "es2018",
       "es2019",
-      "dom"
+      "dom",
+      "ESNext.String"
     ],
     "paths": {
       "@gamewaver/*" : ["src/app/*"],

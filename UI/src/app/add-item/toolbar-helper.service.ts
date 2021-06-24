@@ -52,7 +52,14 @@ export class ToolbarHelperService {
       this.selectedText = words[this.caretWordPosition];
     }
 
-    const text = `${symbol}${this.selectedText.trim().trimEnd()}${symbol}`;
+    let text: string;
+
+    if (this.selectedText.startsWith(symbol) && this.selectedText.endsWith(symbol)) {
+      text = this.selectedText.replaceAll(symbol, '');
+    } else {
+      text = `${symbol}${this.selectedText.trim().trimEnd()}${symbol}`;
+    }
+
     const replType = this.findSelectionReplacementType(this.selectedText);
 
     if (replType === ReplacementType.SingleWord) {

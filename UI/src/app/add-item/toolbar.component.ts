@@ -40,7 +40,13 @@ export class ToolbarComponent {
 
     switch (btn) {
       case ToolbarButtonType.Bold:
-        formatted =  this.toolbarHelperService.formatInput('**');
+        formatted = this.toolbarHelperService.formatInput('**');
+        break;
+      case ToolbarButtonType.Italic:
+        formatted = this.toolbarHelperService.formatInput('*');
+        break;
+      case ToolbarButtonType.Strikethrough:
+        formatted = this.toolbarHelperService.formatInput('~~');
         break;
     }
 
