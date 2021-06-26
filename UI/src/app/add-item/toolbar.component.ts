@@ -39,14 +39,30 @@ export class ToolbarComponent {
     let formatted: string;
 
     switch (btn) {
+      case ToolbarButtonType.Header:
+        formatted = this.toolbarHelperService.inlineformat('# ');
+        break;
       case ToolbarButtonType.Bold:
-        formatted = this.toolbarHelperService.formatInput('**');
+        formatted = this.toolbarHelperService.inlineformat('**', '**');
         break;
       case ToolbarButtonType.Italic:
-        formatted = this.toolbarHelperService.formatInput('*');
+        formatted = this.toolbarHelperService.inlineformat('*', '*');
+        break;
+      case ToolbarButtonType.Underline:
+        formatted = this.toolbarHelperService.inlineformat('<u>', '</u>');
         break;
       case ToolbarButtonType.Strikethrough:
-        formatted = this.toolbarHelperService.formatInput('~~');
+        formatted = this.toolbarHelperService.inlineformat('~~', '~~');
+        break;
+      case ToolbarButtonType.Code:
+        formatted = this.toolbarHelperService.inlineformat('`', '`');
+        break;
+      case ToolbarButtonType.Quote:
+        formatted = this.toolbarHelperService.inlineformat('\n\n> ');
+        break;
+
+      default:
+        formatted = this.toolbarHelperService.content;
         break;
     }
 

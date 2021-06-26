@@ -48,6 +48,7 @@ export class AuthApiService implements IAuthApiService {
     const token = this.getAuthorizationHeaderValue();
     let headers = new HttpHeaders();
     headers = headers.append('Authorization', token);
+
     return this.http
       .get<IResponse<User>>(`${this.BASE_URL}/profile`, { headers })
       .toPromise();
@@ -68,6 +69,7 @@ export class AuthApiService implements IAuthApiService {
     if (!this.getToken()) {
       return null;
     }
+
     return `Bearer ${this.getToken().accessToken}`;
   }
 
@@ -75,6 +77,7 @@ export class AuthApiService implements IAuthApiService {
     if (sessionStorage.getItem(this.accessToken)) {
       return JSON.parse(sessionStorage.getItem(this.accessToken));
     }
+
     return JSON.parse(localStorage.getItem(this.accessToken));
   }
 
@@ -82,6 +85,7 @@ export class AuthApiService implements IAuthApiService {
     const tempToken: TokenLocal = { ...token, savedAt: Date.now() };
     if (isSession) {
       sessionStorage.setItem(this.accessToken, JSON.stringify(tempToken));
+
       return;
     }
     localStorage.setItem(this.accessToken, JSON.stringify(tempToken));
@@ -89,6 +93,7 @@ export class AuthApiService implements IAuthApiService {
 
   renewToken(): Promise<TokenDto> {
     const token = this.getToken().accessToken;
+
     return this.http.get<TokenDto>(`${this.BASE_URL}/renew/${token}`).toPromise();
   }
 

@@ -38,6 +38,7 @@
                 #textArea
                 (click)="onClickTextArea(textArea)"
                 (mouseup)="onClickTextArea(textArea)"
+                (keyup)="onKeyupEvent($event)"
               >
               </textarea>
               <mat-error *ngIf="content.invalid">{{ getErrorMessage() }}</mat-error>

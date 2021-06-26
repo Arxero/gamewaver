@@ -175,6 +175,10 @@ export class AddItemComponent implements OnInit, OnChanges, AfterViewInit {
     this.toolbarHelperService.getCaretPos(input);
   }
 
+  onKeyupEvent(e: KeyboardEvent): void {
+    this.toolbarHelperService.keyPressed = e.key;
+  }
+
   onSelectedTab(tab: TabOption): void {
     this.activeTab = tab;
     this.showToolbar = this.activeTab === TabOption.Write;

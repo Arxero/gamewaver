@@ -125,6 +125,7 @@ export class SidebarHelperService {
     for (let i = 0; i < yearsFromStart; i++) {
       years.push(`${2020 + i}`);
     }
+
     return years;
   }
 
@@ -136,6 +137,7 @@ export class SidebarHelperService {
       const month = moment(`${moment().year()}-${temp}${i}-01`).format('MMM');
       months.push(month);
     }
+
     return months;
   }
 }

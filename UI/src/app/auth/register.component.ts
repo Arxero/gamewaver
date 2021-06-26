@@ -63,6 +63,7 @@ export class RegisterComponent implements OnInit {
     if (!this.registerForm) {
       return;
     }
+
     return this.registerForm.get('password');
   }
 

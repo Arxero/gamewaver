@@ -53,6 +53,7 @@ export class CommentsService extends BaseService<CommentCmd> {
 
       const mappedComments = comments.items.map(c => {
         const author = users.items.find(u => c.authorId === u.id);
+
         return this.mapCommment(c, author);
       });
 

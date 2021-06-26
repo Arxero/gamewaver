@@ -22,6 +22,7 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
           this.ngZone.run(() => this.changeDetectorRef.markForCheck());
         }, timeToUpdate);
       }
+
       return null;
     });
 

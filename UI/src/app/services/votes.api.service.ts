@@ -21,11 +21,13 @@ export class VotesApiService {
 
   findManyByPostId(ids: string[]): Promise<IResponse<GetVoteDto[]>> {
     const idsString = ids.join(',');
+
     return this.httpClient.get<IResponse<GetVoteDto[]>>(`${this.BASE_URL}?postIds=${idsString}`);
   }
 
   findCountByPostId(ids: string[]): Promise<IResponse<GetVotesCountDto[]>> {
     const idsString = ids.join(',');
+
     return this.httpClient.get<IResponse<GetVotesCountDto[]>>(`${this.BASE_URL}/count?postIds=${idsString}`);
   }
 }

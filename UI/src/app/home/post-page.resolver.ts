@@ -11,6 +11,7 @@ export class PostPageResolver implements Resolve<PostViewModel> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<PostViewModel> {
     this.postsService.getOne(route.params.id);
+
     return this.postsService.post$.pipe(filter(x => !!x), take(1));
   }
 }

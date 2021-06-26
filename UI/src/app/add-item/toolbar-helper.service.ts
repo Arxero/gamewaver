@@ -16,6 +16,7 @@ export enum ReplacementType {
 export class ToolbarHelperService {
   content: string;
   caretPosition: number;
+  keyPressed: string;
 
   private replType: ReplacementType;
   private selectedText = '';
@@ -41,42 +42,47 @@ export class ToolbarHelperService {
     }
   }
 
-  formatInput(symbol: string): string {
+  inlineformat(startSymbol: string, endSymbol?: string): string {
     if (!this.content) {
       return;
     }
 
     const words = this.content.split(' ');
-
-    if (!this.selectedText) {
-      this.selectedText = words[this.caretWordPosition];
-    }
-
-    let text: string;
-
-    if (this.selectedText.startsWith(symbol) && this.selectedText.endsWith(symbol)) {
-      text = this.selectedText.replaceAll(symbol, '');
-    } else {
-      text = `${symbol}${this.selectedText.trim().trimEnd()}${symbol}`;
-    }
-
-    const replType = this.findSelectionReplacementType(this.selectedText);
+    let textToFormat = this.selectedText || words[this.caretWordPosition];
+    const replType = this.findReplacementType(textToFormat);
+    textToFormat = this.performFormat(textToFormat, startSymbol, endSymbol);
 
     if (replType === ReplacementType.SingleWord) {
-      words.splice(this.caretWordPosition, 1, text);
+      words.splice(this.caretWordPosition, 1, textToFormat);
     } else if (replType === ReplacementType.MultupleWords) {
-      const letters = this.content.split('');
-      letters.splice(this.selectionStart, 0, symbol);
-      letters.splice(this.selectionEnd + 1, 0, symbol);
-
-      return letters.join('');
+      return this.replaceAtSelection(textToFormat);
     } else if (replType === ReplacementType.PartialWord) {
       let wordUnerMouse = words[this.caretWordPosition];
-      wordUnerMouse = wordUnerMouse.replace(this.selectedText, text);
+      wordUnerMouse = wordUnerMouse.replace(this.selectedText, textToFormat);
       words.splice(this.caretWordPosition, 1, wordUnerMouse);
     }
 
     return words.join(' ');
+  }
+
+  private replaceAtSelection(replacement: string): string {
+    return (
+      this.content.substring(0, this.selectionStart) +
+      replacement +
+      this.content.substring(this.selectionEnd + 1)
+    );
+  }
+
+  private performFormat(input: string, startSymbol: string, endSymbol = ''): string {
+    if (!input) {
+      return;
+    }
+
+    if (input.startsWith(startSymbol) && input.endsWith(endSymbol)) {
+      return input.replace(startSymbol, '').replace(endSymbol, '');
+    } else {
+      return `${startSymbol}${input.trim().trimEnd()}${endSymbol}`;
+    }
   }
 
   private getWordPosition(): number {
@@ -97,7 +103,7 @@ export class ToolbarHelperService {
     }
   }
 
-  private findSelectionReplacementType(selectedText: string): ReplacementType {
+  private findReplacementType(selectedText: string): ReplacementType {
     if (!selectedText) {
       return;
     }
@@ -106,8 +112,9 @@ export class ToolbarHelperService {
 
     if (splitedText.length === 1) {
       const wordUnerMouse = this.content.split(' ')[this.caretWordPosition];
+      const diff = this.selectionEnd - this.selectionStart;
 
-      if (this.selectionEnd - this.selectionStart < wordUnerMouse.length) {
+      if (diff < wordUnerMouse.length && diff > 0) {
         return ReplacementType.PartialWord;
       }
 

@@ -84,6 +84,7 @@ export class ParsedQuery {
           .toString();
       }
     }
+
     return null;
   }
 
@@ -98,6 +99,7 @@ export class ParsedQuery {
         return moment(from).format('MMM');
       }
     }
+
     return null;
   }
 }

@@ -14,6 +14,7 @@ export class QueryRequest {
     this.sorting =
       data.sort?.split(',').map(sort => {
         const [propertyName, sortDirection] = sort.split(':');
+
         return {
           propertyName,
           sort: sortDirection,
@@ -30,6 +31,7 @@ export class QueryRequest {
 
     this.filters = [].concat(data.filters).map(filter => {
       const [fieldName, searchOperator, searchValue] = filter.split('!');
+
       return {
         fieldName,
         searchOperator: this.searchOperatorMap[searchOperator],

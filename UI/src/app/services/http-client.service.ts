@@ -58,6 +58,7 @@ export class HttpClientService implements IHttpClientService {
     if (paging) {
       httpParams = httpParams.append('skip', paging.skip.toString()).append('take', paging.take.toString());
     }
+
     return httpParams;
   }
 

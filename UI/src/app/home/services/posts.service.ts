@@ -94,6 +94,7 @@ export class PostsService extends BaseService<PostCmd> {
     const foundPost = this._posts.find(x => x.id === id);
     if (foundPost) {
       this._postSubject.next(foundPost);
+
       return;
     }
 
@@ -222,6 +223,7 @@ export class PostsService extends BaseService<PostCmd> {
     }
 
     const postdIds = posts.map(x => x.id);
+
     return (await this.votesApiService.findManyByPostId(postdIds)).result;
   }
 

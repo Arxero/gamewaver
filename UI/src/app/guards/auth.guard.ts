@@ -18,6 +18,7 @@ export class AuthGuard implements CanActivate {
     if (!this.authService.isLoggedIn()) {
       this.router.navigate([loginFullRoute()]);
       this.snackbarService.showWarn('The page you are trying to access requires logged-in user.');
+
       return false;
     }
 
