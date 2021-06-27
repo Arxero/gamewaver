@@ -42,7 +42,7 @@ export class ToolbarHelperService {
     }
   }
 
-  inlineformat(startSymbol: string, endSymbol?: string): string {
+  inlineFormat(startSymbol: string, endSymbol?: string): string {
     if (!this.content) {
       return;
     }
@@ -63,6 +63,14 @@ export class ToolbarHelperService {
     }
 
     return words.join(' ');
+  }
+
+  newLineFormat(symbol: string): string {
+    if (!this.content) {
+      return;
+    }
+
+    return this.content + symbol;
   }
 
   private replaceAtSelection(replacement: string): string {

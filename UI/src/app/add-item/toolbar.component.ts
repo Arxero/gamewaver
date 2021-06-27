@@ -40,25 +40,48 @@ export class ToolbarComponent {
 
     switch (btn) {
       case ToolbarButtonType.Header:
-        formatted = this.toolbarHelperService.inlineformat('# ');
+        formatted = this.toolbarHelperService.inlineFormat('# ');
         break;
       case ToolbarButtonType.Bold:
-        formatted = this.toolbarHelperService.inlineformat('**', '**');
+        formatted = this.toolbarHelperService.inlineFormat('**', '**');
         break;
       case ToolbarButtonType.Italic:
-        formatted = this.toolbarHelperService.inlineformat('*', '*');
+        formatted = this.toolbarHelperService.inlineFormat('*', '*');
         break;
       case ToolbarButtonType.Underline:
-        formatted = this.toolbarHelperService.inlineformat('<u>', '</u>');
+        formatted = this.toolbarHelperService.inlineFormat('<u>', '</u>');
         break;
       case ToolbarButtonType.Strikethrough:
-        formatted = this.toolbarHelperService.inlineformat('~~', '~~');
+        formatted = this.toolbarHelperService.inlineFormat('~~', '~~');
         break;
       case ToolbarButtonType.Code:
-        formatted = this.toolbarHelperService.inlineformat('`', '`');
+        formatted = this.toolbarHelperService.inlineFormat('`', '`');
+        break;
+      case ToolbarButtonType.InsertLink:
+        formatted = this.toolbarHelperService.inlineFormat('[', '](url)');
+        break;
+      case ToolbarButtonType.Image:
+        formatted = this.toolbarHelperService.inlineFormat('![](', ')');
         break;
       case ToolbarButtonType.Quote:
-        formatted = this.toolbarHelperService.inlineformat('\n\n> ');
+        formatted = this.toolbarHelperService.newLineFormat('\n\n> ');
+        break;
+      case ToolbarButtonType.List:
+        formatted = this.toolbarHelperService.newLineFormat('\n\n- ');
+        break;
+      case ToolbarButtonType.OrderedList:
+        formatted = this.toolbarHelperService.newLineFormat('\n\n1. ');
+        break;
+      case ToolbarButtonType.Table:
+        let table = `
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |`;
+        formatted = this.toolbarHelperService.newLineFormat(`\n\n${table}`);
+        break;
+      case ToolbarButtonType.Checkbox:
+        formatted = this.toolbarHelperService.newLineFormat('\n\n- [ ] ');
         break;
 
       default:
