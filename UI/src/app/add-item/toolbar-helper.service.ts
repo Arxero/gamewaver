@@ -23,6 +23,7 @@ export class ToolbarHelperService {
   private caretWordPosition: number;
   private selectionStart: number;
   private selectionEnd: number;
+  private splitParam = /[ ]+/g;
 
   getCaretPos(input: HTMLInputElement): void {
     if (input.selectionStart || input.selectionStart === 0) {
@@ -47,7 +48,7 @@ export class ToolbarHelperService {
       return;
     }
 
-    const words = this.content.split(' ');
+    const words = this.content.split(this.splitParam);
     let textToFormat = this.selectedText || words[this.caretWordPosition];
     const replType = this.findReplacementType(textToFormat);
     textToFormat = this.performFormat(textToFormat, startSymbol, endSymbol);
@@ -73,6 +74,18 @@ export class ToolbarHelperService {
     return this.content + symbol;
   }
 
+  private getNewLineIndexes(input: string): number[] {
+    const indexes = [];
+    const regex = RegExp('\n', 'g');
+    let regexArr: RegExpExecArray;
+
+    while ((regexArr = regex.exec(input)) !== null) {
+      indexes.push(regexArr.index);
+    }
+
+    return indexes;
+  }
+
   private replaceAtSelection(replacement: string): string {
     return (
       this.content.substring(0, this.selectionStart) +
@@ -86,11 +99,21 @@ export class ToolbarHelperService {
       return;
     }
 
-    if (input.startsWith(startSymbol) && input.endsWith(endSymbol)) {
+    const newLineRegex = new RegExp(`^[\n]+[${startSymbol[0]}]`);
+
+    if ((input.startsWith(startSymbol) || newLineRegex.test(input)) && input.endsWith(endSymbol)) {
       return input.replace(startSymbol, '').replace(endSymbol, '');
-    } else {
-      return `${startSymbol}${input.trim().trimEnd()}${endSymbol}`;
     }
+
+    if (input.startsWith('\n')) {
+      const newLineIndexes = this.getNewLineIndexes(input);
+      const inputChars = [...input];
+      inputChars.splice(newLineIndexes.length, 0, startSymbol);
+
+      return `${inputChars.join('')}${endSymbol}`;
+    }
+
+    return `${startSymbol}${input.trim().trimEnd()}${endSymbol}`;
   }
 
   private getWordPosition(): number {
@@ -98,12 +121,12 @@ export class ToolbarHelperService {
       return;
     }
 
-    const words = this.content.split(' ');
+    const words = this.content.split(this.splitParam);
     let charsLength = 0;
 
     for (let i = 0; i < words.length; i++) {
       const current = words[i];
-      charsLength = charsLength + current.length;
+      charsLength += current.length;
 
       if (charsLength + (i + 1) > this.caretPosition) {
         return i;
@@ -116,10 +139,10 @@ export class ToolbarHelperService {
       return;
     }
 
-    const splitedText = selectedText.split(' ').filter(x => x !== '');
+    const splitedText = selectedText.split(this.splitParam).filter(x => x !== '');
 
     if (splitedText.length === 1) {
-      const wordUnerMouse = this.content.split(' ')[this.caretWordPosition];
+      const wordUnerMouse = this.content.split(this.splitParam)[this.caretWordPosition];
       const diff = this.selectionEnd - this.selectionStart;
 
       if (diff < wordUnerMouse.length && diff > 0) {
