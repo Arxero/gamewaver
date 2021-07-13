@@ -90,3 +90,12 @@ audio {
 ::-webkit-scrollbar-thumb {
   background-color: #45494c;
 }
+
+markdown {
+  word-break: break-word;
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+}

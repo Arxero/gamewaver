@@ -36,8 +36,10 @@ export class ToolbarHelperService {
 
         if (input.selectionStart != input.selectionEnd) {
           this.selectedText = this.content.substring(input.selectionStart, input.selectionEnd);
+          console.log(this.selectedText);
         }
 
+        this.setWhiteSpaceBeforeNewLine();
         this.caretWordPosition = this.getWordPosition();
       }
     }
@@ -72,6 +74,18 @@ export class ToolbarHelperService {
     }
 
     return this.content + symbol;
+  }
+
+  private setNewLines(indexes: number[], input: string): void {
+    const inputChars = [...input];
+
+    indexes.forEach(i => {
+      if (i >= this.caretWordPosition) {
+        inputChars.splice(i, 0, '\n');
+      }
+
+      inputChars.splice(i, 0, '\n');
+    });
   }
 
   private getNewLineIndexes(input: string): number[] {
@@ -153,5 +167,20 @@ export class ToolbarHelperService {
     } else if (splitedText.length > 1) {
       return ReplacementType.MultupleWords;
     }
+  }
+
+  private setWhiteSpaceBeforeNewLine(): void {
+    const regex = /(?! ).[\n]/g;
+    const matches = this.content.match(regex);
+
+    if (!matches) {
+      return;
+    }
+
+    matches.forEach(m => {
+      const chars = m.split('');
+      chars.splice(1, 0, ' ');
+      this.content = this.content.replace(m, chars.join(''));
+    });
   }
 }
