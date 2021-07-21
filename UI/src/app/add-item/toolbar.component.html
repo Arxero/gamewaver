@@ -1,17 +1,24 @@
-<ng-container *ngFor="let button of primaryButtons">
-  <button mat-icon-button [matTooltip]="toolbarButtons[button]" (click)="onBtnClick(button)">
-    <mat-icon>{{ button }}</mat-icon>
-  </button>
-</ng-container>
+<markdown-toolbar for="add_item_textarea">
+  <md-header [attr.level]="1"><gw-toolbar-button [button]="btnType.Header"></gw-toolbar-button></md-header>
+  <md-bold><gw-toolbar-button [button]="btnType.Bold"></gw-toolbar-button></md-bold>
+  <md-italic><gw-toolbar-button [button]="btnType.Italic"></gw-toolbar-button></md-italic>
+  <md-quote><gw-toolbar-button [button]="btnType.Quote"></gw-toolbar-button></md-quote>
+  <md-code><gw-toolbar-button [button]="btnType.Code"></gw-toolbar-button></md-code>
+  <md-link><gw-toolbar-button [button]="btnType.InsertLink"></gw-toolbar-button></md-link>
+  <md-image><gw-toolbar-button [button]="btnType.Image"></gw-toolbar-button></md-image>
+  <gw-toolbar-button [button]="btnType.Video" (click)="onBtnClick(btnType.Video)"></gw-toolbar-button>
+  <md-unordered-list><gw-toolbar-button [button]="btnType.List"></gw-toolbar-button></md-unordered-list>
+  <gw-toolbar-button [button]="btnType.More" [matMenuTriggerFor]="moreBtns"></gw-toolbar-button>
 
-<button mat-icon-button [matMenuTriggerFor]="moreBtns">
-  <mat-icon>expand_more</mat-icon>
-</button>
+</markdown-toolbar>
 
-<mat-menu #moreBtns="matMenu">
-  <ng-container *ngFor="let button of secondaryButtons">
-    <button mat-icon-button [matTooltip]="toolbarButtons[button]" (click)="onBtnClick(button)">
-      <mat-icon>{{ button }}</mat-icon>
-    </button>
-  </ng-container>
+<mat-menu #moreBtns="matMenu" class="mat-menu-panel-toolbar">
+  <markdown-toolbar for="add_item_textarea">
+    <md-ordered-list><gw-toolbar-button [button]="btnType.OrderedList"></gw-toolbar-button></md-ordered-list>
+    <md-task-list><gw-toolbar-button [button]="btnType.Checkbox"></gw-toolbar-button></md-task-list>
+    <md-strikethrough><gw-toolbar-button [button]="btnType.Strikethrough"></gw-toolbar-button></md-strikethrough>
+    <gw-toolbar-button [button]="btnType.Table" (click)="onBtnClick(btnType.Table)"></gw-toolbar-button>
+    <gw-toolbar-button [button]="btnType.Underline" (click)="onBtnClick(btnType.Underline)"></gw-toolbar-button>
+
+  </markdown-toolbar>
 </mat-menu>

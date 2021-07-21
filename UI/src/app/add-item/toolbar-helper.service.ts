@@ -23,7 +23,7 @@ export class ToolbarHelperService {
   private caretWordPosition: number;
   private selectionStart: number;
   private selectionEnd: number;
-  private splitParam = /[ ]+/g;
+  private splitParam = /[\s]+/g;
 
   getCaretPos(input: HTMLInputElement): void {
     if (input.selectionStart || input.selectionStart === 0) {
@@ -36,10 +36,10 @@ export class ToolbarHelperService {
 
         if (input.selectionStart != input.selectionEnd) {
           this.selectedText = this.content.substring(input.selectionStart, input.selectionEnd);
-          console.log(this.selectedText);
+          // console.log(this.selectedText);
         }
 
-        this.setWhiteSpaceBeforeNewLine();
+        // this.setWhiteSpaceBeforeNewLine();
         this.caretWordPosition = this.getWordPosition();
       }
     }
@@ -51,6 +51,7 @@ export class ToolbarHelperService {
     }
 
     const words = this.content.split(this.splitParam);
+    const newLineIndexes = this.getNewLineIndexes(this.content);
     let textToFormat = this.selectedText || words[this.caretWordPosition];
     const replType = this.findReplacementType(textToFormat);
     textToFormat = this.performFormat(textToFormat, startSymbol, endSymbol);
@@ -65,7 +66,7 @@ export class ToolbarHelperService {
       words.splice(this.caretWordPosition, 1, wordUnerMouse);
     }
 
-    return words.join(' ');
+    return this.setNewLines(newLineIndexes, words.join(' '));
   }
 
   newLineFormat(symbol: string): string {
@@ -76,16 +77,18 @@ export class ToolbarHelperService {
     return this.content + symbol;
   }
 
-  private setNewLines(indexes: number[], input: string): void {
+  private setNewLines(indexes: number[], input: string): string {
     const inputChars = [...input];
 
     indexes.forEach(i => {
-      if (i >= this.caretWordPosition) {
-        inputChars.splice(i, 0, '\n');
-      }
+      // if (i >= this.caretWordPosition) {
+      //   inputChars.splice(i, 0, '\n');
+      // }
 
       inputChars.splice(i, 0, '\n');
     });
+
+    return inputChars.join('');
   }
 
   private getNewLineIndexes(input: string): number[] {
@@ -142,7 +145,7 @@ export class ToolbarHelperService {
       const current = words[i];
       charsLength += current.length;
 
-      if (charsLength + (i + 1) > this.caretPosition) {
+      if (charsLength + (i + 1) >= this.caretPosition) {
         return i;
       }
     }

@@ -1,7 +1,7 @@
 import { Component, HostBinding, Output, EventEmitter } from '@angular/core';
 import { ToolbarButtonType } from './models';
 import { ToolbarHelperService } from './toolbar-helper.service';
-import { getKeys } from '@gamewaver/shared';
+import '@github/markdown-toolbar-element';
 
 @Component({
   selector: 'gw-toolbar',
@@ -11,27 +11,7 @@ import { getKeys } from '@gamewaver/shared';
 export class ToolbarComponent {
   @HostBinding('class') className = 'toolbar';
   @Output() textFormatted: EventEmitter<string> = new EventEmitter();
-
-  toolbarButtons: Record<ToolbarButtonType, string> = {
-    [ToolbarButtonType.Header]: 'Add title',
-    [ToolbarButtonType.Bold]: 'Add bold text',
-    [ToolbarButtonType.Italic]: 'Add italic text',
-    [ToolbarButtonType.Underline]: 'Add underlined text',
-    [ToolbarButtonType.Quote]: 'Insert quote',
-    [ToolbarButtonType.InsertLink]: 'Add a link',
-    [ToolbarButtonType.List]: 'Add a bulleted list',
-    [ToolbarButtonType.Image]: 'Add image',
-    [ToolbarButtonType.Video]: 'Add video',
-
-    [ToolbarButtonType.Strikethrough]: 'Add a strikethrough text',
-    [ToolbarButtonType.Code]: 'Insert code',
-    [ToolbarButtonType.OrderedList]: 'Add a numbered list',
-    [ToolbarButtonType.Table]: 'Add a table',
-    [ToolbarButtonType.Checkbox]: 'Add a checkbox',
-  };
-
-  primaryButtons = getKeys(this.toolbarButtons).slice(0, 9);
-  secondaryButtons = getKeys(this.toolbarButtons).slice(9);
+  btnType = ToolbarButtonType;
 
   constructor(private toolbarHelperService: ToolbarHelperService) {}
 
@@ -39,39 +19,10 @@ export class ToolbarComponent {
     let formatted: string;
 
     switch (btn) {
-      case ToolbarButtonType.Header:
-        formatted = this.toolbarHelperService.inlineFormat('# ');
-        break;
-      case ToolbarButtonType.Bold:
-        formatted = this.toolbarHelperService.inlineFormat('**', '**');
-        break;
-      case ToolbarButtonType.Italic:
-        formatted = this.toolbarHelperService.inlineFormat('*', '*');
-        break;
       case ToolbarButtonType.Underline:
-        formatted = this.toolbarHelperService.inlineFormat('<u>', '</u>');
+        formatted = this.toolbarHelperService.newLineFormat('\n\n<u>underlined text</u>');
         break;
-      case ToolbarButtonType.Strikethrough:
-        formatted = this.toolbarHelperService.inlineFormat('~~', '~~');
-        break;
-      case ToolbarButtonType.Code:
-        formatted = this.toolbarHelperService.inlineFormat('`', '`');
-        break;
-      case ToolbarButtonType.InsertLink:
-        formatted = this.toolbarHelperService.inlineFormat('[', '](url)');
-        break;
-      case ToolbarButtonType.Image:
-        formatted = this.toolbarHelperService.inlineFormat('![](', ')');
-        break;
-      case ToolbarButtonType.Quote:
-        formatted = this.toolbarHelperService.newLineFormat('\n\n> ');
-        break;
-      case ToolbarButtonType.List:
-        formatted = this.toolbarHelperService.newLineFormat('\n\n- ');
-        break;
-      case ToolbarButtonType.OrderedList:
-        formatted = this.toolbarHelperService.newLineFormat('\n\n1. ');
-        break;
+
       case ToolbarButtonType.Table:
         let table = `
 | Syntax      | Description |
@@ -79,13 +30,6 @@ export class ToolbarComponent {
 | Header      | Title       |
 | Paragraph   | Text        |`;
         formatted = this.toolbarHelperService.newLineFormat(`\n\n${table}`);
-        break;
-      case ToolbarButtonType.Checkbox:
-        formatted = this.toolbarHelperService.newLineFormat('\n\n- [ ] ');
-        break;
-
-      default:
-        formatted = this.toolbarHelperService.content;
         break;
     }
 

@@ -59,6 +59,12 @@ gw-post .mat-badge-content {
   opacity: 0;
 }
 
+
+.mat-menu-panel-toolbar {
+  min-height: 0 !important;
+  min-width: 0 !important;
+}
+
 @media screen and (max-width: 500px) {
   gw-post .mat-card,
   gw-comment .mat-card {

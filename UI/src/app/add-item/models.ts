@@ -19,5 +19,6 @@ export enum ToolbarButtonType {
   OrderedList = 'format_list_numbered',
   Table = 'table_view',
   Checkbox = 'check_box',
+  More = 'expand_more',
 }
 
